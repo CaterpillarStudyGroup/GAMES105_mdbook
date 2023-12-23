@@ -1,0 +1,773 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Controlling Characters - GAMES105</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="Forward.html"><strong aria-hidden="true">4.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="Keyframe.html"><strong aria-hidden="true">5.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="Data-driven.html"><strong aria-hidden="true">6.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="Learning-based.html"><strong aria-hidden="true">7.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded "><a href="cont.html"><strong aria-hidden="true">8.</strong> Learning-based Character Animation (cont.)</a></li><li class="chapter-item expanded "><a href="Skinning.html"><strong aria-hidden="true">9.</strong> Skinning</a></li><li class="chapter-item expanded "><a href="Simulation.html"><strong aria-hidden="true">10.</strong> Physics-based Simulation and Articulated Rigid Bodies</a></li><li class="chapter-item expanded "><a href="Actuating.html"><strong aria-hidden="true">11.</strong> Actuating Simulated Characters</a></li><li class="chapter-item expanded "><a href="Controlling.html" class="active"><strong aria-hidden="true">12.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="Learning.html"><strong aria-hidden="true">13.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="Optimal.html"><strong aria-hidden="true">14.</strong> Optimal Control and Reinforcement Learning</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GAMES105</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <p>P2</p>
+<h1 id="outline"><a class="header" href="#outline">Outline</a></h1>
+<ul>
+<li>
+<p>More about PD (Proportional-Derivative) control</p>
+<ul>
+<li>Stable PD control</li>
+</ul>
+</li>
+<li>
+<p>Feedforward Motion Control</p>
+<ul>
+<li>Trajectory optimization</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>✅ 不通过施加净外力，构建物理准确的动画。</p>
+</blockquote>
+<ul>
+<li>Feedback Motion Control
+<ul>
+<li>Static balance</li>
+</ul>
+</li>
+</ul>
+<p>P3</p>
+<h1 id="pd-control-for-characters"><a class="header" href="#pd-control-for-characters">PD Control for Characters</a></h1>
+<h2 id="基本方法"><a class="header" href="#基本方法">基本方法</a></h2>
+<p><img src="./assets/10-01.png" alt="" /></p>
+<p><img src="./assets/10-02.png" alt="" /></p>
+<p>P4</p>
+<h3 id="存在的问题"><a class="header" href="#存在的问题">存在的问题</a></h3>
+<p>PD control computes torques based on <strong>errors</strong></p>
+<h4 id="steady-state-error"><a class="header" href="#steady-state-error">Steady state error</a></h4>
+<p>This arm never reaches the target angle under gravity</p>
+<p><img src="./assets/10-03.png" alt="" /></p>
+<p>P5</p>
+<h4 id="motion-falls-behind-the-reference"><a class="header" href="#motion-falls-behind-the-reference">Motion falls behind the reference</a></h4>
+<p><img src="./assets/10-04.png" alt="" /></p>
+<p>P7</p>
+<h4 id="稳定性"><a class="header" href="#稳定性">稳定性</a></h4>
+<blockquote>
+<p>✅ 前面两个问题的根本原因是相同的，因为需要有误差才能计算force，有了force才能控制。</p>
+</blockquote>
+<p>High-gain \((k_p)\) control is more precise but less stable…</p>
+<blockquote>
+<p>✅ 增大 \(k_p\)能缓解以上问题，但大的 \(k_p\) 会带来肢体僵硬和计算不稳定。</p>
+</blockquote>
+<p>P8</p>
+<h2 id="stability-of-pd-control"><a class="header" href="#stability-of-pd-control">Stability of PD Control</a></h2>
+<h3 id="以弹簧系统为例子"><a class="header" href="#以弹簧系统为例子">以弹簧系统为例子</a></h3>
+<p><img src="./assets/10-05.png" alt="" /></p>
+<p>$$
+\begin{matrix}
+f=-k_px-k_dv \quad\quad\quad\\
+h: \text{ simulation time step}
+\end{matrix}
+$$</p>
+<blockquote>
+<p>✅ PD control 的过程类似于一个弹簧系统。<br />
+✅ 因此利用弹簧系统中的半隐式欧拉来提升 PD 的稳定性。</p>
+</blockquote>
+<h3 id="半隐式欧拉的弹簧系统"><a class="header" href="#半隐式欧拉的弹簧系统">半隐式欧拉的弹簧系统</a></h3>
+<p>Semi-implicit Euler Integration</p>
+<p>$$
+\begin{align*}
+v_{n+1}  &amp; =v_n+h\frac{f}{m} \\
+x_{n+1} &amp;=x_n+hv_{n+1}
+\end{align*}
+$$</p>
+<h3 id="半隐式欧拉的pd控制"><a class="header" href="#半隐式欧拉的pd控制">半隐式欧拉的PD控制</a></h3>
+<blockquote>
+<p>✅ \(h\) 为时间步长。<br />
+✅ (1) 假设 \(m＝1\) (2) 代入 \(f\) 到方程组 (3) 方程组写成矩阵形式，得：</p>
+</blockquote>
+<p>P11</p>
+<p>$$
+\begin{bmatrix}
+v_{n+1}\\
+x_{n+1}
+\end{bmatrix}=\begin{bmatrix}
+1-k_dh  &amp; -k_ph\\
+h(1-k_dh) &amp; 1-k_ph^2
+\end{bmatrix}\begin{bmatrix}
+v_n \\
+x_n
+\end{bmatrix}
+$$</p>
+<p>P14<br />
+提取常数方程A，得：</p>
+<p>$$
+A=\begin{bmatrix}
+1-k_dh  &amp; -k_ph\\
+h(1-k_dh) &amp; 1-k_ph^2
+\end{bmatrix}
+$$</p>
+<p><img src="./assets/10-06.png" alt="" /></p>
+<p>P19</p>
+<h3 id="pd控制的稳定性"><a class="header" href="#pd控制的稳定性">PD控制的稳定性</a></h3>
+<p>\(\lambda _1,\lambda _2 \in  \mathbb{C}  \) are eigenvalues of \(A\)</p>
+<blockquote>
+<p>✅ 基于中间变是 \(z_n\) 推导的过程跳过。<br />
+✅ 根据矩阵特征值的性质可直接得出结论。</p>
+</blockquote>
+<p>if \(|\lambda _1|&gt; 1\)</p>
+<p>The system is unstable!</p>
+<p>Condition of stability: \(|\lambda _i|\le  1 \text{ for all } \lambda _i\)</p>
+<p>P20</p>
+<h3 id="通过h控制pd控制的稳定性"><a class="header" href="#通过h控制pd控制的稳定性">通过h控制PD控制的稳定性</a></h3>
+<p><img src="./assets/10-07.png" alt="" /></p>
+<blockquote>
+<p>✅ 如果 \(k_p\) 和 \(k_d\) 变大，就必须以一个较小的时间步长进行仿真。</p>
+</blockquote>
+<h3 id="pd-control-for-characters-1"><a class="header" href="#pd-control-for-characters-1">PD Control for Characters</a></h3>
+<p>P21</p>
+<ul>
+<li>
+<p>Determining gain and damping coefficients can be difficult…</p>
+<ul>
+<li>A typical setting \(k_p\) = 200, \(k_d\) = 20 for a 50kg character</li>
+<li>Light body requires smaller gains</li>
+<li>Dynamic motions need larger gains</li>
+</ul>
+</li>
+<li>
+<p>High-gain/high-damping control can be unstable, so small times is necessary</p>
+<ul>
+<li>\(h\) = 0.5~1ms is often used, or 1000~2000Hz</li>
+<li>Higher gain/damping requires smaller time step</li>
+</ul>
+</li>
+</ul>
+<p>P22</p>
+<h2 id="a-more-stable-pd-control"><a class="header" href="#a-more-stable-pd-control">A More Stable PD Control</a></h2>
+<h3 id="半隐式欧拉--隐式欧拉"><a class="header" href="#半隐式欧拉--隐式欧拉">半隐式欧拉 → 隐式欧拉</a></h3>
+<blockquote>
+<p>✅ 解决方法：半隐式欧拉 → 隐式欧拉，即用下一时刻的力计算下一时刻的速度。</p>
+</blockquote>
+<ul>
+<li>半隐式欧拉</li>
+</ul>
+<p>$$
+\begin{align*}
+v_{n+1} &amp; = v_n+h(-k_px_n-k_dv_n) \\
+v_{n+1} &amp; = x_n+hv_{n+1}
+\end{align*}
+$$</p>
+<p>$$
+\Downarrow 
+$$</p>
+<ul>
+<li>隐式欧拉</li>
+</ul>
+<p>$$
+\begin{align*}
+v_{n+1} &amp; = v_n+h(-k_px_n-k_dv_{n+1}) \\
+x_{n+1} &amp; = x_n+hv_{n+1}
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 实际上，计算 \(f_{n＋1}\) 只使用 \(V_{n＋1}\) , 不使用 \(x_{n＋1}\) , 因为 \(x_{n＋1}\) 会引入非常复杂的计算。<br />
+✅ 由于 \(v_{n＋1}\) 未知，需通过解方程组来求解。</p>
+</blockquote>
+<p>P23<br />
+得到的方程组为：</p>
+<p>$$
+\begin{bmatrix}
+v_{n+1} \\
+x_{n+1} 
+\end{bmatrix}=\frac{1}{1+hk_d} \begin{bmatrix}
+1 &amp; -k_ph\\
+h &amp; 1+k_dh-k_ph^2
+\end{bmatrix}\begin{bmatrix}
+v_n\\
+x_n
+\end{bmatrix}
+$$</p>
+<p>P24</p>
+<h3 id="稳定性分析"><a class="header" href="#稳定性分析">稳定性分析</a></h3>
+<p><img src="./assets/10-08.png" alt="" /></p>
+<blockquote>
+<p>✅ \(v_{n}\) 换成 \(v_{n＋1}\) ，很大承度上提高了稳定性。</p>
+</blockquote>
+<p>P25</p>
+<h3 id="相关工作"><a class="header" href="#相关工作">相关工作</a></h3>
+<blockquote>
+<p>🔎 <img src="./assets/10-09.png" alt="" /></p>
+</blockquote>
+<p>$$
+\tau _{\mathrm{int} }=-K_p(q^n+\dot{q}^n \Delta t-\bar{q} ^{n+1})-K_d(\dot{q} ^n+\ddot{q} ^n \Delta t)
+$$</p>
+<p>P26</p>
+<h3 id="pd-control-for-characters-2"><a class="header" href="#pd-control-for-characters-2">PD Control for Characters</a></h3>
+<ul>
+<li>
+<p>Determining gain and damping coefficients can be difficult…</p>
+<ul>
+<li>A typical setting \(k_p\) = 200, \(k_d\) = 20 for a 50kg character</li>
+<li>Light body requires smaller gains</li>
+<li>Dynamic motions need larger gains</li>
+</ul>
+</li>
+<li>
+<p>High-gain/high-damping control can be unstable, so small times is necessary</p>
+<ul>
+<li>\(h\) = 0.5~1ms is often used, or 1000~2000Hz</li>
+<li>\(h\) = 1/120s~1/60s, or 120Hz/60Hz <strong>with Stable PD</strong></li>
+<li>Higher gain/damping requires smaller time step</li>
+</ul>
+</li>
+</ul>
+<p>P28</p>
+<h1 id="tracking-mocap-with-root-forcestorques"><a class="header" href="#tracking-mocap-with-root-forcestorques">Tracking Mocap with Root Forces/Torques</a></h1>
+<blockquote>
+<p>✅ 当前系统仍存的问题。(1) 稳态误差，相位延迟 (2) 缺少对根结点的力。</p>
+</blockquote>
+<p><img src="./assets/10-10.png" alt="" /></p>
+<p>\(\tau _j\): joint torques<br />
+\(\text{ }\) Apply \(\tau _j\) to “child” body<br />
+\(\text{ }\) Apply \(-\tau _j\) to “parent” body<br />
+\(\text{ }\) All forces/torques sum up to zero</p>
+<p>\(f_0,\tau _0\): root force / torque</p>
+<p>\(\quad\quad\) Apply \(f _0\) to the root body</p>
+<p>\(\quad\quad\) Apply \(\tau _0\) to the root body</p>
+<p>\(\quad\quad\) Non-zero net force/torque on the character!</p>
+<blockquote>
+<p>✅ 净外力能解决问题 2，但会有“提线木偶”的 artifacts.<br />
+✅ 解决方法：不直接学习目标轨迹，而是先对目标轨迹增加一个修正。即轨迹优化。</p>
+</blockquote>
+<p>P30</p>
+<h2 id="trajectory-optimization"><a class="header" href="#trajectory-optimization">Trajectory Optimization</a></h2>
+<blockquote>
+<p>🔎 [Witkin and Kass 1988 – Spacetime constraints]</p>
+</blockquote>
+<blockquote>
+<p>✅ 轨迹优化的问题描述：</p>
+</blockquote>
+<p>Find the trajectories:</p>
+<p>$$
+\begin{align*}
+\text{Simulation trajectory } &amp; : S_0,S_1,\dots ,S_T \\
+\text{Control trajectory } &amp; : a_0,a_1,\dots ,a_{T-1}
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ \(S\)：每一个时刻，角色的状态，包括位置、速度、朝向等。<br />
+✅ \(a\)：目标轨迹。<br />
+✅ 优化出 \(S\) 和 \(a\)，根据 \(S\) 和 \(a\) 得到关节力矩，关节力矩再控制角色。</p>
+</blockquote>
+<p>that minimize the objective function</p>
+<p>$$
+\min_{(S_t,a_t)} f(S_T)+\sum_{t=0}^{T-1} f(S_t,a_t)
+$$</p>
+<blockquote>
+<p>✅ 目标函数第一项：关于轨迹结束时刻的状态。<br />
+✅ 第二项：关于每一时刻的状态。</p>
+</blockquote>
+<p>and satisfy the constraints:</p>
+<p>$$
+\begin{align*}
+M\dot{v}+C(x,v)   &amp; =f+J^T\lambda &amp; \text{Equations of motion} \\
+g(x,v) &amp; \ge 0 &amp; \text{constraints } \quad \quad\quad
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 约束第一项：运动学方程。<br />
+✅ 第二项：根据场景特殊定义的约束。</p>
+</blockquote>
+<p>P33 </p>
+<h2 id="简化问题分析"><a class="header" href="#简化问题分析">简化问题分析</a></h2>
+<blockquote>
+<p>✅ 仍以方块移动到目标高度为例。</p>
+</blockquote>
+<h3 id="问题描述"><a class="header" href="#问题描述">问题描述</a></h3>
+<p><img src="./assets/10-11.png" alt="" /></p>
+<p>Compute a target trajectory \(\tilde{x} (t)\) such that the simulated trajectory \(x(t)\) is a sine curve.</p>
+<h3 id="目标函数"><a class="header" href="#目标函数">目标函数</a></h3>
+<p>$$
+\min_ {(x_n,v_n,\tilde {x} _n)} \sum _ {n=0}^{N} (\sin (t_n)-x_n)^2+\sum _ {n=0}^{N} \tilde {x}^2_n 
+$$</p>
+<blockquote>
+<p>✅ 目标函数：目标项＋正则项</p>
+</blockquote>
+<h3 id="约束"><a class="header" href="#约束">约束</a></h3>
+<p>$$
+\begin{align*}
+s.t. \quad &amp; v _ {n+1}= v_ n+h (k _ p( \tilde {x} _n-x_n)-k _ dv_n) \\
+&amp; v _ {n+1} = x _ n + hv _ {n+1}
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 约束：半隐式积分的运动方程</p>
+</blockquote>
+<p>P34</p>
+<table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>Hard constraints:</td><td><img src="./assets/10-12.png" alt="" /></td></tr>
+<tr><td>Soft constraints:</td><td><img src="./assets/10-013.png" alt="" /></td></tr>
+</tbody></table>
+<blockquote>
+<p>✅ 以两种方式体现约束：<br />
+✅（1）Hard：必须满足，难解，不稳定。<br />
+✅（2）Soft：尽可能满足，易求解。</p>
+</blockquote>
+<p>P35</p>
+<h3 id="参数简化"><a class="header" href="#参数简化">参数简化</a></h3>
+<p>Collocation methods:</p>
+<p>Assume the optimization variables {\(x_n, v_n, \tilde{x}_n\)} are values of a set of parametric curves</p>
+<ul>
+<li>typically polynomials or splines</li>
+</ul>
+<p>Optimize the parameters of the curves \(\theta\) instead</p>
+<ul>
+<li>with smaller number of variables than the original problem</li>
+</ul>
+<blockquote>
+<p>✅ 要优化的参数量太大，难以优化。<br />
+✅ 解决方法：假设参数符合特定的曲线，只学习曲线的参数，再生成完整的参数。</p>
+</blockquote>
+<p>P37</p>
+<h3 id="优化方法"><a class="header" href="#优化方法">优化方法</a></h3>
+<p>How to solve this optimization problem?<br />
+Gradient-based approaches:</p>
+<ul>
+<li>Gradient descent</li>
+<li>Newton’s methods</li>
+<li>Quasi-Newton methods</li>
+<li>……</li>
+</ul>
+<p>P39</p>
+<h2 id="trajectory-optimization-for-tracking-control"><a class="header" href="#trajectory-optimization-for-tracking-control">Trajectory Optimization for Tracking Control</a></h2>
+<p><img src="./assets/10-14.png" alt="" /></p>
+<p>find a target trajectory</p>
+<p><img src="./assets/10-15.png" alt="" /></p>
+<blockquote>
+<p>✅ 把动捕结果当成初始解，然后以优化的方式找到合理轨迹。</p>
+</blockquote>
+<p>P40</p>
+<h3 id="problem-with-gradient-based-methods"><a class="header" href="#problem-with-gradient-based-methods">Problem with Gradient-Based Methods</a></h3>
+<ul>
+<li>The optimization problem is usually <strong>highly nonlinear</strong>, gradients are unreliable</li>
+<li>The system is a black box with unknow dynamics, gradients are not available</li>
+</ul>
+<p>解决方法： Derivative-Free Optimization</p>
+<ul>
+<li>
+<p>Iterative methods</p>
+<ul>
+<li>Goal: find the variables 𝒙 that optimize \(f(x)\)</li>
+<li>Determining an initial guess of \(x\)</li>
+<li>Repeat:
+<ul>
+<li>Propose a set of candidate variables {\(x_i\)} according to \(x\)</li>
+<li>Evaluate the objective function \(f_i=f(x_i)\)</li>
+<li>Update the estimation for \(x\)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Examples:</p>
+<ul>
+<li>Bayesian optimization, Evolution strategies (e.g. CMA-ES), Stochastic optimization, Sequential Monte Carlo methods, ……</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>✅ 启发式方法或随机采样方法，不需要梯度。<br />
+✅ 缺点：慢、不精确。</p>
+</blockquote>
+<p>P43</p>
+<h3 id="cma-es"><a class="header" href="#cma-es">CMA-ES</a></h3>
+<ul>
+<li>Covariance matrix adaptation evolution strategy (CMA-ES)
+<ul>
+<li>A widely adopted derivative-free method in character animation</li>
+</ul>
+</li>
+</ul>
+<p><img src="./assets/10-17.png" alt="" /></p>
+<p>Goal: find the variables 𝒙 that optimize \(f(x)\) </p>
+<ul>
+<li>Initialize Gaussian distribution \(x\sim \mathcal{N} (\mu ,\Sigma )\)</li>
+<li>Repeat:
+<ul>
+<li>sample candidate variables {\(x_i\)} \( \sim \mathcal{N} (\mu ,\Sigma )\)</li>
+<li>Evaluate the objective function \(f_i=f(x_i)\)
+<ul>
+<li>Involve simulation and generate simulation trajectories</li>
+</ul>
+</li>
+<li>Sort {\(f_i\)} and keep the top \(N\) elite samples</li>
+<li>Update \(\mu ,\Sigma \) according to the elite samples</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>✅ 优点：稳定，无梯度，可用于黑盒系统。</p>
+</blockquote>
+<p>P44</p>
+<blockquote>
+<p>🔎 [Wampler and Popović 2009 - Optimal Gait and Form for Animal Locomotion]</p>
+</blockquote>
+<p>P45</p>
+<blockquote>
+<p>✅ [Al Borno et al. 2013 - Trajectory Optimization for Full-Body Movements with Complex Contacts]</p>
+</blockquote>
+<blockquote>
+<p>✅ 只优化目标轨迹，不优化仿真轨迹。因为仿真轨迹可以通仿真得到。</p>
+</blockquote>
+<p>P46</p>
+<h3 id="samcon"><a class="header" href="#samcon">SAMCON</a></h3>
+<blockquote>
+<p>✅ CMA-ES 的缺点：<br />
+（1）每次都从头到尾做仿真，计算量大。<br />
+（2）如果仿真轨迹长，则难收敛。<br />
+✅ 改进方法：每次采样，只考虑下面一帧。</p>
+</blockquote>
+<blockquote>
+<p>🔎 <strong>SA</strong>mpling-based <strong>M</strong>otion <strong>CON</strong>trol [Liu et al. 2010, 2015]<br />
+- Motion Clip → Open-loop control trajectory<br />
+- A sequential Monte-Carlo method</p>
+</blockquote>
+<p><img src="./assets/10-18.png" alt="" /></p>
+<table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td><img src="./assets/10-19.png" alt="" /></td><td>✅ 把轨迹分割开，每次优化一小段。</td></tr>
+<tr><td><img src="./assets/10-20.png" alt="" /></td><td>✅ 在目标轨迹上增加偏移，跟踪偏移之后的轨迹。<br> ✅ 偏移量未知，因此以高斯分布对偏移量采样。  <br> ✅ 高斯分布可由其它分布代替。</td></tr>
+<tr><td><img src="./assets/10-21.png" alt="" /></td><td>✅ 对每个偏移量做一次仿真，生成新的状态，保留其中与当目标接近的 N 个。</td></tr>
+<tr><td><img src="./assets/10-22.png" alt="" /></td><td>✅ 从上一步 N 个中随机选择出发点，以及随机的偏移量，再做仿真与筛选。</td></tr>
+<tr><td><img src="./assets/10-23.png" alt="" /></td><td>✅ 最终找到一组最接近的。   <br> ✅ 原理：只选一个容易掉入局部最优，因此保留多个。 <br>  ✅ 蒙特卡罗＋动态规划</td></tr>
+</tbody></table>
+<blockquote>
+<p>✅ 优点：穿膜问题也能被修正掉，可还原动捕数据，可根据环境影响而自动调整。</p>
+</blockquote>
+<p>P54</p>
+<h1 id="feedforward--feedback-control"><a class="header" href="#feedforward--feedback-control">Feedforward &amp; Feedback Control</a></h1>
+<h2 id="feedforward-control"><a class="header" href="#feedforward-control">Feedforward Control</a></h2>
+<p><img src="./assets/10-24.png" alt="" /></p>
+<blockquote>
+<p>✅ 前馈控制，要求每一步的起始状态都是在获取轨迹过程中能得到的状态。<br />
+✅ 如果对起始状态加一点挠动，状态会偏离很远。</p>
+</blockquote>
+<p>P56</p>
+<h2 id="feedback-control"><a class="header" href="#feedback-control">Feedback Control</a></h2>
+<blockquote>
+<p>✅ 解决方法：引入反馈策略。根据当前偏差，自动计算出更正，把更正叠加到控制轨迹上。</p>
+</blockquote>
+<table><thead><tr><th></th></tr></thead><tbody>
+<tr><td><img src="./assets/10-025.png" alt="" /></td></tr>
+<tr><td><img src="./assets/10-026.png" alt="" /></td></tr>
+<tr><td><img src="./assets/10-027.png" alt="" /></td></tr>
+</tbody></table>
+<p>P62</p>
+<h1 id="static-balance"><a class="header" href="#static-balance">Static Balance</a></h1>
+<h2 id="定义"><a class="header" href="#定义">定义</a></h2>
+<p>What is balance?</p>
+<blockquote>
+<p>✅ Static Balance：在不发生移动的情况下，通过简单的控制策略，保证角色不摔倒。<br />
+✅ 平衡：质心在支撑面内。</p>
+</blockquote>
+<p>P64<br />
+<img src="./assets/10-29.png" alt="" /></p>
+<blockquote>
+<p>✅ 人的质心：每一段的质心的加权平均。<br />
+✅ 人的支撑面：两脚之内。</p>
+</blockquote>
+<p>P66 </p>
+<h2 id="a-simple-strategy-pd-control"><a class="header" href="#a-simple-strategy-pd-control">A simple strategy： PD Control</a></h2>
+<p>A simple strategy to maintain balance:</p>
+<h3 id="根据条件计算力矩"><a class="header" href="#根据条件计算力矩">根据条件计算力矩</a></h3>
+<ul>
+<li>
+<p>Keep projected CoM close to the center of support polygon <strong>while tracking a standing pose</strong></p>
+</li>
+<li>
+<p>Use <strong>PD control</strong> to compute feedback torque</p>
+</li>
+</ul>
+<p><img src="./assets/10-30.png" alt="" /></p>
+<blockquote>
+<p>✅ 力矩 1：让角色保持某个姿势。<br />
+✅ 力矩 2：让质心与目标质心位置接近。<br />
+✅ 在某些关节上增加一些额外的力矩。</p>
+</blockquote>
+<p>P68</p>
+<h3 id="施加力矩"><a class="header" href="#施加力矩">施加力矩</a></h3>
+<ul>
+<li>Apply the feedback torque at <strong>ankles</strong> (ankle strategy) or <strong>hips</strong> (hip strategy)</li>
+</ul>
+<p>P69</p>
+<h2 id="jacobian-transpose-control"><a class="header" href="#jacobian-transpose-control">Jacobian Transpose Control</a></h2>
+<blockquote>
+<p>✅ 实现 static balance，除了 PD 控制还有其它方法。</p>
+</blockquote>
+<h3 id="计算要施加的力"><a class="header" href="#计算要施加的力">计算要施加的力</a></h3>
+<p><img src="./assets/10-32.png" alt="" /></p>
+<p>Can we use joint torques \(\tau _i\) to mimic the effect of a force \(f\) applied at \(x\)</p>
+<ul>
+<li>Note that the <strong>desired force</strong> \(f\) is not actually applied</li>
+<li>Also called <strong>“virtual force”</strong></li>
+</ul>
+<blockquote>
+<p>✅ 通过施加 \(\tau _1 ，\tau _2，\tau _3\) 来达到给 \(x\) 施加 \(f\) 的效果！</p>
+</blockquote>
+<p>P73</p>
+<h3 id="把力转化为力矩"><a class="header" href="#把力转化为力矩">把力转化为力矩</a></h3>
+<p>Make \(f\) and \(\tau _i\) done the same power</p>
+<p>$$
+P=f^T\dot{x}=\tau  ^T\dot{\theta } 
+$$</p>
+<blockquote>
+<p>✅ 从做功的角度。功率 = fv</p>
+</blockquote>
+<p>Forward kinematics \(x=g(\dot{\theta } )\Rightarrow \dot{x}=J \dot{\theta } \)</p>
+<blockquote>
+<p>✅ \(g（* ）\) 是一个FK函数。其中：<br />
+$$
+J=\frac{\partial g}{\partial \theta } 
+$$<br />
+✅ 把 \( \dot{x } \) 代入上面公式得</p>
+</blockquote>
+<p>$$
+f^T J\dot{\theta } = \tau  ^T\dot{\theta } 
+$$</p>
+<p>$$
+\Downarrow 
+$$</p>
+<p>P76</p>
+<p>$$
+\tau =J^Tf
+$$</p>
+<blockquote>
+<p>✅ 把 \( \tau\) 分解为每一个关节每一个旋转的 \( \tau\)．通过 Jacobian 矩阵的含义推出：</p>
+</blockquote>
+<p>$$
+\Downarrow 
+$$</p>
+<p>$$
+\tau _i=(x-p_i)\times f
+$$</p>
+<p>P77</p>
+<h3 id="用于static-balance"><a class="header" href="#用于static-balance">用于Static Balance</a></h3>
+<p>A simple strategy to maintain balance:</p>
+<ul>
+<li>
+<p>Keep projected CoM close to the center of support polygon <strong>while tracking a standing pose</strong></p>
+</li>
+<li>
+<p>Use PD control to compute feedback <strong>virtual force</strong></p>
+</li>
+</ul>
+<blockquote>
+<p>✅ P66 中在 Hips 上加力矩的方式只能进行简单的控制。<br />
+✅ 可以通过虚力实现相似的效果。</p>
+</blockquote>
+<p>$$
+f=k_p(\bar{c} -c)-k_d\dot{c}
+$$</p>
+<blockquote>
+<p>✅ \(c\) 不一定是投影距离，还可以描述高度距离，实现站起蹲下的效果。</p>
+</blockquote>
+<p>P78</p>
+<ul>
+<li>Assuming \(f\) <strong>is applied to the CoM</strong>, compute necessary joint torques using Jacobian transpose control to achieve it</li>
+</ul>
+<blockquote>
+<p>✅ 但也不是真的加力，而是通过前面讲的 Jacobian transpose control 方法转为特定关节的力矩。</p>
+</blockquote>
+<ul>
+<li>Usually using the joints in the legs</li>
+</ul>
+<blockquote>
+<p>✅ 最后达到在Hips上加力的效果<br />
+✅ 但这种方式能施加的力非常弱，只能实现比较微弱的平衡</p>
+</blockquote>
+<p>P79</p>
+<h2 id="a-fancier-strategy"><a class="header" href="#a-fancier-strategy">A fancier strategy:</a></h2>
+<ul>
+<li>Mocap tracking as an objective function</li>
+<li>Controlling both the CoM position/<strong>momentum</strong> and the <strong>angular</strong> momentum</li>
+<li>Solve a <strong>one-step</strong> optimization problem to compute joint torques</li>
+</ul>
+<blockquote>
+<p>🔎 <img src="./assets/10-34.png" alt="" /></p>
+</blockquote>
+<hr />
+<blockquote>
+<p>本文出自CaterpillarStudyGroup，转载请注明出处。</p>
+<p>https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Actuating.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="Learning.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Actuating.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="Learning.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="theme/pagetoc.js"></script>
+    </body>
+</html>
