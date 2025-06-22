@@ -12,8 +12,6 @@ P2
  - Statistical Models of Human Motion   
      - Principal Component Analysis   
      - Gaussian Models   
- - Learning-based Models   
-     - ……   
 
 P3   
 # Recap: Interactive Animation    
