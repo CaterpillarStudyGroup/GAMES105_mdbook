@@ -11,8 +11,6 @@ P10
 > &#x2705; 仿真，用于描述客观事物，它们的运动规律可以用精确的数来描述。GAMES103    
 > &#x2705; 动画，用于描述有主观意志的事物，使用统计的方式来对它们的行为建模(例如AI建模)。 GAMES105  
 
-
-
 P11   
 
 ## Why Do We Study Character Animation   
@@ -51,9 +49,6 @@ P15
 根据是否使用物理，把角色动画分为两大类。
 
 ![](./assets/01-10.png)  
-
-
-> &#x2705;  
 
 
 P16  
@@ -145,6 +140,8 @@ P28
 动捕设备、视频动捕，把动捕角色应用到角色身上，需要经过重定向  
 动作捕捉和重放，不能产生新的数据
 
+> &#x2705; 光学动捕、视频动捕、穿戴传感器动捕。   
+
 P34   
 ### Motion Retargeting   
 
@@ -156,11 +153,6 @@ P34
   - different number of bones
   - different topologies
   - ……   
-
-
-> &#x2705; 光学动捕、视频动捕、穿戴传感器动捕。   
-
-
 
 P36   
 ## Motion Graphs / State Machines
@@ -243,17 +235,10 @@ P45
 > &#x2705; 不需要手工作切分、生成状态机   
 
 
-P46  
-### Learning-based Approaches    
-
-[Starke et al 2020, Local Motion Phases for Learning Multi-Contact Character Movements]    
-
-P47  
-
-### Motion Generative Models
-
-[Ling et al. 2021 Character Controllers Using Motion VAEs]    
-
+|ID|Year|Name|Note|Tags|Link|
+|---|---|---|---|---|---|
+||2020|Local Motion Phases for Learning Multi-Contact Character Movements|  
+||2021|Character Controllers Using Motion VAEs|
 
 P49   
 ## Cross-Modal Motion Synthesis
@@ -261,22 +246,17 @@ P49
  - Audio-driven animation   
     - Music to dance    
     - Co-speech gesture   
-    - ……   
-
-例如：
-
-- [Ao et al. 2022. Rhythmic Gesticulator. SIGGRAPH Asia 2022]    
-
+    - ……      
 - Natural language to animation   
     - Descriptions to actions   
     - Scripts to performance   
     - ……   
 
+|ID|Year|Name|Note|Tags|Link|
+|---|---|---|---|---|---|
+||2022|Rhythmic Gesticulator|&#x2705; 语言和动作都有内存的统计规律，把两种统计模型之间建关系，实现跨模态生成。|![](./assets/01-23.png)
 
 ![](./assets/01-23.png)  
-
-
-> &#x2705; 语言和动作都有内存的统计规律，把两种统计模型之间建关系，实现跨模态生成。   
 
 ## 总结
 
