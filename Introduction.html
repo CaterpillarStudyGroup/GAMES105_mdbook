@@ -1,0 +1,523 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Introduction to 3D Character Animation - GAMES105</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Introduction.html" class="active"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="Forward.html"><strong aria-hidden="true">4.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="Keyframe.html"><strong aria-hidden="true">5.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="Data-driven.html"><strong aria-hidden="true">6.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="Learning-based.html"><strong aria-hidden="true">7.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="cont.html"><strong aria-hidden="true">8.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded "><a href="Skinning.html"><strong aria-hidden="true">9.</strong> Skinning</a></li><li class="chapter-item expanded "><a href="Simulation.html"><strong aria-hidden="true">10.</strong> Physics-based Simulation and Articulated Rigid Bodies</a></li><li class="chapter-item expanded "><a href="Actuating.html"><strong aria-hidden="true">11.</strong> Actuating Simulated Characters</a></li><li class="chapter-item expanded "><a href="Controlling.html"><strong aria-hidden="true">12.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="Learning.html"><strong aria-hidden="true">13.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="Optimal.html"><strong aria-hidden="true">14.</strong> Optimal Control and Reinforcement Learning</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GAMES105</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <p>P7</p>
+<h1 id="3d-computer-graphics"><a class="header" href="#3d-computer-graphics">3D Computer Graphics</a></h1>
+<p><img src="./assets/01-02.png" alt="" /></p>
+<p>P10</p>
+<h2 id="3d-computer-animation"><a class="header" href="#3d-computer-animation">3D Computer Animation</a></h2>
+<p><img src="./assets/01-03.png" alt="" /></p>
+<blockquote>
+<p>✅ 仿真，用于描述客观事物，它们的运动规律可以用精确的数来描述。GAMES103<br />
+✅ 动画，用于描述有主观意志的事物，使用统计的方式来对它们的行为建模(例如AI建模)。 GAMES105</p>
+</blockquote>
+<p>P11</p>
+<h2 id="why-do-we-study-character-animation"><a class="header" href="#why-do-we-study-character-animation">Why Do We Study Character Animation</a></h2>
+<ul>
+<li>A character typically has 20+ joints, or 50-100+ parameters
+<ul>
+<li>It is not super high-dimensional, so most animation can be created manually, by posing the character at keyframes</li>
+<li><strong>Labor-intensive, not for interactive applications</strong></li>
+</ul>
+</li>
+</ul>
+<p><img src="./assets/01-4.png" alt="" /></p>
+<ul>
+<li>Character animation techniques
+<ul>
+<li><strong>Understanding the mechanism behind motions and behaviors</strong></li>
+<li>Smart editing of animation/ Reuse animation / Generate new animation</li>
+<li><strong>“Compute-intensive”</strong></li>
+</ul>
+</li>
+</ul>
+<p><img src="./assets/01-05.png" alt="" /></p>
+<blockquote>
+<p>✅ 计算机角色动画把原本劳动密集型的动画师工作变成计算密集型的工作。</p>
+</blockquote>
+<p>P13</p>
+<h1 id="character-animation-pipeline"><a class="header" href="#character-animation-pipeline">Character Animation Pipeline</a></h1>
+<p><img src="./assets/01-06.png" alt="" /></p>
+<p>P15</p>
+<h2 id="where-does-a-motion-come-from"><a class="header" href="#where-does-a-motion-come-from">Where does a Motion Come From</a></h2>
+<p>根据是否使用物理，把角色动画分为两大类。</p>
+<p><img src="./assets/01-10.png" alt="" /></p>
+<p>P16</p>
+<h3 id="keyframe-basedkinematic-approaches"><a class="header" href="#keyframe-basedkinematic-approaches">Keyframe-based/Kinematic Approaches</a></h3>
+<p><img src="./assets/01-08.png" alt="" /> </p>
+<blockquote>
+<p>✅ 基于运动学直接更新角色状态，运动可以不符合物理规律。</p>
+</blockquote>
+<p>P18</p>
+<h3 id="physics-baseddynamic-approaches"><a class="header" href="#physics-baseddynamic-approaches">Physics-based/Dynamic Approaches</a></h3>
+<p><img src="./assets/01-09.png" alt="" /></p>
+<blockquote>
+<p>✅ 基于物理，但实际情况会有简化，不能直接干预角色姿态。 </p>
+</blockquote>
+<p>P19</p>
+<h2 id="control-level"><a class="header" href="#control-level">Control Level</a></h2>
+<p>根据控制方式的高度，可以分为Low Level和Heigh Level</p>
+<p>P20</p>
+<h3 id="low-level-control"><a class="header" href="#low-level-control">low-level control</a></h3>
+<p><img src="./assets/01-11.png" alt="" /></p>
+<blockquote>
+<p>✅ 对每一帧每一个姿态进行精确控制每个细节。<br />
+✅ 优点：精确控制；缺点：低效。</p>
+</blockquote>
+<p>P21</p>
+<h3 id="high-level-control"><a class="header" href="#high-level-control">high-level control</a></h3>
+<p><img src="./assets/01-12.png" alt="" /></p>
+<blockquote>
+<p>✅ 控制高级目标。</p>
+</blockquote>
+<h1 id="keyframe-basedkinematic-approaches-1"><a class="header" href="#keyframe-basedkinematic-approaches-1">Keyframe-based/Kinematic Approaches</a></h1>
+<p>P24</p>
+<h2 id="disneys-12-principles-of-animation"><a class="header" href="#disneys-12-principles-of-animation">Disney’s 12 Principles of Animation</a></h2>
+<p><img src="./assets/01-13.png" alt="" /></p>
+<p>[<a href="http://the12principles.tumblr.com/">http://the12principles.tumblr.com/</a>]</p>
+<blockquote>
+<p>✅ 在动画师总结的准则里隐藏了物理规则和艺术夸张</p>
+</blockquote>
+<h2 id="keyframe-animation"><a class="header" href="#keyframe-animation">Keyframe Animation</a></h2>
+<blockquote>
+<p>✅ 这是一种非常low level的控制方法，可以保证所有细节，但非常慢</p>
+</blockquote>
+<p>P26</p>
+<h3 id="forward-kinematics"><a class="header" href="#forward-kinematics">Forward Kinematics</a></h3>
+<p><img src="./assets/01-14.png" alt="" /></p>
+<p><strong>Given</strong> rotations of every joints<br />
+<strong>Compute</strong> position of end-effectors</p>
+<p>P27</p>
+<h3 id="inverse-kinematics"><a class="header" href="#inverse-kinematics">Inverse Kinematics</a></h3>
+<p><img src="./assets/01-15.png" alt="" /></p>
+<p><strong>Given</strong> position of end-effectors<br />
+<strong>Compute</strong> rotations of every joints</p>
+<p>P28</p>
+<h3 id="interpolation"><a class="header" href="#interpolation">Interpolation</a></h3>
+<p><img src="./assets/01-16.png" alt="" /></p>
+<h2 id="motion-capture"><a class="header" href="#motion-capture">Motion Capture</a></h2>
+<p>动捕设备、视频动捕，把动捕角色应用到角色身上，需要经过重定向<br />
+动作捕捉和重放，不能产生新的数据</p>
+<blockquote>
+<p>✅ 光学动捕、视频动捕、穿戴传感器动捕。</p>
+</blockquote>
+<p>P34</p>
+<h3 id="motion-retargeting"><a class="header" href="#motion-retargeting">Motion Retargeting</a></h3>
+<p><img src="./assets/01-17.png" alt="" /></p>
+<p><strong>Given</strong> motions of a source character<br />
+<strong>Compute</strong> motions for target characters with</p>
+<ul>
+<li>different skeleton sizes</li>
+<li>different number of bones</li>
+<li>different topologies</li>
+<li>……</li>
+</ul>
+<p>P36</p>
+<h2 id="motion-graphs--state-machines"><a class="header" href="#motion-graphs--state-machines">Motion Graphs / State Machines</a></h2>
+<p><img src="./assets/01-18.png" alt="" /></p>
+<blockquote>
+<p>✅ 把捕出来的动作进行分解和重组，生成新的动作。</p>
+</blockquote>
+<p>P37</p>
+<h3 id="motion-graphs"><a class="header" href="#motion-graphs">Motion Graphs</a></h3>
+<p><img src="./assets/01-19.png" alt="" /></p>
+<blockquote>
+<p>✅ 给一段任意的动作，寻找能够构建状态机切换的位。 </p>
+</blockquote>
+<p>P38</p>
+<h3 id="motion-graphs的改进---interactively-controlled-boxing"><a class="header" href="#motion-graphs的改进---interactively-controlled-boxing">Motion Graphs的改进 - Interactively Controlled Boxing</a></h3>
+<p><img src="./assets/01-20.png" alt="" /></p>
+<p>[Heck and Gleicher 2007, Parametric Motion Graphs]</p>
+<blockquote>
+<p>✅ 对Motion Graph的改进，比如一个节点中有很多动作，对这些动作进行插值，来实现精确控制。</p>
+</blockquote>
+<p>P39</p>
+<h3 id="motion-graphs的高级应用"><a class="header" href="#motion-graphs的高级应用">Motion Graphs的高级应用</a></h3>
+<p><strong>Character Animation in Two-Player Adversarial Games</strong><br />
+KEVIN WAMPLER,ERIK ANDERSEN, EVAN HERBST, YONGJOON LEE, and ZORAN POPOVIC Univoersity of Washington</p>
+<p><strong>Near-optimal Character Animation with Continuous Control</strong><br />
+Adrien Treuille  \(\quad\)   Yongjoon Lee   \(\quad\)  Zoran Popovic<br />
+University of Washington</p>
+<blockquote>
+<p>✅ Motion Graph＋AI，实现高级控制<br />
+✅ 例如：AI使用Motion Graph，通过选择合适的边，进行执行，完成高级语义。</p>
+</blockquote>
+<p>P42</p>
+<h3 id="complex-motion-graphs"><a class="header" href="#complex-motion-graphs">Complex Motion Graphs</a></h3>
+<p><img src="./assets/01-21.png" alt="" /></p>
+<blockquote>
+<p>✅ 动作图非常复杂，容易出BUG．</p>
+</blockquote>
+<p>P43</p>
+<h2 id="motion-mathing"><a class="header" href="#motion-mathing">Motion Mathing</a></h2>
+<blockquote>
+<p>✅ 改进，Motion Graph的动作都是完整的片断，可以把动作再分细一点，切到每一帧。<br />
+✅ 不是完整地播放一段动作，而是每一帧结束后，通过最近邻搜索找到一个新的姿态，<br />
+✅ 满足：（1）接近控制目标（2）动作连续<br />
+✅ 关键：（1）定义距离函数（2）设计动作库</p>
+</blockquote>
+<p>P45</p>
+<h2 id="learning-based-approaches"><a class="header" href="#learning-based-approaches">Learning-based Approaches</a></h2>
+<p><img src="./assets/01-22.png" alt="" /> </p>
+<blockquote>
+<p>✅ 对角色动作的内在规律去理解和建模，从数据学习统计规律。<br />
+✅ 生成模型：只需要采足够的动作去给模型就能生成新的动作。<br />
+✅ 不需要手工作切分、生成状态机</p>
+</blockquote>
+<table><thead><tr><th>ID</th><th>Year</th><th>Name</th><th>Note</th><th>Tags</th><th>Link</th></tr></thead><tbody>
+<tr><td></td><td>2020</td><td>Local Motion Phases for Learning Multi-Contact Character Movements</td><td></td><td></td><td></td></tr>
+<tr><td></td><td>2021</td><td>Character Controllers Using Motion VAEs</td><td></td><td></td><td></td></tr>
+</tbody></table>
+<p>P49</p>
+<h2 id="cross-modal-motion-synthesis"><a class="header" href="#cross-modal-motion-synthesis">Cross-Modal Motion Synthesis</a></h2>
+<ul>
+<li>Audio-driven animation
+<ul>
+<li>Music to dance</li>
+<li>Co-speech gesture</li>
+<li>……</li>
+</ul>
+</li>
+<li>Natural language to animation
+<ul>
+<li>Descriptions to actions</li>
+<li>Scripts to performance</li>
+<li>……</li>
+</ul>
+</li>
+</ul>
+<table><thead><tr><th>ID</th><th>Year</th><th>Name</th><th>Note</th><th>Tags</th><th>Link</th></tr></thead><tbody>
+<tr><td></td><td>2022</td><td>Rhythmic Gesticulator</td><td>✅ 语言和动作都有内存的统计规律，把两种统计模型之间建关系，实现跨模态生成。</td><td><img src="./assets/01-23.png" alt="" /></td><td></td></tr>
+</tbody></table>
+<p><img src="./assets/01-23.png" alt="" /></p>
+<h2 id="总结"><a class="header" href="#总结">总结</a></h2>
+<p><img src="./assets/01-24.png" alt="" /></p>
+<h1 id="physics-baseddynamic-approaches-1"><a class="header" href="#physics-baseddynamic-approaches-1">Physics-based/Dynamic Approaches</a></h1>
+<blockquote>
+<p>✅ 不直接生成姿态，而是控制量（例如力），通过物理仿真真正改变角色。</p>
+</blockquote>
+<p><img src="./assets/01-26.png" alt="" /><br />
+<img src="./assets/01-27.png" alt="" /></p>
+<p>P59</p>
+<h2 id="ragdoll-simulation"><a class="header" href="#ragdoll-simulation">Ragdoll Simulation</a></h2>
+<p><img src="./assets/01-28.png" alt="" /></p>
+<blockquote>
+<p>✅ 用于人死掉、失去意识、突发事件来不及响应的情况。</p>
+</blockquote>
+<p>P63</p>
+<h2 id="物理仿真角色动画的应用"><a class="header" href="#物理仿真角色动画的应用">物理仿真角色动画的应用</a></h2>
+<p><img src="./assets/01-30.png" alt="" /></p>
+<p>[DeepMotion: Virtual Reality Tracking]</p>
+<p>[Ye et al. 2022: Neural3Points]</p>
+<p>[Yang et al. 2022: Learning to Use Chopsticks]</p>
+<blockquote>
+<p>✅ 抓住手指动作细节
+P67</p>
+</blockquote>
+<p>P68</p>
+<h2 id="物理角色的建模方法"><a class="header" href="#物理角色的建模方法">物理角色的建模方法</a></h2>
+<p><img src="./assets/01-32.png" alt="" /></p>
+<blockquote>
+<p>✅ 构建完整的神经系统和肌肉系统。<br />
+✅ （1）神经肌肉机理不清楚。<br />
+✅ （2）自由度高，仿真效率低。<br />
+✅ 所以实际上会做简化，对关节力矩进行建模</p>
+</blockquote>
+<p><img src="./assets/01-33.png" alt="" /></p>
+<blockquote>
+<p>✅ 用关节力矩仿真肌肉的力。</p>
+</blockquote>
+<p>P70</p>
+<h3 id="force--torque"><a class="header" href="#force--torque">Force &amp; Torque</a></h3>
+<p><img src="./assets/01-34.png" alt="" /></p>
+<p>P71</p>
+<h2 id="keyfrmae-control"><a class="header" href="#keyfrmae-control">Keyfrmae Control</a></h2>
+<h3 id="proportional-derivative-pd-control"><a class="header" href="#proportional-derivative-pd-control">Proportional-Derivative (PD) Control</a></h3>
+<p><img src="./assets/01-35.png" alt="" /></p>
+<blockquote>
+<p>✅ 根据当前状态与目标状态的差距，计算出当前状态运动到目标状态所需要的力矩。</p>
+</blockquote>
+<p>P72</p>
+<h3 id="tracking-controllers"><a class="header" href="#tracking-controllers">Tracking Controllers</a></h3>
+<p><img src="./assets/01-36.png" alt="" /></p>
+<blockquote>
+<p>✅ 比如要做一个动作，给出目标高度的轨迹，采用PD控制生成每个关节的力矩，大概能产生要做的动作 </p>
+</blockquote>
+<blockquote>
+<p>[Hodgins and Wooten 1995, Animating Human Athletics]</p>
+</blockquote>
+<p>P76</p>
+<h3 id="trajectory-crafting"><a class="header" href="#trajectory-crafting">Trajectory Crafting</a></h3>
+<p>NaturalMotion - Endorphin</p>
+<blockquote>
+<p>✅ 关键帧→力→仿真</p>
+</blockquote>
+<p>实际上这个方法很难用起来，因为调整仿真参数甚至比直接做关键帧更花时间。</p>
+<p>P79</p>
+<h2 id="spacetimetrajectory-optimization"><a class="header" href="#spacetimetrajectory-optimization">Spacetime/Trajectory Optimization</a></h2>
+<blockquote>
+<p>✅ 用优化方法实现，结合重定向</p>
+</blockquote>
+<p>[Liu et al 2010. SAMCON]</p>
+<p>[Wampler and Popović. 2009. Optimal gait and form for animal locomotion]</p>
+<p>[Hamalainen et al. 2020, Visualizing Movement Control Optimization Landscapes]</p>
+<blockquote>
+<p>✅ 这是高维非线性优化问题，非常准解。</p>
+</blockquote>
+<p>P83</p>
+<h2 id="abstract-models-简化模型"><a class="header" href="#abstract-models-简化模型">Abstract Models 简化模型</a></h2>
+<p>通过简化模型实现对一些动作的控制，但只能做简单动作</p>
+<h3 id="simbicon"><a class="header" href="#simbicon">SIMBICON</a></h3>
+<p><img src="./assets/01-38.png" alt="" /></p>
+<blockquote>
+<p>✅ 用简化模型把想要的动作描述出来，来指导角色控制。<br />
+✅ 基于此实现稳定的多技能的控制策略。<br />
+✅ 控制简化、缺少细节，走路像机器人。<br />
+✅ 简化模型思路，可以实现对一些动作进行控制，且结果鲁棒，允许使用外力与角色交互。<br />
+✅ 缺点：只能走路，不能复杂动作。 </p>
+</blockquote>
+<p>P85</p>
+<h3 id="inverted-pendulum-model"><a class="header" href="#inverted-pendulum-model">Inverted Pendulum Model</a></h3>
+<p><img src="./assets/01-039.png" alt="" /></p>
+<p>[Coros et al. 2010]</p>
+<p>P87</p>
+<h2 id="reinforcement-learning"><a class="header" href="#reinforcement-learning">Reinforcement Learning</a></h2>
+<p><img src="./assets/01-40.png" alt="" /></p>
+<p>P89</p>
+<h3 id="drl-based-tracking-controllers"><a class="header" href="#drl-based-tracking-controllers">DRL-based Tracking Controllers</a></h3>
+<p>[Liu et al. 2016. ControlGraphs]</p>
+<p>[Liu et al. 2018]</p>
+<p>[Peng et al. 2018. DeepMimic]</p>
+<blockquote>
+<p>✅ 利用DRL做复杂动作，但还只是动作复现。</p>
+</blockquote>
+<p>P90</p>
+<h3 id="multi-skill-characters"><a class="header" href="#multi-skill-characters">Multi-skill Characters</a></h3>
+<h4 id="引入状态机完成更复杂动作"><a class="header" href="#引入状态机完成更复杂动作">引入状态机，完成更复杂动作。</a></h4>
+<p>State Machines of Tracking Controllers</p>
+<h4 id="引入motion-maching"><a class="header" href="#引入motion-maching">引入Motion Maching</a></h4>
+<p><img src="./assets/01-41.png" alt="" /></p>
+<p>[Liu et al. 2017: Learning to Schedule Control Fragments]</p>
+<h2 id="hierarchical-controllers"><a class="header" href="#hierarchical-controllers">Hierarchical Controllers</a></h2>
+<p>在高级指令控制下，综合使用动作来完成功能</p>
+<p>Generative Control Policies</p>
+<table><thead><tr><th>运动生成模型</th><th>控制生成模型</th></tr></thead><tbody>
+<tr><td><img src="./assets/01-42.png" alt="" /></td><td><img src="./assets/01-43.png" alt="" /></td></tr>
+</tbody></table>
+<h2 id="总结-1"><a class="header" href="#总结-1">总结</a></h2>
+<p><img src="./assets/01-44.png" alt="" /></p>
+<blockquote>
+<p>✅ 回顾计算机角色动化领域最近30年主要研究方向。 </p>
+</blockquote>
+<p>P102</p>
+<h1 id="about-this-course"><a class="header" href="#about-this-course">About This Course</a></h1>
+<ul>
+<li>
+<p>What will not be covered</p>
+<ul>
+<li>How to use Maya/Motion Builder/Houdini/Unity/Unreal Engine…</li>
+<li>How to become an animator</li>
+</ul>
+</li>
+<li>
+<p>What will be covered</p>
+<ul>
+<li>
+<p>Methods, theories, and techniques behind animation tools</p>
+<ul>
+<li>Kinematics of characters</li>
+<li>Physics-based simulation</li>
+<li>Motion control</li>
+</ul>
+</li>
+<li>
+<p>Ability to create an interactive character</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<blockquote>
+<p>本文出自CaterpillarStudyGroup，转载请注明出处。</p>
+<p>https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="Math.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="Math.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="theme/pagetoc.js"></script>
+    </body>
+</html>

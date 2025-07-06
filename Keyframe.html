@@ -1,0 +1,307 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Character Kinematics (cont.) &amp; Keyframe Animation - GAMES105</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="Forward.html"><strong aria-hidden="true">4.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="Keyframe.html" class="active"><strong aria-hidden="true">5.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="Data-driven.html"><strong aria-hidden="true">6.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="Learning-based.html"><strong aria-hidden="true">7.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="cont.html"><strong aria-hidden="true">8.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded "><a href="Skinning.html"><strong aria-hidden="true">9.</strong> Skinning</a></li><li class="chapter-item expanded "><a href="Simulation.html"><strong aria-hidden="true">10.</strong> Physics-based Simulation and Articulated Rigid Bodies</a></li><li class="chapter-item expanded "><a href="Actuating.html"><strong aria-hidden="true">11.</strong> Actuating Simulated Characters</a></li><li class="chapter-item expanded "><a href="Controlling.html"><strong aria-hidden="true">12.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="Learning.html"><strong aria-hidden="true">13.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="Optimal.html"><strong aria-hidden="true">14.</strong> Optimal Control and Reinforcement Learning</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GAMES105</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <p>P3</p>
+<h1 id="outline"><a class="header" href="#outline">Outline</a></h1>
+<ul>
+<li>
+<p>Character Kinematics (cont.)</p>
+<ul>
+<li>Motion Retargeting</li>
+<li>Full-body IK</li>
+</ul>
+</li>
+<li>
+<p>Keyframe Animation</p>
+<ul>
+<li>Interpolation and splines</li>
+</ul>
+</li>
+</ul>
+<p>P4</p>
+<h2 id="recap-character-kinematics"><a class="header" href="#recap-character-kinematics">Recap: Character Kinematics</a></h2>
+<p><img src="./assets/04-01.png" alt="" /></p>
+<p>P15</p>
+<h1 id="reference-pose"><a class="header" href="#reference-pose">Reference Pose</a></h1>
+<p>{ \(𝑅_𝑖 = 𝐼\) }<br />
+The pose with zero / identity rotation Bind pose / Reference pose</p>
+<blockquote>
+<p>❗ reference pose不一定是Tpose。</p>
+</blockquote>
+<p>P16</p>
+<h2 id="t-pose-a-pose"><a class="header" href="#t-pose-a-pose">T-Pose? A-Pose?</a></h2>
+<p><img src="./assets/04-04.png" alt="" /></p>
+<p><img src="./assets/04-05.png" alt="" /></p>
+<blockquote>
+<p>✅ 常见的reference pose一般为Apose或者Tpose。<br />
+✅ 对于骨骼动画来讲，\(A\) 或 \(T\) 都一样。<br />
+✅ 对于骼骼绑定与蒙皮来讲，更倾向于\(A\)。因为 \(A\) 的肩膀是自然状态。</p>
+</blockquote>
+<p>P19</p>
+<h2 id="特殊的reference-pose"><a class="header" href="#特殊的reference-pose">特殊的reference pose</a></h2>
+<table><thead><tr><th></th><th></th><th></th></tr></thead><tbody>
+<tr><td><img src="./assets/04-06.png" alt="" /></td><td><img src="./assets/04-07.png" alt="" /></td><td><img src="./assets/04-08.png" alt="" /> <br> ✅ 这个动作跟建模师建模时的动作镜像操作有关。</td></tr>
+<tr><td></td><td></td><td></td></tr>
+</tbody></table>
+<p>P23</p>
+<h2 id="不同reference-pose会引入的问题"><a class="header" href="#不同reference-pose会引入的问题">不同reference pose会引入的问题</a></h2>
+<p><img src="./assets/04-09.png" alt="" /></p>
+<blockquote>
+<p>✅ 相同的姿态参数放在不同的参考姿态下呈现出的姿态不同。
+✅ 解决方法：Retargeting</p>
+</blockquote>
+<p>P29</p>
+<h1 id="retargeting-between-reference-poses"><a class="header" href="#retargeting-between-reference-poses"><strong>Retargeting</strong> between reference poses</a></h1>
+<p><img src="./assets/04-10.png" alt="" /></p>
+<blockquote>
+<p>✅ 让不同参考姿态的角色做出同样的动作，根据 \(R_A\) 求 \(R_B\).<br />
+✅ 重定向还有其它问题，例如关节长度、穿模。</p>
+</blockquote>
+<p>P33</p>
+<h2 id="retargeting-for-a-single-object"><a class="header" href="#retargeting-for-a-single-object">Retargeting for a single object</a></h2>
+<h3 id="问题分析"><a class="header" href="#问题分析">问题分析</a></h3>
+<p><img src="./assets/04-12.png" alt="" /></p>
+<h3 id="公式推导"><a class="header" href="#公式推导">公式推导</a></h3>
+<p><img src="./assets/04-13.png" alt="" /></p>
+<blockquote>
+<p>✅ 把 B 先转到 A 的姿态，再做指定动作。</p>
+</blockquote>
+<p>P45</p>
+<h2 id="retargeting-for-a-chain-of-links"><a class="header" href="#retargeting-for-a-chain-of-links">Retargeting for a chain of links</a></h2>
+<h3 id="问题分析-1"><a class="header" href="#问题分析-1">问题分析</a></h3>
+<p><img src="./assets/04-14.png" alt="" /></p>
+<blockquote>
+<p>✅ 两个关节的场景</p>
+</blockquote>
+<h3 id="公式推导-1"><a class="header" href="#公式推导-1">公式推导</a></h3>
+<p>P49</p>
+<p><img src="./assets/04-15.png" alt="" /></p>
+<h3 id="结论"><a class="header" href="#结论">结论</a></h3>
+<p>P51</p>
+<p><img src="./assets/04-16.png" alt="" /></p>
+<p>P52</p>
+<h2 id="retargeting-between-reference-poses-1"><a class="header" href="#retargeting-between-reference-poses-1"><strong>Retargeting</strong> between reference poses</a></h2>
+<h3 id="问题分析-2"><a class="header" href="#问题分析-2">问题分析</a></h3>
+<p><img src="./assets/04-17.png" alt="" /></p>
+<p>P53</p>
+<h3 id="结论-1"><a class="header" href="#结论-1">结论</a></h3>
+<p><img src="./assets/04-18.png" alt="" /></p>
+<p>P101</p>
+<h1 id="keyframe-animation-and-interpolation"><a class="header" href="#keyframe-animation-and-interpolation">Keyframe Animation and Interpolation</a></h1>
+<blockquote>
+<p>✅ Keyframe Animation跳过</p>
+</blockquote>
+<p>P106</p>
+<h2 id="interpolation"><a class="header" href="#interpolation">Interpolation</a></h2>
+<ul>
+<li>Given a set of data pairs \(D=\){\((x_i,y_i)\mid i=0,\dots ,N\)} find a function \(f(x)\) such that</li>
+</ul>
+<p>P107</p>
+<p><img src="./assets/04-26.png" alt="" /></p>
+<p>常见的差值方法有Linear Interpolation、Polynomial Interpolation等。详见GAMES102。</p>
+<p>P114</p>
+<h2 id="smoothness"><a class="header" href="#smoothness">Smoothness</a></h2>
+<p><img src="./assets/04-28.png" alt="" /></p>
+<h2 id="interpolation-of-rotations"><a class="header" href="#interpolation-of-rotations">Interpolation of Rotations</a></h2>
+<p>P154</p>
+<p><img src="./assets/04-30.png" alt="" /></p>
+<p>P157<br />
+SLERP for Quaternions</p>
+<p>$$
+q_t=\frac{\sin[(1-t)\theta ]}{\sin \theta } q_0 + \frac{\sin t \theta }{\sin \theta }q_1
+$$</p>
+<p>$$
+\cos \theta = q_0 \cdot q_1
+$$</p>
+<p>Constant rotational speed, but only “linear” interpolation</p>
+<p>P158</p>
+<blockquote>
+<p>🔎 Animating rotation with quaternion curves.<br />
+Ken Shoemake. 1985<br />
+<em>SIGGRAPH Computer Graphics,</em></p>
+</blockquote>
+<hr />
+<blockquote>
+<p>本文出自CaterpillarStudyGroup，转载请注明出处。</p>
+<p>https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Forward.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="Data-driven.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Forward.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="Data-driven.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="theme/pagetoc.js"></script>
+    </body>
+</html>

@@ -1,0 +1,525 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Actuating Simulated Characters - GAMES105</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="Forward.html"><strong aria-hidden="true">4.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="Keyframe.html"><strong aria-hidden="true">5.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="Data-driven.html"><strong aria-hidden="true">6.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="Learning-based.html"><strong aria-hidden="true">7.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="cont.html"><strong aria-hidden="true">8.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded "><a href="Skinning.html"><strong aria-hidden="true">9.</strong> Skinning</a></li><li class="chapter-item expanded "><a href="Simulation.html"><strong aria-hidden="true">10.</strong> Physics-based Simulation and Articulated Rigid Bodies</a></li><li class="chapter-item expanded "><a href="Actuating.html" class="active"><strong aria-hidden="true">11.</strong> Actuating Simulated Characters</a></li><li class="chapter-item expanded "><a href="Controlling.html"><strong aria-hidden="true">12.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="Learning.html"><strong aria-hidden="true">13.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="Optimal.html"><strong aria-hidden="true">14.</strong> Optimal Control and Reinforcement Learning</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GAMES105</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <p>P2</p>
+<h1 id="outline"><a class="header" href="#outline">Outline</a></h1>
+<ul>
+<li>
+<p>Simulating &amp; Actuating Characters</p>
+<ul>
+<li>Joint torques</li>
+</ul>
+</li>
+<li>
+<p>PD (Proportional-Derivative) control</p>
+</li>
+</ul>
+<blockquote>
+<p>✅ 在仿真基础之上，如何驱动角色动画，如何动得更好，更真实。<br />
+✅（1）控制力如何施加到角色身上<br />
+✅（2）如何计算控制力</p>
+</blockquote>
+<p>P4</p>
+<h1 id="recap"><a class="header" href="#recap">Recap</a></h1>
+<h2 id="dynamics-of-a-point-mass"><a class="header" href="#dynamics-of-a-point-mass">Dynamics of a Point Mass</a></h2>
+<p><img src="./assets/09-01.png" alt="" /></p>
+<p>P10</p>
+<h2 id="rigid-body-dynamics"><a class="header" href="#rigid-body-dynamics">Rigid Body Dynamics</a></h2>
+<p><img src="./assets/09-02.png" alt="" /></p>
+<p>$$
+\begin{bmatrix}
+mI_3 &amp; 0\\
+0 &amp; I
+\end{bmatrix}\begin{bmatrix}
+\dot{v}  \\
+\dot{\omega }
+\end{bmatrix}+\begin{bmatrix}
+0\\
+\omega \times I\omega 
+\end{bmatrix}=\begin{bmatrix}
+f \\
+\tau 
+\end{bmatrix}
+$$</p>
+<p>P12</p>
+<p>Masses: \(m,I\)<br />
+Kinematics:  \(x,v,R,\omega \)</p>
+<p>Geometry:<br />
+• Box, Sphere, Capsule, Mesh, …<br />
+• Collision detection<br />
+• Compute \(m,I\)</p>
+<blockquote>
+<p>✅ 在物理引擎里面定义一个刚体，需要提供这些参数。</p>
+</blockquote>
+<p>P14</p>
+<h2 id="dynamics-of-articulated-rigid-bodies"><a class="header" href="#dynamics-of-articulated-rigid-bodies">Dynamics of Articulated Rigid Bodies</a></h2>
+<p><img src="./assets/09-04.png" alt="" /></p>
+<blockquote>
+<p>✅ 两个独立刚体，和一个不让它们断开的约束。</p>
+</blockquote>
+<p>P15</p>
+<p>$$
+M\dot{v} +C(x,v)  =f+J^T\lambda
+$$</p>
+<p>P16</p>
+<h2 id="simulation-of-a-rigid-body-system"><a class="header" href="#simulation-of-a-rigid-body-system">Simulation of a Rigid Body System</a></h2>
+<p><img src="./assets/09-05.png" alt="" /></p>
+<h1 id="simulating--actuating-characters"><a class="header" href="#simulating--actuating-characters">Simulating &amp; Actuating Characters</a></h1>
+<p>P17</p>
+<h2 id="defining-a-simulated-character"><a class="header" href="#defining-a-simulated-character">Defining a Simulated Character</a></h2>
+<p>Rigid bodies:</p>
+<ul>
+<li>\(m_i,I_i,x_i,R_i\)</li>
+<li>Geometries</li>
+</ul>
+<p>Joints:</p>
+<ul>
+<li>Position</li>
+<li>Type</li>
+</ul>
+<blockquote>
+<p>✅ Type指关节的类型，例如 Hint、Universal等。它决定了约束方程。</p>
+</blockquote>
+<ul>
+<li>Bodies</li>
+</ul>
+<blockquote>
+<p>✅ 关节的数量比刚体的数量少1</p>
+</blockquote>
+<p><img src="./assets/09-06.png" alt="" /></p>
+<blockquote>
+<p>✅ 仿真过程中通常使用简单几何体代替 Mesh. 为了便于碰撞检测的计算，以及辨别里外。</p>
+</blockquote>
+<p>P19</p>
+<h2 id="simulating-a-character-pipeline"><a class="header" href="#simulating-a-character-pipeline">Simulating a Character Pipeline</a></h2>
+<p><img src="./assets/09-07.png" alt="" /></p>
+<blockquote>
+<p>✅ 这个仿真流程是 ragdoll 效果。</p>
+</blockquote>
+<p>P22</p>
+<h2 id="actuating-a-rigid-body"><a class="header" href="#actuating-a-rigid-body">Actuating a Rigid Body</a></h2>
+<blockquote>
+<p>✅ 想让角色做指定动作，不能直接修改其状态，而是控制力影响状态。</p>
+</blockquote>
+<table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>力加在质心上</td><td><img src="./assets/09-08.png" alt="" /></td></tr>
+<tr><td>✅ 在物体边缘旋加力，等价于在质心旋加力，并旋加一个导致旋转的力矩。</td><td><img src="./assets/09-09.png" alt="" /><br><img src="./assets/09-10.png" alt="" /></td></tr>
+<tr><td>✅ 在质心上施加一个力矩，等价于施加一对大小相同方向相反的力。在质心处的合力为零，不会产生位移，只会产生旋转。<br> ✅ 力矩只是数学上的概念。</td><td><img src="./assets/09-11.png" alt="" /></td></tr>
+</tbody></table>
+<p>P26</p>
+<h2 id="actuating-articulated-rigid-bodies"><a class="header" href="#actuating-articulated-rigid-bodies">Actuating Articulated Rigid Bodies</a></h2>
+<table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>✅ 为了驱动角色，可以单独对每个刚体施加力或力矩。</td><td><img src="./assets/09-12.png" alt="" /></td></tr>
+<tr><td>✅ 也可以在关节上施加力矩。</td><td><img src="./assets/09-13.png" alt="" /></td></tr>
+</tbody></table>
+<p>P29</p>
+<h2 id="joint-torques"><a class="header" href="#joint-torques">Joint Torques</a></h2>
+<p>What is a joint torque?<br />
+How is a joint torque applied?</p>
+<blockquote>
+<p>✅ 回顾前面公式，力和力矩都是施加在刚体上的，如何施加在关节上?</p>
+</blockquote>
+<p>P33</p>
+<h3 id="什么是joint-torques"><a class="header" href="#什么是joint-torques">什么是Joint Torques</a></h3>
+<blockquote>
+<p>✅ 关节上的力矩，可以看作是一个刚体对另一个刚体在关节处施加的成对的力，其合力为零，但可以转化为对另一刚体的力矩。</p>
+</blockquote>
+<p><img src="./assets/09-014.png" alt="" /></p>
+<p>$$
+\sum_{i}^{} f_i=0
+$$</p>
+<blockquote>
+<p>✅ 每个力都会对其中一个刚体的质心上产生力矩。</p>
+</blockquote>
+<p>$$
+\tau _1= \sum _ {i}^{} (r_1+r_i) \times f_i=r_1 \times \sum _ {i}^{}f_i + \sum _ {i}^{}r_i \times f_i
+$$</p>
+<p>P34<br />
+由于</p>
+<p>$$
+\sum _ {i}^{}  f_i=0
+$$</p>
+<p>得： </p>
+<p>$$
+\tau _1= \sum _ {i}^{} r_i \times f_i \quad \quad \quad \quad \tau _2= -\sum _ {i}^{} r_i \times f_i
+$$</p>
+<blockquote>
+<p>✅ 另一个方向同理。<br />
+✅ 力矩跟关节的内置没有关系。</p>
+</blockquote>
+<p>P36<br />
+结论：</p>
+<p><img src="./assets/09-16.png" alt="" /></p>
+<blockquote>
+<p>✅ 在关节上施加力矩 \( \tau\) 等价于在一个刚体上施加 \( \tau\)，在另一个刚体上施加 \(- \tau\).</p>
+</blockquote>
+<p>P38</p>
+<h3 id="怎样施加joint-torques"><a class="header" href="#怎样施加joint-torques">怎样施加Joint Torques</a></h3>
+<p>Applying a joint torque \( \tau\):</p>
+<ul>
+<li>Add \( \tau\) to one attached body</li>
+<li>Add \( -\tau\) to the other attached body</li>
+</ul>
+<p>$$
+M\begin{bmatrix}
+\dot{v}_1 \\
+\dot{\omega }_1 \\
+\dot{v}_2\\
+\dot{\omega }_2 
+\end{bmatrix} + \begin{bmatrix}
+0\\
+\omega_1 \times I_1 \omega _1\\
+0\\
+\omega_2 \times I_2 \omega _2
+\end{bmatrix}=\begin{bmatrix}
+0 \\
+\tau \\
+0 \\
+-\tau 
+\end{bmatrix}+J^T\lambda 
+$$</p>
+<p>$$
+Jv=0
+$$</p>
+<blockquote>
+<p>✅ 通常在子关节上加 \(\tau \)，在父关节上加 \(-\tau \)． </p>
+</blockquote>
+<p>P40</p>
+<h2 id="simulating--controlling-a-character"><a class="header" href="#simulating--controlling-a-character">Simulating + Controlling a Character</a></h2>
+<p><img src="./assets/09-17.png" alt="" /></p>
+<blockquote>
+<p>✅ 控制器，根据当前角色状态，以及额外控制信号实时计算出 \(f \) 和 \(\tau \)，影响角色动作变化。</p>
+</blockquote>
+<p>P44</p>
+<h3 id="forward-dynamics-vs-inverse-dynamics"><a class="header" href="#forward-dynamics-vs-inverse-dynamics">Forward Dynamics vs. Inverse Dynamics</a></h3>
+<p><img src="./assets/09-18.png" alt="" /></p>
+<blockquote>
+<p>✅ 前向与后向，是一个运动方程的两种用法。<br />
+✅ 仿真器为前向部分，控制后逆向部分。</p>
+</blockquote>
+<p>P46</p>
+<h3 id="fully-actuated-vs-underactuated"><a class="header" href="#fully-actuated-vs-underactuated">Fully-Actuated vs. Underactuated</a></h3>
+<table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td><img src="./assets/09-20.png" alt="" /></td><td><img src="./assets/09-21.png" alt="" /></td></tr>
+<tr><td>If #actuators ≥ #dofs, the system is <strong>fully-actuated</strong></td><td>If #actuators &lt; #dofs, the system is <strong>underactuated</strong></td></tr>
+<tr><td>For any \([x,v,\dot{v} ]\), there exists an \(f\) that produces the motion</td><td>For many \([x,v,\dot{v} ]\) , there is no such \(f\) that produces the motion</td></tr>
+<tr><td>✅ 可以精确控制机械臂到达目标状态。</td><td>✅ 不借助外力情况，人无法控制 Hips 的状态（位置）。</td></tr>
+</tbody></table>
+<blockquote>
+<p>✅ ＃actuators：\(f \) 和 \(\tau \) 的自由度。<br />
+✅ #dofs：角色状态的自由度。<br />
+✅ 避免让角色掉入无法控制的状态。</p>
+</blockquote>
+<p>P49</p>
+<h3 id="feedforward-vs-feedback"><a class="header" href="#feedforward-vs-feedback">Feedforward vs. Feedback</a></h3>
+<p><img src="./assets/09-22.png" alt="" /></p>
+<table><thead><tr><th>Feedforward control</th><th>Feedback control</th></tr></thead><tbody>
+<tr><td>\(f,\tau =\pi (t)\)</td><td>\(f,\tau =\pi (s_t,t)\)</td></tr>
+<tr><td>Apply predefined control signals <strong>without considering the current state</strong> of the system</td><td>Adjust control signals based on the current state of the system</td></tr>
+<tr><td>Assuming unchanging system.</td><td>Certain perturbations are expected.</td></tr>
+<tr><td>Perturbations may lead to unpredicted results<br>✅ 如果角色受到挠动而偏离了原计划，无法修正回来。</td><td>The feedback signal will be used to improves the performance at the next state.</td></tr>
+</tbody></table>
+<p>P55</p>
+<h1 id="proportional-derivative-control"><a class="header" href="#proportional-derivative-control">Proportional-Derivative Control</a></h1>
+<blockquote>
+<p>✅ 有反馈，但还是算是前向控制，因为反馈的部分和想控制的部分不完全一致。</p>
+</blockquote>
+<h2 id="简化问题分析"><a class="header" href="#简化问题分析">简化问题分析</a></h2>
+<h3 id="问题描述"><a class="header" href="#问题描述">问题描述</a></h3>
+<p>Compute force \(f\) to move the object to the target height</p>
+<blockquote>
+<p>✅ 例子：物体只能沿竿上下移动，且受到重力。<br />
+✅ 控制目的：设计控制器，使物体在控制力的作用下达到目标高度。</p>
+</blockquote>
+<p><img src="./assets/09-23-1.png" alt="" /></p>
+<h3 id="使用比例控制"><a class="header" href="#使用比例控制">使用比例控制</a></h3>
+<p><img src="./assets/09-23-2.png" alt="" /></p>
+<p>实际上：会产生上下振荡，不会停在目标位置。</p>
+<p><img src="./assets/09-23.png" alt="" /></p>
+<p>P56</p>
+<h3 id="比例控制damping"><a class="header" href="#比例控制damping">比例控制+Damping</a></h3>
+<p><img src="./assets/09-24.png" alt="" /></p>
+<blockquote>
+<p>✅ 改进：如果物体已有同方向速度，则力加得小一点。</p>
+</blockquote>
+<p>P57</p>
+<h3 id="比例微分控制"><a class="header" href="#比例微分控制">比例微分控制</a></h3>
+<p><img src="./assets/09-24-1.png" alt="" /></p>
+<blockquote>
+<p>✅ 第一项：比例控制；第二项：微分控制</p>
+</blockquote>
+<p>P59</p>
+<blockquote>
+<p>✅ 存在的问题：为了抵抗重力，一定会存在这样的误差。</p>
+</blockquote>
+<p><img src="./assets/09-26.png" alt="" /></p>
+<p>P60</p>
+<p>Increase stiffness \(k_p\) reduces the steady-state error, but can make the system too stiff and numerically unstable</p>
+<blockquote>
+<p>✅ 增加 \(k_p\) 可以减小误差，但会让人看起来很僵硬。</p>
+</blockquote>
+<p>P61</p>
+<h3 id="比例积分微分控制-proportional-integral-derivative-controller"><a class="header" href="#比例积分微分控制-proportional-integral-derivative-controller">比例积分微分控制 Proportional-Integral-Derivative controller</a></h3>
+<p><img src="./assets/09-27.png" alt="" /><br />
+<img src="./assets/09-28.png" alt="" /></p>
+<blockquote>
+<p>✅ 解决误差方法：积分项。<br />
+✅ 但角色动画通常不用积分项。<br />
+✅ 积分项跟历史相关，会带来实现的麻烦和控制的不稳定。</p>
+</blockquote>
+<p>P62</p>
+<h2 id="pd-control-for-characters"><a class="header" href="#pd-control-for-characters">PD Control for Characters</a></h2>
+<blockquote>
+<p>✅ 前面是 PD 的例子，这里是 PD 在物理仿真角色上的应用，计算在每个关节上施加多少力矩。</p>
+</blockquote>
+<p><img src="./assets/09-29.png" alt="" /></p>
+<p><img src="./assets/09-30.png" alt="" /></p>
+<blockquote>
+<p>✅ 通常目标的速度 \(\bar{q} = 0\).</p>
+</blockquote>
+<p>因此：<br />
+<img src="./assets/09-31.png" alt="" /></p>
+<p>P63</p>
+<h3 id="pd-control-for-characters的参数和效果"><a class="header" href="#pd-control-for-characters的参数和效果">PD Control for Characters的参数和效果</a></h3>
+<blockquote>
+<p>✅ \(K_p\) 太小：可能无法达到目标状态。<br />
+✅ \(K_p\) 太大：人体很僵硬。<br />
+✅ \(k_d\) 太小：动作有明显振荡。<br />
+✅ \(k_d\) 太大，要花更多时间到达目标资态。</p>
+</blockquote>
+<p>P66</p>
+<h2 id="tracking-controllers"><a class="header" href="#tracking-controllers">Tracking Controllers</a></h2>
+<blockquote>
+<p>✅ 引入PD Control之后，控制本质上变成了设计 targer state．</p>
+</blockquote>
+<p><img src="./assets/09-32.png" alt="" /></p>
+<p>P67</p>
+<h3 id="full-body-tracking-controllers"><a class="header" href="#full-body-tracking-controllers">Full-body Tracking Controllers</a></h3>
+<p><img src="./assets/09-33.png" alt="" /></p>
+<blockquote>
+<p>✅ 设计角色的目标轨迹。<br />
+✅ 直接用 PD 控制跟踪动捕数据会有很大的问题，原因：<br />
+（1）稳态误差。<br />
+（2）运动轨迹跟原轨迹之间会相差一点点相位<br />
+（3）欠驱动系统，有一点点误差，后面无法修复。</p>
+</blockquote>
+<p>P71</p>
+<h3 id="feedforward--feedback"><a class="header" href="#feedforward--feedback">feedforward ？ feedback</a></h3>
+<p>Is PD control a <strong>feedforward</strong> control?<br />
+a <strong>feedback</strong> control?</p>
+<blockquote>
+<p>✅ 是反馈控制，因为计算 \(\tau \) 时使用了当前状态 \(q\)．<br />
+✅ 是前馈控制，因为在 PD 系统里，状态是位置不是 \(q\).</p>
+</blockquote>
+<p>P72</p>
+<h2 id="欠驱动系统"><a class="header" href="#欠驱动系统">欠驱动系统</a></h2>
+<h3 id="欠驱动系统的问题"><a class="header" href="#欠驱动系统的问题">欠驱动系统的问题</a></h3>
+<p>由于是欠驱动系统，Tracking Mocap with Joint Torques会遇到问题，因为：</p>
+<p>\(\tau _j\): joint torques<br />
+Apply \(\tau _j\) to “child” body<br />
+Apply \(-\tau _j\) to “parent” body<br />
+<strong>All forces/torques sum up to zero</strong></p>
+<blockquote>
+<p>✅ 合力为零，无法控制整体的位置和朝向。</p>
+</blockquote>
+<p>P73</p>
+<h3 id="解决方法增加净外力"><a class="header" href="#解决方法增加净外力">解决方法：增加净外力</a></h3>
+<p>\(f_0,\tau _0\): root force / torque<br />
+\(\quad\quad\)Apply \(f_0\) to the root body<br />
+\(\quad\quad\)Apply \(\tau _0\) to the root body<br />
+\(\quad\quad\)Non-zero net force/torque on the character!</p>
+<blockquote>
+<p>✅ 净外力，无施力者，用于帮助角色保持平衡。<br />
+✅ 缺点：让角色看起来像提线木偶。</p>
+</blockquote>
+<p>P75</p>
+<h2 id="mixture-simulation-and-mocap"><a class="header" href="#mixture-simulation-and-mocap">Mixture Simulation and Mocap</a></h2>
+<p><img src="./assets/09-34.png" alt="" /></p>
+<blockquote>
+<p>✅ 关键帧与仿真的混合。</p>
+</blockquote>
+<hr />
+<blockquote>
+<p>本文出自CaterpillarStudyGroup，转载请注明出处。</p>
+<p>https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Simulation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="Controlling.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Simulation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="Controlling.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="theme/pagetoc.js"></script>
+    </body>
+</html>

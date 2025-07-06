@@ -1,0 +1,352 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Learning-based Character Animation - GAMES105</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="Forward.html"><strong aria-hidden="true">4.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="Keyframe.html"><strong aria-hidden="true">5.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="Data-driven.html"><strong aria-hidden="true">6.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="Learning-based.html"><strong aria-hidden="true">7.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="cont.html" class="active"><strong aria-hidden="true">8.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded "><a href="Skinning.html"><strong aria-hidden="true">9.</strong> Skinning</a></li><li class="chapter-item expanded "><a href="Simulation.html"><strong aria-hidden="true">10.</strong> Physics-based Simulation and Articulated Rigid Bodies</a></li><li class="chapter-item expanded "><a href="Actuating.html"><strong aria-hidden="true">11.</strong> Actuating Simulated Characters</a></li><li class="chapter-item expanded "><a href="Controlling.html"><strong aria-hidden="true">12.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="Learning.html"><strong aria-hidden="true">13.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="Optimal.html"><strong aria-hidden="true">14.</strong> Optimal Control and Reinforcement Learning</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GAMES105</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <p>P2</p>
+<h1 id="outline"><a class="header" href="#outline">Outline</a></h1>
+<ul>
+<li>Learning-based Character Animation (cont.)
+<ul>
+<li>Motion Models</li>
+<li>Autoregressive models: PFNN</li>
+<li>Generative models</li>
+</ul>
+</li>
+</ul>
+<p>P4</p>
+<h1 id="learning-motion-models"><a class="header" href="#learning-motion-models">Learning Motion Models</a></h1>
+<h2 id="问题的数学建模"><a class="header" href="#问题的数学建模">问题的数学建模</a></h2>
+<p>\(p(x)\): probability that 𝒙 is a natural motion</p>
+<p>由于 \(p(x)\) 无法由计算得出，所以从数据去学。数据即 a set of example motions {\(x_i\)}∼ \(p(x)\) </p>
+<p>P5</p>
+<h3 id="数学模型1"><a class="header" href="#数学模型1">数学模型1</a></h3>
+<p><img src="./assets/06a-01.png" alt="" /></p>
+<blockquote>
+<p>✅ 一个pose可以用每个关节的位置表示，也可以用每个关节的旋转表示。如果用位置约束，最后需要通过IK变成旋转的约束。如果用旋转约束，就难以做到需要约束位置的效果。<br />
+✅ P(X)判断整个序列所有pose的联合分布是否合理。</p>
+</blockquote>
+<p>P7</p>
+<h3 id="数学模型2"><a class="header" href="#数学模型2">数学模型2</a></h3>
+<p>$$
+p(X\mid z)=p(x_1,\dots ,x_T\mid z)
+$$</p>
+<p>$$
+\begin{align*}
+𝑧: &amp; \text{ control parameters} \\
+&amp; \text{ latent variables} \\
+&amp; …… 
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 对动作序列的要求，除了动作合理，还要符合用户期待，用户要求可以是显式的，例如往左走；也可以是隐式的，例如以老人的风格走。\(z\) 代表用户条件。<br />
+✅ P(X|z)判断在条件z下整个序列所有pose的联合分布是否合理。</p>
+</blockquote>
+<p>P8</p>
+<p>$$
+(x_1,\dots ,x_T)=f(z)
+$$</p>
+<p>$$
+\begin{align*}
+𝑧: &amp; \text{ control parameters} \\
+&amp; \text{ latent variables} \\
+&amp; …… 
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 如果概率分布是正确的，基于这个分布采样能得到一个合理的动作，且满足前提条件。</p>
+</blockquote>
+<p>P14</p>
+<h3 id="数学模型3"><a class="header" href="#数学模型3">数学模型3</a></h3>
+<p>$$
+p(X\mid z)=p(x_1,\dots ,x_T\mid z)
+$$</p>
+<p>$$
+=p(x_1)\prod_{t}^{} p(x_t\mid x_{t-1},\dots ,x_1;z)
+$$</p>
+<p>\(^\ast \) The chain rule of conditional probabilities:</p>
+<p>$$
+\begin{align*}
+p(x_1,x_2,x_3) &amp; = p(x_2,x_3 \mid x_1)p(x_1) \\
+&amp; = p(x_3 \mid x_2, x_1)p( x_2 \mid x_1)p(x_1)
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 序列合理 ＝ 已知序列中的前 \(t-1\) 帧时第 \(t\) 帧应当合理。</p>
+</blockquote>
+<p>P15<br />
+采样过程为：</p>
+<p>$$
+x_t=f(x_{t-1},x_{t-2},\dots x_1;z)
+$$</p>
+<p>P17</p>
+<h3 id="数学模型4"><a class="header" href="#数学模型4">数学模型4</a></h3>
+<blockquote>
+<p>✅ 假设动作具有Markov 性（无记忆性） </p>
+</blockquote>
+<p>$$
+x_t=f(x_{t-1};z)
+$$</p>
+<p>Markov Property</p>
+<blockquote>
+<p>✅ \(x_t\) 只受 \(x_{t-1}\) 影响，与 \(t-1\) 之前的动作无关。</p>
+</blockquote>
+<p>P18</p>
+<h3 id="two-perspectives-on-a-motion-sequence"><a class="header" href="#two-perspectives-on-a-motion-sequence">Two Perspectives on a Motion Sequence</a></h3>
+<table><thead><tr><th>数学模型3</th><th>数学模型4</th></tr></thead><tbody>
+<tr><td><img src="./assets/06a-03.png" alt="" /></td><td><img src="./assets/06a-04.png" alt="" /></td></tr>
+<tr><td><img src="./assets/06a-05.png" alt="" /></td><td><img src="./assets/06a-06.png" alt="" /></td></tr>
+<tr><td>✅ 无交互无实时通常用前者</td><td>✅ 游戏里面通常用后者</td></tr>
+<tr><td>✅ 左：直接生成所有动作。</td><td>✅ 右：一帧一帧地生成。</td></tr>
+<tr><td></td><td>✅ 右无法考虑未来，不能根据将要发生的事情调整当前的动作。（自回归）</td></tr>
+</tbody></table>
+<p>P25</p>
+<h2 id="数学模型"><a class="header" href="#数学模型">数学模型</a></h2>
+<p>$$
+x_t=f(x_{t-1})
+$$</p>
+<p><img src="./assets/06a-07.png" alt="" /></p>
+<blockquote>
+<p>✅ 由于只和上一帧相关，二元组 \(（x_{t-1}，x_t）\) 构成了一个数据，希望从里面学到一些信息。<br />
+✅ Neural Network 相关部分跳过。<br />
+✅ 当前先不考虑 \(z\)<br />
+✅ 可以把它当作优化问题来解。</p>
+</blockquote>
+<p>P40</p>
+<h2 id="ambiguity-issue"><a class="header" href="#ambiguity-issue">Ambiguity Issue</a></h2>
+<p>$$
+x_t=f(x_{t-1})
+$$</p>
+<p><img src="./assets/06a-08.png" alt="" /></p>
+<blockquote>
+<p>✅ 但是 \(x_t\) 和 \(x_{t-1}\) 的关系是有歧义性的，最后学到一个平均的 \(x_t\).<br />
+✅ 因为\(x_{t-1}\)与\(x_t\)不是一对一的mapping关系。</p>
+</blockquote>
+<p>P41</p>
+<h2 id="hidden-variables"><a class="header" href="#hidden-variables">Hidden Variables</a></h2>
+<p>$$
+x_t=f(x_{t-1};z)
+$$</p>
+<p><img src="./assets/06a-09.png" alt="" /></p>
+<blockquote>
+<p>✅ 需要加入一个额外的变量，可以来自用户输入或先验信息。关键是怎么找到 \(z\)，使学习比较有效。</p>
+</blockquote>
+<table><thead><tr><th>ID</th><th>Year</th><th>Name</th><th>Note</th><th>Tags</th><th>Link</th></tr></thead><tbody>
+<tr><td>113</td><td>2017</td><td>Phasefunctioned neural networks for character control</td><td>PFNN</td><td></td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/113.html">link</a></td></tr>
+</tbody></table>
+<p>P55</p>
+<h3 id="相关工作"><a class="header" href="#相关工作">相关工作</a></h3>
+<table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td><img src="./assets/06a-21.png" alt="" /></td><td>*SIGGRAPH 2018 <br> ✅ 论文一：除角色姿态，还考虑脚的速度。</td></tr>
+<tr><td><img src="./assets/06a-22.png" alt="" /></td><td>*SIGGRAPH 2020 <br> ✅ 论文二：把两个脚拆开，并考虑手，分别定义相位函数。</td></tr>
+<tr><td><img src="./assets/06a-023.png" alt="" /></td><td>*SIGGRAPH 2022 <br> ✅ 论文三：从数据中自动学到相位函数的组合。</td></tr>
+</tbody></table>
+<p>P57</p>
+<h1 id="generative-models"><a class="header" href="#generative-models">Generative Models</a></h1>
+<p><img src="./assets/06a-24.png" alt="" /></p>
+<blockquote>
+<p>✅ 不学两帧关系，而是直接学概率密度函数。<br />
+✅ 难点：(1) 真实 PDF 可能非常复杂 (2) 从一个 PDF 中采样也很难。<br />
+✅ PDF 的作用是判断动作是不是真的。</p>
+</blockquote>
+<p>P60</p>
+<h2 id="常见套路"><a class="header" href="#常见套路">常见套路</a></h2>
+<table><thead><tr><th></th><th></th><th></th></tr></thead><tbody>
+<tr><td>Generative Models</td><td>✅ 一般生成式模型是这样的形式：从一个简单的 PDF，通过 \(f(z)\)，映射到 \(p(x)\). <br> ✅ 关键是 \(f(z)\) 要学好。</td><td><img src="./assets/06a-025.png" alt="" /></td></tr>
+<tr><td>Variational Autoencoders</td><td>✅ VAE：已知一些真实数据采样，用 Encoder 编码到简单分布上的点，再用Decoder 变回原分布上的点。<br> ✅ control VAE 是 VAE＋控制＋物理仿真</td><td><img src="./assets/06a-25.png" alt="" /></td></tr>
+<tr><td>Generative Adversarial Network</td><td>✅ GAN：无 Encoder，增加一个判别器。 <br> ✅ ASE、AMP 是 GAN 的控制版本。 <br> ✅ RL 不结合物理难以 work，因为难以定义 reward.</td><td><img src="./assets/06a-26.png" alt="" /></td></tr>
+<tr><td>Normalizing Flows</td><td>✅ 标准化流：类似 VAE，使用一个可逆函数。</td><td><img src="./assets/06a-27.png" alt="" /></td></tr>
+<tr><td>Diffusion Models</td><td>✅ 扩散模型：多次编码与解码。  <br> ✅ 一个动作序列相当于隐空间里的一条轨迹。</td><td><img src="./assets/06a-28.png" alt="" /></td></tr>
+</tbody></table>
+<p>P62</p>
+<h2 id="相关工作-1"><a class="header" href="#相关工作-1">相关工作</a></h2>
+<table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td><img src="./assets/06a-29.png" alt="" /></td><td>[Ling et al. 2021 Character Controllers Using Motion <strong>VAEs</strong>]</td></tr>
+<tr><td><img src="./assets/06a-30.png" alt="" /></td><td>[Henter et al. 2020, MoGlow: Probabilistic and Controllable Motion Synthesis Using <strong>Normalising Flows</strong>]<br>✅ 利用 RL 等方法，在 lalent code 上生成轨迹，再把轨迹转到动作空间。</td></tr>
+<tr><td><img src="./assets/06a-31.png" alt="" /></td><td>[Zhang et al. 2022, <strong>arXiv</strong>, MotionDiffuse: Text-Driven Human Motion Generation with <strong>Diffusion Model</strong>]</td></tr>
+<tr><td><img src="./assets/06a-32.png" alt="" /></td><td>[Tevet et al. 2022, <strong>arXiv</strong>, MDM: Human Motion <strong>Diffusion Model</strong>]</td></tr>
+<tr><td></td><td>Ganimator：小样本生成</td></tr>
+</tbody></table>
+<hr />
+<blockquote>
+<p>本文出自CaterpillarStudyGroup，转载请注明出处。</p>
+<p>https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Learning-based.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="Skinning.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Learning-based.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="Skinning.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="theme/pagetoc.js"></script>
+    </body>
+</html>

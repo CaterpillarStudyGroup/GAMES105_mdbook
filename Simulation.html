@@ -1,0 +1,501 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Physics-based Simulation and Articulated Rigid Bodies - GAMES105</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="Forward.html"><strong aria-hidden="true">4.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="Keyframe.html"><strong aria-hidden="true">5.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="Data-driven.html"><strong aria-hidden="true">6.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="Learning-based.html"><strong aria-hidden="true">7.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="cont.html"><strong aria-hidden="true">8.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded "><a href="Skinning.html"><strong aria-hidden="true">9.</strong> Skinning</a></li><li class="chapter-item expanded "><a href="Simulation.html" class="active"><strong aria-hidden="true">10.</strong> Physics-based Simulation and Articulated Rigid Bodies</a></li><li class="chapter-item expanded "><a href="Actuating.html"><strong aria-hidden="true">11.</strong> Actuating Simulated Characters</a></li><li class="chapter-item expanded "><a href="Controlling.html"><strong aria-hidden="true">12.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="Learning.html"><strong aria-hidden="true">13.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="Optimal.html"><strong aria-hidden="true">14.</strong> Optimal Control and Reinforcement Learning</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GAMES105</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <p>P4</p>
+<h1 id="physics-based-character-animation"><a class="header" href="#physics-based-character-animation">Physics-based Character Animation</a></h1>
+<p>[ControlVAE – Yao et al. 2022]</p>
+<blockquote>
+<p>✅ 物理方法的难点：<br />
+✅ (1) 仿真：在计算机中模拟出真实世界的运行方式。<br />
+✅ (2) 控制：生成角色的动作，来做出响应。</p>
+</blockquote>
+<p>P5</p>
+<h1 id="outline"><a class="header" href="#outline">Outline</a></h1>
+<ul>
+<li>Simulation Basis
+<ul>
+<li>Numerical Integration: Euler methods</li>
+</ul>
+</li>
+<li>Equations of Rigid Bodies
+<ul>
+<li>Rigid Body Kinematics</li>
+<li>Newton-Euler equations</li>
+</ul>
+</li>
+<li>Articulated Rigid Bodies
+<ul>
+<li>Joints and constraints</li>
+</ul>
+</li>
+<li>Contact Models
+<ul>
+<li>Penalty-based contact</li>
+<li>Constraint-based contact</li>
+</ul>
+</li>
+</ul>
+<p><a href="https://www.cs.cmu.edu/%7Ebaraff/sigcourse/">https://www.cs.cmu.edu/~baraff/sigcourse/</a></p>
+<blockquote>
+<p>✅ 角色物体动画通常不关心仿真怎么实现。<br />
+✅ 但也可以把仿真当成白盒，用模型的方法来实现。<br />
+✅ 粒子运动模拟的部分跳过。P6-P22<br />
+✅ 弹簧模拟跳过。P23-P27<br />
+✅ 刚体模拟跳过。P28-P56</p>
+</blockquote>
+<p>P57</p>
+<h1 id="kinematics-vs-dynamics"><a class="header" href="#kinematics-vs-dynamics">Kinematics vs. Dynamics</a></h1>
+<p><img src="./assets/08-01.png" alt="" /></p>
+<blockquote>
+<p>✅ 运动学与动力学，主要区别在于有没有考虑角色质量。因为质量代表惯性，有惯性就不能瞬移。<br />
+✅ 动力学基本概念跳过。P58-P89</p>
+</blockquote>
+<p>P91</p>
+<h1 id="articulated-rigid-bodies"><a class="header" href="#articulated-rigid-bodies">Articulated Rigid Bodies</a></h1>
+<h2 id="a-system-with-two-links"><a class="header" href="#a-system-with-two-links">A System with Two Links</a></h2>
+<p><img src="./assets/08-02.png" alt="" /></p>
+<blockquote>
+<p>✅ 两个刚体的场景，如果两个刚体独立，可以以矩阵的方式扩展。<br />
+✅ 物体在力的作用下的物理状态的更新公式．见 GAMES 103．<br />
+✅ 每一行是独立的，联立起来为方程组。</p>
+</blockquote>
+<p>以上公式会简化为：</p>
+<p>$$
+M\dot{v} +C(x,v)=f
+$$</p>
+<blockquote>
+<p>✅ 第二项是关于x和v的函数，x体现在\(\omega\)，v体现在I。</p>
+</blockquote>
+<p>P93</p>
+<blockquote>
+<p>✅ 结果是两个物体会分开。</p>
+</blockquote>
+<p><img src="./assets/08-03.png" alt="" /></p>
+<p>P95</p>
+<h2 id="a-system-with-two-links-and-a-joint"><a class="header" href="#a-system-with-two-links-and-a-joint">A System with Two Links and a Joint</a></h2>
+<p><img src="./assets/08-04.png" alt="" /></p>
+<p>$$
+M\dot{v} +C(x,v)=f+f_J
+$$</p>
+<blockquote>
+<p>✅ 两个物体中间有一个关节，约束两个物体不能分开。<br />
+✅ 通过旋转力\(f_J\)的方法来保证约束，但 \(f_J\) 是未知的。</p>
+</blockquote>
+<p>P97</p>
+<h3 id="constraints简化问题分析"><a class="header" href="#constraints简化问题分析">Constraints简化问题分析</a></h3>
+<h4 id="问题描述"><a class="header" href="#问题描述">问题描述</a></h4>
+<blockquote>
+<p>✅ 假设有一约束：小球必须按轨道行进。</p>
+</blockquote>
+<p><img src="./assets/08-05-1.png" alt="" /></p>
+<h4 id="小球速度分析"><a class="header" href="#小球速度分析">小球速度分析</a></h4>
+<blockquote>
+<p>✅ 根据已知条件，可以进行以下分析：由于每一时刻都满足，对时间求导，导数为零。</p>
+</blockquote>
+<p><img src="./assets/08-05-2.png" alt="" /></p>
+<p>因此得到约束为：如果要求小球按照轨道运行，其速度必须满足以下公式。</p>
+<p>P98 </p>
+<p><img src="./assets/08-5.png" alt="" /></p>
+<h4 id="小球的约束力分析"><a class="header" href="#小球的约束力分析">小球的约束力分析</a></h4>
+<p>P99</p>
+<blockquote>
+<p>✅ 为了让小球满足约束，需给小球一个约束力。 </p>
+</blockquote>
+<p><img src="./assets/08-06.png" alt="" /></p>
+<p>\(^\ast \) Constraint is passive No energy gain or loss!!!</p>
+<p>$$
+f_c\cdot v=0
+$$</p>
+<blockquote>
+<p>✅ 约束力不应产生能量，即力与运动方向垂直。</p>
+</blockquote>
+<p>P100</p>
+<p><img src="./assets/08-07.png" alt="" /></p>
+<blockquote>
+<p>✅ 结合是一页的结论可知：\(f_c\) 与 \(J\) 同方向，但大小未知。<br />
+✅ \(f_c\) 大小以当前状态和外力情况计算而得。</p>
+</blockquote>
+<p>P101</p>
+<h4 id="小球的整体受力分析"><a class="header" href="#小球的整体受力分析">小球的整体受力分析</a></h4>
+<blockquote>
+<p>✅ 对小球做受力分析，受到外力 \(f\) 和约束力 \(f_c\)．<br />
+✅ 假设 \(M，x，v．f\) 已知，求 \(f_c\) ，使得小球沿轨迹移动。</p>
+</blockquote>
+<p><img src="./assets/08-08.png" alt="" /></p>
+<p>$$
+\begin{align*}
+M\dot{v} &amp; =f+J^T\lambda  \\
+Jv&amp;=0
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 公式 1：\(f＝am\)．公式 2：前面推导得出。把两个公式离散化。<br />
+✅ 因为公式 2 只约束了速度没有约束位置。离散化后对原公式只是近似，会有误差，导到小球远离曲线。</p>
+</blockquote>
+<p>$$
+\begin{align*}
+M\frac{v_{n+1}-v_n}{h}  &amp; =f+J^T\lambda  \\
+Jv_{n+1}&amp;=0
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 得出未知数为\(\lambda\)和\(v_{n+1}\)的联立方程组，求解方程组。<br />
+✅ 解方程组不难，但存在小球偏离轨道的问题。</p>
+</blockquote>
+<p>P103</p>
+<blockquote>
+<p>✅ 当物体偏离轨道，要有拉回来的速度。因此公式2改为：</p>
+</blockquote>
+<p>$$
+Jv_{n+1}=\alpha \frac{C-g(x_n)}{h} 
+$$</p>
+<p>Correction of numerical errors<br />
+𝛼: error reduction parameter (ERP)</p>
+<p>P104</p>
+<h4 id="方程组求解"><a class="header" href="#方程组求解">方程组求解</a></h4>
+<p><img src="./assets/08-09.png" alt="" /></p>
+<blockquote>
+<p>✅ 把ERP简写为 \(b\).<br />
+✅ 为了防止矩阵不可逆，增加 \(\beta I\).（常见技巧）<br />
+✅ 解 \(\lambda\) 需要先求逆。</p>
+</blockquote>
+<p>P105</p>
+<h3 id="joint-constraint"><a class="header" href="#joint-constraint">Joint Constraint</a></h3>
+<h4 id="约束方程"><a class="header" href="#约束方程">约束方程</a></h4>
+<blockquote>
+<p>✅ 前面是约束应用的简单例子，真正的问题是如何把约束应用到两个物体的连接约束上。</p>
+</blockquote>
+<p><img src="./assets/08-10.png" alt="" /></p>
+<blockquote>
+<p>✅ 因此设计约束：从 \(x_1\) 求 \(x_J\)位置 和从 \(x_2\) 求 \(x_J\)位置所得结果应该相同。</p>
+</blockquote>
+<p>$$
+x_1+R_1r_1=x_J=x_2+R_2r_2
+$$</p>
+<p>对\(dt\)求导：</p>
+<p>$$
+v_1+\omega _1\times r_1=v_2+\omega _2\times r_2
+$$</p>
+<p>P106</p>
+<blockquote>
+<p>✅ 整理得矩阵形式，得：</p>
+</blockquote>
+<p>$$
+\begin{bmatrix}
+I_3 &amp; -[r_1] _ \times  &amp; -I_3 &amp; [r_2] _ \times 
+\end{bmatrix}\begin{bmatrix}
+v_1 \\
+w_1 \\
+v_2 \\
+w_2
+\end{bmatrix}=0
+$$</p>
+<blockquote>
+<p>✅ 矩阵乘法第一项为 \(J\)，第二项为 \(v\). 进一步简化为：</p>
+</blockquote>
+<p>$$
+Jv=0
+$$</p>
+<p>P107</p>
+<h4 id="运动方程约束方程"><a class="header" href="#运动方程约束方程">运动方程+约束方程</a></h4>
+<p>$$
+\begin{align*}
+M\dot{v} +C(x,v)&amp; =f+J^T\lambda  \\
+Jv&amp;=0
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 公式 1：运动方程。公式 2：约束方程。<br />
+✅ 运动方程与约束方程联立。</p>
+</blockquote>
+<p>P109</p>
+<h4 id="different-types-of-joints"><a class="header" href="#different-types-of-joints">Different Types of Joints</a></h4>
+<blockquote>
+<p>✅ 前面描述的是 Ball Joint的约束。</p>
+</blockquote>
+<p><img src="./assets/08-11.png" alt="" /></p>
+<blockquote>
+<p>✅ Hinge 约束：除了位置还有角速度约束，在某个轴上的角速度应当一致。Universal 类似。</p>
+</blockquote>
+<p>P110</p>
+<h2 id="a-system-with-many-links-joints"><a class="header" href="#a-system-with-many-links-joints">A System with Many Links Joints</a></h2>
+<p><img src="./assets/08-12.png" alt="" /></p>
+<blockquote>
+<p>✅ 分段多刚体在公式上没有本质区别，只是矩阵更大一点。</p>
+</blockquote>
+<p>P111</p>
+<h1 id="contacts"><a class="header" href="#contacts">Contacts</a></h1>
+<blockquote>
+<p>✅ 如何处理与地面的接触，让人站在地面上。</p>
+</blockquote>
+<p><img src="./assets/08-13.png" alt="" /></p>
+<blockquote>
+<p>✅ 要解决的问题：(1) 地面接触检测 (2) 如何对碰撞点施加力，使物体出来。</p>
+</blockquote>
+<p>P114</p>
+<h2 id="penalty-based-contact-model"><a class="header" href="#penalty-based-contact-model">Penalty-based Contact Model</a></h2>
+<h3 id="baseline"><a class="header" href="#baseline">Baseline</a></h3>
+<p><img src="./assets/08-14.png" alt="" /></p>
+<p>$$
+f_n=-k_pd-k_dv_{c,\perp }
+$$</p>
+<blockquote>
+<p>✅ 类似弹簧形式，陷入越深，力越大。<br />
+✅ 第二项：为了防止落地弹飞，增加阻尼项。<br />
+✅ 效果：会有一些陷入，但不会陷入太多</p>
+</blockquote>
+<p>P115</p>
+<h3 id="考虑摩擦力"><a class="header" href="#考虑摩擦力">考虑摩擦力</a></h3>
+<p><img src="./assets/08-15.png" alt="" /></p>
+<blockquote>
+<p>✅ 受力分析：支持力，动摩擦力。<br />
+✅ 动摩擦力，大小＝支持力 x 摩擦系数，方向与运动方向相反</p>
+</blockquote>
+<p>$$
+\begin{align*}
+f_t&amp;=-\mu f_n\frac{v_{c,\parallel }}{||v_{c,\parallel }||} 
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 一般不模拟静摩擦力</p>
+</blockquote>
+<p>P116</p>
+<h3 id="存在的问题"><a class="header" href="#存在的问题">存在的问题</a></h3>
+<blockquote>
+<p>✅ 存在的问题：\(K_p\) 必须很大，否则脚陷地明显，步长必须非常小，否则不稳定。</p>
+</blockquote>
+<p>P118</p>
+<h2 id="contact-as-a-constraint"><a class="header" href="#contact-as-a-constraint">Contact as a Constraint</a></h2>
+<blockquote>
+<p>✅ 另一种方法，把接触建模为约束。</p>
+</blockquote>
+<h3 id="接触点状态分析"><a class="header" href="#接触点状态分析">接触点状态分析</a></h3>
+<p><img src="./assets/08-17.png" alt="" /></p>
+<p>$$
+x_c  =x+r_c \quad\quad\quad\quad\quad\quad
+$$</p>
+<p>$$
+v_c  =v+\omega \times r_c=J_c \begin{bmatrix}
+v\\
+w
+\end{bmatrix}
+$$</p>
+<p>$$
+v_{c,\perp } =v+\omega \times r_c=J_{c,\perp  }\begin{bmatrix}
+v \\
+\omega 
+\end{bmatrix}
+$$</p>
+<p>P120</p>
+<h3 id="接触点约束分析"><a class="header" href="#接触点约束分析">接触点约束分析</a></h3>
+<p><img src="./assets/08-19.png" alt="" /></p>
+<p>$$
+v_c\perp \lambda =0
+$$</p>
+<blockquote>
+<p>✅ 约束 1：点在竖直方向的速度必须大于 0，即只能向上移动。<br />
+✅ 约束 2：力的大小也大于 0．只能推，不能拉。<br />
+✅ 约束 3：力和速度只能有一个不为零，否则会做功。合在一起称为线性互补方程，是通常碰撞建模方式。<br />
+✅ 这个方程比较难解，例如 ODE</p>
+</blockquote>
+<p>这类问题被称为：(Mixed) Linear Complementary Problem (LCP)<br />
+解LCP的方法有：<br />
+e.g. Lemke's algorithm – a simplex algorithm</p>
+<p>P122</p>
+<h3 id="考虑摩擦力的约束问题"><a class="header" href="#考虑摩擦力的约束问题">考虑摩擦力的约束问题</a></h3>
+<p>How to deal the friction?</p>
+<blockquote>
+<p>🔎 Fast contact force computation for nonpenetrating rigid bodies.<br />
+David Baraff. SIGGRAPH ’94<br />
+✅ 快速实现静摩擦约束的建模。</p>
+</blockquote>
+<p>P123</p>
+<h1 id="simulation-of-a-rigid-body-system"><a class="header" href="#simulation-of-a-rigid-body-system">Simulation of a Rigid Body System</a></h1>
+<p><img src="./assets/08-18.png" alt="" /></p>
+<blockquote>
+<p>✅ 把人简化为分段刚体。整体过程为：<br />
+✅ (1) 黄：计算当前状态。<br />
+✅ (2) 绿：计算约束，求解，解出下一时刻的速度。<br />
+✅ (3) 蓝：更新下一时刻的量（积分）。<br />
+✅ 缺少部分：主动力 \(f\) 推动角色产生运动。</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Skinning.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="Actuating.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Skinning.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="Actuating.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="theme/pagetoc.js"></script>
+    </body>
+</html>

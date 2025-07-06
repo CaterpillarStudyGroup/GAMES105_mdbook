@@ -1,0 +1,407 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Data-driven Character Animation - GAMES105</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="Forward.html"><strong aria-hidden="true">4.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="Keyframe.html"><strong aria-hidden="true">5.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="Data-driven.html" class="active"><strong aria-hidden="true">6.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="Learning-based.html"><strong aria-hidden="true">7.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="cont.html"><strong aria-hidden="true">8.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded "><a href="Skinning.html"><strong aria-hidden="true">9.</strong> Skinning</a></li><li class="chapter-item expanded "><a href="Simulation.html"><strong aria-hidden="true">10.</strong> Physics-based Simulation and Articulated Rigid Bodies</a></li><li class="chapter-item expanded "><a href="Actuating.html"><strong aria-hidden="true">11.</strong> Actuating Simulated Characters</a></li><li class="chapter-item expanded "><a href="Controlling.html"><strong aria-hidden="true">12.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="Learning.html"><strong aria-hidden="true">13.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="Optimal.html"><strong aria-hidden="true">14.</strong> Optimal Control and Reinforcement Learning</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GAMES105</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <p>P2</p>
+<h1 id="outline"><a class="header" href="#outline">Outline</a></h1>
+<ul>
+<li>
+<p>Motion Capture</p>
+<ul>
+<li>History and modern mocap systems</li>
+</ul>
+</li>
+<li>
+<p>Motion Synthesis</p>
+<ul>
+<li>Motion retargeting</li>
+<li>Motion transition</li>
+<li>Motion graph</li>
+</ul>
+</li>
+</ul>
+<p>P3</p>
+<h1 id="motion-capture"><a class="header" href="#motion-capture">Motion Capture</a></h1>
+<p>How to get motion data?</p>
+<blockquote>
+<p>✅ 动画师制作，光学动捕、视觉动捕，外骨骼动捕，惯性传感器，动作估计。</p>
+</blockquote>
+<p>P29</p>
+<h1 id="motion-synthesis"><a class="header" href="#motion-synthesis">Motion Synthesis</a></h1>
+<p>How to use motion data?</p>
+<p>P31</p>
+<p><img src="./assets/05-02.png" alt="" /></p>
+<p>P32</p>
+<h2 id="motion-retargeting"><a class="header" href="#motion-retargeting">Motion Retargeting</a></h2>
+<h3 id="retargeting要解决的问题"><a class="header" href="#retargeting要解决的问题">Retargeting要解决的问题</a></h3>
+<ul>
+<li>Retarget a motion to drive a character with
+<ul>
+<li>Different number of bones</li>
+<li>Different bone names</li>
+<li>Different reference pose</li>
+<li>Different bone ratios</li>
+<li>Different skeletal structure</li>
+<li>……</li>
+</ul>
+</li>
+</ul>
+<p>P34</p>
+<h3 id="a-possible-retargeting-pipeline"><a class="header" href="#a-possible-retargeting-pipeline">A possible retargeting pipeline</a></h3>
+<ul>
+<li>Map bone names</li>
+<li>Scale translations</li>
+<li>Copy or retarget joint rotations to fix reference pose</li>
+<li>Postprocessing with IK
+<ul>
+<li>Foot-skating</li>
+<li>Self penetration</li>
+</ul>
+</li>
+<li>……</li>
+</ul>
+<p><img src="./assets/05-03.png" alt="" /></p>
+<p><img src="./assets/05-04.png" alt="" /></p>
+<p>P38</p>
+<h2 id="motion-transition"><a class="header" href="#motion-transition">Motion Transition</a></h2>
+<blockquote>
+<p>✅ 有一段走路数据和跑步数据，如何实现人由走到跑的过程。</p>
+</blockquote>
+<h3 id="方法一"><a class="header" href="#方法一">方法一</a></h3>
+<table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td><img src="./assets/05-05.png" alt="" /></td><td>✅（1）找到两个 motion 中相似的一帧。</td></tr>
+<tr><td><img src="./assets/05-06.png" alt="" /></td><td>✅（2）两帧在时间上对齐</td></tr>
+<tr><td><img src="./assets/05-07.png" alt="" /></td><td>✅（3）放到这一帧时动作切换。</td></tr>
+</tbody></table>
+<blockquote>
+<p>✅ 缺点：会有明显间断。</p>
+</blockquote>
+<h3 id="方法二"><a class="header" href="#方法二">方法二</a></h3>
+<table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td><img src="./assets/05-08.png" alt="" /></td><td>✅ 改进：考虑前后帧，并做插值。</td></tr>
+<tr><td><img src="./assets/05-09.png" alt="" /></td><td></td></tr>
+</tbody></table>
+<p>P46</p>
+<p>$$
+p(t)=(1-\phi (t))p_0(i)+\phi (t)p_1(i)
+$$</p>
+<blockquote>
+<p>✅ 不一定非要线性插值，定义 \(\phi (t)\)，或其它混合策略<br />
+✅ 可能存在的问题：（1）突然转向（2）滑步<br />
+✅ 当走和跑分别是朝不同方法时会出现以上问题。<br />
+✅ 解决方法：插值之前动作对齐</p>
+</blockquote>
+<p>P55</p>
+<h3 id="facing-frame"><a class="header" href="#facing-frame">“Facing Frame”</a></h3>
+<h4 id="定义坐标系"><a class="header" href="#定义坐标系">定义坐标系</a></h4>
+<p>每个角色有自己的角色坐标系，定义为：<br />
+A special coordinate system that moves horizontally with the character with one axis pointing to the “facing direction” of the character</p>
+<blockquote>
+<p>✅ 原点：Hip 在地面上的投影<br />
+✅ 坐标轴：参考姿态下 \(y\) up \(z\) forward.且旋转和平移都受到限制。</p>
+</blockquote>
+<p><img src="./assets/05-10.png" alt="" /></p>
+<p>$$
+\begin{align*}
+R &amp; = \theta e_y \\
+t &amp; = (t_x,0,t_z)
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 也可以为不同的的场景定义不同的 \(R\) ，例如上下半身的 \(y\) 轴旋转方向不同。</p>
+</blockquote>
+<ul>
+<li>Possible definitions of \(R\)
+<ul>
+<li>\(R\) is the <strong>y-rotation</strong> that aligns the z-axis of the global frame to the heading direction</li>
+<li>\(R\) is the <strong>y-rotation</strong> that aligns x-axis of the global frame to the average direction of the vectors between shoulders and hips</li>
+<li>Decomposition root rotation as \(R_0=R_yR_{xz}\)</li>
+</ul>
+</li>
+</ul>
+<p>P58</p>
+<h4 id="动作分解"><a class="header" href="#动作分解">动作分解</a></h4>
+<p><img src="./assets/05-11-1.png" alt="" /></p>
+<blockquote>
+<p>✅ 把 \(R\) 分解为 \(R_y\) 和 \(R_{xz}\)，求 \(R_y\)<br />
+✅ \({R}' \) 能够把 local y-axis 转到 global y-axis 的矩阵。</p>
+</blockquote>
+<p>P62</p>
+<h4 id="动作合成"><a class="header" href="#动作合成">动作合成</a></h4>
+<ul>
+<li>How to compute this transformation?</li>
+</ul>
+<p><img src="./assets/05-12.png" alt="" /></p>
+<blockquote>
+<p>✅ 两个坐标系的转换。</p>
+</blockquote>
+<p>P68</p>
+<h2 id="path-fitting"><a class="header" href="#path-fitting">Path Fitting</a></h2>
+<p><img src="./assets/05-13.png" alt="" /> </p>
+<blockquote>
+<p>👆 让角色跟着轨迹移动。</p>
+</blockquote>
+<p>P69</p>
+<h2 id="motion-composition"><a class="header" href="#motion-composition">Motion Composition</a></h2>
+<p>Computationally generating motions according to<br />
+- User control<br />
+- Objects in the same environment<br />
+- Movements of other characters<br />
+- ……</p>
+<p>P70</p>
+<h3 id="motion-graphs"><a class="header" href="#motion-graphs">Motion Graphs</a></h3>
+<p><img src="./assets/05-14.png" alt="" /><br />
+<img src="./assets/05-15.png" alt="" /></p>
+<blockquote>
+<p>👆 动作图的本质是状态机。</p>
+</blockquote>
+<p>P72</p>
+<h4 id="segment-motion-data"><a class="header" href="#segment-motion-data">Segment Motion Data</a></h4>
+<p><img src="./assets/05-16.png" alt="" /> </p>
+<blockquote>
+<p>✅ 一段动捕数据，如何做分割，如何确定哪些点可以连到一起。<br />
+✅ Distance 可以有多种定义方式。<br />
+✅ 根据图确定分段与连接。</p>
+</blockquote>
+<p>P73</p>
+<h4 id="建立动作转移关系"><a class="header" href="#建立动作转移关系">建立动作转移关系</a></h4>
+<p><img src="./assets/05-17.png" alt="" /></p>
+<ul>
+<li>Distance map
+<ul>
+<li>Each pixel represents the difference between a pair of poses</li>
+<li>Local minima are potential transition point</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>🔎 <strong>Motion graphs</strong>
+Lucas Kovar, Michael Gleicher, and Frédéric Pighin. 2002.<br />
+<em>ACM Trans. Graph</em>. 21, 3 (July 2002),</p>
+</blockquote>
+<p>P74</p>
+<h4 id="motion-synthesis-1"><a class="header" href="#motion-synthesis-1">Motion Synthesis</a></h4>
+<ul>
+<li>State-machines
+<ul>
+<li>Nodes represent motion clips</li>
+<li>Edges represent potential transitions</li>
+<li>Transitions are triggered when necessary
+<ul>
+<li>User input</li>
+<li>Clip end</li>
+</ul>
+</li>
+<li>Check immediate connections for the next clip
+<ul>
+<li>May need deeper search</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="./assets/05-18.png" alt="" /> </p>
+<p>P75</p>
+<h4 id="interactive-animation-pipeline"><a class="header" href="#interactive-animation-pipeline">Interactive Animation Pipeline</a></h4>
+<p><img src="./assets/05-19.png" alt="" /></p>
+<blockquote>
+<p>✅ 优点：根据路线从动作库中选择最合适的动作，而不是直接使用路线，因此减少滑步。<br />
+✅ 缺点：(1) 动作多时动作复杂。<br />
+(2) 一个片断播完再切动作，响应较慢。<br />
+(3) 需要提前规划好动捕动作。<br />
+✅ 如果数据集里没有想要的姿态，可以结合 IK.</p>
+</blockquote>
+<p>P78</p>
+<h3 id="motion-matching"><a class="header" href="#motion-matching">Motion Matching?</a></h3>
+<ul>
+<li>Clip → Pose</li>
+<li>Short clip → “Raw” and long motion data</li>
+</ul>
+<blockquote>
+<p>✅ 切换粒度更细：1帧 or 0.1 s．<br />
+✅ 灵活性提升，可控性欠缺。</p>
+</blockquote>
+<hr />
+<blockquote>
+<p>本文出自CaterpillarStudyGroup，转载请注明出处。</p>
+<p>https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Keyframe.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="Learning-based.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Keyframe.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="Learning-based.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="theme/pagetoc.js"></script>
+    </body>
+</html>

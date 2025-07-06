@@ -1,0 +1,777 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Character Kinematics:Forward and Inverse Kinematics - GAMES105</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="Forward.html" class="active"><strong aria-hidden="true">4.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="Keyframe.html"><strong aria-hidden="true">5.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="Data-driven.html"><strong aria-hidden="true">6.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="Learning-based.html"><strong aria-hidden="true">7.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="cont.html"><strong aria-hidden="true">8.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded "><a href="Skinning.html"><strong aria-hidden="true">9.</strong> Skinning</a></li><li class="chapter-item expanded "><a href="Simulation.html"><strong aria-hidden="true">10.</strong> Physics-based Simulation and Articulated Rigid Bodies</a></li><li class="chapter-item expanded "><a href="Actuating.html"><strong aria-hidden="true">11.</strong> Actuating Simulated Characters</a></li><li class="chapter-item expanded "><a href="Controlling.html"><strong aria-hidden="true">12.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="Learning.html"><strong aria-hidden="true">13.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="Optimal.html"><strong aria-hidden="true">14.</strong> Optimal Control and Reinforcement Learning</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GAMES105</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <p>P3</p>
+<h1 id="outline"><a class="header" href="#outline">Outline</a></h1>
+<ul>
+<li>
+<p>Character Kinematics</p>
+<ul>
+<li>Skeleton and forward Kinematics</li>
+</ul>
+</li>
+<li>
+<p>Inverse Kinematics</p>
+<ul>
+<li>IK as a optimization problem</li>
+<li>Optimization approaches
+<ul>
+<li>Cyclic Coordinate Descent (CCD)</li>
+<li>Jacobian and gradient descent method</li>
+<li>Jacobian inverse method</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>P4</p>
+<h1 id="character-kinematics"><a class="header" href="#character-kinematics">Character Kinematics</a></h1>
+<p>the study of the motion of bodies <strong>without reference to mass or force</strong></p>
+<p>P8</p>
+<h2 id="joint-bone-skeleton"><a class="header" href="#joint-bone-skeleton">joint, bone, skeleton</a></h2>
+<p><img src="./assets/03-01.png" alt="" /><br />
+<img src="./assets/03-02.png" alt="" /></p>
+<blockquote>
+<p>✅ 关注关节的位置和旋转</p>
+</blockquote>
+<p>P13</p>
+<h2 id="kinematics-of-a-chain"><a class="header" href="#kinematics-of-a-chain">Kinematics of a Chain</a></h2>
+<h3 id="问题描述"><a class="header" href="#问题描述">问题描述</a></h3>
+<p>要使手臂摆成指定的动作，每个关节在各自坐标系下的旋转是多少？</p>
+<p><img src="./assets/03-03-1.png" alt="" /></p>
+<p>求\(Q_0, Q_1, Q_2, Q_3, Q_4\)</p>
+<p>P14</p>
+<h3 id="初始pose"><a class="header" href="#初始pose">初始pose</a></h3>
+<p><img src="./assets/03-03.png" alt="" /></p>
+<p>$$
+Q_0=Q_1=Q_2=Q_3=Q_4=I
+$$</p>
+<blockquote>
+<p>✅ 这一个定义了5个关节的手臂。在每个关节上绑上一个坐标系。 </p>
+</blockquote>
+<p>P15</p>
+<h3 id="旋转关节4"><a class="header" href="#旋转关节4">旋转关节4</a></h3>
+<p>把关节4旋转R4以后</p>
+<p><img src="./assets/03-04.png" alt="" /></p>
+<blockquote>
+<p>✅ \(Q\)：在世界坐标系下的朝向<br />
+✅ \(R\)：在局部坐标系下的旋转</p>
+</blockquote>
+<p>$$
+\begin{matrix}
+Q_0=I\quad\\<br />
+Q_1=I\quad\\<br />
+Q_2=I\quad\\<br />
+Q_3=I\quad\\<br />
+Q_4={\color{Red}{R_4}}
+\end{matrix}
+$$</p>
+<p>P16</p>
+<h3 id="旋转关节3"><a class="header" href="#旋转关节3">旋转关节3</a></h3>
+<p><img src="./assets/03-05.png" alt="" /> </p>
+<p>把关节3旋转R3以后，Q3和Q4会同时受到影响</p>
+<p>$$
+\begin{matrix}
+Q_0=I\quad\quad\\<br />
+Q_1=I\quad\quad\\<br />
+Q_2=I\quad\quad\\<br />
+Q_3={\color{Red}{R_3}}\quad\\<br />
+Q_4={\color{Red}{R_3}}R_4
+\end{matrix}
+$$</p>
+<p>P17</p>
+<h3 id="依次旋转关节2-1-0"><a class="header" href="#依次旋转关节2-1-0">依次旋转关节2， 1， 0</a></h3>
+<p><img src="./assets/03-08.png" alt="" /></p>
+<p>$$
+\begin{matrix}
+Q_0={\color{Red}{R_0}}\quad \quad\quad\quad \\
+Q_1={\color{Red}{R_0}}R_1 \quad\quad\quad \\
+Q_3={\color{Red}{R_0}}R_1R_2R_3\quad \\
+Q_4={\color{Red}{R_0}}R_1R_2R_3R_4
+\end{matrix}
+$$</p>
+<p>P20</p>
+<h3 id="简化公式用递推的形式描述"><a class="header" href="#简化公式用递推的形式描述">简化公式，用递推的形式描述</a></h3>
+<p><img src="./assets/03-09-1.png" alt="" /></p>
+<p>P21</p>
+<p>From rotation(local) to orientation(global)</p>
+<p>$$
+Q_i = Q_{i-1}R_i
+$$</p>
+<p>From orientation(global) to rotation(local)</p>
+<p>$$
+R_i = Q^T_{i-1}Q_i
+$$</p>
+<blockquote>
+<p>✅ 这些 \(Q\) 都是全局旋转，\(R\) 是局部旋转。</p>
+</blockquote>
+<h2 id="kinematics-with-position"><a class="header" href="#kinematics-with-position">Kinematics with position</a></h2>
+<p>P23</p>
+<h3 id="初始状态"><a class="header" href="#初始状态">初始状态</a></h3>
+<p><img src="./assets/03-11.png" alt="" /></p>
+<blockquote>
+<p>✅ \( 𝒍 \)：子关节位置在父坐标系下的坐标。</p>
+</blockquote>
+<p>P31</p>
+<h3 id="positon-with-pose"><a class="header" href="#positon-with-pose">positon with pose</a></h3>
+<p><img src="./assets/03-011.png" alt="" /></p>
+<blockquote>
+<p>✅ \(p\) 是全局位置，\( 𝒍 \) 是局部偏移。</p>
+</blockquote>
+<p>P37</p>
+<h2 id="forward-kinematics-of-a-chain-summary"><a class="header" href="#forward-kinematics-of-a-chain-summary">Forward Kinematics of a Chain: Summary</a></h2>
+<h3 id="position"><a class="header" href="#position">position</a></h3>
+<p>Given the rotations of all joints \(R_i\), find the coordinates of \(x_0\) in the global frame \(x\):</p>
+<p><img src="./assets/03-14.png" alt="" /></p>
+<blockquote>
+<p>✅ \(x_0\) 是 \(R_4\) 坐标系下的点，求它在某个父坐标系下的位置。<br />
+✅ \(p\)：关节在全局坐标系下的位置<br />
+✅ 第1步：根据 \(R_i\) 和 \( 𝒍 _i\) 求出 \(Q_i\) 和 \(P_i\)<br />
+✅ 第2步：\(E\) 可以是任意父结点，公式都适用</p>
+</blockquote>
+<p>P38</p>
+<p><img src="./assets/03-15.png" alt="" /></p>
+<blockquote>
+<p>✅ 是上一页的另一种写法，不需提前算出中间变量。</p>
+</blockquote>
+<p>P39</p>
+<h3 id="rotation"><a class="header" href="#rotation">rotation</a></h3>
+<p>Given the rotations of all joints \(R_i\), find the coordinates of \(x_0\) relative to the local frame of \(Q_k\):</p>
+<p><img src="./assets/03-16.png" alt="" /></p>
+<blockquote>
+<p>✅ 已知全局坐标系下的坐标，求 \(Q_k\) 下的坐标。</p>
+</blockquote>
+<p>P40</p>
+<p><img src="./assets/03-17.png" alt="" /></p>
+<blockquote>
+<p>✅ 对应上一页的另一种写法</p>
+</blockquote>
+<p>P41</p>
+<h2 id="kinematics-of-a-character"><a class="header" href="#kinematics-of-a-character">Kinematics of a Character</a></h2>
+<h3 id="骨骼的参数化表示"><a class="header" href="#骨骼的参数化表示">骨骼的参数化表示</a></h3>
+<p><img src="./assets/03-18.png" alt="" /></p>
+<blockquote>
+<p>✅ 把角色建模成多条关节链。</p>
+</blockquote>
+<p>P43</p>
+<p><img src="./assets/03-18-1.png" alt="" /></p>
+<blockquote>
+<p>✅ 以不同关节为 root，同样旋转会得到不同效果。</p>
+</blockquote>
+<p>P45</p>
+<h3 id="types-of-joints"><a class="header" href="#types-of-joints">Types of Joints</a></h3>
+<p><img src="./assets/03-20.png" alt="" /></p>
+<p>P50</p>
+<table><thead><tr><th></th><th></th><th></th></tr></thead><tbody>
+<tr><td><img src="./assets/03-025-2.png" alt="" /></td><td><img src="./assets/03-023.png" alt="" /></td><td>knee, elbow <br>  \({\color{Red}{1 \text{DoF}}}\)  <br> \(\theta_{\min }\le \theta\le  \theta_{\max } \) <br> hinge joint <br>  revolute joint</td></tr>
+<tr><td><img src="./assets/03-025-1.png" alt="" /></td><td><img src="./assets/03-024.png" alt="" /></td><td>hip, shoulder <br>  \({\color{Red}{3 \text{DoF}}}\) <br> \(\theta_{\min }\preceq  \theta \preceq  \theta_{\max } \) <br> ball-and-socket joint</td></tr>
+<tr><td></td><td><img src="./assets/03-25.png" alt="" /></td><td>手腕。其实手腕不能自转。<br>2 Dof</td></tr>
+</tbody></table>
+<blockquote>
+<p>✅ 关节的自由度最多为3，因为不能自主移动。Hips 除外。
+✅ 自由度：一个物理系统，需要多少参数可以唯一准确地描述它的状态。<br />
+✅ 6 DOF＝3 平移 ＋ 3 旋转。</p>
+</blockquote>
+<h3 id="姿态的参数化表示-pose-parameters"><a class="header" href="#姿态的参数化表示-pose-parameters">姿态的参数化表示 Pose Parameters</a></h3>
+<p>P55</p>
+<p>$$
+(t_0,R_0,R_1,R_2\dots \dots ) 
+$$</p>
+<p>$$
+\text{root } \mid \text{ internal joints}
+$$</p>
+<p>joints are typically in the order that every joint precedes its offspring</p>
+<p>for \(i\) in joint_list:</p>
+<p>$$
+\begin{align*}
+p_i= &amp; i^,\text{ s parent joint} \\
+Q_i=&amp; Q_{pi}R_i \\
+x_i= &amp; x_{pi} + Q_{pi}l_i
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 一个动作的参数化表示：<br />
+✅ 全局位置＋root 朝向＋各关节旋转<br />
+✅ 通常要求，关节顺序为父在前子在后，这样只须遍历一遍就能完成 FK.</p>
+</blockquote>
+<blockquote>
+<p>❓ Q2: how should we allow stretchable bones?<br />
+✅ 答：增加参数，3 Dof 增加为 6 Dof.</p>
+</blockquote>
+<p>P58</p>
+<h3 id="example-motion-data-in-a-file"><a class="header" href="#example-motion-data-in-a-file">Example: motion data in a file</a></h3>
+<p>BVH files</p>
+<ul>
+<li>HIERARCHY: defining <strong>T-pose of</strong> the character</li>
+<li>MOTION: root position and <strong>Euler angles</strong> of each joints</li>
+</ul>
+<p>See: <a href="https://research.cs.wisc.edu/graphics/Courses/cs-838-1999/Jeff/BVH.html">https://research.cs.wisc.edu/graphics/Courses/cs-838-1999/Jeff/BVH.html</a></p>
+<p><img src="./assets/03-30-1.png" alt="" /></p>
+<p><img src="./assets/03-31-1.png" alt="" /></p>
+<p>P59</p>
+<h1 id="inverse-kinematics"><a class="header" href="#inverse-kinematics">Inverse Kinematics</a></h1>
+<blockquote>
+<p>🔎 A. Aristidou, J. Lasenby, Y. Chrysanthou, and A. Shamir. 2018.<br />
+<strong>Inverse Kinematics Techniques in Computer Graphics: A Survey.</strong><br />
+Computer Graphics Forum</p>
+</blockquote>
+<p>P61</p>
+<h2 id="forward-and-inverse-problems"><a class="header" href="#forward-and-inverse-problems">Forward and Inverse Problems</a></h2>
+<p>For a system that can be described by a set of <strong>parameters</strong> \(\theta \), and a <strong>property</strong> 𝒙 of the system given by</p>
+<p>$$
+x=f(\theta )
+$$</p>
+<p><strong>Forward problem</strong>:</p>
+<ul>
+<li>
+<p>Given \(\theta \), we need to compute \(x \)</p>
+</li>
+<li>
+<p>Easy to compute since \(f\) is known, the result is unique</p>
+</li>
+<li>
+<p>DoF of \( \theta \) is often much larger than that of \(x \). We cannot easily tune \(\theta \) to achieve a specific value of \(x\). </p>
+</li>
+</ul>
+<p><strong>Inverse problem</strong>:</p>
+<ul>
+<li>
+<p>Given \(x \), we need to find a set of valid parameters \(\theta \) such that\(x=f(\theta) \)</p>
+</li>
+<li>
+<p>Often need to solve a difficult <strong>nonlinear</strong> equation, which can have <strong>multiple</strong> solutions</p>
+</li>
+<li>
+<p>\(x\) is typically meaningful and can be set in intuitive ways</p>
+</li>
+</ul>
+<p>P62</p>
+<h2 id="inverse-kinematics问题描述"><a class="header" href="#inverse-kinematics问题描述">Inverse Kinematics问题描述</a></h2>
+<p><img src="./assets/03-32.png" alt="" /></p>
+<p>Given the position of the end-effector \(x\), Compute the joint rotations \(R_i\)</p>
+<p>P64</p>
+<blockquote>
+<p>✅ 大部分情况下IK问题是多解问题</p>
+</blockquote>
+<p><img src="./assets/03-33.png" alt="" /></p>
+<p>P68</p>
+<h2 id="two-joint-ik"><a class="header" href="#two-joint-ik">two-joint IK</a></h2>
+<h3 id="step-1-rotate-joint-1-such-that"><a class="header" href="#step-1-rotate-joint-1-such-that">Step 1: Rotate joint 1 such that</a></h3>
+<p><img src="./assets/03-35.png" alt="" /></p>
+<p>$$
+||l_{ox}||=||l_{02}||
+$$</p>
+<blockquote>
+<p>✅ 使用余弦公式</p>
+</blockquote>
+<h3 id="step-2-rotate-joint-0-such-that"><a class="header" href="#step-2-rotate-joint-0-such-that">Step 2: Rotate joint 0 such that</a></h3>
+<p><img src="./assets/03-36.png" alt="" /></p>
+<p>$$
+l_{ox}=l_{02}
+$$</p>
+<blockquote>
+<p>✅ 叉乘得到旋轴，点乘得到旋转角。</p>
+</blockquote>
+<h3 id="step-3-rotate-joint-0-around-l_ox-if-necessary"><a class="header" href="#step-3-rotate-joint-0-around-l_ox-if-necessary">Step 3: Rotate joint 0 around \(l_{ox}\) if necessary</a></h3>
+<p><img src="./assets/03-37.png" alt="" /></p>
+<h2 id="multi-joint-ik"><a class="header" href="#multi-joint-ik">Multi Joint IK</a></h2>
+<p>P72</p>
+<p>机械臂场景，关节有多个，指定末端结点的位置和朝向</p>
+<p>$$
+x=f(\theta ) \\
+Q=Q(\theta )
+$$</p>
+<p><img src="./assets/03-38.png" alt="" /></p>
+<blockquote>
+<p>✅ 控制末端点的朝向比较简单，但控制末端点的位置比较难，因此重点考虑如何控制末端点的位置</p>
+</blockquote>
+<p>P74</p>
+<h3 id="ik-as-an-optimization-problem"><a class="header" href="#ik-as-an-optimization-problem">IK as an Optimization Problem</a></h3>
+<p><img src="./assets/03-39-1.png" alt="" /></p>
+<p>P75</p>
+<p>Find \(\theta \)  to optimize</p>
+<p>$$
+\min_{\theta } \frac{1}{2} ||f(\theta )-\tilde{x} ||^2_2
+$$</p>
+<blockquote>
+<p>✅ 用迭代的方法，从当前 motion 出发，优化出目标 motion.</p>
+</blockquote>
+<p>P88</p>
+<h3 id="ccdik"><a class="header" href="#ccdik">CCDIK</a></h3>
+<h4 id="cyclic-coordinate-descent-ccd"><a class="header" href="#cyclic-coordinate-descent-ccd">Cyclic Coordinate Descent (CCD)</a></h4>
+<p>Update parameters along each axis of the coordinate system</p>
+<p>Iterate cyclically through all axes</p>
+<p><img src="./assets/03-40.png" alt="" /></p>
+<p>P90</p>
+<h4 id="cyclic-coordinate-descent-ccd-ik"><a class="header" href="#cyclic-coordinate-descent-ccd-ik">Cyclic Coordinate Descent (CCD) IK</a></h4>
+<blockquote>
+<p>✅ 叉乘得到旋转轴，点乘得到旋转角度。</p>
+</blockquote>
+<table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>Rotate joint 3 such that \(𝒍_{34}\) points towards \(\tilde{x}\)</td><td><img src="./assets/03-41.png" alt="" /></td></tr>
+<tr><td>Rotate joint 2 such that \(𝒍_{24}\) points towards \(\tilde{x}\)</td><td><img src="./assets/03-43.png" alt="" /></td></tr>
+<tr><td>Rotate joint 1 such that \(𝒍_{14}\) points towards \(\tilde{x}\)</td><td><img src="./assets/03-44.png" alt="" /></td></tr>
+<tr><td>Rotate joint 0 such that \(𝒍_{14}\) points towards \(\tilde{x}\)</td><td><img src="./assets/03-45.png" alt="" /></td></tr>
+<tr><td>Rotate joint 3 such that \({l}'_{34}\) points towards \(\tilde{x}\)</td><td><img src="./assets/03-46.png" alt="" /></td></tr>
+<tr><td>……</td><td></td></tr>
+</tbody></table>
+<p>Iteratively rotation each joint to make the end-effector align with vector between the joint and the target</p>
+<p>Easy to implement, very fast</p>
+<p>The “first” joint moves more than the others May take <strong>many iterations</strong> to <strong>converge</strong> Result can be sensitive to the <strong>initial solution</strong></p>
+<blockquote>
+<p>✅ 一个动作序列做 CCD，可能结果不稳定，有跳变。<br />
+✅ 前面例子是 3210 的调整顺序，也可以是 0123 的顺序。<br />
+✅ 先移到的关节调整幅度会大一点，所以一般从末端开始。</p>
+</blockquote>
+<p>P105</p>
+<h2 id="gradient-descent"><a class="header" href="#gradient-descent">Gradient Descent</a></h2>
+<p>CCD下降没有考虑目标函数的性质，考虑目标函数的性质可以得出下降更快的方法。</p>
+<blockquote>
+<p>✅ 关于梯度下降法跳过。</p>
+</blockquote>
+<p>针对目标函数</p>
+<p>$$
+\min_{\theta } \frac{1}{2} ||f(\theta )-\tilde{x} ||^2_2
+$$</p>
+<p>其梯度为：</p>
+<p>$$
+\begin{align*}
+\nabla_\theta F(\theta ^i)= &amp; (\frac{\partial f}{\partial \theta }(\theta ^i))^T(f(\theta ^i)-\tilde{x})\\
+= &amp; J^T \Delta<br />
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ \(J\) 是 Jacobia矩阵， \( \Delta \) 是位置差</p>
+</blockquote>
+<p>P106</p>
+<p>因为更新函数为：</p>
+<p>$$
+\theta ^{i+1}=\theta ^i-\alpha J^T\Delta
+$$</p>
+<p>$$
+J= \frac{\partial f}{\partial \theta }=(\frac{\partial f}{\partial \theta_0 }\frac{\partial f}{\partial \theta_1 }\dots \frac{\partial f}{\partial \theta_n } ) 
+$$</p>
+<p>J是一个3*N的矩阵，N代表关节数。<br />
+<img src="./assets/03-46-2.png" alt="" /></p>
+<p>怎么计算J？<br />
+方法一：使用machine learning framework的autograd功能<br />
+方法二：有限差分<br />
+方法三：Geometric Approach</p>
+<p>P114</p>
+<h3 id="geometric-approach"><a class="header" href="#geometric-approach">Geometric Approach</a></h3>
+<h4 id="问题描述-1"><a class="header" href="#问题描述-1">问题描述</a></h4>
+<p><em>Assuming all joints are hinge joint</em><br />
+求关节 1 旋转轴 \(a_1\)，对 \(x\) 位移的影响</p>
+<p><img src="./assets/03-46-1.png" alt="" /></p>
+<h4 id="计算过程"><a class="header" href="#计算过程">计算过程</a></h4>
+<p>$$
+{x}' -x=(\sin \delta \theta _i)a_i\times r_i+(1-\cos \delta \theta _i)a_i\times(a_i\times r_i)
+$$</p>
+<p>$$
+\frac{ \partial f }{\partial \theta _ i} = \lim _ {\delta \theta _ i \to 0} \frac{{x}'-x }{\delta \theta _ i}= a _ i\times r _i 
+$$</p>
+<p>P117</p>
+<h4 id="更通用的场景--ball-joints"><a class="header" href="#更通用的场景--ball-joints">更通用的场景- ball joints</a></h4>
+<p>❓ How to deal with ball joints?<br />
+A ball joint parameterized as Euler angles:</p>
+<p>$$ 
+𝑅_𝑖 = 𝑅_{𝑖𝑥}𝑅_{𝑖𝑦}𝑅_{𝑖𝑧}
+$$</p>
+<p>can be considered as a compound joint with 
+three hinge joints</p>
+<p><img src="./assets/03-46-4.png" alt="" /></p>
+<blockquote>
+<p>✅ 一个ball joint可以看作是3个hint joint。因此占J矩阵的3列。</p>
+</blockquote>
+<p>也可以写成这种形式：</p>
+<p>$$
+\frac{ \partial f }{\partial \theta _ {i\ast } } = a _ {i\ast } \times r _ i
+$$</p>
+<p>f对某一个欧拉角的导数，等于这个欧拉角的轴叉乘上末端点到关节点的距离。</p>
+<p>需要注意的是，这个的旋转轴a是在世界坐标系下的表示，因此要有一个坐标系的转换。</p>
+<p>$$
+\begin{align*}
+𝒂_{𝑖𝑥} &amp; =𝑄_{𝑖−1}𝒆_𝑥  \\
+𝒂_{𝑖𝑦}&amp; = 𝑄_{𝑖−1}𝑅_{𝑖𝑥}𝒆_𝑦\\
+𝒂_{𝑖𝑧} &amp;= 𝑄_{𝑖−1}𝑅_{𝑖𝑥}𝑅_{𝑖𝑦}𝒆_𝑧
+\end{align*}
+$$</p>
+<blockquote>
+<p>❓ 问：Can we parameterize a ball joint using axis-angle \(\theta u\) and compute Jacobian as</p>
+</blockquote>
+<p>$$
+\begin{matrix}
+\frac{\partial f}{\partial \theta _i} =\theta u\times r_i &amp; ???
+\end{matrix}
+$$</p>
+<blockquote>
+<p>✅ 答：不可以。Jacobian for axis-angle representation has a rather complicated formulation…</p>
+</blockquote>
+<p>P121</p>
+<h4 id="jacobian-transpose--gradient-descent"><a class="header" href="#jacobian-transpose--gradient-descent">Jacobian Transpose / Gradient Descent</a></h4>
+<p>First-order approach, convergence can be slow Need to re-compute Jacobian at each iteration</p>
+<blockquote>
+<p>✅ 怎么求 \(J\)，这里讲了 3 种方法：（1）backward 框架（2）差分（3）几何计算。实际上直接用 1 可以解决，不需要自己去算，因此跳过。<br />
+✅ 特点：（1）迭代次数比 CCD 少（2）计算量比 CCD 大。</p>
+</blockquote>
+<p>P122</p>
+<blockquote>
+<p>✅ 数值插值算法见 GAMES102.</p>
+</blockquote>
+<p>P124</p>
+<h2 id="quadratic-programming-二次规划问题"><a class="header" href="#quadratic-programming-二次规划问题">Quadratic Programming 二次规划问题</a></h2>
+<blockquote>
+<p>✅ 这几页介绍二次函数求极值的问题。</p>
+</blockquote>
+<p>$$
+\min_{\theta } F(\theta )=\frac{1}{2} \theta ^TA\theta +b^T\theta 
+$$</p>
+<p>where \(A\) is positive definite:</p>
+<p>$$
+A=A^T,\theta ^TA\theta \ge 0 \text{ for any } \theta 
+$$</p>
+<p>P126</p>
+<h3 id="公式直接求解"><a class="header" href="#公式直接求解">公式直接求解</a></h3>
+<p>$$
+\begin{matrix}
+\text{Gradient}: \nabla_\theta  F(\theta )=A\theta +b \\
+\text{Optimality condition}: \nabla_\theta  F(\theta ^\ast )=0\\
+{\color{Blue} \Downarrow } \\
+\theta ^\ast =-A^{-1}b
+\end{matrix}
+$$</p>
+<blockquote>
+<p>✅ 二次函数的极值点可以直接从公式求出来</p>
+</blockquote>
+<p>P127</p>
+<h3 id="gauss-newton-method"><a class="header" href="#gauss-newton-method">Gauss-Newton Method</a></h3>
+<blockquote>
+<p>✅ IK问题也可以转化为二次函数求极值的问题</p>
+</blockquote>
+<p>$$
+F(\theta )=\frac{1}{2} ||f(\theta )-\tilde{x} ||^2_2
+$$</p>
+<p><img src="./assets/03-47.png" alt="" /></p>
+<p>Consider the first-order approximation of \(f(\theta)\) at \(\theta^0\)</p>
+<blockquote>
+<p>✅ 把 \(f(\theta )\) 在 \(\theta ^{\circ} \) 处一阶泰勒展开。</p>
+</blockquote>
+<p>$$
+\begin{align*}
+f(\theta)\approx &amp; f(\theta^0) + \frac{\partial f}{\partial \theta} (\theta^0)(\theta-\theta^0) \\
+= &amp; f(\theta^0)+J(\theta-\theta^0)
+\end{align*}
+$$</p>
+<p>P128</p>
+<blockquote>
+<p>✅ 把它代入目标函数。</p>
+</blockquote>
+<p>\begin{align*}
+f(\theta)\approx  &amp; \frac{1}{2}||f(\theta^0)+J(\theta -\theta ^0)-\tilde{x}||^2_2    \\
+= &amp;\frac{1}{2} (\theta -\theta ^0)^TJ^TJ(\theta -\theta ^0)\\
+&amp; +(\theta -\theta ^0)^TJ^T(f(\theta ^0)-\tilde{x})+c 
+\end{align*}</p>
+<p>P129</p>
+<p>first-order optimality condition</p>
+<blockquote>
+<p>✅ 令 \((\nabla F (\theta ))^T=0\)</p>
+</blockquote>
+<p>$$
+\begin{matrix}
+f(\theta)\approx  \frac{1}{2}||f(\theta^0)+J(\theta -\theta ^0)-\tilde{x}||^2_2 \\
+\Downarrow \\
+(\nabla F (\theta ))^T=J^TJ(\theta-\theta^0)+J^T(f(\theta^0)-\tilde{x} )=0
+\end{matrix}
+$$</p>
+<p>P133<br />
+$$
+J^TJ(\theta-\theta^0)=-J^T\Delta 
+$$</p>
+<h4 id="if-jtj-不可逆"><a class="header" href="#if-jtj-不可逆">if \(J^TJ\) 不可逆</a></h4>
+<blockquote>
+<p>✅ \(J\) 的维度是 \(3\times N\)，因此 \(J^TJ\) 不可逆。</p>
+</blockquote>
+<p>\(J^TJ\) is \({\color{Red} {\text{NOT}}}\) invertible, but \(JJ^T\) can be invertible</p>
+<p>P134<br />
+因此做以下转化：</p>
+<p><img src="./assets/03-042.png" alt="" /></p>
+<blockquote>
+<p>✅ \(\Delta\) 是当前和目标的末端点位置之差。</p>
+</blockquote>
+<p>P135</p>
+<p>$$
+J(\theta-\theta^0)=\tilde{x} -f(\theta^0)
+$$</p>
+<p>P137</p>
+<p>$$
+\begin{align*}
+\theta = &amp; \theta ^0-J^+\Delta \\
+= &amp; \theta ^0-J^T(JJ^T)^{-1}\Delta
+\end{align*}
+$$</p>
+<p>\(J^+\)表示J的(Moore-Penrose) Pseudoinverse</p>
+<p>P138</p>
+<h4 id="if-jtj-可逆"><a class="header" href="#if-jtj-可逆">if \(J^TJ\) 可逆</a></h4>
+<p>$$
+J^TJ(\theta-\theta^0)=-J^T\Delta 
+$$</p>
+<p>If \(J^TJ\) is invertible, we have</p>
+<p>$$
+\theta = \theta^0 - (J^TJ)^{-1}J^T\Delta
+$$</p>
+<p>but when can \(J^TJ\) be invertible?</p>
+<p>P141</p>
+<blockquote>
+<p>✅ 答：改变IK的约束条件（例如增加中间关节的位置要求）和自由度（例如限制关节的自由度），可改变 \(J\) 的形状为方阵或高瘦阵，此时 \(J^TJ\) 可逆，则换一种方式求逆。</p>
+</blockquote>
+<p>P143</p>
+<h4 id="对比"><a class="header" href="#对比">对比</a></h4>
+<p><img src="./assets/03-50.png" alt="" /></p>
+<blockquote>
+<p>✅ 左：欠约束，右：过约束。<br />
+✅ 由于这个方法的本质是把高度非线性的函数做了线性化，所以只是在当前位置附近才有效，远了误差就会非常大。因此增加learning rate。</p>
+</blockquote>
+<p>P145</p>
+<p>Usually faster than gradient descent/Jacobian transpose method.</p>
+<p>Any problem? \(JJ^T/J^TJ\) can be (near) singular!</p>
+<blockquote>
+<p>✅ 快一点是因为 \(J^＋\) 是近似的 \(J\)，计算量较小，问题是可能得到一个错很远的 \(J^＋\)，导致结果不稳定。</p>
+</blockquote>
+<p>P147</p>
+<h3 id="damped-jacobian-inverse-method"><a class="header" href="#damped-jacobian-inverse-method">Damped Jacobian Inverse Method</a></h3>
+<blockquote>
+<p>✅ 上一页的问题是伪逆\(J^＋\) 引入的不稳定。<br />
+✅ 解决方法：引 \(\lambda\) 阻尼项</p>
+</blockquote>
+<p>$$
+J^\ast =J^T(JJ^T+\lambda I)^{-1}
+$$</p>
+<p>$$
+J^\ast =(J^TJ+\lambda I)^{-1}J^T
+$$</p>
+<p>P148<br />
+Also called Levenberg-Marquardt algorithm</p>
+<blockquote>
+<p>✅ 引 \(\lambda\) 阻尼顶后，两种方式的计算结果相同。<br />
+✅ 当 \(\lambda\) 很大时，此方法等价于梯度下降法。</p>
+</blockquote>
+<p>P149</p>
+<h4 id="lambda-的几何意义"><a class="header" href="#lambda-的几何意义">\(\lambda\) 的几何意义</a></h4>
+<blockquote>
+<p>✅ 相当于正则项
+✅ 进一步地，分别给每个关节移动权重。<br />
+✅ 权重越大，移动越小。</p>
+</blockquote>
+<p><img src="./assets/03-51.png" alt="" /></p>
+<p>P152</p>
+<h2 id="character-全身ik"><a class="header" href="#character-全身ik">Character 全身IK</a></h2>
+<p><img src="./assets/03-052.png" alt="" /></p>
+<blockquote>
+<p>✅ 全身 IK，不同链条上都有目标点。<br />
+✅ 可以同时优化所有链，或选一个或选一些。<br />
+✅ IK 要更新哪关节也可以自由设定。</p>
+</blockquote>
+<p>P156</p>
+<h1 id="总结"><a class="header" href="#总结">总结</a></h1>
+<blockquote>
+<p>✅ IK问题可以使用优化方法，不同优化方法对应不同 IK 方法，例如：<br />
+CCD → CCDIK<br />
+梯度下降法 → Jacobian transpose<br />
+Gaussian → Jacobian Inverse<br />
+✅ IK问题可以使用启发式方法，例如FABRIK
+Andreas Aristidou and Joan Lasenby. 2011.<br />
+🔎 <strong>FABRIK: A fast, iterative solver for the Inverse Kinematics problem.</strong><br />
+<em>Graphical Models</em></p>
+</blockquote>
+<p>P158</p>
+<blockquote>
+<p>✅ Slerp 结合 Sbline.<br />
+✅ 50 fps → 60 fps：先插值，再采样<br />
+✅ 惯性插值：UE 基于 SPD 求约束来做 IK<br />
+✅ 参考 Darel Holden 博客</p>
+</blockquote>
+<hr />
+<blockquote>
+<p>本文出自CaterpillarStudyGroup，转载请注明出处。</p>
+<p>https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Math.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="Keyframe.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Math.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="Keyframe.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="theme/pagetoc.js"></script>
+    </body>
+</html>

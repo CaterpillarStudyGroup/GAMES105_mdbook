@@ -1,0 +1,803 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Skinning - GAMES105</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="Forward.html"><strong aria-hidden="true">4.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="Keyframe.html"><strong aria-hidden="true">5.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="Data-driven.html"><strong aria-hidden="true">6.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="Learning-based.html"><strong aria-hidden="true">7.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="cont.html"><strong aria-hidden="true">8.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded "><a href="Skinning.html" class="active"><strong aria-hidden="true">9.</strong> Skinning</a></li><li class="chapter-item expanded "><a href="Simulation.html"><strong aria-hidden="true">10.</strong> Physics-based Simulation and Articulated Rigid Bodies</a></li><li class="chapter-item expanded "><a href="Actuating.html"><strong aria-hidden="true">11.</strong> Actuating Simulated Characters</a></li><li class="chapter-item expanded "><a href="Controlling.html"><strong aria-hidden="true">12.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="Learning.html"><strong aria-hidden="true">13.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="Optimal.html"><strong aria-hidden="true">14.</strong> Optimal Control and Reinforcement Learning</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GAMES105</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <p>P2</p>
+<h1 id="outline"><a class="header" href="#outline">Outline</a></h1>
+<ul>
+<li>
+<p>Skinning</p>
+<ul>
+<li>Linear Blend Skinning (LBS)</li>
+<li>Dual Quaternion Skinning (DQS)</li>
+<li>Blendshapes</li>
+</ul>
+</li>
+<li>
+<p>Examples:</p>
+<ul>
+<li>The SMPL model</li>
+<li>Facial Animation</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>🔎 SIGGRAPH 经典的蒙皮课程。<br />
+Many images are from: <a href="https://skinning.org/">https://skinning.org/</a><br />
+<em>Alec Jacobson, Zhigang Deng, Ladislav Kavan, and J. P. Lewis. 2014</em>.<br />
+<strong>Skinning: real-time shape deformation</strong>.<br />
+<em>In ACM SIGGRAPH 2014 Courses (SIGGRAPH '14)</em></p>
+</blockquote>
+<p>P7</p>
+<h1 id="skinning-deformation"><a class="header" href="#skinning-deformation">Skinning Deformation</a></h1>
+<h2 id="绑定与蒙皮概念"><a class="header" href="#绑定与蒙皮概念">绑定与蒙皮概念</a></h2>
+<blockquote>
+<p>✅ Rigging：创建脸部控制器或身体骨骼。黄色为在 Mesh 顶点内放置的骨骼。<br />
+✅ Sinning：让控制器带动皮肤运动。或让 Mesh 顶点跟着骨骼运动。</p>
+</blockquote>
+<p><img src="./assets/07-01.png" alt="" /></p>
+<p><img src="./assets/07-02.png" alt="" /></p>
+<p>P12</p>
+<h2 id="skinning-deformation-1"><a class="header" href="#skinning-deformation-1">Skinning Deformation</a></h2>
+<h3 id="计算方式一"><a class="header" href="#计算方式一">计算方式一</a></h3>
+<p><img src="./assets/07-03.png" alt="" /></p>
+<blockquote>
+<p>✅ 骨骼运动的旋转和平移分别为 \(R\) 和 \(t\)，关节的位置和朝向则变成了 \({Q}'\) 和 \({o}'\).<br />
+✅ 求 \(x\) 的新位置 \({x}'\). 本质上就是坐标系变换：世界坐标系 → \({o}\) 坐标系 → \({o}'\) 坐标系 → 世界坐标系</p>
+</blockquote>
+<p>P13</p>
+<h3 id="计算方式二"><a class="header" href="#计算方式二">计算方式二</a></h3>
+<p><img src="./assets/07-04.png" alt="" /> </p>
+<blockquote>
+<p>✅ \(r\) 为 \(x\) 在骨骼坐标的表达，用 \(r\) 计算更简洁。 </p>
+</blockquote>
+<p>P16</p>
+<h2 id="bind-pose"><a class="header" href="#bind-pose">Bind Pose</a></h2>
+<p><img src="./assets/07-06.png" alt="" /></p>
+<blockquote>
+<p>✅ 当骨骼参考姿态与 Mesh 参考姿态不一致时，需要先旋转骨骼到 Mesh 姿态。</p>
+</blockquote>
+<p>P20</p>
+<h2 id="skinning-deformation---2-joints"><a class="header" href="#skinning-deformation---2-joints">Skinning Deformation - 2 joints</a></h2>
+<p><img src="./assets/07-08.png" alt="" /></p>
+<p>$$
+r_2=Q^T_2(x-o_2)   \quad \quad  r_1=Q^T_1(x-o_1)
+$$</p>
+<blockquote>
+<p>✅ 多骨骼场景，\(x\) 在关节 \(O_1\) 和 \(O_2\) 下分别 \(r_1\) 和 \(r_2\) 两种表达。</p>
+</blockquote>
+<p>P23<br />
+<img src="./assets/07-09.png" alt="" /></p>
+<blockquote>
+<p>✅ 得到的旋转后表达分别为 \({x}'_1\) 和 \({x}'_2\)，通过权重对它们结合。</p>
+</blockquote>
+<p>P29<br />
+<img src="./assets/07-10.png" alt="" /></p>
+<blockquote>
+<p>✅ 同时考虑所有 Mesh 顶点和所有关节。</p>
+</blockquote>
+<p>P31</p>
+<h2 id="linear-blend-skinning-lbs"><a class="header" href="#linear-blend-skinning-lbs">Linear Blend Skinning (LBS)</a></h2>
+<p>$$
+{x}'_ i= \sum_ {j=1} ^ {m} w _ {ij}({Q}'_ jr_{ij}+{o}'_j)
+$$</p>
+<ul>
+<li>Used widely in industry</li>
+<li>Efficient and GPU-friendly
+<ul>
+<li>Games like it</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>✅ Bind Pose：让骨骼与 Mesh 对齐，为 Bind Pose．<br />
+✅ Bind Pose 情况下 Motion 不一定为零。</p>
+</blockquote>
+<p>P33</p>
+<h2 id="automatic-skinning"><a class="header" href="#automatic-skinning">Automatic Skinning?</a></h2>
+<table><thead><tr><th></th></tr></thead><tbody>
+<tr><td><img src="./assets/07-11.png" alt="" /></td></tr>
+<tr><td><img src="./assets/07-12.png" alt="" /></td></tr>
+</tbody></table>
+<p>Pinocchio [Baran et al., 2007]</p>
+<p>P37</p>
+<h2 id="linear-blend-skinning-lbs-1"><a class="header" href="#linear-blend-skinning-lbs-1">Linear Blend Skinning (LBS)</a></h2>
+<p><img src="./assets/07-13.png" alt="" /></p>
+<blockquote>
+<p>✅ 公式第一项对 \(R_j\) 所加权，所得到的很有可能不再是旋转矩阵。</p>
+</blockquote>
+<p>存在的问题： Candy-Wrapper Artifact</p>
+<p><img src="./assets/07-14.png" alt="" /></p>
+<p>P40</p>
+<h2 id="advanced-skinning-methods"><a class="header" href="#advanced-skinning-methods">Advanced Skinning Methods</a></h2>
+<ul>
+<li>
+<p>Multi-linear Skinning (we will not cover this)</p>
+<ul>
+<li>Multi-weight enveloping [Wang and Phillips 2002]</li>
+<li>Animation Space [Merry et al. 2006]</li>
+<li>……</li>
+</ul>
+</li>
+<li>
+<p>Nonlinear Skinning</p>
+<ul>
+<li>Dual-quaternion Skinning (DQS)</li>
+</ul>
+</li>
+</ul>
+<p><img src="./assets/07-15.png" alt="" /></p>
+<blockquote>
+<p>✅ DQ：对偶四元数。</p>
+</blockquote>
+<p>P41</p>
+<h2 id="non-linear-skinning"><a class="header" href="#non-linear-skinning">Non-linear Skinning</a></h2>
+<p><img src="./assets/07-16.png" alt="" /></p>
+<h3 id="quaternions-and-slerp"><a class="header" href="#quaternions-and-slerp">quaternions and SLERP</a></h3>
+<p>Can we use quaternions and SLERP?</p>
+<p>P42</p>
+<p><img src="./assets/07-16-1.png" alt="" /></p>
+<blockquote>
+<p>✅ 不行。原因：第一项与第二项必须要配合好，否则会乱掉。</p>
+</blockquote>
+<p>P43</p>
+<h3 id="从公式角度来解释不行的原因"><a class="header" href="#从公式角度来解释不行的原因">从公式角度来解释不行的原因</a></h3>
+<p>$$
+{x}' _ i = ( \sum _ {j=1}^{m} w _ {ij} R _ j) x _ i+ \sum _ {j=1}^{m}w _ {ij}t_ j
+$$</p>
+<p>$$
+R \in SO(3)
+$$</p>
+<p>$$
+T_j=\begin{bmatrix}
+R_j &amp; t_j\\
+0 &amp;1
+\end{bmatrix} \in SE(3)
+$$</p>
+<blockquote>
+<p>✅ \(T_j\) 构成一个刚性变换群。</p>
+</blockquote>
+<p>P46</p>
+<h3 id="interpolation-in-𝑆𝑂3"><a class="header" href="#interpolation-in-𝑆𝑂3">Interpolation in 𝑆𝑂(3)</a></h3>
+<p><img src="./assets/07-17.png" alt="" /></p>
+<blockquote>
+<p>✅ 线性插值和 SLERP 插值 SO(3) 上。</p>
+</blockquote>
+<p>P49</p>
+<h3 id="interpolation-in-𝑆𝐸3"><a class="header" href="#interpolation-in-𝑆𝐸3">Interpolation in 𝑆𝐸(3)</a></h3>
+<p><img src="./assets/07-18.png" alt="" /></p>
+<blockquote>
+<p>✅ SE（3）上的线性插值，插值到一个退化的点。</p>
+</blockquote>
+<p>P51</p>
+<h3 id="intrinsic-blending"><a class="header" href="#intrinsic-blending">Intrinsic Blending</a></h3>
+<p><img src="./assets/07-19.png" alt="" /></p>
+<p>P52</p>
+<h2 id="dual-quaternion-skinning-dqs"><a class="header" href="#dual-quaternion-skinning-dqs">Dual-Quaternion Skinning (DQS)</a></h2>
+<ul>
+<li>Approximation of intrinsic averages in SE(3)</li>
+</ul>
+<p>Ladislav Kavan, Steven Collins, Jiri Zara, Carol O‘Sullivan. <strong>Geometric Skinning with</strong><br />
+<strong>Approximate Dual Quaternion Blending</strong>, ACM Transaction on Graphics, 27(4), 2008.</p>
+<blockquote>
+<p>✅ 把旋转 ＋ 平移的刚性变换表达为对偶四元数。</p>
+</blockquote>
+<p>P54</p>
+<h3 id="dual-numbers"><a class="header" href="#dual-numbers">Dual Numbers</a></h3>
+<p><img src="./assets/07-20.png" alt="" /></p>
+<p>P55</p>
+<h3 id="dual-quaternion"><a class="header" href="#dual-quaternion">Dual Quaternion</a></h3>
+<ul>
+<li>Dual quaternion</li>
+</ul>
+<p>$$
+\hat{q} =q_0 + \varepsilon q_\varepsilon
+$$</p>
+<p>$$
+\text{where } \varepsilon^2=0
+$$</p>
+<p>A good note of dual-quaternion:<br />
+<a href="https://faculty.sites.iastate.edu/jia/files/inline-files/dual-quaternion.pdf">https://faculty.sites.iastate.edu/jia/files/inline-files/dual-quaternion.pdf</a></p>
+<p>P56</p>
+<h3 id="dual-quaternion-1"><a class="header" href="#dual-quaternion-1">Dual Quaternion</a></h3>
+<ul>
+<li>Scalar Multiplication</li>
+</ul>
+<p>$$
+s\hat{q}=sq_r+sq_\varepsilon\varepsilon
+$$</p>
+<ul>
+<li>Addition</li>
+</ul>
+<p>$$
+\hat{q} _ 1 + \hat{q} _2=q _ {r1}+ q _ {r2} + \varepsilon (q _ {\varepsilon 1} + q _ {\varepsilon 2})
+$$</p>
+<ul>
+<li>Multiplication</li>
+</ul>
+<p>$$
+\hat{q} _ 1 \hat{q} _ 2 = q _ {r1} q _ {r2} + \varepsilon (q _ {r1} q _ {\varepsilon 2} + q _ {r2} q _ {\varepsilon 1})
+$$</p>
+<p>P57</p>
+<h3 id="dual-quaternion-2"><a class="header" href="#dual-quaternion-2">Dual Quaternion</a></h3>
+<ul>
+<li>Dual quaternion</li>
+</ul>
+<p>$$
+\hat{q}=q_0+\varepsilon q_\varepsilon
+$$</p>
+<ul>
+<li>Conjugation</li>
+</ul>
+<p>$$
+\mathrm{I}:\hat{q}^* =q ^ * _ 0+\varepsilon q ^ * _ \varepsilon
+$$</p>
+<p>$$
+\mathrm{II}:\hat{q}^ {\circ}  =q _ 0 - \varepsilon q _ \varepsilon 
+$$</p>
+<p>$$
+\mathrm{III}: \hat{q} ^ \star    = q ^ * _ 0 - \varepsilon q ^ *_ \varepsilon 
+$$</p>
+<p>$$
+\quad \quad \quad \quad = ({\hat{q} ^ *}) ^ {\circ} = (\hat{q} ^ {\circ}) ^ *
+$$</p>
+<p>$$
+(\hat{q} _1\hat{q}_2)^\times =\hat{q} _1 ^\times \hat{q}_2^\times
+$$</p>
+<ul>
+<li>Norm</li>
+</ul>
+<p>$$
+||\hat{q}||=\sqrt{\hat{q}^*\hat{q}} =||q_0||+\frac{\varepsilon (q_0\cdot q_\varepsilon) }{||q_0||} 
+$$</p>
+<p>P58</p>
+<h3 id="dual-quaternion-3"><a class="header" href="#dual-quaternion-3">Dual Quaternion</a></h3>
+<ul>
+<li>Unit dual quaternion: \(||\hat{q}||=1\), which requires:</li>
+</ul>
+<p>$$
+||q_0||=1
+$$</p>
+<p>$$
+q_0 \cdot q_\varepsilon=0
+$$</p>
+<p>P59</p>
+<h3 id="dual-quaternion--rigid-transformation"><a class="header" href="#dual-quaternion--rigid-transformation">Dual Quaternion ⇔ Rigid Transformation</a></h3>
+<ul>
+<li>Like quaternion, any rigid transformation \(T \in SE(3)\) can be converted <strong>into a unit dual quaternion</strong></li>
+</ul>
+<p>$$
+Tx=Rx+t
+$$</p>
+<p>$$
+T=[R\mid t]\to \hat{q} =q_0+\varepsilon q_\varepsilon 
+$$</p>
+<p>$$
+\begin{matrix}
+q_0=r \quad &amp; \text{ quaternion of } R \quad \quad\quad\quad\\
+q_\varepsilon =\frac{1}{2} tr &amp; \text{ pure quaternion } t = (0,t)
+\end{matrix}
+$$</p>
+<blockquote>
+<p>✅ 把一个刚性变换表示为对偶四元数。</p>
+</blockquote>
+<p>P60</p>
+<h3 id="dual-quaternion--rigid-transformation-1"><a class="header" href="#dual-quaternion--rigid-transformation-1">Dual Quaternion ⇔ Rigid Transformation</a></h3>
+<ul>
+<li>Transform a vector \(v\) using unit dual quaternion</li>
+</ul>
+<p>$$
+{\hat{v} }' =\hat{q} \hat{v} \hat{q} ^\star 
+$$</p>
+<p>where</p>
+<p>$$
+\begin{align*}
+\hat{v} &amp; = 1+\varepsilon (0,v) \\
+&amp; =(1,0,0,0)+\varepsilon (0,v_x,v_y,v_z)
+\end{align*}
+$$</p>
+<p>$$
+\quad
+$$</p>
+<p>$$
+\mathrm{III}: \hat{q} ^ \star    = q ^ * _ 0 - \varepsilon q ^ *_ \varepsilon 
+$$</p>
+<p>$$
+\quad \quad \quad \quad = ({\hat{q} ^ *}) ^ {\circ} = (\hat{q} ^ {\circ}) ^ *
+$$</p>
+<p>P61</p>
+<h3 id="dual-quaternion--rigid-transformation-2"><a class="header" href="#dual-quaternion--rigid-transformation-2">Dual Quaternion ⇔ Rigid Transformation</a></h3>
+<ul>
+<li>Like quaternion, any rigid transformation \(T \in SE(3)\) can be converted <strong>into a unit dual quaternion</strong></li>
+</ul>
+<p>$$
+T=[R\mid t]\to \hat{q} =q_0+\varepsilon q_\varepsilon 
+$$</p>
+<p>$$
+\begin{matrix}
+q_0=r \quad \\
+q_\varepsilon =\frac{1}{2} tr 
+\end{matrix}
+$$</p>
+<p>\(\hat{q}\) and \(-\hat{q}\) represent the same transformation
+\(\hat{Q}\) is a <strong>double cover</strong> of \(SE(3)\)</p>
+<p>P62</p>
+<h2 id="double-cover-visualized"><a class="header" href="#double-cover-visualized">Double Cover Visualized</a></h2>
+<p><img src="./assets/07-21.png" alt="" /></p>
+<p>P63</p>
+<h2 id="interpolating-dual-quaternion"><a class="header" href="#interpolating-dual-quaternion">Interpolating Dual-Quaternion</a></h2>
+<p><img src="./assets/07-22.png" alt="" /></p>
+<p>P64</p>
+<h2 id="dual-quaternion-linear-blending-dlb"><a class="header" href="#dual-quaternion-linear-blending-dlb">Dual-Quaternion Linear Blending (DLB)</a></h2>
+<p><img src="./assets/07-022.png" alt="" /></p>
+<p>P65</p>
+<h2 id="dual-quaternion-skinning-dqs-1"><a class="header" href="#dual-quaternion-skinning-dqs-1">Dual-Quaternion Skinning (DQS)</a></h2>
+<p><img src="./assets/07-23.png" alt="" /></p>
+<p>P66</p>
+<h2 id="budging-artifact-of-dqs"><a class="header" href="#budging-artifact-of-dqs">Budging Artifact of DQS</a></h2>
+<p><img src="./assets/07-24.png" alt="" /></p>
+<blockquote>
+<p>✅ 越往右蒙皮权重越光滑。<br />
+✅ DQBS 也有比较严重的 artifacts.</p>
+</blockquote>
+<p>P67</p>
+<h2 id="how-to-correct-lbs"><a class="header" href="#how-to-correct-lbs">How to Correct LBS?</a></h2>
+<p><img src="./assets/07-25.png" alt="" /></p>
+<blockquote>
+<p>✅ LBS 的天然缺陷</p>
+</blockquote>
+<p>P69</p>
+<h2 id="how-to-correct-lbs-1"><a class="header" href="#how-to-correct-lbs-1">How to Correct LBS?</a></h2>
+<p><img src="./assets/07-26.png" alt="" /></p>
+<p>P74</p>
+<h2 id="scattered-data-interpolation"><a class="header" href="#scattered-data-interpolation">Scattered Data Interpolation</a></h2>
+<p><img src="./assets/07-27.png" alt="" /></p>
+<p>P76</p>
+<h2 id="scattered-data-interpolation-1"><a class="header" href="#scattered-data-interpolation-1">Scattered Data Interpolation</a></h2>
+<ul>
+<li>Linear
+<ul>
+<li>Least squares</li>
+</ul>
+</li>
+<li>Splines</li>
+<li>Inverse distance weighting</li>
+<li>Gaussian process</li>
+<li>Radial Basis Function</li>
+<li>……</li>
+</ul>
+<p><img src="./assets/07-28.png" alt="" /></p>
+<p>P81</p>
+<h2 id="radial-basis-function-rbf-interpolation"><a class="header" href="#radial-basis-function-rbf-interpolation">Radial Basis Function (RBF) Interpolation</a></h2>
+<p>$$
+y=\sum_{i=1}^{k} w_i\varphi (||x-x_i||)
+$$</p>
+<p><img src="./assets/07-29.png" alt="" /></p>
+<p>P83</p>
+<h2 id="radial-basis-function-rbf-interpolation-1"><a class="header" href="#radial-basis-function-rbf-interpolation-1">Radial Basis Function (RBF) Interpolation</a></h2>
+<p>$$
+y=\sum_{i=1}^{k} w_i\varphi (||x-x_i||)
+$$</p>
+<p>How to compute \(w_i\) ? We need \(f(x_i)=y_i\)</p>
+<p>$$
+\begin{bmatrix}<br />
+R_{1,1} &amp; R_{1,2} &amp; \cdots &amp; R_{1,K} \\<br />
+R_{2,1} &amp; R_{2,2} &amp;   &amp; \vdots \\<br />
+\vdots &amp;   &amp; \ddots &amp; \vdots \\<br />
+R_{K,1} &amp; \cdots &amp; \cdots &amp; R_{K,K}<br />
+\end{bmatrix} \begin{bmatrix}
+w_1\\
+w_2 \\
+\vdots\\
+w_K
+\end{bmatrix}=\begin{bmatrix}
+y_1\\
+y_2 \\
+\vdots\\
+y_K
+\end{bmatrix}
+$$</p>
+<p>$$
+R_{i,j}=\varphi (||x_i-x_j||)
+$$</p>
+<p><img src="./assets/07-30.png" alt="" /></p>
+<p>P84</p>
+<h2 id="radial-basis-function-rbf"><a class="header" href="#radial-basis-function-rbf">Radial Basis Function (RBF)</a></h2>
+<p>$$
+y=\sum_{i=1}^{k} w_i\varphi (||x-x_i||)
+$$</p>
+<ul>
+<li>Gaussian:</li>
+</ul>
+<p>$$
+\varphi (r)=e^{-(r/c)^2}
+$$</p>
+<ul>
+<li>Inverse multiquadric:</li>
+</ul>
+<p>$$
+\varphi (r)=\frac{1}{\sqrt{r^2+c^2} } 
+$$</p>
+<ul>
+<li>Thin plate spline:</li>
+</ul>
+<p>$$<br />
+\varphi (r)=r^2 \log r
+$$</p>
+<ul>
+<li>Polyharmonic splines:</li>
+</ul>
+<p>$$
+\varphi (r)=\begin{cases}
+r^k,k=2n+1\\
+\\<br />
+r^k \log r,k=2n
+\end{cases}
+$$</p>
+<p>P85</p>
+<h2 id="pose-space-deformation"><a class="header" href="#pose-space-deformation">Pose Space Deformation</a></h2>
+<p>$$
+{x}' =\sum_{j=1}^{m} w_iT_j (x+\delta (x,\theta ))
+$$</p>
+<ul>
+<li>\({x}'= SKIN(PSD(x))\)</li>
+<li>𝑃𝑆𝐷 is implemented as RBF interpolation</li>
+<li>Example shapes can be created manually
+<ul>
+<li>Or by 3D scanning real people → the SMPL model</li>
+</ul>
+</li>
+</ul>
+<p>J. P. Lewis, Matt Cordner, and Nickson Fong. 2000. <strong>Pose space deformation: a unified approach to shape</strong></p>
+<p><strong>interpolation and skeleton-driven deformation</strong>. In <em>Proceedings of the 27th annual conference on Computer</em></p>
+<p><em>graphics and interactive techniques</em> (SIGGRAPH ’00), ACM Press/Addison-Wesley Publishing Co., USA, 165–172.</p>
+<p>P86</p>
+<h2 id="pose-space-deformation-1"><a class="header" href="#pose-space-deformation-1">Pose Space Deformation</a></h2>
+<p><img src="./assets/07-31.png" alt="" /></p>
+<p>P87</p>
+<h2 id="issues"><a class="header" href="#issues">Issues</a></h2>
+<ul>
+<li>Per-shape or per-vertex interpolation
+<ul>
+<li>Should we interpolate a shape as a whole?</li>
+</ul>
+</li>
+<li>Local or global interpolation?
+<ul>
+<li>Should a vertex be affected by all joints?</li>
+</ul>
+</li>
+<li>Interpolation algorithm?
+<ul>
+<li>Is RBF the only choice?</li>
+</ul>
+</li>
+</ul>
+<p>SIGGRAPH Course 2014 — Skinning: Real-time Shape Deformation</p>
+<p>P88</p>
+<h2 id="example-based-skinning-ebs-vs-skeleton-subspace-deformation-ssd"><a class="header" href="#example-based-skinning-ebs-vs-skeleton-subspace-deformation-ssd">Example-based Skinning (EBS) vs. Skeleton Subspace Deformation (SSD)</a></h2>
+<p>\(^\ast \)EBS: PSD<br />
+\(\quad\)</p>
+<ul>
+<li>Good: Easy to control</li>
+<li>Good: Good quality</li>
+<li>Good: <strong>Pose-dependent details</strong> (e.g. bulging muscle and extruding veins)</li>
+</ul>
+<p>\(\quad\)</p>
+<ul>
+<li>Bad: Creating examples can be cumbersome</li>
+<li>Bad: Extra storage for examples</li>
+<li>Bad: Interpolation needs careful tuning</li>
+</ul>
+<p>\(\quad\)</p>
+<p>\(^\ast \)SSD: LBS, DQS, etc.<br />
+\(\quad\)</p>
+<ul>
+<li>Good: Easy to implement</li>
+<li>Good: Fast and GPU friendly</li>
+</ul>
+<p>\(\quad\)</p>
+<ul>
+<li>Bad: Various artifacts</li>
+<li>Bad: Skinning weights needs careful tuning</li>
+<li>Bad: Hard to create pose-dependent details</li>
+</ul>
+<p>P89</p>
+<h2 id="example-smpl-model"><a class="header" href="#example-smpl-model">Example: SMPL Model</a></h2>
+<ul>
+<li>A widely adopted human model in ML/CV</li>
+<li>Learned on real scan data</li>
+<li>Combines SSD and EBS techniques</li>
+</ul>
+<p><img src="./assets/07-32.png" alt="" /></p>
+<p>P92</p>
+<h2 id="recall-principal-component-analysis-pca"><a class="header" href="#recall-principal-component-analysis-pca">Recall: Principal Component Analysis (PCA)</a></h2>
+<ul>
+<li>Given a dataset {\(x_i\)}, \(x_i \in \mathbb{R} ^N\), then PCA gives</li>
+</ul>
+<p>$$
+x_i=\bar{x}+\sum_{k=1}^{n} w_{i,k}u_k
+$$</p>
+<ul>
+<li>\(u_k\) is the \(k\)-th principal component
+<ul>
+<li>A direction in \( \mathbb{R} ^N\) along which the rojection of {\(x_i\)} has the \(k\)-th maximal <strong>variance</strong></li>
+</ul>
+</li>
+<li>\(w_{i,k}=(x_i-\bar{x})\cdot u_k\) is the score of \(x_i\) on \(u_k\)</li>
+</ul>
+<p>P93</p>
+<h2 id="recall-principal-component-analysis-pca-1"><a class="header" href="#recall-principal-component-analysis-pca-1">Recall: Principal Component Analysis (PCA)</a></h2>
+<p>• Given a dataset  {\(x_i\)}, \(x_i \in \mathbb{R} ^N\), the PCA can be computed by apply <strong>eigen decomposition</strong> on the covariance matrix</p>
+<p>$$
+\sum =X^TX=U\begin{bmatrix}
+\sigma ^2_1 &amp;  &amp;  &amp; \\
+&amp; \sigma ^2_2 &amp;  &amp; \\
+&amp;  &amp; \ddots  &amp; \\
+&amp;  &amp;  \sigma ^2_N
+\end{bmatrix}U^T
+$$</p>
+<ul>
+<li>
+<p>\(X=[x_0-\bar{x}, x_1-\bar{x},\dots ,x_N-\bar{x}]^T\)</p>
+</li>
+<li>
+<p>\(\sigma _i\ge \sigma _j\ge 0\) when \(i&lt; j\), corresponds to the Explained Variance</p>
+</li>
+<li>
+<p>\(U=[u_1,u_2,\dots,u_N]\)</p>
+</li>
+</ul>
+<p><img src="./assets/07-007.png" alt="" /></p>
+<p>P94</p>
+<h2 id="pca-over-body-shapes"><a class="header" href="#pca-over-body-shapes">PCA over Body Shapes</a></h2>
+<p><img src="./assets/07-33.png" alt="" /></p>
+<p>P95</p>
+<h2 id="smpl-model-body-shape"><a class="header" href="#smpl-model-body-shape">SMPL Model: Body Shape</a></h2>
+<p><img src="./assets/07-34.png" alt="" /></p>
+<p>P96</p>
+<h2 id="smpl-model-pose-blend-shapes"><a class="header" href="#smpl-model-pose-blend-shapes">SMPL Model: Pose Blend Shapes</a></h2>
+<p><img src="./assets/07-35.png" alt="" /></p>
+<p>P97</p>
+<h2 id="smpl-model-deformation"><a class="header" href="#smpl-model-deformation">SMPL Model: Deformation</a></h2>
+<p>$$
+T(\beta ,\theta )=\bar{T} + \sum _ {m=1}^{|\beta |} \beta _ m S_ n + \sum _ {n=1}^{|\theta |}\theta _np_n
+$$</p>
+<p>$$
+x=SKIN(T(\beta ,\theta ),\theta ,w)
+$$</p>
+<p>$$
+SKIN:\text{LBS, DQS, etc}\dots 
+$$</p>
+<p><img src="./assets/07-36.png" alt="" /></p>
+<p>[SMPL: A Skinned Multi-Person Linear Model]</p>
+<p>P99</p>
+<h2 id="facial-animation"><a class="header" href="#facial-animation">Facial Animation</a></h2>
+<p><img src="./assets/07-37.png" alt="" /></p>
+<p>P101</p>
+<h2 id="facial-animation-1"><a class="header" href="#facial-animation-1">Facial Animation</a></h2>
+<p><img src="./assets/07-38.png" alt="" /></p>
+<blockquote>
+<p>✅ \(B_j\) 与 ID 无关，能做出差不多的效果。<br />
+✅ 要更精细的效果，可以定义与 ID 相关的 \(B_j\).</p>
+</blockquote>
+<p>P102</p>
+<h2 id="facial-blendshapes"><a class="header" href="#facial-blendshapes">Facial Blendshapes</a></h2>
+<p><img src="./assets/07-39.png" alt="" /></p>
+<p>P103</p>
+<h2 id="a-typical-set-of-blendshapes-arkit"><a class="header" href="#a-typical-set-of-blendshapes-arkit">A Typical Set of Blendshapes (ARKit)</a></h2>
+<p><img src="./assets/07-40.png" alt="" /></p>
+<p>P104</p>
+<h2 id="blendshapes-vs-example-based-skinning"><a class="header" href="#blendshapes-vs-example-based-skinning">Blendshapes vs. Example-based Skinning</a></h2>
+<p><img src="./assets/07-41.png" alt="" /></p>
+<p><img src="./assets/07-42.png" alt="" /></p>
+<p><img src="./assets/07-43.png" alt="" /></p>
+<blockquote>
+<p>✅ 几种不同的表情基混合方式。<br />
+✅ 第二种，直接在几个脸之间做混合，适用于数据少的情况。</p>
+</blockquote>
+<p>P105</p>
+<h2 id="morphable-face-models"><a class="header" href="#morphable-face-models">Morphable Face Models</a></h2>
+<p><img src="./assets/07-44.png" alt="" /><br />
+<img src="./assets/07-45.png" alt="" /></p>
+<p>Egger et al. 2020. <strong>3D Morphable Face Models - Past, Present, and Future</strong>. <em>ACM Trans. Graph</em>. 39, 5 (June 2020), 157:1-157:38.</p>
+<blockquote>
+<p>✅ 第一项：平均脸。第二项：PCA. 第三项：表情基。<br />
+✅ \(B_i^{ID}\) 通常由 PCA 得到。<br />
+✅ 基于脸部肌肉的物理仿真。</p>
+</blockquote>
+<p>P107</p>
+<h2 id="how-to-animate-a-face"><a class="header" href="#how-to-animate-a-face">How to Animate a Face?</a></h2>
+<p><img src="./assets/07-47.png" alt="" /></p>
+<p>P110</p>
+<h2 id="face-tracking"><a class="header" href="#face-tracking">Face Tracking</a></h2>
+<p><img src="./assets/07-48.png" alt="" /></p>
+<blockquote>
+<p>✅ 用一个视频人脸驱动 3D 人脸。<br />
+✅ 人脸 \(\overset{①}{\rightarrow} \) 特征点  \(\overset{②}{\rightarrow} \) 表情参数<br />
+✅ 1、提取    \(\quad\)   2、IK．</p>
+</blockquote>
+<hr />
+<blockquote>
+<p>本文出自CaterpillarStudyGroup，转载请注明出处。</p>
+<p>https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="cont.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="Simulation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="cont.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="Simulation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="theme/pagetoc.js"></script>
+    </body>
+</html>

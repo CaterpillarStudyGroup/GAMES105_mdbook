@@ -1,0 +1,917 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Math Background - GAMES105</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="Math.html" class="active"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="Forward.html"><strong aria-hidden="true">4.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="Keyframe.html"><strong aria-hidden="true">5.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="Data-driven.html"><strong aria-hidden="true">6.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="Learning-based.html"><strong aria-hidden="true">7.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="cont.html"><strong aria-hidden="true">8.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded "><a href="Skinning.html"><strong aria-hidden="true">9.</strong> Skinning</a></li><li class="chapter-item expanded "><a href="Simulation.html"><strong aria-hidden="true">10.</strong> Physics-based Simulation and Articulated Rigid Bodies</a></li><li class="chapter-item expanded "><a href="Actuating.html"><strong aria-hidden="true">11.</strong> Actuating Simulated Characters</a></li><li class="chapter-item expanded "><a href="Controlling.html"><strong aria-hidden="true">12.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="Learning.html"><strong aria-hidden="true">13.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="Optimal.html"><strong aria-hidden="true">14.</strong> Optimal Control and Reinforcement Learning</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">GAMES105</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <p>P2</p>
+<h1 id="outline"><a class="header" href="#outline">Outline</a></h1>
+<ul>
+<li>
+<p>Review of Linear Algebra</p>
+<ul>
+<li>Vector and Matrix</li>
+<li>Translation, Rotation, and Transformation</li>
+</ul>
+</li>
+<li>
+<p>Representations of 3D rotation</p>
+<ul>
+<li>Rotation matrices</li>
+<li>Euler angles</li>
+<li>Rotation vectors/Axis angles</li>
+<li>Quaternions</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>✅ 这节课大部分内容会跳过，因为前面课程讲过好多遍了</p>
+</blockquote>
+<p>P3</p>
+<h1 id="review-of-linear-algebra"><a class="header" href="#review-of-linear-algebra">Review of Linear Algebra</a></h1>
+<h2 id="vectors-and-matrices"><a class="header" href="#vectors-and-matrices">Vectors and Matrices</a></h2>
+<p><em>a few slides were modified from GAMES-101 and GAMES-103</em></p>
+<p>P24</p>
+<blockquote>
+<p>✅ 两个单位向量的叉乘不一定是单位向量。<br />
+✅ 要得到方向，应先叉乘再单位化<br />
+✅ \(n=\frac{a\times b}{||a\times b||}\)（正确）、\(n=\frac{a}{||a||} \times \frac{b}{||b||}\)（错误）</p>
+</blockquote>
+<p>P26</p>
+<h3 id="how-to-find-the-rotation-between-vectors"><a class="header" href="#how-to-find-the-rotation-between-vectors">How to find the rotation between vectors?</a></h3>
+<h4 id="问题描述"><a class="header" href="#问题描述">问题描述</a></h4>
+<blockquote>
+<p>✅ 已知\(a,b\) , 求旋转。</p>
+</blockquote>
+<p><img src="./assets/02-01.png" alt="" /></p>
+<h4 id="求旋转轴"><a class="header" href="#求旋转轴">求旋转轴</a></h4>
+<p>P27</p>
+<p>Any vector in the bisecting plane can be the axis</p>
+<p>$$
+𝒖 =\frac{𝒂 × 𝒃}{||𝒂 × 𝒃||} 
+$$</p>
+<h4 id="求旋转角"><a class="header" href="#求旋转角">求旋转角</a></h4>
+<p>P28</p>
+<p>The minimum rotation:<br />
+$$
+\theta = \mathrm{arg} \cos \frac{a\cdot b}{||a||||b||} 
+$$</p>
+<p><img src="./assets/02-02.png" alt="" /></p>
+<blockquote>
+<p>✅ \(u\) 为旋转轴，\( \theta \) 为旋转角。</p>
+</blockquote>
+<p>P33</p>
+<h3 id="how-to-rotate-a-vectors"><a class="header" href="#how-to-rotate-a-vectors">How to rotate a vectors?</a></h3>
+<h4 id="问题描述-1"><a class="header" href="#问题描述-1">问题描述</a></h4>
+<p>已知 \(a\) 和旋转 \((𝒖, \theta )\) 求终点 \(b\)</p>
+<p><img src="./assets/02-3.png" alt="" /></p>
+<h4 id="解题方法"><a class="header" href="#解题方法">解题方法</a></h4>
+<p>\(a\) 移动到 \(b\) 看作是先移动 \(𝒗\) 再移动 \(t\)，分别计算 \(𝒗\) 和 \(t\) 的方向和长度。</p>
+<p>$$
+𝒗 \gets  𝒖 \times  𝒂
+$$</p>
+<p>$$
+𝒕 \gets 𝒖 \times 𝒗 = 𝒖 \times( 𝒖 \times 𝒂)
+$$</p>
+<p><img src="./assets/02-04.png" alt="" /></p>
+<h4 id="计算过程"><a class="header" href="#计算过程">计算过程</a></h4>
+<p>P35</p>
+<p>$$
+𝒗 = (\sin \theta) 𝒖 \times  𝒂
+𝒕 =(1-\cos \theta ) 𝒖 \times( 𝒖 \times 𝒂)
+$$</p>
+<h4 id="rodrigues-rotation-formula"><a class="header" href="#rodrigues-rotation-formula">Rodrigues' rotation formula</a></h4>
+<p>$$
+𝒃 = 𝒂 + (\sin \theta) 𝒖 × 𝒂 + (1-\cos \theta ) 𝒖 \times( 𝒖 \times 𝒂)
+$$</p>
+<p>P53</p>
+<h2 id="matrix"><a class="header" href="#matrix">Matrix</a></h2>
+<h3 id="matrix-form-of-cross-product"><a class="header" href="#matrix-form-of-cross-product">Matrix Form of Cross Product</a></h3>
+<p>$$
+\begin{align*}
+c=a\times b= &amp; \begin{bmatrix}
+a_yb_z-a_zb_y \\
+a_zb_x-a_xb_z \\
+a_xb_y-a_yb_x
+\end{bmatrix}\\
+= &amp; \begin{bmatrix}
+0 &amp; -a_z &amp; a_y \\
+a_z &amp; 0 &amp; -a_x \\
+-a_y &amp; a_x &amp; 0
+\end{bmatrix}\begin{bmatrix}
+b_x \\
+b_y  \\
+b_z
+\end{bmatrix}=[a]_\times b
+\end{align*}
+$$</p>
+<p>$$ 
+[a]_\times +[a]^ \mathbf{T} _\times =0 \quad \quad \mathrm{skewsymmetric} 
+$$ </p>
+<p>P56</p>
+<p>$$
+\begin{align*}
+a \times b = &amp;[a] _ \times b  \\
+a \times (b \times c) = &amp; [a] _ \times ( [b] _ \times c ) \\
+=  &amp; [a] _ \times [b] _ \times c  \\
+a \times (a \times c) = &amp; [a] ^2 _ \times  b \\
+(a \times b) \times c = &amp; [a\times b] _ \times  c \\
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 最后一个公式注意一下，叉乘不满足结合律。</p>
+</blockquote>
+<p>P57</p>
+<h3 id="how-to-rotate-a-vectors-1"><a class="header" href="#how-to-rotate-a-vectors-1">How to rotate a vectors?</a></h3>
+<h4 id="问题描述-2"><a class="header" href="#问题描述-2">问题描述</a></h4>
+<p>已知 \(a\) 和旋转 \((𝒖, \theta )\) 求终点 \(b\)</p>
+<h4 id="把前面的结论转化为矩阵形式"><a class="header" href="#把前面的结论转化为矩阵形式">把前面的结论转化为矩阵形式</a></h4>
+<p>$$
+\begin{align*}
+b = &amp; a+(\sin \theta )u \times a +(1-\cos \theta)u \times(u \times a) \\
+b = &amp; (I+(\sin \theta ))[u]_ \times + (1-(\cos \theta )[u]^2_ \times ) a \\
+= &amp; Ra
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 把前面的叉乘公式转化为点乘形式</p>
+</blockquote>
+<h4 id="结论"><a class="header" href="#结论">结论</a></h4>
+<p>Rodrigues' rotation formula</p>
+<p>$$
+R = I+(\sin \theta )[u]_ \times + (1-\cos \theta )[u]^2_ \times
+$$</p>
+<blockquote>
+<p>✅ \(R\) 是旋转 \((u, \theta )\) 对应的旋转矩阵。</p>
+</blockquote>
+<p>P62</p>
+<h3 id="determinant-of-a-matrix"><a class="header" href="#determinant-of-a-matrix">Determinant of a Matrix</a></h3>
+<h4 id="定义"><a class="header" href="#定义">定义</a></h4>
+<p><img src="./assets/02-07-1.png" alt="" /></p>
+<blockquote>
+<p>✅ 行列式的计算：红色相乘减蓝色相乘。</p>
+</blockquote>
+<p>P63</p>
+<h4 id="公式"><a class="header" href="#公式">公式</a></h4>
+<ul>
+<li>det \(I = 1\)</li>
+<li>det \(AB = \text{ det } A ∗ \text{det } B\)</li>
+<li>det \(A^T\) = det \(A\)</li>
+<li>If \(A\) is invertible，det \(A^{−1}\) = \((\text{det } A)^{−1}\)</li>
+<li>If \(U\) is orthogonal，\(\text{det } U = ± 1\)</li>
+</ul>
+<p>P64</p>
+<h4 id="cross-product-as-a-determinant"><a class="header" href="#cross-product-as-a-determinant">Cross Product as a Determinant</a></h4>
+<p>$$
+\begin{align*}
+c=a\times b= &amp; \begin{bmatrix}
+a_yb_z-a_zb_y \\
+a_zb_x-a_xb_z \\
+a_xb_y-a_yb_x
+\end{bmatrix}\\
+= &amp; \text{det } \begin{bmatrix}
+i &amp; j &amp; k \\
+a_x &amp; a_y &amp; a_z \\
+b_x &amp; b_y &amp; b_z
+\end{bmatrix}
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 用行列式运算规则来计算叉乘结果。</p>
+</blockquote>
+<p>P66</p>
+<h3 id="eigenvalues-and-eigenvectors"><a class="header" href="#eigenvalues-and-eigenvectors">Eigenvalues and Eigenvectors</a></h3>
+<p>For a matrix \(A\), if a <strong>nonzero</strong> vector \(x\) satisfies<br />
+$$
+Ax=\lambda x
+$$</p>
+<p>Then:<br />
+\(\lambda\): an eigenvalue of \(A\)<br />
+\(x\): an eigenvector of \(A\)</p>
+<p>Especially, a \(3\times 3\) <strong>orthogonal</strong> matrix \(U\)<br />
+has at least one real eigenvalue: \(\lambda=\text{det } U = ±1\)</p>
+<p>P67</p>
+<h3 id="rigid-transformation"><a class="header" href="#rigid-transformation">Rigid Transformation</a></h3>
+<p>Translation, rotation, and coordinate transformation </p>
+<p><img src="./assets/02-07.png" alt="" /></p>
+<blockquote>
+<p>✅ 刚体变换不能改变形状和大小，因此没有Scaling</p>
+</blockquote>
+<p>P69</p>
+<h4 id="scaling"><a class="header" href="#scaling">Scaling</a></h4>
+<p><img src="./assets/02-08.png" alt="" /></p>
+<p>P70</p>
+<h4 id="translation"><a class="header" href="#translation">Translation</a></h4>
+<p><img src="./assets/02-9.png" alt="" /></p>
+<p>P72</p>
+<h4 id="rotation"><a class="header" href="#rotation">Rotation</a></h4>
+<p><img src="./assets/02-10.png" alt="" /></p>
+<p>P73</p>
+<h2 id="rotation-matrix"><a class="header" href="#rotation-matrix">Rotation Matrix</a></h2>
+<h3 id="定义-1"><a class="header" href="#定义-1">定义</a></h3>
+<ul>
+<li>Rotation matrix is orthogonal:</li>
+</ul>
+<p>$$
+R^{-1}=R^{T}  \quad R^TR=RR^T=1
+$$</p>
+<ul>
+<li>Determinant of \(R\)<br />
+$$
+\text{det } R = + 1
+$$</li>
+<li>Rotation maintains length of vectors
+$$
+||Rx|| = ||x||
+$$</li>
+</ul>
+<blockquote>
+<p>✅ 公式2：\(R\) 不会改变左、右手系<br />
+✅ 公式3：\(R\) 是刚性变换，不改变大小</p>
+</blockquote>
+<p>P75</p>
+<h3 id="combination-of-rotations"><a class="header" href="#combination-of-rotations">Combination of Rotations</a></h3>
+<p><img src="./assets/02-11.png" alt="" /></p>
+<p>P76</p>
+<h3 id="rotation-around-coordinate-axes"><a class="header" href="#rotation-around-coordinate-axes">Rotation around Coordinate Axes</a></h3>
+<p><img src="./assets/02-12.png" alt="" /></p>
+<p>$$
+R_x(\alpha )=\begin{pmatrix}
+1 &amp; 0 &amp; 0 \\
+0 &amp; \cos\alpha  &amp; -\sin \alpha \\
+0 &amp; \sin \alpha  &amp; \cos \alpha 
+\end{pmatrix}
+$$</p>
+<p>$$
+R_y(\beta )=\begin{pmatrix}
+\cos \beta &amp; 0 &amp; \sin \beta \\
+0 &amp; 1  &amp; 0  \\
+-\sin \beta &amp; 0   &amp; \cos \beta 
+\end{pmatrix}
+$$</p>
+<p>$$
+R_z(\gamma  )=\begin{pmatrix}
+\cos \gamma &amp; -\sin \gamma &amp; 0 \\
+\sin \gamma &amp; \cos \gamma  &amp; 0  \\
+0 &amp; 0   &amp; 1 
+\end{pmatrix}
+$$</p>
+<blockquote>
+<p>✅ 沿着哪个轴转，那个轴上的坐标不会改变。<br />
+✅ 三个基本旋转可以组合出复杂旋转。</p>
+</blockquote>
+<p>P79</p>
+<h2 id="rotation-axis-and-angle"><a class="header" href="#rotation-axis-and-angle">Rotation Axis and Angle</a></h2>
+<p>Rotation matrix \(R\) has a real eigenvalue: +1<br />
+$$
+Ru=u
+$$</p>
+<p>In other words, \(R\) can be considered as a rotation around axis \(u\) by some angle \(\theta \)<br />
+How to find axis 𝒖 and angle \(\theta \)?</p>
+<p><img src="./assets/02-13.png" alt="" /></p>
+<blockquote>
+<p>✅ 用 \(R\) 旋转时，向量 \(u\) 不会变化。<br />
+✅ 对于任意 \(R\)，都存在这样一个 \(u\).<br />
+✅ \(u\) 是 \(R\) 的旋转轴。</p>
+</blockquote>
+<p>P80</p>
+<h3 id="根据旋转矩阵求轴角"><a class="header" href="#根据旋转矩阵求轴角">根据旋转矩阵求轴角</a></h3>
+<p><img src="./assets/02-14.png" alt="" /></p>
+<p>P81</p>
+<p><img src="./assets/02-015.png" alt="" /></p>
+<blockquote>
+<p>✅ \({u}' \) 与 \({u} \) 共线，\({u}' \) 单位化得到 \({u} \)．<br />
+✅ \(q\) 和 \(-q\) 两种表示方法会引入插值问题，需要注意。</p>
+</blockquote>
+<p>P82</p>
+<p>$$
+u\gets {u}' =\begin{bmatrix}
+r_{32}-r_{23}  \\
+r_{13}-r_{31}  \\
+r_{21}-r_{12} 
+\end{bmatrix}
+$$</p>
+<p>$$
+\text{When }  R\ne R^T \Leftrightarrow \sin \theta \ne 0\Leftrightarrow \theta \ne 0^{\circ} 
+\text{ or }  180^{\circ} 
+$$</p>
+<p>P83</p>
+<h3 id="基于罗德里格公式求轴角"><a class="header" href="#基于罗德里格公式求轴角">基于罗德里格公式求轴角</a></h3>
+<p><img src="./assets/02-17.png" alt="" /></p>
+<blockquote>
+<p>✅ 从 \(R\) 的公式也能得出相同的结论<br />
+✅ \(u  →  {u}'  →  \)旋转角度</p>
+</blockquote>
+<p>P85</p>
+<h3 id="旋转矩阵的意义"><a class="header" href="#旋转矩阵的意义">旋转矩阵的意义</a></h3>
+<h3 id="旋转"><a class="header" href="#旋转">旋转</a></h3>
+<p><img src="./assets/02-18.png" alt="" /></p>
+<p>P86</p>
+<h3 id="旋转--平移"><a class="header" href="#旋转--平移">旋转 + 平移</a></h3>
+<p><img src="./assets/02-19.png" alt="" /> </p>
+<p>P87</p>
+<h1 id="representations-of-3d-rotation"><a class="header" href="#representations-of-3d-rotation">Representations of 3D Rotation</a></h1>
+<p>　</p>
+<p>P91</p>
+<h2 id="旋转矩阵"><a class="header" href="#旋转矩阵">旋转矩阵</a></h2>
+<h3 id="parameterization-of-rotation"><a class="header" href="#parameterization-of-rotation">Parameterization of Rotation</a></h3>
+<p>旋转矩阵有9个参数，但实际上degrees of freedom (DoF) = 3</p>
+<blockquote>
+<p>✅ det 只是把空间减少一半，没有降低自由度</p>
+</blockquote>
+<p>P93</p>
+<h3 id="interpolation"><a class="header" href="#interpolation">Interpolation</a></h3>
+<p>What is good interpolation?</p>
+<ul>
+<li>result is valid at any time \(t\)</li>
+<li>Constant speed is preferred</li>
+</ul>
+<table><thead><tr><th></th><th>平移</th><th>旋转</th></tr></thead><tbody>
+<tr><td></td><td><img src="./assets/02-20-1.png" alt="" /></td><td><img src="./assets/02-21.png" alt="" /></td></tr>
+<tr><td></td><td>\(x_t=(1-t)x_0+tx_1\)<br> ✅ 平移使用线性插值</td><td>✅ 旋转不适合线性插值。</td></tr>
+<tr><td>合法</td><td>✅ 对于任意 \(t\), \(x_t\) 一定是合法的。</td><td></td></tr>
+<tr><td>速度可控</td><td>✅ 运动的速度是常数，因此速度可控。</td><td></td></tr>
+</tbody></table>
+<p>P99</p>
+<h3 id="结论-1"><a class="header" href="#结论-1">结论</a></h3>
+<ul>
+<li>Easy to compose?   \(\quad \quad \quad {\color{Red} \times } \)</li>
+</ul>
+<blockquote>
+<p>✅ 9个参数没有直接的意义，且为了满足正交阵，参数之间是耦合的。</p>
+</blockquote>
+<ul>
+<li>Easy to apply?   \(\quad \quad \quad \quad {\color{Green}  \surd }\)</li>
+<li>Easy to interpolate?  \(\quad  \quad {\color{Red} \times } \)</li>
+</ul>
+<p>P100</p>
+<h2 id="euler-angles"><a class="header" href="#euler-angles">Euler angles</a></h2>
+<h3 id="basic-rotations"><a class="header" href="#basic-rotations">Basic rotations</a></h3>
+<p><img src="./assets/02-22.png" alt="" /> </p>
+<p>$$
+R_x(\alpha )=\begin{pmatrix}
+1 &amp; 0 &amp; 0 \\
+0 &amp; \cos\alpha  &amp; -\sin \alpha \\
+0 &amp; \sin \alpha  &amp; \cos \alpha 
+\end{pmatrix}
+$$</p>
+<p>$$
+R_y(\beta )=\begin{pmatrix}
+\cos \beta &amp; 0 &amp; \sin \beta \\
+0 &amp; 1  &amp; 0  \\
+-\sin \beta &amp; 0   &amp; \cos \beta 
+\end{pmatrix}
+$$</p>
+<p>$$
+R_z(\gamma  )=\begin{pmatrix}
+\cos \gamma &amp; -\sin \gamma &amp; 0 \\
+\sin \gamma &amp; \cos \gamma  &amp; 0  \\
+0 &amp; 0   &amp; 1 
+\end{pmatrix}
+$$</p>
+<h3 id="combination-of-three-basic-rotations"><a class="header" href="#combination-of-three-basic-rotations">combination of three basic rotations</a></h3>
+<p><strong>Any rotation can be represented as a combination of three basic rotations</strong></p>
+<p>P102</p>
+<p>Any combination of three basic rotations are allowed<br />
+- Excluding those rotate twice around the same axis<br />
+- XYZ, XZY, YZX, YXZ, ZYX, ZXY, XYX, XZX, YXY, YZY, ZXZ, ZYZ</p>
+<p>P103</p>
+<h3 id="conventions-of-euler-angles"><a class="header" href="#conventions-of-euler-angles">Conventions of Euler Angles</a></h3>
+<p>intrinsic rotations: axes attached to the <strong>object</strong></p>
+<p>$$
+R_x(\alpha )R_y(\beta )R_z(\gamma )
+$$</p>
+<p>extrinsic rotations: axes fixed to the <strong>world</strong></p>
+<p>$$
+R_z(\gamma )R_y(\beta )R_x(\alpha )
+$$</p>
+<blockquote>
+<p>✅ 使用欧拉角时应先明确所使用的 convetion 和顺序。<br />
+✅ 不同的商业软件可能有不同的内置参数。<br />
+✅ maya 和 unity 都是 extrinsic.<br />
+✅ maya 可选顺序，Unity 固定 Zxy</p>
+</blockquote>
+<p>P104</p>
+<h3 id="gimbal-lock"><a class="header" href="#gimbal-lock">Gimbal Lock</a></h3>
+<p>When two local axes are driven into a parallel configuration, 
+one degree of freedom is “locked”</p>
+<blockquote>
+<p>✅ 当其中两个轴共线时，会丢失一个自由度，此时表示不唯一（奇异点）</p>
+</blockquote>
+<p>P105</p>
+<h3 id="结论-2"><a class="header" href="#结论-2">结论</a></h3>
+<p><img src="./assets/02-23.png" alt="" /> </p>
+<blockquote>
+<p>✅ 插值时需注意作用域为 \([-\pi , \pi ]\)，否则容易出现翻转现象。</p>
+</blockquote>
+<p>P107</p>
+<h2 id="rotation-vectors--axis-angles"><a class="header" href="#rotation-vectors--axis-angles">Rotation Vectors / Axis Angles</a></h2>
+<p><img src="./assets/02-24-1.png" alt="" /> </p>
+<blockquote>
+<p>✅ 粗体 \(\theta \)：轴角表示法描述的旋转<br />
+✅ 细体 \(\theta \)：以 \(u\) 为轴的旋转角度</p>
+</blockquote>
+<p><img src="./assets/02-24.png" alt="" /> </p>
+<blockquote>
+<p>✅ 应用时要先转为旋转矩阵，做旋转组合时也要借助旋转矩阵</p>
+</blockquote>
+<p>P110</p>
+<h3 id="interpolating-rotation-vectors--axis-angles"><a class="header" href="#interpolating-rotation-vectors--axis-angles">Interpolating Rotation Vectors / Axis Angles</a></h3>
+<h4 id="线性插值"><a class="header" href="#线性插值">线性插值</a></h4>
+<p>可以保证插值结果合法，但不能保证旋转速度恒定</p>
+<p><img src="./assets/02-25.png" alt="" /> </p>
+<p>P111</p>
+<h4 id="匀速插值"><a class="header" href="#匀速插值">匀速插值</a></h4>
+<p>可以保证插值结果合法且匀速，但旋转较复杂</p>
+<p><img src="./assets/02-25-1.png" alt="" /> </p>
+<blockquote>
+<p>✅ 这个方法没听懂，可以实现允许插值。</p>
+</blockquote>
+<p>P112</p>
+<h3 id="结论-3"><a class="header" href="#结论-3">结论</a></h3>
+<p><img src="./assets/02-25-2.png" alt="" /> </p>
+<ul>
+<li>Easy to compose?   \(\quad \quad {\color{Green} \surd } \quad \quad \)   But hard to manipulate</li>
+<li>Easy to apply?   \(\quad \quad \quad {\color{Red} \times }  \quad \quad \)     Need to convert to matrix</li>
+<li>Easy to interpolate?  \(\quad \quad {\color{Green} \surd } \quad \quad \)  Linear interpolation works, but not perfect</li>
+<li>No Gimbal lock    \(\quad \quad {\color{Green} \surd } \quad \quad \)  need to deal with singularities</li>
+</ul>
+<p>P113</p>
+<h2 id="quaternions"><a class="header" href="#quaternions">Quaternions</a></h2>
+<p>P116</p>
+<h3 id="定义-2"><a class="header" href="#定义-2">定义</a></h3>
+<ul>
+<li>
+<p>Extending complex numbers<br />
+$$
+q =a+bi +cj +dk \in \mathbb{H} ,a,b,c,d\in \mathbb{R}
+$$</p>
+</li>
+<li>
+<p>\(i^2=j^2=k^2=ijk=-1\)</p>
+</li>
+<li>
+<p>\(ij=k,ji=-k(^*\text{cross product})\)</p>
+</li>
+<li>
+<p>\(jk=i,kj=-i\)</p>
+</li>
+<li>
+<p>\(ki=j,ik=-j\)</p>
+</li>
+</ul>
+<p>$$
+q=w+xi+yj+zk \quad \Rightarrow  \quad  q=\begin{bmatrix}
+w\\
+x\\
+y\\
+z
+\end{bmatrix}=\begin{bmatrix}
+w\\
+v
+\end{bmatrix}
+$$</p>
+<p>$$
+q =[w,v]^T \in \mathbb{H} ,w\in \mathbb{R},v\in \mathbb{R}^3
+$$</p>
+<p>$$
+w =[w,0]^T : \text{ scalar quaternion }
+$$</p>
+<p>$$
+v =[0,v]^T : \text{ pure quaternion }
+$$</p>
+<p>P117</p>
+<h3 id="quaternion-arithmetic"><a class="header" href="#quaternion-arithmetic">Quaternion Arithmetic</a></h3>
+<p>$$
+q =a+bi +cj +dk \in \mathbb{H} ,a,b,c,d\in \mathbb{R}
+$$</p>
+<p>Conjugation:   \(\quad \quad q^*=a-bi-cj-dk\)<br />
+\(<br>\)<br />
+Scalar product:  \(\quad \quad tq=ta+tbi+tcj+tdk\)<br />
+\(<br>\)<br />
+Addition:  \(\quad \quad q_1+q_2=(a_1+a_2)+(b_1+b_2)i+(c_1+c_2)j+(d_1+d_2)k\)<br />
+\(<br>\)<br />
+Dot product:  \(\quad \quad q_1\cdot q_2=a_1a_2+b_1b_2+c_1c_2+d_1d_2\)<br />
+\(<br>\)<br />
+Norm:  \(\quad \quad ||q||=\sqrt{a^2+b^2+c^2+d^2} =\sqrt{q\cdot q}\)</p>
+<p>P118</p>
+<h3 id="quaternion-multiplication"><a class="header" href="#quaternion-multiplication">Quaternion Multiplication</a></h3>
+<p>$$
+q_1q_2=(a_1+b_1i+c_1j+d_1k)*(a_2+b_2i+c_2j+d_2k)
+$$</p>
+<p>$$
+q_1q_2=a_1a_2-b_1b_2-c_1c_2-d_1d_2
+$$</p>
+<p>$$
++(b_1a_2+a_1b_2-d_1c_2+c_1d_2)i<br />
+$$</p>
+<p>$$
++(c_1a_2+d_1b_2+a_1c_2-b_1d_2)j<br />
+$$</p>
+<p>$$
++(d_1a_2-c_1b_2+b_1c_2+a_1d_2)k
+$$</p>
+<p>note:</p>
+<ul>
+<li>\(i^2=j^2=k^2=ijk=-1\)</li>
+<li>\(ij=k,ji=-k (^* \text{cross product})\)</li>
+<li>\(jk=i,kj=-i\)</li>
+<li>\(ki=j,ik=-j\)</li>
+</ul>
+<blockquote>
+<p>✅ \(q_1 \cdot q_2\) 和 \(q_1q_2\) 是两种不同的运算。</p>
+</blockquote>
+<p>P120</p>
+<p>Conjugation:   \(\quad \quad q^*=[w,-v]^T\)<br />
+\(<br>\)<br />
+Scalar product:  \(\quad \quad tq=[tw,tv]^T\)<br />
+\(<br>\)<br />
+Addition:  \(\quad \quad q_1+q_2=[w_1+w_2,v_1+v_2]^T\)<br />
+\(<br>\)<br />
+Dot product:  \(\quad \quad q_1\cdot q_2=w_1w_2+v_1 \cdot v_2\)<br />
+\(<br>\)<br />
+Norm:  \(\quad \quad ||q||=\sqrt{w_1w_2+v_1 \cdot v_2} =\sqrt{q\cdot q}\)</p>
+<p>P122</p>
+<p>$$
+q_1q_2=\begin{bmatrix}
+w_1\\
+v_1
+\end{bmatrix}\begin{bmatrix}
+w_2 \\
+v_2
+\end{bmatrix}=\begin{bmatrix}
+w_1w_2-v_1\cdot v_2\\
+w_1v_2+w_2v_1+v_1\times v_2
+\end{bmatrix}
+$$</p>
+<p>Non-Commutativity: </p>
+<p>$$
+q_1q_2\ne q_2q_1
+$$</p>
+<p>Associativity:</p>
+<p>$$
+q_1q_2q_3=(q_1q_2)q_3=q_1(q_2q_3)
+$$</p>
+<p>P123</p>
+<p>Conjugation:</p>
+<p>$$
+(q_1q_2)^\ast=q^\ast_2q^\ast_1
+$$</p>
+<p>Norm:</p>
+<p>$$
+||q||^2 = q^ \ast q =qq^\ast
+$$</p>
+<p>Reciprocal:</p>
+<p>$$
+\begin{matrix}
+qq^{-1}=1  &amp; \Rightarrow &amp; q^{-1}=\frac{q^*}{||q||^2}\\
+q^{-1}q=1  &amp;  &amp;
+\end{matrix}
+$$</p>
+<p>P124</p>
+<h3 id="unit-quaternions"><a class="header" href="#unit-quaternions">Unit Quaternions</a></h3>
+<p>$$
+\begin{matrix}
+q=\begin{bmatrix}
+w\\
+v
+\end{bmatrix} &amp;||q||=1
+\end{matrix}
+$$</p>
+<p>For any non-zero quaternion \(\tilde{q} \):</p>
+<p>$$
+q=\frac{\tilde{q}}{||\tilde{q}||}
+$$</p>
+<p>Reciprocal:</p>
+<p>$$
+\begin{matrix}
+q^{-1}=q^\ast =\begin{bmatrix}
+w\\
+-v
+\end{bmatrix} &amp;\Leftrightarrow &amp; R^{-1}=R^T
+\end{matrix}
+$$</p>
+<p>P125</p>
+<table><thead><tr><th>2D</th><th>3D</th></tr></thead><tbody>
+<tr><td><img src="./assets/02-26.png" alt="" /></td><td><img src="./assets/02-27.png" alt="" /></td></tr>
+<tr><td>unit complex number</td><td>unit quaternion<br> ✅ 所有单位四元数构成 4D 空间上的单位球核。</td></tr>
+<tr><td>\(z = \cos \theta  + i\sin \theta\)</td><td>\(q =  \begin{bmatrix} w\\v\end{bmatrix}= [\cos \frac{\theta}{2} ,   u\sin \frac{\theta}{2}] \quad \mid\mid u \mid\mid = 1\)</td></tr>
+</tbody></table>
+<p>same information as axis angles \((u,\theta)\) But in a different form</p>
+<p>P127</p>
+<h3 id="轴角表示---四元数表示"><a class="header" href="#轴角表示---四元数表示">轴角表示 -&gt; 四元数表示</a></h3>
+<p>Any 3D rotation \((v,\theta)\) can be represented as a <strong>unit quaternion</strong></p>
+<p>$$
+\begin{matrix}
+\text{Angle}: &amp; \theta =2 \text{ arg } \cos w\\
+\text{ Axis}:  &amp; u=\frac{v}{||v||} 
+\end{matrix}
+$$</p>
+<p>P128</p>
+<h3 id="rotation-a-vector-using-unit-quaternions"><a class="header" href="#rotation-a-vector-using-unit-quaternions">Rotation a Vector Using Unit Quaternions</a></h3>
+<p>已经向量p和单位四元数q，求p经过q旋转后的向量。</p>
+<p><img src="./assets/02-29.png" alt="" /></p>
+<p>$$
+\begin{matrix}
+\text{Unit quaternion}: &amp; q=\begin{bmatrix}
+w\\
+v
+\end{bmatrix}=[\cos \frac{\theta }{2} ,u\sin \frac{\theta }{2}]\\
+\text{ 3D vector}:p  &amp; \text{ Rotation result }: {p}'
+\end{matrix}
+$$</p>
+<p>Then the rotation can be applied by <strong>quaternion multiplication</strong>:</p>
+<blockquote>
+<p>✅ 纯方向 \(p\) 可用四元数表示为 \([0 \quad p ]\)<br />
+✅  \({p}' = R (q) \cdot p\)</p>
+</blockquote>
+<p>P129</p>
+<p>$$
+\begin{bmatrix}
+0 \\
+{p}' 
+\end{bmatrix}=q\begin{bmatrix}
+0\\
+p
+\end{bmatrix}q^\ast =(-q)\begin{bmatrix}
+0\\
+p
+\end{bmatrix}(-q)^\ast 
+$$</p>
+<p>\(\mathbf{q}\) <strong>and</strong> \(−\mathbf{q}\) <strong>represent the same rotation</strong></p>
+<p>P131</p>
+<h3 id="combination-of-rotations-1"><a class="header" href="#combination-of-rotations-1">Combination of Rotations</a></h3>
+<p>证明过程跳过，结论：</p>
+<p>$$
+\begin{matrix}
+\text{Combined rotation}: &amp; q=q_2q_1
+\end{matrix}
+$$</p>
+<p>P133</p>
+<h3 id="quaternion-interpolation"><a class="header" href="#quaternion-interpolation">Quaternion Interpolation</a></h3>
+<p><img src="./assets/02-31.png" alt="" /></p>
+<p>A unit hypersphere in 4D space</p>
+<blockquote>
+<p>✅ 单位四元数表现出来是 4D 空间中的球核，\(q_1q_2\) 是球核上的两个点，希望沿球面轨迹插值。</p>
+</blockquote>
+<p>P135</p>
+<h4 id="linear-interpolation"><a class="header" href="#linear-interpolation">Linear Interpolation</a></h4>
+<p>$$
+q_t=(1-t)q_0+tq_1
+$$</p>
+<p><img src="./assets/02-32.png" alt="" /></p>
+<p>\(q_t\) is not a unit quaternion</p>
+<p>P136</p>
+<h4 id="linear-interpolation--projection"><a class="header" href="#linear-interpolation--projection">Linear Interpolation + Projection</a></h4>
+<p>$$
+\begin{matrix}
+\tilde{q}_t=(1-t)q_0+tq_1  &amp; q_t=\frac{\tilde{q}_t }{||\tilde{q}_t||} 
+\end{matrix}
+$$</p>
+<p><img src="./assets/02-33.png" alt="" /></p>
+<p>$$
+\begin{matrix}
+q_t \text{ is a unit quaternion}\\
+\text{Rotational speed is not constant}
+\end{matrix}
+$$</p>
+<blockquote>
+<p>✅ 当 \(u_0＝-u_1\) 时，可能得到某个 \(\tilde{q} _t = 0\)，无法单位化<br />
+✅ 解决方法:根据 \(u_0＝-u_0\)，先找到 \(u_0\) 和 \(u_1\) 在数值上最接近的四元数表示。</p>
+</blockquote>
+<p>P137</p>
+<h4 id="slerp-spherical-linear-interpolation"><a class="header" href="#slerp-spherical-linear-interpolation">SLERP: Spherical Linear Interpolation</a></h4>
+<h5 id="思考"><a class="header" href="#思考">思考</a></h5>
+<p>$$
+q_t=a(t)q_0+b(t)q_1
+$$</p>
+<p>如何设计a和b，让插值结果速度恒定？</p>
+<p><img src="./assets/02-34.png" alt="" /></p>
+<p>$$
+r=a(t)p+b(t)q
+$$</p>
+<h5 id="计算"><a class="header" href="#计算">计算</a></h5>
+<p>Consider the angle \(\theta\) between \(p,q\):</p>
+<p>$$
+\cos \theta =p\cdot q
+$$</p>
+<p>We have:</p>
+<p>$$
+\begin{matrix}
+p \cdot r=a(t)p\cdot p+b(t)q\cdot p\\
+\Rightarrow \cos t \theta =a(t)+b(t)\cos \theta 
+\end{matrix}
+$$</p>
+<p>similarly:</p>
+<p>$$
+\begin{matrix}
+q \cdot r=a(t)q\cdot p+b(t)\\
+\Rightarrow \cos (1- t) \theta =a(t)\cos\theta +b(t)<br />
+\end{matrix}
+$$</p>
+<h5 id="结论-4"><a class="header" href="#结论-4">结论</a></h5>
+<p>then we have：</p>
+<p>$$
+a(t)=\frac{\sin [(1-t)\theta ]}{\sin \theta  } ,b(t)=\frac{\sin t \theta }{\sin \theta } 
+$$</p>
+<p><img src="./assets/02-35.png" alt="" /></p>
+<p>P139</p>
+<p>$$
+q_t=\frac{\sin [(1-t)\theta ]}{\sin \theta  }q_0+\frac{\sin t \theta }{\sin \theta }q_1 
+$$</p>
+<p>$$
+\cos \theta=q_0\cdot  q_1
+$$</p>
+<p>P140</p>
+<h3 id="结论-5"><a class="header" href="#结论-5">结论</a></h3>
+<p>Rotations can be represented by <strong>unit quaternions</strong></p>
+<p>Representation is not unique</p>
+<p>\(q, −q\) represent the same rotation</p>
+<ul>
+<li>Easy to compose?   \(\quad \quad {\color{Green} \surd }\quad \quad \)     Need normalization, hard to manipulate,</li>
+<li>Easy to apply?    \(\quad \quad  \quad {\color{Green} \surd }\quad \quad \)       Quaternion multiplication</li>
+<li>Easy to interpolate?  \(\quad   {\color{Green} \surd }\quad \quad \)   SLERP, need to deal with singularities</li>
+<li>No Gimbal lock  \(\quad \quad  \quad {\color{Green} \surd }\quad \quad \)</li>
+</ul>
+<hr />
+<blockquote>
+<p>本文出自CaterpillarStudyGroup，转载请注明出处。</p>
+<p>https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="Forward.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="Forward.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="theme/pagetoc.js"></script>
+    </body>
+</html>
