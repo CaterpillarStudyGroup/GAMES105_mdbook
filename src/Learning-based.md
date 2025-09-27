@@ -341,6 +341,8 @@ Note: \\(x\\) can represent a pose \\(\theta\\)
 P83   
 ### 相关工作
 
+见https://caterpillarstudygroup.github.io/ImportantArticles/index.html
+
 |||
 |---|---|
 |![](./assets/06-14.png)   ||
@@ -348,7 +350,7 @@ P83
 |Min et al. 2009| &#x2705; 视频动捕是欠约束问题，但可以通过分布过滤掉不合理的结果。|  
 |![](./assets/06-16.png)   | &#x2705; 缺点：实现麻烦，很多超参。   |
 |![](./assets/06-22.png) |[Starke et al 2020, Local Motion Phases for Learning Multi-Contact Character Movements]|
-|![](./assets/06-23.png)|[Henter et al. 2020, MoGlow: Probabilistic and Controllable Motion Synthesis Using Normalising Flows]|
+|![](./assets/06a-30.png) |[Henter et al. 2020, MoGlow: Probabilistic and Controllable Motion Synthesis Using **Normalising Flows**]<br>&#x2705; 利用 RL 等方法，在 lalent code 上生成轨迹，再把轨迹转到动作空间。 |
 |![](./assets/06-24.png)   |[Lee et al 2019, Interactive Character Animation by Learning Multi-Objective Control]|
 |![](./assets/06-25.png)|[Holden et al 2020, Learned Motion Matching]<br> &#x2705; 用 DL 代替复杂的模型，来估计动作先验。 |
 

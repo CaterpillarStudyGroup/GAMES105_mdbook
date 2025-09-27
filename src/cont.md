@@ -203,13 +203,12 @@ P60
 P62  
 ## 相关工作
 
+见https://caterpillarstudygroup.github.io/ImportantArticles/index.html
+
 |||
 |---|---|
 |![](./assets/06a-29.png)| [Ling et al. 2021 Character Controllers Using Motion **VAEs**]|
-|![](./assets/06a-30.png) |[Henter et al. 2020, MoGlow: Probabilistic and Controllable Motion Synthesis Using **Normalising Flows**]<br>&#x2705; 利用 RL 等方法，在 lalent code 上生成轨迹，再把轨迹转到动作空间。 |
-|![](./assets/06a-31.png)|[Zhang et al. 2022, **arXiv**, MotionDiffuse: Text-Driven Human Motion Generation with **Diffusion Model**]|
 |![](./assets/06a-32.png)|[Tevet et al. 2022, **arXiv**, MDM: Human Motion **Diffusion Model**]| 
-||Ganimator：小样本生成|| 
 
 
 ---------------------------------------
