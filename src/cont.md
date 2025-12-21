@@ -207,7 +207,6 @@ P62
 
 |||
 |---|---|
-|![](./assets/06a-29.png)| [Ling et al. 2021 Character Controllers Using Motion **VAEs**]|
 |![](./assets/06a-32.png)|[Tevet et al. 2022, **arXiv**, MDM: Human Motion **Diffusion Model**]| 
 
 

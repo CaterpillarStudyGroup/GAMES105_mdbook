@@ -229,16 +229,12 @@ P45
 
 ![](./assets/01-22.png) 
 
+https://caterpillarstudygroup.github.io/ImportantArticles/CharacterAnimation/HumanMotionGenerationSummary.html
+
 
 > &#x2705; 对角色动作的内在规律去理解和建模，从数据学习统计规律。  
 > &#x2705; 生成模型：只需要采足够的动作去给模型就能生成新的动作。   
 > &#x2705; 不需要手工作切分、生成状态机   
-
-
-|ID|Year|Name|Note|Tags|Link|
-|---|---|---|---|---|---|
-||2020|Local Motion Phases for Learning Multi-Contact Character Movements|  
-||2021|Character Controllers Using Motion VAEs|
 
 P49   
 ## Cross-Modal Motion Synthesis
