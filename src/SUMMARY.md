@@ -17,6 +17,7 @@
 - [Joint Constraint](JointConstraint.md)
 - [Contacts](Contacts.md)
 - [Actuating Simulated Characters](Actuating.md)
+- [Outline](Outline.md)
 - [Controlling Characters](Controlling.md)
 - [Learning to Walk](Learning.md)
 - [Optimal Control and Reinforcement Learning](Optimal.md)
