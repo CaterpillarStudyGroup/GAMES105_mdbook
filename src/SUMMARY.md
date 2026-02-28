@@ -12,6 +12,7 @@
 - [Learning-based Character Animation](cont.md)
 - [Skinning](Skinning.md)
 - [Physics-based Simulation and Articulated Rigid Bodies](Simulation.md)
+- [Articulated Rigid Bodies](Articulated-Rigid-Bodies.md)
 - [Actuating Simulated Characters](Actuating.md)
 - [Controlling Characters](Controlling.md)
 - [Learning to Walk](Learning.md)
