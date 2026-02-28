@@ -1,16 +1,3 @@
-P2   
-# Outline   
-
- - Simulating & Actuating Characters   
-    - Joint torques   
-    
- - PD (Proportional-Derivative) control   
-
-
-> &#x2705; 在仿真基础之上，如何驱动角色动画，如何动得更好，更真实。   
-> &#x2705;（1）控制力如何施加到角色身上   
-> &#x2705;（2）如何计算控制力   
-
 
 
 P4   
@@ -75,6 +62,29 @@ P16
 ## Simulation of a Rigid Body System
 
 ![](./assets/09-05.png)
+
+
+
+---------------------------------------
+> 本文出自CaterpillarStudyGroup，转载请注明出处。
+>
+> https://caterpillarstudygroup.github.io/GAMES105_mdbook/
+
+
+P2   
+# Outline   
+
+ - Simulating & Actuating Characters   
+    - Joint torques   
+    
+ - PD (Proportional-Derivative) control   
+
+
+> &#x2705; 在仿真基础之上，如何驱动角色动画，如何动得更好，更真实。   
+> &#x2705;（1）控制力如何施加到角色身上   
+> &#x2705;（2）如何计算控制力   
+
+
 
 # Simulating & Actuating Characters
 
