@@ -15,7 +15,7 @@
 - [Articulated Rigid Bodies](Articulated-Rigid-Bodies.md)
 - [Constraints](Constraints.md)
 - [Joint Constraint](JointConstraint.md)
-- [ontacts](ontacts.md)
+- [Contacts](Contacts.md)
 - [Actuating Simulated Characters](Actuating.md)
 - [Controlling Characters](Controlling.md)
 - [Learning to Walk](Learning.md)
