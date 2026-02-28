@@ -21,5 +21,7 @@
 - [Proportional-Derivative Control](Proportional-DerivativeControl.md)
 - [Controlling Characters](Controlling.md)
 - [Learning to Walk](Learning.md)
+- [Zero-Moment Point (ZMP)](ZMP.md)
+- [SIMBICON](SIMBICON.md)
 - [Optimal Control and Reinforcement Learning](Optimal.md)
 
