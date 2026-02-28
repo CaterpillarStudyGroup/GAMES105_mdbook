@@ -18,6 +18,7 @@
 - [Contacts](Contacts.md)
 - [Actuating Simulated Characters](Actuating.md)
 - [Outline](Outline.md)
+- [Proportional-Derivative Control](Proportional-DerivativeControl.md)
 - [Controlling Characters](Controlling.md)
 - [Learning to Walk](Learning.md)
 - [Optimal Control and Reinforcement Learning](Optimal.md)

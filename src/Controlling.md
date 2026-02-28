@@ -538,7 +538,7 @@ A simple strategy to maintain balance:
 
 
 > &#x2705; 力矩 1：让角色保持某个姿势。  
-> &#x2705; 力矩 2：让质心与目标质心位置接近。  
+> &#x2705; 力矩 2：让质心与目标质心位置接近。力矩额外加在脚裸关节或髋关节上。    
 > &#x2705; 在某些关节上增加一些额外的力矩。   
 
 
@@ -579,7 +579,7 @@ $$
 P=f^T\dot{x}=\tau  ^T\dot{\theta } 
 $$
 
-> &#x2705; 从做功的角度。功率 = fv
+> &#x2705; 从做功的角度。力矩所做的功（功率）与虚力要做的功（功率）相同。功率 = \\(fv\\)
   
 Forward kinematics \\(x=g(\dot{\theta } )\Rightarrow \dot{x}=J \dot{\theta } \\)   
 
@@ -623,7 +623,7 @@ A simple strategy to maintain balance:
  - Use PD control to compute feedback **virtual force**    
 
 > &#x2705; P66 中在 Hips 上加力矩的方式只能进行简单的控制。    
-> &#x2705; 可以通过虚力实现相似的效果。  
+> &#x2705; 可以通过虚力实现相似的效果。用 \\(PD\\) 控制计算出力，再通过关节力矩实现这个力。  
 
 $$
 f=k_p(\bar{c} -c)-k_d\dot{c}
