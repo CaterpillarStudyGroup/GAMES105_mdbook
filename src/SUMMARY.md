@@ -13,6 +13,7 @@
 - [Skinning](Skinning.md)
 - [Physics-based Simulation and Articulated Rigid Bodies](Simulation.md)
 - [Articulated Rigid Bodies](Articulated-Rigid-Bodies.md)
+- [Constraints](Constraints.md)
 - [Actuating Simulated Characters](Actuating.md)
 - [Controlling Characters](Controlling.md)
 - [Learning to Walk](Learning.md)
