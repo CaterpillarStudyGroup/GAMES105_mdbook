@@ -1,124 +1,33 @@
-P2  
+## Tracking Controllers
+
+> &#x2705; 引入PD Control之后，控制本质上变成了设计 targer state．   
+
+![](../assets/09-32.png)   
+
+P67  
+### Full-body Tracking Controllers
 
 
- - Feedforward Motion Control   
-    - Trajectory optimization   
-> &#x2705; 不通过施加净外力，构建物理准确的动画。   
+![](../assets/09-33.png)   
 
- - Feedback Motion Control   
-    - Static balance   
-
-P3  
-# PD Control for Characters   
-
-> &#x2705; 前面是 PD 的例子，这里是 PD 在物理仿真角色上的应用，计算在每个关节上施加多少力矩。   
-
-![](./assets/09-29.png)
-
-![](./assets/09-30.png)
-
-
-
-> &#x2705; 通常目标的速度 \\(\dot{\bar{q}}  = 0\\).   
-
-因此：  
-![](./assets/09-31.png)
-
-
-P63  
-### PD Control for Characters的参数和效果
-
-> &#x2705; \\(K_p\\) 太小：可能无法达到目标状态。   
-> &#x2705; \\(K_p\\) 太大：人体很僵硬。  
-> &#x2705; \\(k_d\\) 太小：动作有明显振荡。    
-> &#x2705; \\(k_d\\) 太大，要花更多时间到达目标资态。   
-
- - Determining gain and damping coefficients can be difficult…   
-    - A typical setting \\(k_p\\) = 200, \\(k_d\\) = 20 for a 50kg character   
-    - Light body requires smaller gains   
-    - Dynamic motions need larger gains
-
- - High-gain/high-damping control can be unstable, so small times is necessary  
-    - \\(h\\) = 0.5~1ms is often used, or 1000~2000Hz   
-    - \\(h\\) = 1/120s~1/60s, or 120Hz/60Hz **with Stable PD**   
-    - Higher gain/damping requires smaller time step   
-
-P66  
+> &#x2705; 设计角色的目标轨迹。  
+> &#x2705; 直接用 PD 控制跟踪动捕数据会有很大的问题，原因：   
+> （1）稳态误差。  
+> （2）运动轨迹跟原轨迹之间会相差一点点相位  
+> （3）欠驱动系统，有一点点误差，后面无法修复。  
 
 
 
-P72   
-## 欠驱动系统问题
+P71  
+### feedforward ？ feedback
 
-### 欠驱动系统的问题
-
-由于是欠驱动系统，Tracking Mocap with Joint Torques会遇到问题，因为：   
-
-\\(\tau _j\\): joint torques   
-Apply \\(\tau _j\\) to “child” body    
-Apply \\(-\tau _j\\) to “parent” body   
-**All forces/torques sum up to zero**   
+Is PD control a **feedforward** control?   
+a **feedback** control?   
 
 
-> &#x2705; 合力为零，无法控制整体的位置和朝向。   
+> &#x2705; 是反馈控制，因为计算 \\(\tau \\) 时使用了当前状态 \\(q\\)．  
+> &#x2705; 是前馈控制，因为在 PD 系统里，状态是位置不是 \\(q\\).   
 
-
-
-P73  
-### 解决方法：增加净外力
-
-\\(f_0,\tau _0\\): root force / torque    
-\\(\quad\quad\\)Apply \\(f_0\\) to the root body    
-\\(\quad\quad\\)Apply \\(\tau _0\\) to the root body   
-\\(\quad\quad\\)Non-zero net force/torque on the character!  
-
-
-> &#x2705; 净外力，无施力者，用于帮助角色保持平衡。   
-> &#x2705; 缺点：让角色看起来像提线木偶。   
-
-P75   
-### 相关工作：Mixture Simulation and Mocap
-
-![](./assets/09-34.png)
-
-
-> &#x2705; 关键帧与仿真的混合。  
-
-P4  
-## 稳态误差问题   
-
-PD control computes torques based on **errors**   
-
-### Steady state error   
-
-This arm never reaches the target angle under gravity   
-
-![](./assets/10-03.png)  
-
-在角色上的表现就是 Motion falls behind the reference   
-
-![](./assets/10-04.png)
-
-
-P7   
-### 问题原因 
-
-> &#x2705; 前面两个问题的根本原因是相同的，因为需要有误差才能计算force，有了force才能控制。  
-
-High-gain \\((k_p)\\) control is more precise but less stable…   
-
-### 解决方法
-
-> &#x2705; 增大 \\(k_p\\)能缓解以上问题，但大的 \\(k_p\\) 会带来肢体僵硬和计算不稳定。   
-
-P25  
-### 相关工作   
-
-> &#x1F50E; ![](./assets/10-09.png)
-
-$$
-\tau _{\mathrm{int} }=-K_p(q^n+\dot{q}^n \Delta t-\bar{q} ^{n+1})-K_d(\dot{q} ^n+\ddot{q} ^n \Delta t)
-$$
 
 P28  
 # Tracking Mocap with Root Forces/Torques   
@@ -527,9 +436,3 @@ P79
  - Solve a **one-step** optimization problem to compute joint torques   
  
 > &#x1F50E; ![](./assets/10-34.png)   
-
-
----------------------------------------
-> 本文出自CaterpillarStudyGroup，转载请注明出处。
->
-> https://caterpillarstudygroup.github.io/GAMES105_mdbook/

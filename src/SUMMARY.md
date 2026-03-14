@@ -27,6 +27,7 @@
   - [驱动角色](Outline.md)
   - [Proportional-Derivative Control](Proportional-DerivativeControl.md)
   - [Controlling Characters](Controlling.md)
+- [轨迹跟踪](Tracking/Tracking.md)
 - [Character Control]()
   - [Learning to Walk](Learning.md)
   - [Zero-Moment Point (ZMP)](ZMP.md)

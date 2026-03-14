@@ -6,9 +6,9 @@ P55
 
 > &#x2705; 有反馈，但还是算是前向控制，因为反馈的部分和想控制的部分不完全一致。   
 
-## 简化问题分析
+这一页先用一个简化问题来分析PD控制
 
-### 问题描述
+## 问题描述
 
 Compute force \\(f\\) to move the object to the target height    
 
@@ -17,7 +17,7 @@ Compute force \\(f\\) to move the object to the target height
 
 ![](./assets/09-23-1.png)
 
-### 使用比例控制
+## 使用比例控制
 
 ![](./assets/09-23-2.png)
 
@@ -26,7 +26,7 @@ Compute force \\(f\\) to move the object to the target height
 ![](./assets/09-23.png)
 
 P56   
-### 比例控制+Damping
+## 比例控制+Damping
 
 ![](./assets/09-24.png)
 
@@ -36,7 +36,7 @@ P56
 
 P57   
 
-### 比例微分控制
+## 比例微分控制
 
 ![](./assets/09-24-1.png)
 
@@ -53,10 +53,8 @@ Increase stiffness \\(k_p\\) reduces the steady-state error, but can make the sy
 
 > &#x2705; 增加 \\(k_p\\) 可以减小误差，但会让人看起来很僵硬。  
 
-
-
 P61   
-### 比例积分微分控制 Proportional-Integral-Derivative controller 
+## 比例积分微分控制 Proportional-Integral-Derivative controller 
 
 ![](./assets/09-27.png)  
 ![](./assets/09-28.png)  
@@ -66,105 +64,115 @@ P61
 > &#x2705; 但角色动画通常不用积分项。   
 > &#x2705; 积分项跟历史相关，会带来实现的麻烦和控制的不稳定。  
 
+## Stable PD Control
+
+> &#x2705; PD control 的过程类似于一个弹簧系统。  
+> &#x2705; 因此利用弹簧系统中的半隐式欧拉来提升 PD 的稳定性。   
+
+### 显式欧拉的PD控制的稳定性分析
+
+> &#x2705; \\(h\\) 为时间步长。  
+> &#x2705; (1) 假设 \\(m＝1\\) (2) 代入 \\(f\\) 到方程组 (3) 方程组写成矩阵形式，得：   
 
 
-P62   
-## PD Control for Characters
+P11   
 
-> &#x2705; 前面是 PD 的例子，这里是 PD 在物理仿真角色上的应用，计算在每个关节上施加多少力矩。   
+$$
+\begin{bmatrix}
+ v_{n+1}\\\\
+x_{n+1}
+\end{bmatrix}=\begin{bmatrix}
+1-k_dh  & -k_ph\\\\
+ h(1-k_dh) & 1-k_ph^2
+\end{bmatrix}\begin{bmatrix}
+v_n \\\\
+x_n
+\end{bmatrix}
+$$
 
-![](./assets/09-29.png)
+P14  
+提取常数方程A，得：
 
-![](./assets/09-30.png)
-
-
-
-> &#x2705; 通常目标的速度 \\(\dot{\bar{q}}  = 0\\).   
-
-因此：  
-![](./assets/09-31.png)
-
-
-P63  
-### PD Control for Characters的参数和效果
-
-> &#x2705; \\(K_p\\) 太小：可能无法达到目标状态。   
-> &#x2705; \\(K_p\\) 太大：人体很僵硬。  
-> &#x2705; \\(k_d\\) 太小：动作有明显振荡。    
-> &#x2705; \\(k_d\\) 太大，要花更多时间到达目标资态。   
-
-
-P66  
-## Tracking Controllers
-
-> &#x2705; 引入PD Control之后，控制本质上变成了设计 targer state．   
-
-![](./assets/09-32.png)   
-
-P67  
-### Full-body Tracking Controllers
+$$
+A=\begin{bmatrix}
+1-k_dh  & -k_ph\\\\
+ h(1-k_dh) & 1-k_ph^2
+\end{bmatrix}
+$$
 
 
-![](./assets/09-33.png)   
+![](./assets/10-06.png)
 
-> &#x2705; 设计角色的目标轨迹。  
-> &#x2705; 直接用 PD 控制跟踪动捕数据会有很大的问题，原因：   
-> （1）稳态误差。  
-> （2）运动轨迹跟原轨迹之间会相差一点点相位  
-> （3）欠驱动系统，有一点点误差，后面无法修复。  
+\\(\lambda _1,\lambda _2 \in  \mathbb{C}  \\) are eigenvalues of \\(A\\)   
 
+> &#x2705; 基于中间变是 \\(z_n\\) 推导的过程跳过。  
+> &#x2705; 根据矩阵特征值的性质可直接得出结论。  
 
+if \\(|\lambda _1|> 1\\)   
 
-P71  
-### feedforward ？ feedback
+The system is unstable!    
 
-Is PD control a **feedforward** control?   
-a **feedback** control?   
+Condition of stability: \\(|\lambda _i|\le  1 \text{ for all } \lambda _i\\)   
 
-
-> &#x2705; 是反馈控制，因为计算 \\(\tau \\) 时使用了当前状态 \\(q\\)．  
-> &#x2705; 是前馈控制，因为在 PD 系统里，状态是位置不是 \\(q\\).   
+![](./assets/10-07.png)
 
 
-
-P72   
-## 欠驱动系统
-
-### 欠驱动系统的问题
-
-由于是欠驱动系统，Tracking Mocap with Joint Torques会遇到问题，因为：   
-
-\\(\tau _j\\): joint torques   
-Apply \\(\tau _j\\) to “child” body    
-Apply \\(-\tau _j\\) to “parent” body   
-**All forces/torques sum up to zero**   
+> &#x2705; 如果 \\(k_p\\) 和 \\(k_d\\) 变大，就必须以一个较小的时间步长进行仿真。   
 
 
-> &#x2705; 合力为零，无法控制整体的位置和朝向。   
+P22   
+### 隐式欧拉的PD控制
 
+> &#x2705; 解决方法：半隐式欧拉 → 隐式欧拉，即用下一时刻的力计算下一时刻的速度。   
 
+- 半隐式欧拉
 
-P73  
-### 解决方法：增加净外力
+$$
+\begin{align*}
+ v_{n+1} & = v_n+h(-k_px_n-k_dv_n) \\\\
+ v_{n+1} & = x_n+hv_{n+1}
+\end{align*}
+$$
 
-\\(f_0,\tau _0\\): root force / torque    
-\\(\quad\quad\\)Apply \\(f_0\\) to the root body    
-\\(\quad\quad\\)Apply \\(\tau _0\\) to the root body   
-\\(\quad\quad\\)Non-zero net force/torque on the character!  
+$$
+\Downarrow 
+$$
 
+- 隐式欧拉
 
-> &#x2705; 净外力，无施力者，用于帮助角色保持平衡。   
-> &#x2705; 缺点：让角色看起来像提线木偶。   
+$$
+\begin{align*}
+ v_{n+1} & = v_n+h(-k_px_n-k_dv_{n+1}) \\\\
+ x_{n+1} & = x_n+hv_{n+1}
+\end{align*}
+$$
 
 
 
-P75   
-## Mixture Simulation and Mocap
+> &#x2705; 实际上，计算 \\(f_{n＋1}\\) 只使用 \\(V_{n＋1}\\) , 不使用 \\(x_{n＋1}\\) , 因为 \\(x_{n＋1}\\) 会引入非常复杂的计算。   
+> &#x2705; 由于 \\(v_{n＋1}\\) 未知，需通过解方程组来求解。   
 
-![](./assets/09-34.png)
+P23  
+得到的方程组为：  
+
+$$
+\begin{bmatrix}
+ v_{n+1} \\\\
+x_{n+1} 
+\end{bmatrix}=\frac{1}{1+hk_d} \begin{bmatrix}
+ 1 & -k_ph\\\\
+ h & 1+k_dh-k_ph^2
+\end{bmatrix}\begin{bmatrix}
+ v_n\\\\
+x_n
+\end{bmatrix}
+$$
+
+![](./assets/10-08.png)
 
 
-> &#x2705; 关键帧与仿真的混合。  
+> &#x2705; \\(v_{n}\\) 换成 \\(v_{n＋1}\\) ，很大承度上提高了稳定性。  
+
 
 
 
