@@ -1,52 +1,11 @@
-
-P2   
-# Outline   
-
- - Simulating & Actuating Characters   
-    - Joint torques   
-    
- - PD (Proportional-Derivative) control   
-
+# Simulating & Actuating Characters   
 
 > &#x2705; 在仿真基础之上，如何驱动角色动画，如何动得更好，更真实。   
 > &#x2705;（1）控制力如何施加到角色身上   
 > &#x2705;（2）如何计算控制力   
 
-
-
-# Simulating & Actuating Characters
-
-P17   
-## Defining a Simulated Character  
-
-Rigid bodies:    
- - \\(m_i,I_i,x_i,R_i\\)     
- - Geometries    
-
-Joints:   
- - Position   
- - Type   
-> &#x2705; Type指关节的类型，例如 Hint、Universal等。它决定了约束方程。   
- - Bodies   
-
-> &#x2705; 关节的数量比刚体的数量少1  
-
-![](./assets/09-06.png)
-
-> &#x2705; 仿真过程中通常使用简单几何体代替 Mesh. 为了便于碰撞检测的计算，以及辨别里外。   
-
-P19   
-## Simulating a Character Pipeline  
-
-![](./assets/09-07.png)
-
-> &#x2705; 这个仿真流程是 ragdoll 效果。   
-
-
 P22   
-## Actuating a Rigid Body
-
-> &#x2705; 想让角色做指定动作，不能直接修改其状态，而是控制力影响状态。  
+## 施加力/力矩会得到的效果
 
 |||
 |---|---|
@@ -55,25 +14,24 @@ P22
 |&#x2705; 在质心上施加一个力矩，等价于施加一对大小相同方向相反的力。在质心处的合力为零，不会产生位移，只会产生旋转。<br> &#x2705; 力矩只是数学上的概念。|![](./assets/09-11.png)|
 
 P26   
-## Actuating Articulated Rigid Bodies
+
+## 怎么对角色产生效果 
+
+> &#x2705; 想让角色做指定动作，不能直接修改其状态，而是控制力影响状态。  
+
 
 |||
 |---|---|
 |&#x2705; 为了驱动角色，可以单独对每个刚体施加力或力矩。|![](./assets/09-12.png)|
 |&#x2705; 也可以在关节上施加力矩。|![](./assets/09-13.png)|
 
-P29   
-## Joint Torques  
-
-What is a joint torque?   
-How is a joint torque applied?   
-
 > &#x2705; 回顾前面公式，力和力矩都是施加在刚体上的，如何施加在关节上?   
 
-
+P29   
+# Joint Torques  
 
 P33  
-### 什么是Joint Torques
+## 什么是Joint Torques
 
 > &#x2705; 关节上的力矩，可以看作是一个刚体对另一个刚体在关节处施加的成对的力。其合力为零但每个力施加的位置不同，可以转化为对另一刚体的力矩。   
 
@@ -117,7 +75,7 @@ P36
 
 
 P38  
-### 怎样施加Joint Torques
+## 怎样施加Joint Torques
 
 Applying a joint torque \\( \tau\\):   
  - Add \\( \tau\\) to one attached body    
@@ -151,7 +109,7 @@ $$
 
 
 P40   
-## Simulating + Controlling a Character
+# Simulating + Controlling a Character
 
 ![](./assets/09-17.png)
 
@@ -161,7 +119,7 @@ P40
 
 
 P44   
-### Forward Dynamics vs. Inverse Dynamics
+## Forward Dynamics vs. Inverse Dynamics
   
 ![](./assets/09-18.png)
 
@@ -171,7 +129,7 @@ P44
 
 P46   
 
-### Fully-Actuated vs. Underactuated
+## Fully-Actuated vs. Underactuated
 
 在上一节中，\\(f\\) 与 \\(V\\) 的自由度可能是不同的。\\(f\\) 是关节数\\( × 3\\)，\\(V\\) 是刚体数\\( × 3\\)。   
 
@@ -190,7 +148,7 @@ P46
 
 P49   
 
-### Feedforward vs. Feedback   
+## Feedforward vs. Feedback   
 
 ![](./assets/09-22.png)
 

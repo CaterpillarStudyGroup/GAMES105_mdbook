@@ -15,7 +15,7 @@ mindmap
    角色动力学
       动力学基础
       关节约束
-      摩擦
+      接触
    PD控制
       PD控制
       PID控制
@@ -31,7 +31,24 @@ mindmap
 > &#x2705; (1) 仿真：在计算机中模拟出真实世界的运行方式。   
 > &#x2705; (2) 控制：生成角色的动作，来做出响应。  
 
+P17   
+# Defining a Simulated Character  
 
+Rigid bodies:    
+ - \\(m_i,I_i,x_i,R_i\\)     
+ - Geometries    
+
+Joints:   
+ - Position   
+ - Type   
+> &#x2705; Type指关节的类型，例如 Hint、Universal等。它决定了约束方程。   
+ - Bodies   
+
+> &#x2705; 关节的数量比刚体的数量少1  
+
+![](./assets/09-06.png)
+
+> &#x2705; 仿真过程中通常使用简单几何体代替 Mesh. 为了便于碰撞检测的计算，以及辨别里外。   
 
 P5  
 # Outline   
