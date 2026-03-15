@@ -13,6 +13,7 @@ P57
 mindmap
 基于动力学的角色驱动
    角色动力学
+      仿真
       动力学基础
       关节约束
       接触
@@ -33,6 +34,8 @@ mindmap
 > &#x2705; 物理方法的难点：  
 > &#x2705; (1) 仿真：在计算机中模拟出真实世界的运行方式。   
 > &#x2705; (2) 控制：生成角色的动作，来做出响应。  
+> &#x2705; 角色物理动画通常不关心仿真怎么实现。   
+> &#x2705; 但也可以把仿真当成白盒，用模型的方法来实现。  
 
 P17   
 # Defining a Simulated Character  
@@ -51,26 +54,8 @@ Joints:
 
 ![](./assets/09-06.png)
 
-> &#x2705; 仿真过程中通常使用简单几何体代替 Mesh. 为了便于碰撞检测的计算，以及辨别里外。   
+> &#x2705; 仿真过程中通常使用简单几何体代替 Mesh. 为了便于碰撞检测的计算，以及辨别里外。       
 
-P5  
-# Outline   
-
- - Simulation Basis   
-    - Numerical Integration: Euler methods   
- - Equations of Rigid Bodies   
-    - Rigid Body Kinematics   
-    - Newton-Euler equations   
- - Articulated Rigid Bodies   
-    - Joints and constraints   
- - Contact Models   
-    - Penalty-based contact   
-    - Constraint-based contact      
-
-<https://www.cs.cmu.edu/~baraff/sigcourse/>
-
-> &#x2705; 角色物理动画通常不关心仿真怎么实现。   
-> &#x2705; 但也可以把仿真当成白盒，用模型的方法来实现。  
 
 
 
