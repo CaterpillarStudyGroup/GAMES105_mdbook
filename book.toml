@@ -4,7 +4,7 @@ language = "en"
 description = "The note of GAMES105"
 multilingual = false
 src = "src"
-title = "GAMES105"
+title = "3D角色骨骼动画技术"
 
 [output.html]
 mathjax-support = true
