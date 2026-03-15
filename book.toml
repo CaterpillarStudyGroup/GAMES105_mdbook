@@ -10,7 +10,7 @@ title = "3D角色骨骼动画技术"
 mathjax-support = true
 git-repository-url = "https://github.com/CaterpillarStudyGroup/GAMES105_mdbook"
 git-repository-icon = "fa-github"
-additional-css = ["theme/pagetoc.css", "theme/font-sizes.css"]
+additional-css = ["theme/pagetoc.css"]
 additional-js  = ["theme/pagetoc.js", "theme/mermaid.min.js", "theme/mermaid-init.js"]
 
 
