@@ -1,5 +1,3 @@
-
-
 P11   
 # Zero-Moment Point (ZMP)
 

@@ -27,11 +27,16 @@
   - [驱动角色](Outline.md)
   - [Proportional-Derivative Control](Proportional-DerivativeControl.md)
   - [Controlling Characters](Controlling.md)
+  - [Static Balance](PDControl/StaticBalance.md)
 - [轨迹优化](Tracking/Tracking.md)
-  - 
+  - [简单例子](Tracking/SimpleCase.md)
+  - [Optimal Control and Reinforcement Learning](Optimal.md)
 - [Character Control]()
   - [Learning to Walk](Learning.md)
   - [Zero-Moment Point (ZMP)](ZMP.md)
   - [SIMBICON](SIMBICON.md)
-  - [Optimal Control and Reinforcement Learning](Optimal.md)
 
+
+# Application
+
+- [Locomotion](Application/Locomotion.md)
