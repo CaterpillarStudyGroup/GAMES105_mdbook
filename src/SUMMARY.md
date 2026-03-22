@@ -32,6 +32,7 @@
   - [简单例子](Tracking/SimpleCase.md)
   - [Optimal Control and Reinforcement Learning](Optimal.md)
   - [Linear Quadratic Regulator (LQR)](LQR.md)
+  - [Nonlinear problems ](Nonlinear_problems.md)
 - [Character Control]()
   - [Learning to Walk](Learning.md)
   - [Zero-Moment Point (ZMP)](ZMP.md)
