@@ -54,7 +54,7 @@ P87
 P88  
 ## 跟踪问题(轨迹优化问题)变成MDP问题   
 
-用RL实现跟踪控制的效果    
+用 RL 实现跟踪控制的效果    
 
 Trajectory    
 
@@ -73,7 +73,7 @@ Reward
 P90   
 ## MDP问题的数学描述
 
-> &#x2705; Markov 性质：当当前状态已知的情况下，下一时刻状态只与当前状态相关，而不与之前任一时刻状态相关。   
+> &#x2705; Markov 性质：当前状态已知的情况下，下一时刻状态只与当前状态相关，而不与之前任一时刻状态相关。   
 
 MDP is a **discrete-time** stochastic control process.    
 It provides a mathematical framework for modeling decision making in situations     
@@ -93,6 +93,7 @@ P91
 
 Solve for a policy \\(\pi (a\mid s)\\) that optimize the **expected return**    
 
+> &#x2705; 假设 \\(\pi \\) 函数和 \\(p\\) 函数都是有噪音的，即得到的结果不是确定值，而是以一定概率得到某个结果(期望值)。**这是与最优控制问题的区别。**   
 
 $$
 J=E[R]=E_{\tau \sim \pi }[\sum_{t}^{} \gamma ^tr(s_t,a_t)]
@@ -102,7 +103,6 @@ $$
 
 Overall all trajectories \\(\tau \\) = { \\(s_0, a_0 , s_1 , a_1 ,  \dots  \\)} induced by \\(\pi \\)   
 
-> &#x2705; 假设 \\(\pi \\) 函数和 \\(p\\) 函数都是有噪音的，即得到的结果不是确定值，而是以一定概率得到某个结果。**这是与最优控制问题的区别。**   
 
 P93   
 ## Bellman Equations
@@ -111,11 +111,13 @@ In optimal control:
 
 ![](./assets/12-34.png)   
 
+> &#x2705; 在最优控制问题中，\\(\pi \\) 是一个特定的策略，特指最优策略。\\(V\\) 也是特指在最优策略下的 value。
+
 In RL control:    
 
 ![](./assets/12-35.png)   
 
-> &#x2705; 此处的\\(\pi \\)是某一个策略，而不是最优策略。  
+> &#x2705; 在RL控制问题中，不存在最优策略下，\\(\pi \\)是一个策略分布中的某一个策略，而不是最优策略。  \\(V\\) 是指某个策略 \\(\pi \\)下的 value function。
 
 P94   
 ## How to Solve MDP  
@@ -134,6 +136,8 @@ $$
 
 P95   
 > &#x1F50E; DQN [Mnih et al. 2015, Human-level control through deep reinforcement learning]   
+
+DQN 方法要求控制空间必须是离散的。但状态空间可以是离散的。   
 
 P96  
 
@@ -157,8 +161,8 @@ P97
 
 - Exa pl : REINFORCE, TRPO, PPO, …   
 
-> &#x2705; policy grodient 是 Value function 对状态参数的求导。但这个没法算，所以用统计的方法得到近似。   
-> &#x2705; 特点是显示定义 Dolicy 函数。对连续问题更有效。    
+> &#x2705; policy gradient 是 Value function 对状态参数的求导。但这个没法算，所以用统计的方法得到近似。   
+> &#x2705; 特点是显示定义 Policy 函数。对连续问题更有效。    
 
 
 P98   
@@ -177,26 +181,6 @@ P100
 > &#x2705; 使用RL learning，加上一点点轨迹优化的控制，就可以实现非常复杂的动作。  
 
 > &#x1F50E; [Yao et al. Control VAE]   
-
-
-
-P101  
-# What’s Next?   
-
-## Digital Cerebellum
-
-Large Pretrained Model for Motion Control
-
-![](./assets/12-40.png)   
-
-
-P102  
-## Cross-modality Generation
-
-- \\(\Leftrightarrow\\) LLM \\(\Leftrightarrow\\) Text/Audio \\(\Leftrightarrow\\) Motion/Control \\(\Leftrightarrow\\) Image/Video \\(\Leftrightarrow\\)     
-- Digital Actor?    
-
-
 
 
 ---------------------------------------
