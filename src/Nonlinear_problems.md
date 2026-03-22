@@ -75,7 +75,7 @@ What if the dynamic function \\(f(s,a)\\) is not know?
 
 What if the dynamic function \\(f(s,a)\\) is not accurate?    
 
-> &#x2705; 不准确来源于（1）测试量误差（2）问题简化
+> &#x2705; 不准确来源于（1）测量误差（2）问题简化
 
 What if the system has noise?    
 
