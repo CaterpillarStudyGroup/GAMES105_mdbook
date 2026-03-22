@@ -4,7 +4,7 @@ P72
 
 > &#x2705; 基于采样的方法。  
 
- - Iterative methods
+ - Iterative methods      
 Goal: find the optimal **policy** \\(\pi (s;\theta )\\) that minimize the objective \\(J(\theta )=\sum_{t=0}^{}h(s_t,a_t) \\)     
     - Initialize policy parmeters \\(\pi (x;\theta )\\)   
     - Repeat:   
