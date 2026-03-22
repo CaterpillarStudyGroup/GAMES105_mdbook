@@ -152,6 +152,8 @@ P49
 
 ![](./assets/09-22.png)
 
+驱动角色运动的控制器是通过优化目标函数产生的。   
+
 |Feedforward control|Feedback control|
 |---|---|
 |\\(f,\tau =\pi (t)\\)|\\(f,\tau =\pi (s_t,t)\\)|
