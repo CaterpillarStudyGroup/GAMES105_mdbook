@@ -66,7 +66,7 @@ P69
 P70  
 ## Model-based Method vs. Model-free Method   
 
-> &#x2705; Model Based 方法，要求 dynamic function 是已知的，但是实际上这个函数可能是（1）未知的（2）不精确的。    
+> &#x2705; Model Based 方法，要求 dynamic function 是已知的，但是实际上这个函数可能是（1）未知的（2）不精确的。（3）性质很差，梯度不能带来有用的信息。      
 > &#x2705; 因此Model Based 方法对于复杂问题难以应用，但对于简单问题非常高效。  
 
 What if the dynamic function \\(f(s,a)\\) is not know?  
