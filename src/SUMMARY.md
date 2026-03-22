@@ -34,6 +34,7 @@
   - [Linear Quadratic Regulator (LQR)](LQR.md)
   - [Nonlinear problems](Nonlinear_problems.md)
   - [Sampling-based Policy Optimization](Sampling_based.md)
+  - [Optimal Control-Reinforcement Learning](Optimal_Control.md)
 - [Character Control]()
   - [Learning to Walk](Learning.md)
   - [Zero-Moment Point (ZMP)](ZMP.md)
