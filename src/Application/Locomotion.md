@@ -135,11 +135,7 @@ A([当前帧frame]) --> B("是否重新匹配(1)")
     L --> M(["特征集"])
     M --> J
     K --> D
-```
-
-笔记P1
-
-P41 A   
+```   
 
 
 | ID     | Year | Title    | 特点             |
@@ -177,8 +173,6 @@ P41 A
 
 ### 基于相位的方法
 
-笔记P3
-
 ```mermaid
 flowchart LR
     C([NN2])-->A
@@ -197,10 +191,6 @@ flowchart LR
 ```
 
 
----------------
-笔记P4
-
-
 **优势：**   
 1. 能对用户输入做出稳定实时的响应。    
 
@@ -208,8 +198,6 @@ flowchart LR
 1. 依赖精心的设计   
 2. 用高度可变的运动数据进行训练，会产生平均化的结果。   
 3. 难以泛化到数据以外的动作。   
-
-
 
 |ID|Year|Name|解决了什么痛点|主要贡献是什么|Tags|Link|
 |---|---|---|---|---|---|---|
@@ -222,10 +210,6 @@ flowchart LR
 |113|2017.7.20| Phase-functioned neural networks for character control|1. Motion Matching 需要存储大量数据<br>2. 自回归方法存在误差积累<br>3. CNN方法不能实时 <br>4. 物理方法不可控 <br>5. 不能支持复杂地形|1. 混合专家模型，首次将运动相位从「网络输入特征」升级为「网络权重的全局参数化变量」2. 将平地动捕数据与复杂地形耦合，让模型学会了根据地形自动调整动作。<br>Baseline |PFNN<br>多：支持不同地形的泛化性<br>快：0.8ms/帧<br>好：1. 混合专家模型，解决相位混合引入的artifacts 2. IK后处理解决脚本问题<br>省：引入NN，不需要存储原始数据|[link](https://caterpillarstudygroup.github.io/ReadPapers/113.html)|
 
 ## 基于生成的方法
-
-
----------------
-笔记P7
 
 
 ### 生成 + 控制    
@@ -257,18 +241,12 @@ flowchart LR
 ```
 
 
----------------
-笔记P8
-
 | ID  | Year | Title | 特点 |
 |-----|------|-------|------|
 | 136 | 2021.3.26 |  Character Controllers Using Motion VAEs|在给定足够丰富的运动捕捉片段集合的情况下，如何实现有目的性且逼真的人体运动    | 使用RL策略控制或Monte-Carlo方式 |
 |    | 2023.10.16| MOCHA: RealTime Motion Characterization via Context Matching| 风格迁移 + 实时控制|风格迁移任务，根据源角色当前状态预测目标角色下一帧动作。不涉及未来轨迹引导。 |
 |  | 2024.8.16 |  Interactive Character Control with Auto-Regressive Motion Diffusion Models   | A-MDM<br>136中的VAE替换成了MLP diffusion<br>并使用分层强化学习进行控制。 |
 
-
----------------
-笔记P9
 
 ### 条件生成
 
@@ -326,8 +304,7 @@ mindmap
 |ID|Year|Name|解决了什么痛点|主要贡献是什么|Tags|Link|
 |---|---|---|---|---|---|---|
 ||2007.7.29|	SIMBICON: simple biped locomotion control|① 零力矩点（ZMP）方法依赖预计算轨迹，灵活性不足；<br>② 强化学习 / 策略搜索需设计复杂奖励函数，高维状态下难以收敛；<br>③ 数据驱动方法多为运动学建模，缺乏物理适应性。	|“有限状态机 + 全局坐标控制 + 质心反馈” 的极简组合，无需复杂动力学建模，实现实时、鲁棒的物理基双足运动生成|[link](https://www.cs.sfu.ca/~kkyin/papers/Yin_SIG07.pdf)|
-
-笔记 P4    
+ 
 
 | ID | Paper | Note |
 |----|-------|------|
@@ -426,3 +403,12 @@ PD控制器是传统方法，需要调 \\(k_d\\)、\\(k_s\\) 两个参数。用L
 | ID | Year | Name | 主要贡献 |
 |----|------|------|----------|
 |    | [1]  |      | Tracer（扩散模型）结合地形与用户控制生成优化轨迹。<br>Pacer根据轨迹、地形等因素生成关节控制策略，且可泛化到不同体型的人身上。 |
+
+
+
+---------------------------------------
+> 本文出自CaterpillarStudyGroup，转载请注明出处。
+>
+> https://caterpillarstudygroup.github.io/GAMES105_mdbook/
+
+
