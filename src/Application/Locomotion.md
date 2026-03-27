@@ -42,14 +42,14 @@ mindmap
 ```
 
 
-$$
+\\[
 \left.
 \begin{aligned}
 \text{控制信号} \\
 \text{当前状态}
 \end{aligned}
 \right\} \longrightarrow \text{下一帧参考动画} \longrightarrow \text{PD控制目标} \longrightarrow \text{力/力矩} \longrightarrow \text{下一帧动画}
-$$
+\\]
 
 直接使用“下一帧参考动画”作为角色动作数据的方法称为**基于运动学的方法**。
 由力/力矩产生的“下一帧动画”作为角色动作数据的方法称为**基于动力学的方法**。
