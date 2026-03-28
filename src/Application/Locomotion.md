@@ -384,7 +384,7 @@ mindmap
 $$
 \left.
 \begin{aligned}
-\text{当前状态} \\
+\text{当前状态} \\\\
 \text{PD控制目标}
 \end{aligned}
 \right\} \longrightarrow \text{力/力矩}
