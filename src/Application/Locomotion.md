@@ -390,12 +390,25 @@ $$
 
 $$
 \left.\begin{matrix}
-当前状态 \\\\
+ 当前状态 \\\\
+PD控制目标
+\end{matrix}\right)\longrightarrow {力/力矩}
+$$
+
+
+$$
+\left.\begin{matrix}
+ 当前状态\\\\
 PD控制目标
 \end{matrix}\right\}
 $$
 
-
+$$
+\left.\begin{matrix}
+ 当前状态\\
+PD控制目标
+\end{matrix}\right\}
+$$
 
 运动执行器可以是PD、PID等，图形学习里用的几乎都是PD。   
 所谓PD控制，实际不是控制器而是执行器。    
