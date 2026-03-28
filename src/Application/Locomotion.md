@@ -41,15 +41,7 @@ mindmap
                 在适配不同泛化性问题时，无需重新设计运动逻辑
 ```
 
-
-\\[
-\left.
-\begin{aligned}
-\text{控制信号} \\
-\text{当前状态}
-\end{aligned}
-\right\} \longrightarrow \text{下一帧参考动画} \longrightarrow \text{PD控制目标} \longrightarrow \text{力/力矩} \longrightarrow \text{下一帧动画}
-\\]
+![](../assets/13-2.png)
 
 直接使用“下一帧参考动画”作为角色动作数据的方法称为**基于运动学的方法**。
 由力/力矩产生的“下一帧动画”作为角色动作数据的方法称为**基于动力学的方法**。
@@ -371,44 +363,9 @@ mindmap
 | 191 | [2023.10.1]Universal Humanoid Motion Representations for Physics-Based Control | |
 
 运动执行器：   
-\\[
-\left.
-\begin{aligned}
-\text{当前状态} \\
-\text{PD控制目标}
-\end{aligned}
-\right\} \longrightarrow \text{力/力矩}
-\\]
 
+![](../assets/13-1.png)
 
-$$
-\left.\begin{matrix}
-当前状态 \\\\
-PD控制目标
-\end{matrix}\right\} \longrightarrow {力/力矩}
-$$
-
-$$
-\left.\begin{matrix}
- 当前状态 \\\\
-PD控制目标
-\end{matrix}\right)\longrightarrow {力/力矩}
-$$
-
-
-$$
-\left.\begin{matrix}
- 当前状态\\\\
-PD控制目标
-\end{matrix}\right\}
-$$
-
-$$
-\left.\begin{matrix}
- 当前状态\\
-PD控制目标
-\end{matrix}\right\}
-$$
 
 运动执行器可以是PD、PID等，图形学习里用的几乎都是PD。   
 所谓PD控制，实际不是控制器而是执行器。    
