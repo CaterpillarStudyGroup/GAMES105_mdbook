@@ -340,6 +340,7 @@ mindmap
 2. 控制策略难以准确跟踪规划的运动，需要微调，限制了其泛化能力    
 
 |ID|Paper|Note|
+|--|--|--|
 |190|[2019.11.13] DReCon: data-driven responsive control of physics-based characters|   |
 |189|[2025.5.6] PARC: Physics-based Augmentation with Reinforcement Learning for Character Controllers|   |
 |188|[2025.5.13] CLOSD: CLOSING THE LOOP BETWEEN SIMULATION AND DIFFUSION FOR MULTI-TASK CHARACTER CONTROL|   |
@@ -378,6 +379,18 @@ mindmap
 \end{aligned}
 \right\} \longrightarrow \text{力/力矩}
 \\]
+
+
+$$
+\left.
+\begin{aligned}
+\text{当前状态} \\
+\text{PD控制目标}
+\end{aligned}
+\right\} \longrightarrow \text{力/力矩}
+$$
+
+
 
 运动执行器可以是PD、PID等，图形学习里用的几乎都是PD。   
 所谓PD控制，实际不是控制器而是执行器。    
