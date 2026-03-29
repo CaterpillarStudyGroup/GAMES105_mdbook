@@ -41,6 +41,12 @@ mindmap
                 在适配不同泛化性问题时，无需重新设计运动逻辑
 ```
 
+![](../assets/13-3.png)
+
+直接使用“下一帧参考动画”作为角色动作数据的方法称为**基于运动学的方法**。
+由力/力矩产生的“下一帧动画”作为角色动作数据的方法称为**基于动力学的方法**。
+
+
 ```mermaid
 mindmap
 Locomotion
@@ -64,6 +70,11 @@ Locomotion
 
 基于动力学的方法：不直接提供动画数据，而是提供关节受力，让每个关节在力的作用下运动。
 
+说明：    
+- 轨迹跟踪：下一帧参考动画 → 下一帧动画     
+- 轨迹优化：下一帧参考动画 → PD控制目标     
+
+实际的动力学算出过程，不一定会显式地出现每个步骤，可能是几个步骤统一到一个步骤中的。    
 
 
 ## 基于匹配的方法
@@ -92,11 +103,9 @@ graph TD
 | - | 2020 | Learned Motion Matching | 基于数据集，把 (1)(2)(3) 替换成了网络模块，消除了在线搜索时对数据库的依赖 |
 | P47 | Ⓐ | (风格迁移) | 让 (5) 和 (6) 分别是不同的角色，并增加将运动内容与运动风格解耦的模块。在运动空间进行最近邻匹配，在匹配空间中融入目标风格，实现在线风格迁移的效果。 |
 
-> P41 Ⓐ
 
 ### Motion Graph / Motion Matching / Motion Field
 
-笔记P2
 
 ```mermaid
 flowchart LR
@@ -118,11 +127,7 @@ A([当前帧frame]) --> B("是否重新匹配(1)")
     L --> M(["特征集"])
     M --> J
     K --> D
-```
-
-笔记P1
-
-P41 A   
+```   
 
 
 | ID     | Year | Title    | 特点             |
@@ -160,8 +165,6 @@ P41 A
 
 ### 基于相位的方法
 
-笔记P3
-
 ```mermaid
 flowchart LR
     C([NN2])-->A
@@ -180,10 +183,6 @@ flowchart LR
 ```
 
 
----------------
-笔记P4
-
-
 **优势：**   
 1. 能对用户输入做出稳定实时的响应。    
 
@@ -191,8 +190,6 @@ flowchart LR
 1. 依赖精心的设计   
 2. 用高度可变的运动数据进行训练，会产生平均化的结果。   
 3. 难以泛化到数据以外的动作。   
-
-
 
 |ID|Year|Name|解决了什么痛点|主要贡献是什么|Tags|Link|
 |---|---|---|---|---|---|---|
@@ -205,10 +202,6 @@ flowchart LR
 |113|2017.7.20| Phase-functioned neural networks for character control|1. Motion Matching 需要存储大量数据<br>2. 自回归方法存在误差积累<br>3. CNN方法不能实时 <br>4. 物理方法不可控 <br>5. 不能支持复杂地形|1. 混合专家模型，首次将运动相位从「网络输入特征」升级为「网络权重的全局参数化变量」2. 将平地动捕数据与复杂地形耦合，让模型学会了根据地形自动调整动作。<br>Baseline |PFNN<br>多：支持不同地形的泛化性<br>快：0.8ms/帧<br>好：1. 混合专家模型，解决相位混合引入的artifacts 2. IK后处理解决脚本问题<br>省：引入NN，不需要存储原始数据|[link](https://caterpillarstudygroup.github.io/ReadPapers/113.html)|
 
 ## 基于生成的方法
-
-
----------------
-笔记P7
 
 
 ### 生成 + 控制    
@@ -240,18 +233,12 @@ flowchart LR
 ```
 
 
----------------
-笔记P8
-
 | ID  | Year | Title | 特点 |
 |-----|------|-------|------|
 | 136 | 2021.3.26 |  Character Controllers Using Motion VAEs|在给定足够丰富的运动捕捉片段集合的情况下，如何实现有目的性且逼真的人体运动    | 使用RL策略控制或Monte-Carlo方式 |
 |    | 2023.10.16| MOCHA: RealTime Motion Characterization via Context Matching| 风格迁移 + 实时控制|风格迁移任务，根据源角色当前状态预测目标角色下一帧动作。不涉及未来轨迹引导。 |
 |  | 2024.8.16 |  Interactive Character Control with Auto-Regressive Motion Diffusion Models   | A-MDM<br>136中的VAE替换成了MLP diffusion<br>并使用分层强化学习进行控制。 |
 
-
----------------
-笔记P9
 
 ### 条件生成
 
@@ -289,6 +276,8 @@ mindmap
         运动生成 + 运动模仿/sim2real
         运动先验 + 下游控制
     无参考的强化学习
+        设计规则作为先验
+        纯强化学习无先验
 ```
 
 
@@ -307,8 +296,11 @@ mindmap
 |ID|Year|Name|解决了什么痛点|主要贡献是什么|Tags|Link|
 |---|---|---|---|---|---|---|
 ||2007.7.29|	SIMBICON: simple biped locomotion control|① 零力矩点（ZMP）方法依赖预计算轨迹，灵活性不足；<br>② 强化学习 / 策略搜索需设计复杂奖励函数，高维状态下难以收敛；<br>③ 数据驱动方法多为运动学建模，缺乏物理适应性。	|“有限状态机 + 全局坐标控制 + 质心反馈” 的极简组合，无需复杂动力学建模，实现实时、鲁棒的物理基双足运动生成|[link](https://www.cs.sfu.ca/~kkyin/papers/Yin_SIG07.pdf)|
+ 
 
----
+| ID | Paper | Note |
+|----|-------|------|
+| 185 | [2025.9.15] Gait-Conditioned Reinforcement Learning with Multi-Phase Curriculum for Humanoid Locomotion | 1. 单个循环策略同时学习站立、行走、奔跑及步态过渡，避免多策略架构的切换复杂度<br> 2. 一种路由机制根据步态ID动态激活步态目标，核心解决不同步态的奖励目标冲突问题<br> 3.让机器人自主学习符合人体生物力学的自然运动，摆脱对 MoCap 数据的依赖<br>4. 用于技能扩展的渐近式多阶段课程。 |
 
 基于参考的学习，例如APM、模仿学习，动作空间还是来自于数据，物理只是一种动作合理化的方法。
 优势：  
@@ -329,21 +321,63 @@ mindmap
 ||2022.5.12|AMP: Adversarial Motion Priors for Stylized Physics-Based Character Control|模仿学习时，模仿目标需要精心设定，模仿效果的目标函数也难设定。|不模仿特定的动作，而是模仿目标动作的风格。通过对抗学习来判断模仿的风格像不像。<br>AMP动作先验 = 对抗式判别器。|
 
 
-### 运动规划器 + 运动控制器
+### 运动规划器 + 运动控制器 + 运动执行器(PD控制)
 
-类似“可控生成 + 动作优化”   
+运动规划器：当前状态 + 控制目标 → 下一帧参考动画      
+运动控制器：下一帧参考动画 + 当前状态 → PD 控制目标     
 
+类似“可控生成 + 动作优化” 。     
+局限性：    
 1. 规划器和控制器之间存在GAP，导致动作质量下降
-2. 控制策略难以准确跟踪规划的运动，需要微调，限制了其泛化能力
-3. 优点同“可控生成”
+2. 控制策略难以准确跟踪规划的运动，需要微调，限制了其泛化能力    
+
+|ID|Paper|Note|
+|--|--|--|
+|190|[2019.11.13] DReCon: data-driven responsive control of physics-based characters|   |
+|189|[2025.5.6] PARC: Physics-based Augmentation with Reinforcement Learning for Character Controllers|   |
+|188|[2025.5.13] CLOSD: CLOSING THE LOOP BETWEEN SIMULATION AND DIFFUSION FOR MULTI-TASK CHARACTER CONTROL|   |
+
+### (规划器, 控制器)+PD    
+
+由于规划器与控制器之间的 GAP，此文章开始尝试把它们统一到一个模型中    
+
+| ID | Paper | Note |
+|----|-------|------|
+| 183 | [2024.9.22]Maskedmimic: Unified physics-based character control through masked motion | |
+| 192 |[2024.12.4]PDP: Physics-Based Character Animation via Diffusion Policy | |
+| 193 | [2025.10.15] UniPhys Unified Planner and Controller with Diffusion for Flexible | |
+| 184 | [2025.10.15] UniPhys: Unified Planner and Controller with Diffusion for Flexible | 1. 把运动规划和控制整合到一个模型中，消除两个模型带来的domaingap<br>2. 文本、目标、轨迹等多模态输入<br>3. Diffusion Forcing范式进行训练，消除长期累计误差<br>4. 通过引导采样，无需finetune，即可泛化到不同（包括没见过）的控制信号。<br>具体方法为行为克隆学习，先从动捕数据中提取状态-策略对，再用diffusion学习策略。 |
+
+或者更直接一点，把PD也整合进一个模型，生成模型直接出力/力矩    
+
+| ID | Paper | Note |
+|----|-------|------|
+| 186 | [2025.8.5] Diffuse-CLoC Guided Diffusion for Physics-based Character Look-ahead | |
+
+### 控制 + 转移 + PD
+
+与生成模型一样，数据也可以用于学状态转移，由RL来指导角色的控制性    
+
+| ID | Paper | Note |
+|----|-------|------|
+| 191 | [2023.10.1]Universal Humanoid Motion Representations for Physics-Based Control | |
+
+运动执行器：   
+
+![](../assets/13-1.png)
+
+
+运动执行器可以是PD、PID等，图形学习里用的几乎都是PD。   
+所谓PD控制，实际不是控制器而是执行器。    
+
+PD控制器是传统方法，需要调 \\(k_d\\)、\\(k_s\\) 两个参数。用LQR可以计算出最能贴合目标的PD效果。
+
+优点：    
+1. 同“可控生成”
 
 |ID|Year|Name|解决了什么痛点|主要贡献是什么|Tags|Link|
 |---|---|---|---|---|---|---|
-||2025.5.13|CLoSD: Closing the Loop between Simulation and Diffusion for multi-task character control| 扩散规划器 + 跟踪控制器 | 扩散规划器：以文本和目标位置为条件，生成下一个运动计划。|跟踪控制器：接收来自 DiP 的计划并提供来自环境的反馈。|
-||2023.10.18|Interactive Locomotion Style Control for a Human Character based on Gait Cycle Features| 没有下载|
-||2025.9.15|Gait-Conditioned Reinforcement Learning with Multi-Phase Curriculum for Humanoid Locomotion||1. 单个循环策略同时学习站立、行走、奔跑及步态过渡，避免多策略架构的切换复杂度<br> 2. 一种路由机制根据步态ID动态激活步态目标，核心解决不同步态的奖励目标冲突问题<br> 3.让机器人自主学习符合人体生物力学的自然运动，摆脱对 MoCap 数据的依赖<br>4. 用于技能扩展的渐近式多阶段课程。|  
-||2025.5.13|CLoSD: Closing the Loop between Simulation and Diffusion for multi-task character control|
-||2025.05|PARC: Physics-based Augmentation with Reinforcement Learning for Character Controllers|物理模拟角色在复杂地形中实现敏捷移动控制|Motion Generator（MG）：运动合成器根据地形和目标生成运动序列。<br>Motion Tracker（MT）：物理追踪控制器将生成的 “虚拟运动” 转化为物理仿真中可执行的 “真实运动”，修正失真<br>MG 生成→MT 修正→数据反哺 MG，两者能力协同进化，兼顾数据驱动的真实感与物理驱动的自适应.|
+||2023.10.18|Interactive Locomotion Style Control for a Human Character based on Gait Cycle Features| 没有下载| 
 ||2023.10.18|Interactive Locomotion Style Control for a Human Character based on Gait Cycle Features|
 ||2022.5.12|AMP: Adversarial Motion Priors for Stylized Physics-Based Character Control|
 ||2020.7.26|**Feature-based locomotion controllers**|
@@ -356,5 +390,13 @@ mindmap
 
 | ID | Year | Name | 主要贡献 |
 |----|------|------|----------|
-|    | [2]  |      | 1. 把运动规划和控制整合到一个模型中，消除两个模型带来的domaingap<br>2. 文本、目标、轨迹等多模态输入<br>3. Diffusion Forcing范式进行训练，消除长期累计误差<br>4. 通过引导采样，无需finetune，即可泛化到不同（包括没见过）的控制信号。<br>具体方法为行为克隆学习，先从动捕数据中提取状态-策略对，再用diffusion学习策略。 |
 |    | [1]  |      | Tracer（扩散模型）结合地形与用户控制生成优化轨迹。<br>Pacer根据轨迹、地形等因素生成关节控制策略，且可泛化到不同体型的人身上。 |
+
+
+
+---------------------------------------
+> 本文出自CaterpillarStudyGroup，转载请注明出处。
+>
+> https://caterpillarstudygroup.github.io/GAMES105_mdbook/
+
+
