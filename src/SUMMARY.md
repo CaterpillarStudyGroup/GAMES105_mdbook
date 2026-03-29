@@ -5,6 +5,7 @@
 - [Introduction](README.md)
 - [Introduction to 3D Character Animation](Introduction.md)
 - [Math Background](Math.md)
+- [Locomotion 控制技术洞察](Locomotion_Survey.md)
 
 # Keyframe-based/Kinematic Approaches
 
