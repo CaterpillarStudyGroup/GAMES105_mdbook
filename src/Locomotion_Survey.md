@@ -1,4 +1,4 @@
-# 基于物理的角色位移控制 (Locomotion Control) 技术洞察
+# 角色位移控制 (Locomotion Control) 技术洞察
 
 **更新时间**: 2026-03-29
 
@@ -8,7 +8,7 @@
 
 ## 一、概述
 
-角色位移控制是计算机图形学、机器人学和游戏开发的核心问题。其目标是：**生成自然、稳定、可控的角色运动（如行走、跑步、跳跃等）**。
+角色位移控制是计算机图形学、机器人学和游戏开发的核心问题，目标是**生成自然、稳定、可控的角色运动**（如行走、跑步、跳跃等）。
 
 ### 1.1 为什么 Locomotion 是一个难题？
 
@@ -20,17 +20,14 @@
 
 ### 1.2 技术分类：运动学 vs 动力学
 
-```
-                    运动学方法                    动力学方法
-                    (Kinematics)                 (Dynamics)
-                    ────────────                 ────────────
-核心目标            生成视觉上合理的动作            生成物理可行的动作
-输出                关节姿态/速度                  关节力矩/PD 控制目标
-是否物理仿真         否                            是
-典型应用            动画生成、VR 化身                游戏、机器人仿真
-优势                速度快、质量高                  物理交互、抗扰动
-局限                无法处理物理交互                 训练成本高、实现复杂
-```
+| 维度 | 运动学方法 (Kinematics) | 动力学方法 (Dynamics) |
+|------|------------------------|----------------------|
+| **核心目标** | 生成视觉上合理的动作 | 生成物理可行的动作 |
+| **输出** | 关节姿态/速度 | 关节力矩/PD 控制目标 |
+| **是否物理仿真** | 否 | 是 |
+| **典型应用** | 动画生成、VR 化身 | 游戏、机器人仿真 |
+| **优势** | 速度快、质量高 | 物理交互、抗扰动 |
+| **局限** | 无法处理物理交互 | 训练成本高、实现复杂 |
 
 ---
 
@@ -54,9 +51,35 @@ timeline
     2025 : DARTControl : 潜在空间控制
 ```
 
+### 2.2 核心思想继承关系
+
+```mermaid
+flowchart LR
+    subgraph Phase["相位表示 lineage"]
+        PFNN --> RTN
+        RTN --> StyleMod
+        StyleMod --> MOCHA
+    end
+
+    subgraph Matching["Motion Matching lineage"]
+        MM --> LearnedMM
+        LearnedMM --> MOCHA
+    end
+
+    subgraph Diffusion["Diffusion lineage"]
+        DM --> AMDM
+        DM --> CAMDM
+        DM --> AAMDM
+        AMDM --> DART
+    end
+
+    Phase -.-> Diffusion
+    Matching -.-> Diffusion
+```
+
 ---
 
-### 2.2 PFNN: Phase-Functioned Neural Networks (SIGGRAPH 2017)
+### 2.3 PFNN: Phase-Functioned Neural Networks (SIGGRAPH 2017)
 
 **论文**: [[113.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/113.html)
 
@@ -75,20 +98,13 @@ flowchart LR
     Mix --> Output["输出：姿态/速度/触地"]
 ```
 
-**输入参数** (约 300 维):
-- 轨迹位置/方向/高度 (12 帧 × 多维)
-- 步态语义标签 (5 维二进制：站立/行走/慢跑/跳跃/俯身)
-- 前一帧关节位置/速度 (31 关节 × 6 维)
-
-**输出参数**:
-- 当前帧关节位置/速度/角度
-- 根节点平移/角速度
-- 下一帧轨迹预测
-- 相位变化量
-- 足部接触标签 (用于 IK 后处理)
+**关键洞察**:
+- 相位作为权重参数，避免不同相位动作混合导致的 artifacts
+- 使用 Cubic Catmull-Rom Spline 插值专家权重
+- 地形数据增强：从平地 mocap 生成崎岖地形训练数据
 
 **优点**:
-- 相位解耦，避免不同相位动作混合导致的 artifacts
+- 相位解耦，避免 artifacts
 - 仅 10MB 模型大小
 - 实时 60 FPS
 
@@ -98,7 +114,7 @@ flowchart LR
 
 ---
 
-### 2.3 RTN: Recurrent Transition Networks (SIGGRAPH 2018)
+### 2.4 RTN: Recurrent Transition Networks (SIGGRAPH 2018)
 
 **论文**: [[210.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/210.html)
 
@@ -141,9 +157,14 @@ h^R_t &= o_t \\odot \\tau(c_t)
 - 添加 \\(C^{(\\cdot)}\\) 权重用于未来上下文条件化
 - Hidden State 初始化器：从第一帧映射到初始 hidden state
 - 地形感知：局部高度图 \\(13 \\times 13\\) 网格
+- **无需任何标注**（gait/phase/contact）
+
+**与 PFNN 的差异**:
+- PFNN: 生成连续 locomotion，需要相位标注
+- RTN: 专门处理 transition 场景，无需标注
 
 **优点**:
-- **无需任何标注**（gait/phase/contact）
+- **无需任何标注**
 - 固定大小网络，不随数据集增长
 - 质量媲美 mocap ground truth
 
@@ -153,7 +174,7 @@ h^R_t &= o_t \\odot \\tau(c_t)
 
 ---
 
-### 2.4 Real-Time Style Modelling (SIGGRAPH 2020)
+### 2.5 Real-Time Style Modelling (SIGGRAPH 2020)
 
 **论文**: [[211.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/211.html)
 
@@ -184,6 +205,10 @@ flowchart LR
 | 适用于周期性动作 | 适用于非同步动作 |
 | 难以处理复杂动作 | 灵活处理多接触动作 |
 
+**与 PFNN 的继承关系**:
+- PFNN: 全局相位，适用于 locomotion
+- Style Modelling: 局部相位，适用于更复杂动作
+
 **优点**:
 - 实时 60+ FPS
 - 支持多种风格平滑过渡
@@ -195,11 +220,13 @@ flowchart LR
 
 ---
 
-### 2.5 Learned Motion Matching (SIGGRAPH 2020)
+### 2.6 Learned Motion Matching (SIGGRAPH 2020)
 
 **论文**: [[208.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/208.html)
 
 **核心创新**: 用三个神经网络替代 Motion Matching 的数据库搜索
+
+**背景**: Motion Matching 是游戏工业标准，但需要存储海量动画数据库，内存占用随数据量线性增长。
 
 **三网络功能**:
 
@@ -220,11 +247,13 @@ flowchart LR
 
 ---
 
-### 2.6 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
+### 2.7 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
 
 **论文**: [[209.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/209.html)
 
 **核心创新**: 首个实时角色表征框架，**同时转换动作风格和身体比例**
+
+**背景**: 将中性动作转换为特定角色风格（如僵尸、公主、小丑），同时适配不同体型。
 
 **架构**:
 
@@ -250,6 +279,10 @@ flowchart TB
 p(s_i | z_{i-1}^{cha}, f(z_i^{src})) = \\mathcal{N}(\\mu, \\sigma)
 \\]
 
+**与 Style Modelling 的继承关系**:
+- Style Modelling: AdaIN 用于风格转换
+- MOCHA: AdaIN + Transformer，同时处理风格 + 体型
+
 **优点**:
 - 实时 60 FPS
 - 同时处理风格转换 + 身体比例适配
@@ -261,7 +294,7 @@ p(s_i | z_{i-1}^{cha}, f(z_i^{src})) = \\mathcal{N}(\\mu, \\sigma)
 
 ---
 
-### 2.7 Motion In-Betweening with Phase Manifolds (2023)
+### 2.8 Motion In-Betweening with Phase Manifolds (2023)
 
 **论文**: [[212.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/212.html)
 
@@ -286,6 +319,10 @@ flowchart TB
 - 相位在单位圆上：\\(\\phi \\in [0, 2\\pi)\\)
 - 周期性：\\(\\phi(t) = \\phi(t + T)\\)
 
+**与 RTN 的差异**:
+- RTN: transition 生成，连接两个状态
+- Phase Manifolds: in-betweening，支持用户约束
+
 **优点**:
 - 生成自然流畅的过渡
 - 支持用户约束（end effector 位置）
@@ -297,7 +334,19 @@ flowchart TB
 
 ---
 
-### 2.8 自回归扩散模型系列 (2024-2025)
+### 2.9 自回归扩散模型系列 (2024-2025)
+
+#### 核心思想演进
+
+```mermaid
+flowchart TB
+    DM["标准扩散模型<br/>1000 步去噪"] --> AMDM["A-MDM<br/>自回归 +50 步"]
+    DM --> CAMDM["CAMDM<br/>8 步 + 风格转换"]
+    DM --> AAMDM["AAMDM<br/>5 步 DD-GAN+ADM"]
+    AMDM --> DART["DART<br/>Latent Space Control"]
+```
+
+---
 
 #### A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
 
@@ -318,6 +367,10 @@ p(x_{1:T}) = \\prod_{t=1}^{T} p(x_t | x_{1:t-1})
 - Keyframe in-betweening
 - Hierarchical reinforcement learning
 
+**与 CAMDM 的差异**:
+- A-MDM: 强调控制套件，MLP 架构
+- CAMDM: 强调风格转换，Transformer 架构
+
 ---
 
 #### CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
@@ -334,10 +387,20 @@ p(x_{1:T}) = \\prod_{t=1}^{T} p(x_t | x_{1:t-1})
 | **Classifier-free guidance on history** | 在历史动作上应用 guidance，实现风格转换 |
 | **启发式轨迹扩展** | 回收上次预测轨迹，避免抖动 |
 
+**条件输入**:
+- 风格/步态
+- 移动速度
+- 朝向方向
+- 未来轨迹
+
 **优点**:
 - 8 步去噪 ≈ 几毫秒，60+ FPS
 - 支持多风格平滑转换
 - 无需微调实现风格转换
+
+**缺点**:
+- 8 步去噪仍有优化空间
+- 依赖 mocap 数据
 
 ---
 
@@ -360,6 +423,10 @@ Polishing Module: ADM (2 步)
 
 **总去噪步数**: \\(T_{AA} = T_{GAN} + T_{ADM} = 3 + 2 = 5\\)
 
+**与 CAMDM 的差异**:
+- CAMDM: 8 步，强调风格转换
+- AAMDM: 5 步，强调加速
+
 ---
 
 #### DARTControl: Diffusion-based Autoregressive Motion Model (ICLR 2025)
@@ -378,9 +445,13 @@ Polishing Module: ADM (2 步)
 
 **优势**: 10x 加速 vs FlowMDM
 
+**与 A-MDM 的差异**:
+- A-MDM: 原始空间扩散
+- DART: Latent 空间扩散，更高效
+
 ---
 
-### 2.9 运动学方法对比
+### 2.10 运动学方法对比
 
 | 方法 | 架构 | 去噪步数 | FPS | 风格转换 | 空间控制 |
 |------|------|---------|-----|---------|---------|
@@ -406,23 +477,52 @@ Polishing Module: ADM (2 步)
 ```mermaid
 timeline
     title 动力学方法发展时间线
-    2010 : Feature-Based : 高层物理特征控制
-    2018 : DeepMimic : RL+ 模仿学习
-    2018 : Mode-Adaptive : 四足动物统一控制
-    2019 : DReCon : Motion Matching+RL
+    2010 : Feature-Based : 高层物理特征
+    2018 : DeepMimic : RL+ 模仿
+    2018 : Mode-Adaptive : 四足统一控制
+    2019 : DReCon : MM+RL
     2021 : AMP : 对抗运动先验
-    2022 : ASE : 预训练技能嵌入
+    2022 : ASE : 预训练技能库
     2023 : ControlVAE : 状态条件先验
     2023 : Perpetual : 实时虚拟化身
+    2023 : UniRep : 统一表示 + 蒸馏
     2024 : PDP/DiffuseLoco : 扩散策略
     2024 : MaskedMimic : 掩码运动补全
     2025 : PARC : 迭代数据扩增
     2025 : UniPhys : 统一规划 + 控制
 ```
 
+### 3.2 核心思想继承关系
+
+```mermaid
+flowchart TB
+    subgraph RL["RL lineage"]
+        FB["Feature-Based"] --> DM["DeepMimic"]
+        DM --> AMP["AMP"]
+        AMP --> ASE["ASE"]
+    end
+
+    subgraph Hybrid["Hybrid lineage"]
+        DM --> DReCon["DReCon<br/>MM+RL"]
+        DReCon --> PDP["PDP<br/>RL 专家蒸馏"]
+    end
+
+    subgraph Pretrain["Pretraining lineage"]
+        ASE --> CVAE["ControlVAE"]
+        ASE --> UniRep["Universal Representation"]
+    end
+
+    subgraph Diffusion["Diffusion lineage"]
+        PDP --> DiffuseLoco["DiffuseLoco"]
+        ASE --> MaskedMimic["MaskedMimic"]
+        MaskedMimic --> UniPhys["UniPhys"]
+        DReCon --> PARC["PARC<br/>迭代扩增"]
+    end
+```
+
 ---
 
-### 3.2 Feature-Based Control (SIGGRAPH 2010)
+### 3.3 Feature-Based Control (SIGGRAPH 2010)
 
 **论文**: [[200.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/200.html)
 
@@ -447,7 +547,7 @@ flowchart LR
 
 ---
 
-### 3.3 DeepMimic (SIGGRAPH 2018)
+### 3.4 DeepMimic (SIGGRAPH 2018)
 
 **论文**: [[201.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/201.html)
 
@@ -478,7 +578,7 @@ r^I_t = w_p r^p_t + w_v r^v_t + w_e r^e_t + w_c r^c_t
 
 ---
 
-### 3.4 Mode-Adaptive Neural Networks (SIGGRAPH 2018)
+### 3.5 Mode-Adaptive Neural Networks (SIGGRAPH 2018)
 
 **论文**: [[213.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/213.html)
 
@@ -509,7 +609,7 @@ flowchart TB
 
 ---
 
-### 3.5 DReCon (SIGGRAPH Asia 2019)
+### 3.6 DReCon (SIGGRAPH Asia 2019)
 
 **论文**: [[190.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/190.html)
 
@@ -528,9 +628,13 @@ flowchart LR
 - RL 输出 PD 目标而非直接力矩
 - 支持实时响应
 
+**与 DeepMimic 的差异**:
+- DeepMimic: 跟踪单一 mocap 片段
+- DReCon: 用 Motion Matching 选择参考轨迹
+
 ---
 
-### 3.6 AMP: Adversarial Motion Priors (SIGGRAPH 2021)
+### 3.7 AMP: Adversarial Motion Priors (SIGGRAPH 2021)
 
 **论文**: [[198.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/198.html)
 
@@ -562,7 +666,7 @@ r_{adv} = -\\log(1 - D(s_t, s_{t+1}))
 
 ---
 
-### 3.7 ASE: Adversarial Skill Embeddings (SIGGRAPH 2022)
+### 3.8 ASE: Adversarial Skill Embeddings (SIGGRAPH 2022)
 
 **论文**: [[199.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/199.html)
 
@@ -591,12 +695,16 @@ flowchart TB
 \\max_{\\pi} -D_{JS}(d_{\\pi} || d_M) + \\beta I(s, s'; z | \\pi)
 \\]
 
+**与 AMP 的差异**:
+- AMP: 每任务从头训练
+- ASE: 预训练可复用，技能库学习
+
 **优点**: 技能可复用、支持插值和组合
 **缺点**: 需要大规模并行模拟（Isaac Gym）
 
 ---
 
-### 3.8 ControlVAE (TOG 2023)
+### 3.9 ControlVAE (TOG 2023)
 
 **论文**: [[202.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/202.html)
 
@@ -611,7 +719,7 @@ flowchart TB
 
 ---
 
-### 3.9 Perpetual Humanoid Control (ICCV 2023)
+### 3.10 Perpetual Humanoid Control (ICCV 2023)
 
 **论文**: [[196.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/196.html)
 
@@ -635,7 +743,37 @@ flowchart LR
 
 ---
 
-### 3.10 扩散模型时代的动力学方法 (2024-2025)
+### 3.11 Universal Humanoid Motion Representations (2023)
+
+**论文**: [[191.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/191.html)
+
+**核心创新**: 建立 Prior + Distillation + RL 的标准范式
+
+**三阶段训练**:
+
+```mermaid
+flowchart TB
+    Mocap["MoCap 数据"] --> CVAE["CVAE 训练"]
+    CVAE --> Prior["动作先验 z"]
+
+    TO["轨迹优化器"] --> Stable["物理稳定轨迹"]
+    Stable --> Distill["蒸馏到 Decoder"]
+
+    Prior --> RL["高层 RL"]
+    Distill --> RL
+```
+
+**核心困境解决**:
+- MoCap 生成模型：动作自然但物理不稳定
+- 纯轨迹优化：物理稳定但动作单调
+
+**方案**: 用蒸馏将物理稳定性灌进网络，保留 z 的多样性
+
+**历史贡献**: 定型并普及了 **Prior + Distillation + RL** 的标准流水线
+
+---
+
+### 3.12 扩散模型时代的动力学方法 (2024-2025)
 
 #### DiffuseLoco (2024)
 
@@ -664,6 +802,10 @@ flowchart LR
 1. 训练多个单任务 RL 专家
 2. 离线行为克隆蒸馏到单一 Diffusion Policy
 
+**与 DReCon 的继承关系**:
+- DReCon: Motion Matching + RL
+- PDP: RL 专家 + Diffusion Policy
+
 ---
 
 #### MaskedMimic (SIGGRAPH Asia 2024)
@@ -680,6 +822,10 @@ flowchart LR
 - 无需奖励工程
 - 支持无缝任务切换
 - 实时响应能力
+
+**与 UniPhys 的对比**:
+- MaskedMimic: 掩码补全范式
+- UniPhys: Diffusion Forcing 范式
 
 ---
 
@@ -707,6 +853,10 @@ flowchart TB
 4. **小步迭代**: 微调策略，防止分布漂移
 
 **应用场景**: 敏捷地形穿越（如跑酷）
+
+**与 DReCon 的继承关系**:
+- DReCon: Motion Matching + RL 跟踪
+- PARC: 扩散生成 + RL 跟踪 + 迭代扩增
 
 ---
 
@@ -742,7 +892,7 @@ flowchart LR
 
 ---
 
-### 3.11 动力学方法对比
+### 3.13 动力学方法对比
 
 | 方法 | 训练范式 | 样本效率 | 动作质量 | 抗扰动 | 实时性 |
 |------|---------|---------|---------|-------|-------|
@@ -754,6 +904,7 @@ flowchart LR
 | **ASE** | 预训练 + 微调 | 高 | 极高 | 高 | ✓ |
 | **ControlVAE** | 世界模型 | 高 | 高 | 高 | ✓ |
 | **Perpetual** | 实时跟踪 | 高 | 高 | 高 | ✓ |
+| **UniRep** | Prior+ 蒸馏 +RL | 高 | 高 | 高 | ✓ |
 | **DiffuseLoco** | 离线蒸馏 | 高 | 极高 | 高 | ✓ |
 | **PDP** | RL 专家蒸馏 | 中 | 极高 | 高 | ✓ |
 | **MaskedMimic** | 掩码补全 | 高 | 极高 | 高 | ✓ |
@@ -776,7 +927,37 @@ flowchart LR
 | **训练成本** | 低 - 中 | 中 - 高 |
 | **实现难度** | 低 | 高 |
 
-### 4.2 应用场景推荐
+### 4.2 思想演进总结
+
+#### 运动学方法演进主线
+
+1. **相位表示线** (PFNN → Style Modelling → MOCHA → Phase Manifolds)
+   - 核心思想：用相位解耦不同动作状态
+   - 演进：全局相位 → 局部相位 → 相位流形插值
+
+2. **Motion Matching 线** (MM → Learned MM → MOCHA)
+   - 核心思想：用数据搜索生成动作
+   - 演进：数据库搜索 → 神经网络预测 → 角色化扩展
+
+3. **扩散模型线** (A-MDM → CAMDM → AAMDM → DART)
+   - 核心思想：扩散模型高质量生成
+   - 演进：1000 步 → 50 步 → 8 步 → 5 步，同时支持实时控制
+
+#### 动力学方法演进主线
+
+1. **RL 模仿线** (DeepMimic → AMP → ASE)
+   - 核心思想：从 mocap 数据学习控制策略
+   - 演进：单技能跟踪 → 对抗先验 → 预训练技能库
+
+2. **混合控制线** (DReCon → PDP → PARC)
+   - 核心思想：生成器 + RL 跟踪
+   - 演进：Motion Matching → RL 专家 → 扩散模型 + 迭代扩增
+
+3. **统一表示线** (ControlVAE → UniRep → MaskedMimic → UniPhys)
+   - 核心思想：统一潜在空间表示
+   - 演进：状态条件先验 → Prior+ 蒸馏 → 掩码补全 → Diffusion Forcing
+
+### 4.3 应用场景推荐
 
 | 应用场景 | 推荐方法 | 理由 |
 |---------|---------|------|
@@ -790,7 +971,7 @@ flowchart LR
 | **敏捷地形** | PARC / RTN (地形版) | 复杂地形穿越 |
 | **多任务控制** | MaskedMimic / UniPhys | 统一框架处理多模态输入 |
 
-### 4.3 方法选择决策树
+### 4.4 方法选择决策树
 
 ```mermaid
 flowchart TD
@@ -798,8 +979,8 @@ flowchart TD
     Q1 --> |是 | A2["动力学方法"]
 
     A1 --> Q2["需要风格转换？"]
-    Q2 --> |是 | A3["MOCHA / Style Modelling"]
-    Q2 --> |否 | A4["PFNN / Learned MM / CAMDM"]
+    Q2 --> |是 | A3["MOCHA / Style Modelling / CAMDM"]
+    Q2 --> |否 | A4["PFNN / Learned MM / AAMDM"]
 
     A2 --> Q3["有无标注数据？"]
     Q3 --> |无 | A5["AMP / ASE"]
@@ -808,6 +989,9 @@ flowchart TD
     A6 --> Q4["需要多模态控制？"]
     Q4 --> |是 | A7["MaskedMimic / UniPhys"]
     Q4 --> |否 | A8["PDP / DiffuseLoco"]
+
+    A2 --> Q5["需要敏捷地形穿越？"]
+    Q5 --> |是 | A9["PARC"]
 ```
 
 ---
@@ -841,6 +1025,7 @@ flowchart TD
 1. **运动学 + 动力学融合**
    - 运动学方法生成参考轨迹
    - 动力学方法保证物理可行性
+   - 代表工作：UniPhys、PARC
 
 2. **世界模型 + 扩散**
    - 学习可微物理引擎
@@ -864,48 +1049,60 @@ flowchart TD
 
 ### 运动学方法
 
-| 论文 | 年份 | 链接 |
-|------|------|------|
-| PFNN | 2017 | [113.md](https://caterpillarstudygroup.github.io/ReadPapers/src/113.html) |
-| RTN | 2018 | [210.md](https://caterpillarstudygroup.github.io/ReadPapers/src/210.html) |
-| Style Modelling | 2020 | [211.md](https://caterpillarstudygroup.github.io/ReadPapers/src/211.html) |
-| Learned Motion Matching | 2020 | [208.md](https://caterpillarstudygroup.github.io/ReadPapers/src/208.html) |
-| MOCHA | 2023 | [209.md](https://caterpillarstudygroup.github.io/ReadPapers/src/209.html) |
-| Phase Manifolds | 2023 | [212.md](https://caterpillarstudygroup.github.io/ReadPapers/src/212.html) |
-| A-MDM | 2024 | [206.md](https://caterpillarstudygroup.github.io/ReadPapers/src/206.html) |
-| CAMDM | 2024 | [207.md](https://caterpillarstudygroup.github.io/ReadPapers/src/207.html) |
-| AAMDM | 2024 | [204.md](https://caterpillarstudygroup.github.io/ReadPapers/src/204.html) |
-| DARTControl | 2025 | [205.md](https://caterpillarstudygroup.github.io/ReadPapers/src/205.html) |
+| 论文 | 年份 | 链接 | 核心贡献 |
+|------|------|------|---------|
+| PFNN | 2017 | [113](https://caterpillarstudygroup.github.io/ReadPapers/src/113.html) | 相位函数化权重 |
+| RTN | 2018 | [210](https://caterpillarstudygroup.github.io/ReadPapers/src/210.html) | 循环转移网络 |
+| Style Modelling | 2020 | [211](https://caterpillarstudygroup.github.io/ReadPapers/src/211.html) | 特征变换 + 局部相位 |
+| Learned Motion Matching | 2020 | [208](https://caterpillarstudygroup.github.io/ReadPapers/src/208.html) | 神经网络替代数据库 |
+| MOCHA | 2023 | [209](https://caterpillarstudygroup.github.io/ReadPapers/src/209.html) | 上下文匹配角色化 |
+| Phase Manifolds | 2023 | [212](https://caterpillarstudygroup.github.io/ReadPapers/src/212.html) | 相位流形中间帧 |
+| A-MDM | 2024 | [206](https://caterpillarstudygroup.github.io/ReadPapers/src/206.html) | 自回归扩散模型 |
+| CAMDM | 2024 | [207](https://caterpillarstudygroup.github.io/ReadPapers/src/207.html) | 8 步去噪 + 风格转换 |
+| AAMDM | 2024 | [204](https://caterpillarstudygroup.github.io/ReadPapers/src/204.html) | 5 步 DD-GAN+ADM |
+| DARTControl | 2025 | [205](https://caterpillarstudygroup.github.io/ReadPapers/src/205.html) | 潜在空间控制 |
 
 ### 动力学方法
 
-| 论文 | 年份 | 链接 |
-|------|------|------|
-| Feature-Based Control | 2010 | [200.md](https://caterpillarstudygroup.github.io/ReadPapers/src/200.html) |
-| DeepMimic | 2018 | [201.md](https://caterpillarstudygroup.github.io/ReadPapers/src/201.html) |
-| Mode-Adaptive | 2018 | [213.md](https://caterpillarstudygroup.github.io/ReadPapers/src/213.html) |
-| DReCon | 2019 | [190.md](https://caterpillarstudygroup.github.io/ReadPapers/src/190.html) |
-| AMP | 2021 | [198.md](https://caterpillarstudygroup.github.io/ReadPapers/src/198.html) |
-| ASE | 2022 | [199.md](https://caterpillarstudygroup.github.io/ReadPapers/src/199.html) |
-| ControlVAE | 2023 | [202.md](https://caterpillarstudygroup.github.io/ReadPapers/src/202.html) |
-| Perpetual | 2023 | [196.md](https://caterpillarstudygroup.github.io/ReadPapers/src/196.html) |
-| DiffuseLoco | 2024 | [195.md](https://caterpillarstudygroup.github.io/ReadPapers/src/195.html) |
-| PDP | 2024 | [192.md](https://caterpillarstudygroup.github.io/ReadPapers/src/192.html) |
-| MaskedMimic | 2024 | [183.md](https://caterpillarstudygroup.github.io/ReadPapers/src/183.html) |
-| PARC | 2025 | [189.md](https://caterpillarstudygroup.github.io/ReadPapers/src/189.html) |
-| UniPhys | 2025 | [191.md](https://caterpillarstudygroup.github.io/ReadPapers/src/191.html) |
+| 论文 | 年份 | 链接 | 核心贡献 |
+|------|------|------|---------|
+| Feature-Based Control | 2010 | [200](https://caterpillarstudygroup.github.io/ReadPapers/src/200.html) | 高层物理特征控制 |
+| DeepMimic | 2018 | [201](https://caterpillarstudygroup.github.io/ReadPapers/src/201.html) | RL+ 模仿学习 |
+| Mode-Adaptive | 2018 | [213](https://caterpillarstudygroup.github.io/ReadPapers/src/213.html) | 四足动物统一控制 |
+| DReCon | 2019 | [190](https://caterpillarstudygroup.github.io/ReadPapers/src/190.html) | Motion Matching+RL |
+| AMP | 2021 | [198](https://caterpillarstudygroup.github.io/ReadPapers/src/198.html) | 对抗运动先验 |
+| ASE | 2022 | [199](https://caterpillarstudygroup.github.io/ReadPapers/src/199.html) | 预训练技能嵌入 |
+| ControlVAE | 2023 | [202](https://caterpillarstudygroup.github.io/ReadPapers/src/202.html) | 状态条件先验 |
+| Perpetual | 2023 | [196](https://caterpillarstudygroup.github.io/ReadPapers/src/196.html) | 实时虚拟化身 |
+| UniRep | 2023 | [191](https://caterpillarstudygroup.github.io/ReadPapers/src/191.html) | 统一表示 + 蒸馏 |
+| DiffuseLoco | 2024 | [195](https://caterpillarstudygroup.github.io/ReadPapers/src/195.html) | 扩散策略 |
+| PDP | 2024 | [192](https://caterpillarstudygroup.github.io/ReadPapers/src/192.html) | RL 专家蒸馏 |
+| MaskedMimic | 2024 | [183](https://caterpillarstudygroup.github.io/ReadPapers/src/183.html) | 掩码运动补全 |
+| PARC | 2025 | [189](https://caterpillarstudygroup.github.io/ReadPapers/src/189.html) | 迭代数据扩增 |
+| UniPhys | 2025 | [191](https://caterpillarstudygroup.github.io/ReadPapers/src/191.html) | 统一规划 + 控制 |
 
 ---
 
 ## 七、总结
 
-角色位移控制领域呈现**双轨并行**的发展态势：
+角色位移控制领域呈现**双轨并行、多线演进**的发展态势：
 
-**运动学方法**沿着「数据驱动→生成模型→实时多样」的路线演进，从 PFNN 的相位函数化权重，到 Learned Motion Matching 的神经网络替代数据库搜索，再到 MOCHA 的实时角色表征，以及 2024-2025 年扩散模型时代的自回归加速（5-8 步去噪），核心优势是速度快、质量高，适合动画生成和 VR 应用。
+**运动学方法**沿三条主线演进：
+1. **相位表示线**：PFNN 的相位函数化权重 → Style Modelling 的局部相位 → MOCHA 的上下文匹配 → Phase Manifolds 的相位流形插值
+2. **Motion Matching 线**：工业界标准 Motion Matching → Learned Motion Matching 的神经网络替代 → MOCHA 的角色化扩展
+3. **扩散模型线**：A-MDM 的自回归设计 → CAMDM 的 8 步去噪 + 风格转换 → AAMDM 的 5 步加速 → DART 的潜在空间控制
 
-**动力学方法**沿着「手工设计→模仿学习→对抗学习→扩散模型」的路线演进，从 Feature-Based 的高层物理特征控制，到 DeepMimic 的 RL+ 模仿，AMP/ASE 的对抗学习与预训练范式，再到 2024-2025 年的 MaskedMimic/UniPhys/PARC 等扩散模型统一控制框架，核心优势是物理正确、抗扰动强，适合游戏和机器人应用。
+**动力学方法**沿三条主线演进：
+1. **RL 模仿线**：DeepMimic 的 RL+ 模仿 → AMP 的对抗先验 → ASE 的预训练技能库
+2. **混合控制线**：DReCon 的 Motion Matching+RL → PDP 的 RL 专家蒸馏 → PARC 的扩散生成 + 迭代扩增
+3. **统一表示线**：ControlVAE 的状态条件先验 → UniRep 的 Prior+ 蒸馏范式 → MaskedMimic 的掩码补全 → UniPhys 的 Diffusion Forcing
 
-**融合趋势**：2024-2025 年的工作开始探索运动学 + 动力学的融合，如 UniPhys 用 PD 预处理保证物理合理性、PARC 用迭代扩增结合生成与物理修正、Perpetual 实现实时物理跟踪。这将是未来的重要方向。
+**融合趋势**：2024-2025 年的工作开始探索运动学 + 动力学的融合：
+- UniPhys 用 PD 预处理保证物理合理性
+- PARC 用迭代扩增结合生成与物理修正
+- Perpetual 实现实时物理跟踪
+
+这将是未来的重要方向。
 
 ---
 
