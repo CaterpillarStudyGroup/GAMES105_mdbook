@@ -56,8 +56,10 @@ timeline
 ```mermaid
 flowchart LR
     subgraph Phase["相位表示 lineage"]
-        PFNN --> RTN
-        RTN --> StyleMod
+        PFNN --> LocalPhases["Local Motion Phases"]
+        PFNN --> StyleMod
+        LocalPhases --> PhaseManifolds["Phase Manifolds"]
+        PhaseManifolds --> POMP["POMP 物理一致"]
         StyleMod --> MOCHA
     end
 
@@ -114,7 +116,43 @@ flowchart LR
 
 ---
 
-### 2.4 RTN: Recurrent Transition Networks (SIGGRAPH 2018)
+### 2.4 Local Motion Phases (SIGGRAPH 2020)
+
+**论文**: [[216.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/216.html)
+
+**核心创新**: 每个身体部位学习独立相位，支持多接触交互
+
+**背景**: PFNN 的全局相位假设所有部位同步运动，无法处理多接触动作（如手扶墙、脚踩台阶）。
+
+**全局相位 vs 局部相位**:
+
+| 全局相位 | 局部相位 |
+|---------|---------|
+| 单一相位值 | 每个身体部位独立相位 |
+| 适用于周期性 locomotion | 适用于多接触交互 |
+| 相位手动标注 | 无监督学习相位 |
+
+**局部相位表示**:
+\\[
+\\phi = \\{\\phi_{left\\_foot}, \\phi_{right\\_foot}, \\phi_{left\\_hand}, \\phi_{right\\_hand}, ...\\}
+\\]
+
+**与 PFNN 的继承关系**:
+- PFNN: 全局相位，需手动标注
+- Local Phases: 局部相位，无监督学习
+
+**优点**:
+- 支持多接触交互
+- 相位自动学习
+- 异步运动建模
+
+**缺点**:
+- 相位数量固定
+- 新接触类型需要训练
+
+---
+
+### 2.5 RTN: Recurrent Transition Networks (SIGGRAPH 2018)
 
 **论文**: [[210.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/210.html)
 
@@ -334,7 +372,73 @@ flowchart TB
 
 ---
 
-### 2.9 自回归扩散模型系列 (2024-2025)
+### 2.9 POMP: Physics-consistent Motion Prior (2023)
+
+**论文**: [[112.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/112.html)
+
+**核心创新**: 基于相流形的物理一致运动先验，将运动学先验与物理约束对齐
+
+**架构**:
+
+```mermaid
+flowchart TB
+    subgraph Input["输入"]
+        state["角色状态 + 地形 + 轨迹"]
+    end
+
+    subgraph Kinematic["运动学模块"]
+        MoE["OrthoMoE Encoder"]
+        Diff["Diffusion Decoder"]
+    end
+
+    subgraph Dynamic["动力学模块"]
+        IK["逆动力学 PD 控制"]
+        FK["前向动力仿真"]
+    end
+
+    subgraph Phase["相位编码模块"]
+        PAE["Periodic Autoencoder"]
+        Align["语义对齐"]
+    end
+
+    Input --> MoE
+    MoE --> Diff
+    Diff --> IK
+    IK --> FK
+    FK --> Align
+    Align --> PAE
+    PAE --> MoE
+
+    style Kinematic fill:#e1f5fe
+    style Dynamic fill:#fff3e0
+    style Phase fill:#e8f5e9
+```
+
+**三模块协作**:
+1. **运动学模块**: 基于扩散的运动先验生成初始姿态
+2. **动力学模块**: 物理仿真确保物理合理性（接触力、碰撞）
+3. **相位编码模块**: 将仿真姿态投影回运动先验的相流形
+
+**关键洞察**:
+- 直接反馈仿真结果会导致误差累积
+- 相流形中的语义对齐解决领域鸿沟问题
+
+**与 PFNN 的继承关系**:
+- PFNN: 相位作为权重参数
+- POMP: 相位作为运动 - 物理对齐的语义空间
+
+**优点**:
+- 物理一致的运动生成
+- 实时响应物理扰动
+- 计算高效（动力学模块在训练循环外）
+
+**缺点**:
+- 依赖地形和冲量数据提取
+- 复杂交互质量受限
+
+---
+
+### 2.10 自回归扩散模型系列 (2024-2025)
 
 #### 核心思想演进
 
@@ -451,20 +555,22 @@ Polishing Module: ADM (2 步)
 
 ---
 
-### 2.10 运动学方法对比
+### 2.13 运动学方法对比
 
-| 方法 | 架构 | 去噪步数 | FPS | 风格转换 | 空间控制 |
-|------|------|---------|-----|---------|---------|
-| **PFNN** | 混合专家 | N/A | 60+ | △ | △ |
-| **RTN** | LSTM | N/A | 60+ | ✗ | ✓ |
-| **Learned MM** | 三网络 | N/A | 60+ | ✗ | △ |
-| **Style Modelling** | FWT+ 相位 | N/A | 60+ | ✓ | ✗ |
-| **MOCHA** | Transformer | N/A | 60+ | ✓ | ✗ |
-| **Phase Manifolds** | MoE | N/A | 30+ | ✗ | ✓ |
-| **A-MDM** | MLP | 50 | 30+ | △ | △ |
-| **CAMDM** | Transformer | 8 | 60+ | ✓ | ✓ |
-| **AAMDM** | DD-GAN+ADM | 5 | 60+ | △ | ✗ |
-| **DART** | Latent Diffusion | ~20 | 60+ | ✓ | ✓ |
+| 方法 | 架构 | 去噪步数 | FPS | 风格转换 | 空间控制 | 物理感知 |
+|------|------|---------|-----|---------|---------|---------|
+| **PFNN** | 混合专家 | N/A | 60+ | △ | △ | ✗ |
+| **Local Motion Phases** | 相位条件化 | N/A | 60+ | ✗ | △ | ✗ |
+| **RTN** | LSTM | N/A | 60+ | ✗ | ✓ | △ |
+| **Learned MM** | 三网络 | N/A | 60+ | ✗ | △ | ✗ |
+| **Style Modelling** | FWT+ 相位 | N/A | 60+ | ✓ | ✗ | ✗ |
+| **MOCHA** | Transformer | N/A | 60+ | ✓ | ✗ | ✗ |
+| **Phase Manifolds** | MoE+PAE | N/A | 30+ | ✗ | ✓ | ✗ |
+| **POMP** | Diff+ 物理 | N/A | 60+ | ✗ | ✓ | ✓ |
+| **A-MDM** | MLP | 50 | 30+ | △ | △ | ✗ |
+| **CAMDM** | Transformer | 8 | 60+ | ✓ | ✓ | ✗ |
+| **AAMDM** | DD-GAN+ADM | 5 | 60+ | △ | ✗ | ✗ |
+| **DART** | Latent Diffusion | ~20 | 60+ | ✓ | ✓ | ✗ |
 
 ---
 
@@ -1052,11 +1158,13 @@ flowchart TD
 | 论文 | 年份 | 链接 | 核心贡献 |
 |------|------|------|---------|
 | PFNN | 2017 | [113](https://caterpillarstudygroup.github.io/ReadPapers/src/113.html) | 相位函数化权重 |
+| Local Motion Phases | 2020 | [216](https://caterpillarstudygroup.github.io/ReadPapers/src/216.html) | 局部相位表示 |
 | RTN | 2018 | [210](https://caterpillarstudygroup.github.io/ReadPapers/src/210.html) | 循环转移网络 |
 | Style Modelling | 2020 | [211](https://caterpillarstudygroup.github.io/ReadPapers/src/211.html) | 特征变换 + 局部相位 |
 | Learned Motion Matching | 2020 | [208](https://caterpillarstudygroup.github.io/ReadPapers/src/208.html) | 神经网络替代数据库 |
 | MOCHA | 2023 | [209](https://caterpillarstudygroup.github.io/ReadPapers/src/209.html) | 上下文匹配角色化 |
 | Phase Manifolds | 2023 | [212](https://caterpillarstudygroup.github.io/ReadPapers/src/212.html) | 相位流形中间帧 |
+| POMP | 2023 | [112](https://caterpillarstudygroup.github.io/ReadPapers/src/112.html) | 物理一致运动先验 |
 | A-MDM | 2024 | [206](https://caterpillarstudygroup.github.io/ReadPapers/src/206.html) | 自回归扩散模型 |
 | CAMDM | 2024 | [207](https://caterpillarstudygroup.github.io/ReadPapers/src/207.html) | 8 步去噪 + 风格转换 |
 | AAMDM | 2024 | [204](https://caterpillarstudygroup.github.io/ReadPapers/src/204.html) | 5 步 DD-GAN+ADM |
@@ -1087,10 +1195,11 @@ flowchart TD
 
 角色位移控制领域呈现**双轨并行、多线演进**的发展态势：
 
-**运动学方法**沿三条主线演进：
-1. **相位表示线**：PFNN 的相位函数化权重 → Style Modelling 的局部相位 → MOCHA 的上下文匹配 → Phase Manifolds 的相位流形插值
-2. **Motion Matching 线**：工业界标准 Motion Matching → Learned Motion Matching 的神经网络替代 → MOCHA 的角色化扩展
-3. **扩散模型线**：A-MDM 的自回归设计 → CAMDM 的 8 步去噪 + 风格转换 → AAMDM 的 5 步加速 → DART 的潜在空间控制
+**运动学方法**沿四条主线演进：
+1. **相位表示线**：PFNN 的相位函数化权重 → Local Motion Phases 的局部相位 → Phase Manifolds 的相位流形插值 → POMP 的物理一致运动先验
+2. **Style 线**：Style Modelling 的特征变换 + 局部相位 → MOCHA 的上下文匹配角色化
+3. **Motion Matching 线**：工业界标准 Motion Matching → Learned Motion Matching 的神经网络替代 → MOCHA 的角色化扩展
+4. **扩散模型线**：A-MDM 的自回归设计 → CAMDM 的 8 步去噪 + 风格转换 → AAMDM 的 5 步加速 → DART 的潜在空间控制
 
 **动力学方法**沿三条主线演进：
 1. **RL 模仿线**：DeepMimic 的 RL+ 模仿 → AMP 的对抗先验 → ASE 的预训练技能库
