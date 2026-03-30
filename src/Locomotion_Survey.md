@@ -167,84 +167,21 @@ flowchart LR
 
 ---
 
-### 2.7 流派四：专用场景方法
+### 2.5 流派二：Style-based Methods (从相位到风格转换)
 
-**RTN (Recurrent Transition Networks)** 是一个特殊的存在，它不屬於上述三大流派，而是**专门针对 transition 场景**设计的方法：
+**核心思想**：基于相位表示，引入风格变量实现动作风格转换。
 
-| 维度 | PFNN | Motion Matching | RTN |
-|------|------|----------------|-----|
-| **目标场景** | 连续 locomotion | 连续 locomotion | **Transition 生成** |
-| **相位需求** | 需要 | 不需要 | **无需任何标注** |
-| **网络结构** | 混合专家 | 三网络 | **改进 LSTM** |
-
-**RTN 的核心价值**：
-- 解决了游戏动画图中 transition 数量指数增长的问题
-- 首次提出无需任何标注的 transition 生成方法
-- 固定大小网络，不随数据集增长
-
----
-
-### 2.8 RTN: Recurrent Transition Networks (SIGGRAPH 2018)
-
-**论文**: [[210.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/210.html)
-
-**核心创新**: 首个专门为 transition 生成设计的未来感知深度循环架构
-
-**背景**: 游戏动画图中 transition 数量随状态数指数增长，手工制作耗时。
-
-**架构**:
-
+**演进关系**：
 ```mermaid
-flowchart TB
-    x_t["当前帧 x_t"] --> FrameEnc["Frame Encoder<br/>2 层 MLP 512 单元"]
-    p_t["地形 patch p_t"] --> FrameEnc
-    t["目标向量 t"] --> TargetEnc["Target Encoder<br/>2 层 MLP 128 单元"]
-    o_t["全局偏移 o_t"] --> OffsetEnc["Offset Encoder<br/>2 层 MLP 128 单元"]
-
-    FrameEnc & TargetEnc & OffsetEnc --> LSTM["改进的 LSTM<br/>512 单元"]
-    LSTM --> Decoder["Frame Decoder<br/>2 层 MLP"]
-    Decoder --> x_next["下一帧 x_{t+1}"]
-
-    style FrameEnc fill:#e1f5fe
-    style TargetEnc fill:#e1f5fe
-    style OffsetEnc fill:#e1f5fe
-    style LSTM fill:#fff3e0
-    style Decoder fill:#e8f5e9
+flowchart LR
+    PFNN --> LocalPhases["Local Motion Phases"]
+    LocalPhases --> StyleMod["Style Modelling"]
+    StyleMod --> MOCHA
 ```
 
-**改进的 LSTM 公式**:
-\\[
-\\begin{aligned}
-i_t &= \\alpha(W^{(i)}h^E_t + U^{(i)}h^R_{t-1} + C^{(i)}h^{F,O}_t + b^{(i)}) \\\\
-o_t &= \\alpha(W^{(o)}h^E_t + U^{(o)}h^R_{t-1} + C^{(o)}h^{F,O}_t + b^{(o)}) \\\\
-f_t &= \\alpha(W^{(f)}h^E_t + U^{(f)}h^R_{t-1} + C^{(f)}h^{F,O}_t + b^{(f)}) \\\\
-c_t &= f_t \\odot c_{t-1} + i_t \\odot \\tau(\\hat{c}_t) \\\\
-h^R_t &= o_t \\odot \\tau(c_t)
-\\end{aligned}
-\\]
-
-**关键设计**:
-- 添加 \\(C^{(\\cdot)}\\) 权重用于未来上下文条件化
-- Hidden State 初始化器：从第一帧映射到初始 hidden state
-- 地形感知：局部高度图 \\(13 \\times 13\\) 网格
-- **无需任何标注**（gait/phase/contact）
-
-**与 PFNN 的差异**:
-- PFNN: 生成连续 locomotion，需要相位标注
-- RTN: 专门处理 transition 场景，无需标注
-
-**优点**:
-- **无需任何标注**
-- 固定大小网络，不随数据集增长
-- 质量媲美 mocap ground truth
-
-**缺点**:
-- Transition 长度固定
-- 自回归生成，长 transition 推理慢
-
 ---
 
-### 2.9 Real-Time Style Modelling (SIGGRAPH 2020)
+### 2.5.1 Real-Time Style Modelling (SIGGRAPH 2020)
 
 **论文**: [[211.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/211.html)
 
@@ -291,7 +228,28 @@ flowchart LR
 
 ---
 
-### 2.10 Learned Motion Matching (SIGGRAPH 2020)
+### 2.7 流派二：Motion Matching 系
+
+**核心思想**：从动作数据库搜索/预测最匹配当前状态的帧。
+
+**演进路径**：
+```mermaid
+flowchart LR
+    MG["Motion Graphs (2002)"] --> MM["Motion Matching (2019)<br/>工业标准"]
+    MM --> LMM["Learned Motion Matching (2020)<br/>神经网络替代"]
+    LMM --> MOCHA["MOCHA (2023)<br/>角色化扩展"]
+```
+
+**Motion Matching 核心流程**：
+1. 提取当前帧特征（姿势、速度、轨迹）
+2. 在数据库中搜索最近邻
+3. 返回对应帧并推进索引
+
+**Learned Motion Matching 创新**：用三个神经网络替代数据库搜索，固定内存占用。
+
+---
+
+### 2.7.1 Learned Motion Matching (SIGGRAPH 2020)
 
 **论文**: [[208.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/208.html)
 
@@ -318,28 +276,7 @@ flowchart LR
 
 ---
 
-### 2.12 流派二：Motion Matching 系
-
-**核心思想**：从动作数据库搜索/预测最匹配当前状态的帧。
-
-**演进路径**：
-```mermaid
-flowchart LR
-    MG["Motion Graphs (2002)"] --> MM["Motion Matching (2019)<br/>工业标准"]
-    MM --> LMM["Learned Motion Matching (2020)<br/>神经网络替代"]
-    LMM --> MOCHA["MOCHA (2023)<br/>角色化扩展"]
-```
-
-**Motion Matching 核心流程**：
-1. 提取当前帧特征（姿势、速度、轨迹）
-2. 在数据库中搜索最近邻
-3. 返回对应帧并推进索引
-
-**Learned Motion Matching 创新**：用三个神经网络替代数据库搜索，固定内存占用。
-
----
-
-### 2.11 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
+### 2.7.2 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
 
 **论文**: [[209.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/209.html)
 
@@ -386,7 +323,7 @@ p(s_i | z_{i-1}^{cha}, f(z_i^{src})) = \\mathcal{N}(\\mu, \\sigma)
 
 ---
 
-### 2.10 Phase Manifolds 与 POMP：相位的高级应用
+### 2.8 流派三：相位流形与 POMP
 
 **核心思想**：将相位从「动作周期指示器」升级为「运动 - 物理对齐的语义空间」。
 
@@ -400,7 +337,7 @@ flowchart LR
 
 ---
 
-### 2.13 Motion In-Betweening with Phase Manifolds (2023)
+### 2.8.1 Motion In-Betweening with Phase Manifolds (2023)
 
 **论文**: [[212.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/212.html)
 
@@ -440,7 +377,7 @@ flowchart TB
 
 ---
 
-### 2.14 POMP: Physics-consistent Motion Prior (2023)
+### 2.8.2 POMP: Physics-consistent Motion Prior (2023)
 
 **论文**: [[112.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/112.html)
 
@@ -506,7 +443,7 @@ flowchart TB
 
 ---
 
-### 2.15 流派三：扩散模型系列 (Diffusion-based Methods)
+### 2.9 流派四：扩散模型系 (Diffusion-based Methods)
 
 **核心挑战**：标准扩散模型需要 1000 步去噪，无法满足实时性要求（60 FPS）。
 
@@ -536,7 +473,7 @@ flowchart TB
 
 ---
 
-#### 2.13.1 A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
+#### 2.9.1 A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
 
 **论文**: [[206.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/206.html)
 
@@ -561,7 +498,7 @@ p(x_{1:T}) = \\prod_{t=1}^{T} p(x_t | x_{1:t-1})
 
 ---
 
-#### 2.13.2 CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
+#### 2.9.2 CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
 
 **论文**: [[207.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/207.html)
 
@@ -592,7 +529,7 @@ p(x_{1:T}) = \\prod_{t=1}^{T} p(x_t | x_{1:t-1})
 
 ---
 
-#### 2.13.3 AAMDM: Accelerated Auto-regressive Motion Diffusion Model (CVPR 2024)
+#### 2.9.3 AAMDM: Accelerated Auto-regressive Motion Diffusion Model (CVPR 2024)
 
 **论文**: [[204.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/204.html)
 
@@ -617,7 +554,7 @@ Polishing Module: ADM (2 步)
 
 ---
 
-#### 2.13.4 DARTControl: Diffusion-based Autoregressive Motion Model (ICLR 2025)
+#### 2.9.4 DARTControl: Diffusion-based Autoregressive Motion Model (ICLR 2025)
 
 **论文**: [[205.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/205.html)
 
@@ -639,7 +576,7 @@ Polishing Module: ADM (2 步)
 
 ---
 
-### 2.16 运动学方法总结
+### 2.10 运动学方法总结
 
 #### 三大流派核心思想对比
 
