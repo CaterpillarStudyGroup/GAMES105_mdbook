@@ -41,11 +41,21 @@
 
 ```mermaid
 flowchart TB
-    subgraph Phase["流派一：相位表示系"]
+    PFNN["PFNN (2017)"] --> LP["Local Phases (2020)"]
+
+    LP --> Phase1["流派一：相位表示系"]
+    LP --> Phase3["流派三：相位流形系"]
+
+    subgraph Phase["相位表示系"]
         direction TB
-        PFNN["PFNN (2017)"] --> LP["Local Phases (2020)"]
-        LP --> SM["Style Modelling (2020)"]
+        Phase1 --> SM["Style Modelling (2020)"]
         SM --> MOCHA["MOCHA (2023)"]
+    end
+
+    subgraph PhaseM["相位流形系"]
+        direction TB
+        Phase3 --> PM["Phase Manifolds (2023)"]
+        PM --> POMP["POMP (2023)"]
     end
 
     subgraph MM["流派二：Motion Matching 系"]
@@ -54,19 +64,18 @@ flowchart TB
         LMM --> MOCHA2["MOCHA (2023)"]
     end
 
-    subgraph PM["流派三：相位流形系"]
-        direction TB
-        LP2["Local Phases (2020)"] --> PM2["Phase Manifolds (2023)"]
-        PM2 --> POMP["POMP (2023)"]
-    end
-
     subgraph Diff["流派四：扩散模型系"]
         direction TB
         AMDM["A-MDM (2024)"] --> CAMDM["CAMDM (2024)"]
         CAMDM --> AAMDM["AAMDM (2024)"]
         AAMDM --> DART["DART (2025)"]
     end
+
+    style Phase fill:#e1f5fe
+    style PhaseM fill:#fff3e0
 ```
+
+**关键分支点**：Local Phases (2020) 是分叉点 —— 相位表示系朝风格转换方向发展，相位流形系朝插值和物理对齐方向发展。
 
 | 流派 | 核心思想 | 优势 | 局限 |
 |------|---------|------|------|
@@ -86,7 +95,6 @@ flowchart TB
 flowchart LR
     PFNN --> LP["Local Phases (2020)"]
     LP --> SM["Style Modelling (2020)"]
-    SM --> MOCHA["MOCHA (2023)"]
 
     subgraph 相位流形系分支
     LP --> PM["Phase Manifolds (2023)"]
@@ -100,9 +108,10 @@ flowchart LR
 - PFNN (2017): 相位函数化权重
 - Local Motion Phases (2020): 局部相位
 - Style Modelling (2020): 特征变换 + 相位
-- MOCHA (2023): 上下文匹配角色化
 
 **注**：Phase Manifolds 和 POMP 从 Local Phases 分支出去，形成了独立的**相位流形系**（见 2.6 节）。
+
+**注意**：MOCHA (2023) 虽然使用了 AdaIN 进行风格转换（继承自 Style Modelling），但其核心是 Neural Context Matcher 进行上下文匹配，**不属于相位表示系**，而是属于**Motion Matching 系**（见 2.5 节）。
 
 ---
 
@@ -150,13 +159,13 @@ flowchart LR
 flowchart LR
     PFNN --> LP["Local Phases (2020)"]
     LP --> SM["Style Modelling (2020)"]
-    SM --> MOCHA["MOCHA (2023)"]
 ```
 
 **代表论文**：
 - Local Motion Phases (2020): 每个身体部位独立相位
 - Style Modelling (2020): Feature-Wise Transformations + 局部相位
-- MOCHA (2023): 上下文匹配 + 角色化
+
+**注意**：MOCHA (2023) 虽然使用了 AdaIN 风格转换（继承自 Style Modelling），但其核心是 Neural Context Matcher 进行上下文匹配，**不属于相位表示系**，而是属于**Motion Matching 系**（见 2.5 节）。
 
 ---
 
@@ -251,8 +260,7 @@ flowchart LR
 **演进路径**：
 ```mermaid
 flowchart LR
-    MG["Motion Graphs (2002)"] --> MM["Motion Matching (2019)<br/>工业标准"]
-    MM --> LMM["Learned Motion Matching (2020)<br/>神经网络替代"]
+    MM["Motion Matching (2019)<br/>工业标准"] --> LMM["Learned Motion Matching (2020)<br/>神经网络替代"]
     LMM --> MOCHA["MOCHA (2023)<br/>角色化扩展"]
 ```
 
@@ -262,6 +270,8 @@ flowchart LR
 3. 返回对应帧并推进索引
 
 **Learned Motion Matching 创新**：用三个神经网络替代数据库搜索，固定内存占用。
+
+**MOCHA 扩展**：在 Learned Motion Matching 基础上，增加 Neural Context Matcher 实现角色风格转换和体型适配。
 
 ---
 
@@ -598,8 +608,8 @@ Polishing Module: ADM (2 步)
 
 | 流派 | 代表方法 | 核心贡献 | 典型应用 |
 |------|---------|---------|---------|
-| **相位表示系** | PFNN → Local Phases → Style Modelling → MOCHA | 相位解耦不同动作状态 | VR 化身、风格化动画 |
-| **Motion Matching 系** | MM → Learned MM → MOCHA | 数据搜索/预测生成动作 | 游戏 NPC、在线游戏 |
+| **相位表示系** | PFNN → Local Phases → Style Modelling | 相位解耦不同动作状态 | VR 化身、风格化动画 |
+| **Motion Matching 系** | MM → Learned MM → MOCHA | 数据搜索/预测生成动作 + 角色化 | 游戏 NPC、在线游戏、角色设计 |
 | **相位流形系** | Phase Manifolds → POMP | 相位流形插值与物理对齐 | 过渡生成、物理一致运动 |
 | **扩散模型系** | A-MDM → CAMDM → AAMDM → DART | 概率扩散模型生成 | 电影动画、多样性生成 |
 
@@ -643,29 +653,30 @@ flowchart TD
 |------|-----------|-----------|
 | **核心目标** | 用相位解耦不同动作状态 | 在相位空间进行插值和物理对齐 |
 | **相位角色** | 动作周期指示器 | 流形空间坐标 |
-| **代表方法** | PFNN → Local Phases → Style Modelling → MOCHA | Phase Manifolds → POMP |
-| **典型应用** | 风格转换、角色化、VR 化身 | 过渡生成、物理一致运动 |
+| **代表方法** | PFNN → Local Phases → Style Modelling | Phase Manifolds → POMP |
+| **典型应用** | 风格转换、VR 化身 | 过渡生成、物理一致运动 |
 
 **关系**：
 - **共同基础**: 两者都从 Local Motion Phases (2020) 的局部相位表示继承
 - **分叉点**:
-  - 相位表示系 → 朝风格转换方向发展（Style Modelling → MOCHA）
+  - 相位表示系 → 朝风格转换方向发展（PFNN → Local Phases → Style Modelling）
   - 相位流形系 → 朝插值和物理对齐方向发展（Phase Manifolds → POMP）
 
-#### Q2: MOCHA 为什么属于相位表示系？
+#### Q2: MOCHA 属于哪个流派？
 
-MOCHA 属于相位表示系的理由：
+**MOCHA 属于 Motion Matching 系**，而不是相位表示系。理由如下：
 
-1. **技术继承**: MOCHA 的 Characterizer 模块使用 AdaIN 进行风格转换，直接继承自 Style Modelling (2020)
-2. **相位条件化**: MOCHA 的 Neural Context Matcher 使用自回归生成，本质上是用相位（上下文）条件化动作生成
-3. **核心思想**: 用相位/上下文解耦不同角色风格，与 PFNN 用相位解耦不同步态的思想一致
+| 维度 | 相位表示系 | MOCHA |
+|------|-----------|-------|
+| **核心机制** | 相位作为权重参数或输入特征 | Neural Context Matcher 上下文匹配 |
+| **相位使用** | 显式相位变量 \\(\phi\\) | 无显式相位，用上下文特征条件化 |
+| **继承关系** | PFNN → Local Phases → Style Modelling | Motion Matching → Learned MM → MOCHA |
 
-```mermaid
-flowchart LR
-    PFNN --> LP["Local Phases<br/>局部相位"]
-    LP --> SM["Style Modelling<br/>AdaIN 风格转换"]
-    SM --> MOCHA["MOCHA<br/>AdaIN + Transformer<br/>角色化"]
-```
+**MOCHA 的核心贡献**：
+1. **Neural Context Matcher**: 用 C-VAE + 自回归生成替代数据库搜索
+2. **Characterizer**: 用 AdaIN + Cross-Attention 实现风格转换和体型适配
+
+**注意**：MOCHA 虽然使用了 AdaIN（继承自 Style Modelling），但这只是风格注入的工具，其核心架构是基于上下文匹配的，因此属于 Motion Matching 系。
 
 #### Q3: RTN 属于什么系？
 
@@ -1307,8 +1318,8 @@ flowchart TD
 角色位移控制领域呈现**双轨并行、多线演进**的发展态势：
 
 **运动学方法**沿四条主线演进：
-1. **相位表示系**：PFNN 的相位函数化权重 → Local Motion Phases 的局部相位 → Style Modelling 的特征变换 → MOCHA 的上下文匹配角色化
-2. **Motion Matching 系**：工业界标准 Motion Matching → Learned Motion Matching 的神经网络替代 → MOCHA 的角色化扩展
+1. **相位表示系**：PFNN 的相位函数化权重 → Local Motion Phases 的局部相位 → Style Modelling 的特征变换
+2. **Motion Matching 系**：工业界标准 Motion Matching → Learned Motion Matching 的神经网络替代 → MOCHA 的上下文匹配角色化
 3. **相位流形系**：Local Phases 的局部相位表示 → Phase Manifolds 的相位流形插值 → POMP 的物理一致运动先验
 4. **扩散模型系**：A-MDM 的自回归设计 → CAMDM 的 8 步去噪 + 风格转换 → AAMDM 的 5 步加速 → DART 的潜在空间控制
 
