@@ -167,7 +167,24 @@ flowchart LR
 
 ---
 
-### 2.5 RTN: Recurrent Transition Networks (SIGGRAPH 2018)
+### 2.7 流派四：专用场景方法
+
+**RTN (Recurrent Transition Networks)** 是一个特殊的存在，它不屬於上述三大流派，而是**专门针对 transition 场景**设计的方法：
+
+| 维度 | PFNN | Motion Matching | RTN |
+|------|------|----------------|-----|
+| **目标场景** | 连续 locomotion | 连续 locomotion | **Transition 生成** |
+| **相位需求** | 需要 | 不需要 | **无需任何标注** |
+| **网络结构** | 混合专家 | 三网络 | **改进 LSTM** |
+
+**RTN 的核心价值**：
+- 解决了游戏动画图中 transition 数量指数增长的问题
+- 首次提出无需任何标注的 transition 生成方法
+- 固定大小网络，不随数据集增长
+
+---
+
+### 2.8 RTN: Recurrent Transition Networks (SIGGRAPH 2018)
 
 **论文**: [[210.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/210.html)
 
@@ -227,7 +244,7 @@ h^R_t &= o_t \\odot \\tau(c_t)
 
 ---
 
-### 2.6 Real-Time Style Modelling (SIGGRAPH 2020)
+### 2.9 Real-Time Style Modelling (SIGGRAPH 2020)
 
 **论文**: [[211.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/211.html)
 
@@ -274,7 +291,7 @@ flowchart LR
 
 ---
 
-### 2.7 Learned Motion Matching (SIGGRAPH 2020)
+### 2.10 Learned Motion Matching (SIGGRAPH 2020)
 
 **论文**: [[208.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/208.html)
 
@@ -301,7 +318,7 @@ flowchart LR
 
 ---
 
-### 2.8 流派二：Motion Matching 系
+### 2.12 流派二：Motion Matching 系
 
 **核心思想**：从动作数据库搜索/预测最匹配当前状态的帧。
 
@@ -322,7 +339,7 @@ flowchart LR
 
 ---
 
-### 2.9 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
+### 2.11 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
 
 **论文**: [[209.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/209.html)
 
@@ -383,7 +400,7 @@ flowchart LR
 
 ---
 
-### 2.9 Motion In-Betweening with Phase Manifolds (2023)
+### 2.13 Motion In-Betweening with Phase Manifolds (2023)
 
 **论文**: [[212.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/212.html)
 
@@ -423,7 +440,7 @@ flowchart TB
 
 ---
 
-### 2.10 POMP: Physics-consistent Motion Prior (2023)
+### 2.14 POMP: Physics-consistent Motion Prior (2023)
 
 **论文**: [[112.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/112.html)
 
@@ -489,7 +506,7 @@ flowchart TB
 
 ---
 
-### 2.13 流派三：扩散模型系列 (Diffusion-based Methods)
+### 2.15 流派三：扩散模型系列 (Diffusion-based Methods)
 
 **核心挑战**：标准扩散模型需要 1000 步去噪，无法满足实时性要求（60 FPS）。
 
@@ -622,7 +639,7 @@ Polishing Module: ADM (2 步)
 
 ---
 
-### 2.14 运动学方法总结
+### 2.16 运动学方法总结
 
 #### 三大流派核心思想对比
 
