@@ -37,34 +37,25 @@
 
 ### 2.1 技术流派总览
 
-运动学方法经过十余年发展，形成了**四大主要流派**：
+运动学方法经过十余年发展，形成了**三大主要流派**：
 
 ```mermaid
 flowchart TB
-    PFNN["PFNN (2017)"] --> LP["Local Phases (2020)"]
-
-    LP --> Phase1["流派一：相位表示系"]
-    LP --> Phase3["流派三：相位流形系"]
-
-    subgraph Phase["相位表示系"]
+    subgraph Phase["流派一：相位系 (Phase-based)"]
         direction TB
-        Phase1 --> SM["Style Modelling (2020)"]
-        SM --> MOCHA["MOCHA (2023)"]
-    end
-
-    subgraph PhaseM["相位流形系"]
-        direction TB
-        Phase3 --> PM["Phase Manifolds (2023)"]
+        PFNN["PFNN (2017)"] --> LP["Local Phases (2020)"]
+        LP --> SM["Style Modelling (2020)"]
+        LP --> PM["Phase Manifolds (2023)"]
         PM --> POMP["POMP (2023)"]
     end
 
     subgraph MM["流派二：Motion Matching 系"]
         direction TB
         MM0["Motion Matching (2019)"] --> LMM["Learned MM (2020)"]
-        LMM --> MOCHA2["MOCHA (2023)"]
+        LMM --> MOCHA["MOCHA (2023)"]
     end
 
-    subgraph Diff["流派四：扩散模型系"]
+    subgraph Diff["流派三：扩散模型系"]
         direction TB
         AMDM["A-MDM (2024)"] --> CAMDM["CAMDM (2024)"]
         CAMDM --> AAMDM["AAMDM (2024)"]
@@ -72,46 +63,47 @@ flowchart TB
     end
 
     style Phase fill:#e1f5fe
-    style PhaseM fill:#fff3e0
+    style MM fill:#fff3e0
+    style Diff fill:#f0f0f0
 ```
 
-**关键分支点**：Local Phases (2020) 是分叉点 —— 相位表示系朝风格转换方向发展，相位流形系朝插值和物理对齐方向发展。
+**关键洞察**：Local Phases (2020) 是相位系的核心分支点 —— 一支朝风格转换方向发展（Style Modelling），另一支朝相位流形插值和物理对齐方向发展（Phase Manifolds → POMP）。
 
 | 流派 | 核心思想 | 优势 | 局限 |
 |------|---------|------|------|
-| **相位表示系** | 相位解耦动作状态 | 流畅无 artifacts | 相位定义需领域知识 |
+| **相位系** | 相位解耦动作状态 / 相位流形插值 | 流畅无 artifacts / 自然过渡 | 相位定义需领域知识 |
 | **Motion Matching 系** | 数据搜索/预测 | 工业验证质量高 | 内存/训练成本 |
-| **相位流形系** | 相位流形插值与物理对齐 | 自然过渡、物理一致 | 依赖训练数据 |
 | **扩散模型系** | 概率扩散生成 | 高质量多样性 | 推理速度挑战 |
 
 ---
 
-### 2.2 流派一：相位表示系 (Phase-based Methods)
+### 2.2 流派一：相位系 (Phase-based Methods)
 
-**核心思想**：引入相位变量 \\(\phi \in [0, 2\pi)\\) 作为动作周期的隐式表示，用相位解耦不同动作状态。
+**核心思想**：引入相位变量 \\(\phi \in [0, 2\pi)\\) 作为动作周期的隐式表示，用相位解耦不同动作状态或在相位空间进行插值。
 
 **演进路径**：
 ```mermaid
 flowchart LR
     PFNN --> LP["Local Phases (2020)"]
     LP --> SM["Style Modelling (2020)"]
-
-    subgraph 相位流形系分支
     LP --> PM["Phase Manifolds (2023)"]
     PM --> POMP["POMP (2023)"]
-    end
-
-    style 相位流形系分支 fill:#f0f0f0,stroke-dasharray: 5 5
 ```
+
+**两大分支**：
+| 分支 | 演进路径 | 核心贡献 | 典型应用 |
+|------|---------|---------|---------|
+| **相位表示分支** | PFNN → Local Phases → Style Modelling | 相位解耦不同动作状态 | VR 化身、风格化动画 |
+| **相位流形分支** | Local Phases → Phase Manifolds → POMP | 相位流形插值与物理对齐 | 过渡生成、物理一致运动 |
 
 **代表论文**：
 - PFNN (2017): 相位函数化权重
-- Local Motion Phases (2020): 局部相位
-- Style Modelling (2020): 特征变换 + 相位
+- Local Motion Phases (2020): 局部相位表示
+- Style Modelling (2020): 特征变换 + 局部相位
+- Phase Manifolds (2023): 相位流形插值
+- POMP (2023): 物理一致运动先验
 
-**注**：Phase Manifolds 和 POMP 从 Local Phases 分支出去，形成了独立的**相位流形系**（见 2.6 节）。
-
-**注意**：MOCHA (2023) 虽然使用了 AdaIN 进行风格转换（继承自 Style Modelling），但其核心是 Neural Context Matcher 进行上下文匹配，**不属于相位表示系**，而是属于**Motion Matching 系**（见 2.5 节）。
+**注意**：MOCHA (2023) 虽然使用了 AdaIN 进行风格转换（继承自 Style Modelling），但其核心是 Neural Context Matcher 进行上下文匹配，**不属于相位系**，而是属于**Motion Matching 系**（见 2.5 节）。
 
 ---
 
@@ -150,7 +142,7 @@ flowchart LR
 
 ---
 
-### 2.4 Local/Style Modelling  lineage
+### 2.2.2 相位表示分支：Local/Style Modelling
 
 **核心思想**：从全局相位到局部相位的演进，支持更复杂的异步运动和风格转换。
 
@@ -169,7 +161,7 @@ flowchart LR
 
 ---
 
-### 2.4.1 Local Motion Phases (SIGGRAPH 2020)
+### 2.2.4 Local Motion Phases (SIGGRAPH 2020)
 
 **论文**: [[216.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/216.html)
 
@@ -206,7 +198,7 @@ flowchart LR
 
 ---
 
-### 2.4.2 Style Modelling: 特征变换与风格转换 (SIGGRAPH 2020)
+### 2.2.5 Style Modelling: 特征变换与风格转换 (SIGGRAPH 2020)
 
 **论文**: [[211.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/211.html)
 
@@ -253,7 +245,7 @@ flowchart LR
 
 ---
 
-### 2.5 流派二：Motion Matching 系
+### 2.3 流派二：Motion Matching 系
 
 **核心思想**：从动作数据库搜索/预测最匹配当前状态的帧。
 
@@ -275,7 +267,7 @@ flowchart LR
 
 ---
 
-### 2.5.1 Learned Motion Matching (SIGGRAPH 2020)
+### 2.3.1 Learned Motion Matching (SIGGRAPH 2020)
 
 **论文**: [[208.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/208.html)
 
@@ -302,7 +294,7 @@ flowchart LR
 
 ---
 
-### 2.5.2 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
+### 2.3.2 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
 
 **论文**: [[209.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/209.html)
 
@@ -349,7 +341,7 @@ p(s_i | z_{i-1}^{cha}, f(z_i^{src})) = \\mathcal{N}(\\mu, \\sigma)
 
 ---
 
-### 2.6 流派三：相位流形与 POMP
+### 2.2.2 相位流形分支：Phase Manifolds 与 POMP
 
 **核心思想**：将相位从「动作周期指示器」升级为「运动 - 物理对齐的语义空间」。
 
@@ -363,7 +355,7 @@ flowchart LR
 
 ---
 
-### 2.6.1 Motion In-Betweening with Phase Manifolds (2023)
+### 2.2.3 Motion In-Betweening with Phase Manifolds (2023)
 
 **论文**: [[212.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/212.html)
 
@@ -403,7 +395,7 @@ flowchart TB
 
 ---
 
-### 2.6.2 POMP: Physics-consistent Motion Prior (2023)
+### 2.2.4 POMP: Physics-consistent Motion Prior (2023)
 
 **论文**: [[112.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/112.html)
 
@@ -469,7 +461,7 @@ flowchart TB
 
 ---
 
-### 2.7 流派四：扩散模型系 (Diffusion-based Methods)
+### 2.6 流派三：扩散模型系 (Diffusion-based Methods)
 
 **核心挑战**：标准扩散模型需要 1000 步去噪，无法满足实时性要求（60 FPS）。
 
@@ -499,7 +491,7 @@ flowchart TB
 
 ---
 
-#### 2.7.1 A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
+#### 2.6.1 A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
 
 **论文**: [[206.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/206.html)
 
@@ -524,7 +516,7 @@ p(x_{1:T}) = \\prod_{t=1}^{T} p(x_t | x_{1:t-1})
 
 ---
 
-#### 2.7.2 CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
+#### 2.6.2 CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
 
 **论文**: [[207.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/207.html)
 
@@ -555,7 +547,7 @@ p(x_{1:T}) = \\prod_{t=1}^{T} p(x_t | x_{1:t-1})
 
 ---
 
-#### 2.7.3 AAMDM: Accelerated Auto-regressive Motion Diffusion Model (CVPR 2024)
+#### 2.6.3 AAMDM: Accelerated Auto-regressive Motion Diffusion Model (CVPR 2024)
 
 **论文**: [[204.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/204.html)
 
@@ -580,7 +572,7 @@ Polishing Module: ADM (2 步)
 
 ---
 
-#### 2.7.4 DARTControl: Diffusion-based Autoregressive Motion Model (ICLR 2025)
+#### 2.6.4 DARTControl: Diffusion-based Autoregressive Motion Model (ICLR 2025)
 
 **论文**: [[205.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/205.html)
 
@@ -602,15 +594,14 @@ Polishing Module: ADM (2 步)
 
 ---
 
-### 2.8 运动学方法总结
+### 2.7 运动学方法总结
 
-#### 四大流派核心思想对比
+#### 三大流派核心思想对比
 
 | 流派 | 代表方法 | 核心贡献 | 典型应用 |
 |------|---------|---------|---------|
-| **相位表示系** | PFNN → Local Phases → Style Modelling | 相位解耦不同动作状态 | VR 化身、风格化动画 |
+| **相位系** | PFNN → Local Phases → Style Modelling<br>Local Phases → Phase Manifolds → POMP | 相位解耦动作状态 / 相位流形插值 | VR 化身、风格化动画、过渡生成 |
 | **Motion Matching 系** | MM → Learned MM → MOCHA | 数据搜索/预测生成动作 + 角色化 | 游戏 NPC、在线游戏、角色设计 |
-| **相位流形系** | Phase Manifolds → POMP | 相位流形插值与物理对齐 | 过渡生成、物理一致运动 |
 | **扩散模型系** | A-MDM → CAMDM → AAMDM → DART | 概率扩散模型生成 | 电影动画、多样性生成 |
 
 #### 流派选择指南
@@ -644,29 +635,35 @@ flowchart TD
 
 ---
 
-### 2.9 常见问题解答 (FAQ)
+### 2.8 常见问题解答 (FAQ)
 
-#### Q1: 相位表示系和相位流形系有什么区别和关系？
+#### Q1: 相位系内部的两大分支有什么区别？
 
-**区别**：
-| 维度 | 相位表示系 | 相位流形系 |
+相位系是一个统一的流派，其核心思想是**引入相位变量** \\(\phi \in [0, 2\pi)\\) **作为动作的解耦表示**。根据相位的使用方式，分为两大分支：
+
+| 维度 | 相位表示分支 | 相位流形分支 |
 |------|-----------|-----------|
 | **核心目标** | 用相位解耦不同动作状态 | 在相位空间进行插值和物理对齐 |
 | **相位角色** | 动作周期指示器 | 流形空间坐标 |
-| **代表方法** | PFNN → Local Phases → Style Modelling | Phase Manifolds → POMP |
-| **典型应用** | 风格转换、VR 化身 | 过渡生成、物理一致运动 |
+| **演进路径** | PFNN → Local Phases → Style Modelling | Local Phases → Phase Manifolds → POMP |
+| **典型应用** | VR 化身、风格化动画 | 过渡生成、物理一致运动 |
 
 **关系**：
 - **共同基础**: 两者都从 Local Motion Phases (2020) 的局部相位表示继承
 - **分叉点**:
-  - 相位表示系 → 朝风格转换方向发展（PFNN → Local Phases → Style Modelling）
-  - 相位流形系 → 朝插值和物理对齐方向发展（Phase Manifolds → POMP）
+  - 相位表示分支 → 朝风格转换方向发展（PFNN → Local Phases → Style Modelling）
+  - 相位流形分支 → 朝插值和物理对齐方向发展（Phase Manifolds → POMP）
+
+**为什么合并为相位系**：
+- 两者都使用相位作为核心变量
+- 都从 Local Phases (2020) 继承
+- 区别仅在于相位的使用方式（解耦 vs 流形插值）
 
 #### Q2: MOCHA 属于哪个流派？
 
-**MOCHA 属于 Motion Matching 系**，而不是相位表示系。理由如下：
+**MOCHA 属于 Motion Matching 系**，而不是相位系。理由如下：
 
-| 维度 | 相位表示系 | MOCHA |
+| 维度 | 相位系 | MOCHA |
 |------|-----------|-------|
 | **核心机制** | 相位作为权重参数或输入特征 | Neural Context Matcher 上下文匹配 |
 | **相位使用** | 显式相位变量 \\(\phi\\) | 无显式相位，用上下文特征条件化 |
@@ -682,7 +679,7 @@ flowchart TD
 
 **RTN 不属于任何主要流派**，它是一个**专用场景方法**：
 
-| 维度 | RTN | 四大流派 |
+| 维度 | RTN | 三大流派 |
 |------|-----|---------|
 | **目标场景** | Transition 生成 | 连续 locomotion |
 | **相位需求** | 无需相位 | 需要相位或类似机制 |
@@ -691,7 +688,7 @@ flowchart TD
 
 **RTN 的定位**：
 - RTN 是一个特殊的存在，专门处理游戏动画图中的**transition 生成**问题
-- 它不属于相位表示系（无需相位）、不属于 Motion Matching 系（不用搜索）、不属于扩散模型系（2018 年工作）
+- 它不属于相位系（无需相位）、不属于 Motion Matching 系（不用搜索）、不属于扩散模型系（2018 年工作）
 - 在流派选择指南中，RTN 作为"transition 生成"的专用方案被推荐
 
 ---
@@ -1317,11 +1314,10 @@ flowchart TD
 
 角色位移控制领域呈现**双轨并行、多线演进**的发展态势：
 
-**运动学方法**沿四条主线演进：
-1. **相位表示系**：PFNN 的相位函数化权重 → Local Motion Phases 的局部相位 → Style Modelling 的特征变换
+**运动学方法**沿三大主线演进：
+1. **相位系**：PFNN 的相位函数化权重 → Local Motion Phases 的局部相位 → Style Modelling 的特征变换 / Phase Manifolds 的相位流形插值 → POMP 的物理一致运动先验
 2. **Motion Matching 系**：工业界标准 Motion Matching → Learned Motion Matching 的神经网络替代 → MOCHA 的上下文匹配角色化
-3. **相位流形系**：Local Phases 的局部相位表示 → Phase Manifolds 的相位流形插值 → POMP 的物理一致运动先验
-4. **扩散模型系**：A-MDM 的自回归设计 → CAMDM 的 8 步去噪 + 风格转换 → AAMDM 的 5 步加速 → DART 的潜在空间控制
+3. **扩散模型系**：A-MDM 的自回归设计 → CAMDM 的 8 步去噪 + 风格转换 → AAMDM 的 5 步加速 → DART 的潜在空间控制
 
 **动力学方法**沿三条主线演进：
 1. **RL 模仿线**：DeepMimic 的 RL+ 模仿 → AMP 的对抗先验 → ASE 的预训练技能库
