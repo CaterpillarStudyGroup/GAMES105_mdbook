@@ -1,6 +1,6 @@
 # 角色位移控制 (Locomotion Control) 技术洞察
 
-**更新时间**: 2026-03-29
+**更新时间**: 2026-03-30
 
 **范围**: 2010-2025 年角色位移 (locomotion) 控制技术分析
 
@@ -79,24 +79,30 @@ flowchart TB
 
 ### 2.2 流派一：相位表示系 (Phase-based Methods)
 
-**核心思想**：引入相位变量 \\(\phi \in [0, 2\pi)\\) 作为动作周期的隐式表示。
+**核心思想**：引入相位变量 \\(\phi \in [0, 2\pi)\\) 作为动作周期的隐式表示，用相位解耦不同动作状态。
 
 **演进路径**：
 ```mermaid
 flowchart LR
-    PFNN --> LP["Local Phases"]
-    PFNN --> SM["Style Modelling"]
-    LP --> PM["Phase Manifolds"]
-    SM --> MOCHA
-    PM --> POMP
+    PFNN --> LP["Local Phases (2020)"]
+    LP --> SM["Style Modelling (2020)"]
+    SM --> MOCHA["MOCHA (2023)"]
+
+    subgraph 相位流形系分支
+    LP --> PM["Phase Manifolds (2023)"]
+    PM --> POMP["POMP (2023)"]
+    end
+
+    style 相位流形系分支 fill:#f0f0f0,stroke-dasharray: 5 5
 ```
 
 **代表论文**：
 - PFNN (2017): 相位函数化权重
 - Local Motion Phases (2020): 局部相位
 - Style Modelling (2020): 特征变换 + 相位
-- Phase Manifolds (2023): 相位流形插值
-- POMP (2023): 相位 - 物理对齐
+- MOCHA (2023): 上下文匹配角色化
+
+**注**：Phase Manifolds 和 POMP 从 Local Phases 分支出去，形成了独立的**相位流形系**（见 2.6 节）。
 
 ---
 
@@ -625,6 +631,57 @@ flowchart TD
 | **CAMDM** | Transformer | 8 | 60+ | ✓ | ✓ | ✗ |
 | **AAMDM** | DD-GAN+ADM | 5 | 60+ | △ | ✗ | ✗ |
 | **DART** | Latent Diffusion | ~20 | 60+ | ✓ | ✓ | ✗ |
+
+---
+
+### 2.9 常见问题解答 (FAQ)
+
+#### Q1: 相位表示系和相位流形系有什么区别和关系？
+
+**区别**：
+| 维度 | 相位表示系 | 相位流形系 |
+|------|-----------|-----------|
+| **核心目标** | 用相位解耦不同动作状态 | 在相位空间进行插值和物理对齐 |
+| **相位角色** | 动作周期指示器 | 流形空间坐标 |
+| **代表方法** | PFNN → Local Phases → Style Modelling → MOCHA | Phase Manifolds → POMP |
+| **典型应用** | 风格转换、角色化、VR 化身 | 过渡生成、物理一致运动 |
+
+**关系**：
+- **共同基础**: 两者都从 Local Motion Phases (2020) 的局部相位表示继承
+- **分叉点**:
+  - 相位表示系 → 朝风格转换方向发展（Style Modelling → MOCHA）
+  - 相位流形系 → 朝插值和物理对齐方向发展（Phase Manifolds → POMP）
+
+#### Q2: MOCHA 为什么属于相位表示系？
+
+MOCHA 属于相位表示系的理由：
+
+1. **技术继承**: MOCHA 的 Characterizer 模块使用 AdaIN 进行风格转换，直接继承自 Style Modelling (2020)
+2. **相位条件化**: MOCHA 的 Neural Context Matcher 使用自回归生成，本质上是用相位（上下文）条件化动作生成
+3. **核心思想**: 用相位/上下文解耦不同角色风格，与 PFNN 用相位解耦不同步态的思想一致
+
+```mermaid
+flowchart LR
+    PFNN --> LP["Local Phases<br/>局部相位"]
+    LP --> SM["Style Modelling<br/>AdaIN 风格转换"]
+    SM --> MOCHA["MOCHA<br/>AdaIN + Transformer<br/>角色化"]
+```
+
+#### Q3: RTN 属于什么系？
+
+**RTN 不属于任何主要流派**，它是一个**专用场景方法**：
+
+| 维度 | RTN | 四大流派 |
+|------|-----|---------|
+| **目标场景** | Transition 生成 | 连续 locomotion |
+| **相位需求** | 无需相位 | 需要相位或类似机制 |
+| **标注需求** | 无需任何标注 | 通常需要相位/步态标注 |
+| **网络结构** | 改进 LSTM | 多样化（混合专家、Transformer、扩散） |
+
+**RTN 的定位**：
+- RTN 是一个特殊的存在，专门处理游戏动画图中的**transition 生成**问题
+- 它不属于相位表示系（无需相位）、不属于 Motion Matching 系（不用搜索）、不属于扩散模型系（2018 年工作）
+- 在流派选择指南中，RTN 作为"transition 生成"的专用方案被推荐
 
 ---
 
