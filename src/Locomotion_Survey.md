@@ -35,48 +35,62 @@
 
 **核心特征**：直接从数据学习动作生成，**不经过物理仿真**，输出为关节姿态。
 
-### 2.1 技术演进时间线
+### 2.1 三大技术流派总览
+
+运动学方法经过十余年发展，形成了**三大主要流派**，每条 lineage 有其独特的核心思想和演进路径：
 
 ```mermaid
-timeline
-    title 运动学方法发展时间线
-    2017 : PFNN : 相位函数化权重
-    2018 : RTN : 循环转移网络
-    2020 : Learned MM : 神经网络替代数据库
-    2020 : Style Modelling : 特征变换 + 局部相位
-    2023 : MOCHA : 上下文匹配角色化
-    2023 : Phase Manifolds : 相位流形中间帧
-    2024 : A-MDM/CAMDM : 自回归扩散模型
-    2024 : AAMDM : 5 步去噪加速
-    2025 : DARTControl : 潜在空间控制
+flowchart TB
+    subgraph Phase["流派一：相位表示系 Phase-based"]
+        direction TB
+        PFNN["PFNN (2017)<br/>相位函数化权重"] --> LP["Local Motion Phases (2020)<br/>局部相位表示"]
+        PFNN --> SM["Style Modelling (2020)<br/>特征变换 + 相位"]
+        LP --> PM["Phase Manifolds (2023)<br/>相位流形插值"]
+        SM --> MOCHA["MOCHA (2023)<br/>上下文匹配角色化"]
+        PM --> POMP["POMP (2023)<br/>物理一致运动先验"]
+    end
+
+    subgraph MM["流派二：Motion Matching 系"]
+        direction TB
+        MG["Motion Graphs (2002)"] --> MM0["Motion Matching (2019)<br/>数据库搜索"]
+        MM0 --> LMM["Learned Motion Matching (2020)<br/>神经网络替代"]
+        LMM --> MOCHA
+    end
+
+    subgraph Diff["流派三：扩散模型系 Diffusion-based"]
+        direction TB
+        DM["Diffusion Models"] --> AMDM["A-MDM (2024)<br/>自回归扩散"]
+        DM --> CAMDM["CAMDM (2024)<br/>8 步去噪 + 风格"]
+        DM --> AAMDM["AAMDM (2024)<br/>5 步 DD-GAN+ADM"]
+        AMDM --> DART["DART (2025)<br/>潜在空间控制"]
+    end
+
+    Phase -.->|相位作为条件 | Diff
+    MM -.->|上下文特征 | Diff
 ```
 
-### 2.2 核心思想继承关系
+**三大流派核心思想对比**：
 
+| 流派 | 核心思想 | 优势 | 局限 |
+|------|---------|------|------|
+| **相位表示系** | 用相位变量解耦不同动作状态 | 流畅、无 artifacts | 相位定义需要领域知识 |
+| **Motion Matching 系** | 数据搜索/预测生成动作 | 工业验证、质量高 | 内存/训练成本 |
+| **扩散模型系** | 概率扩散模型生成 | 高质量、多样性 | 推理速度挑战 |
+
+---
+
+### 2.2 流派一：相位表示系 (Phase-based Methods)
+
+**核心思想**：引入相位变量 \\(\phi \in [0, 2\pi)\\) 作为动作周期的隐式表示，避免不同相位动作混合导致的 artifacts。
+
+**演进路径**：
 ```mermaid
 flowchart LR
-    subgraph Phase["相位表示 lineage"]
-        PFNN --> LocalPhases["Local Motion Phases"]
-        PFNN --> StyleMod
-        LocalPhases --> PhaseManifolds["Phase Manifolds"]
-        PhaseManifolds --> POMP["POMP 物理一致"]
-        StyleMod --> MOCHA
-    end
-
-    subgraph Matching["Motion Matching lineage"]
-        MM --> LearnedMM
-        LearnedMM --> MOCHA
-    end
-
-    subgraph Diffusion["Diffusion lineage"]
-        DM --> AMDM
-        DM --> CAMDM
-        DM --> AAMDM
-        AMDM --> DART
-    end
-
-    Phase -.-> Diffusion
-    Matching -.-> Diffusion
+    PFNN["PFNN (2017)<br/>相位=权重参数"] --> LP["Local Phases (2020)<br/>每部位独立相位"]
+    PFNN --> SM["Style Modelling (2020)<br/>AdaIN+ 局部相位"]
+    LP --> PM["Phase Manifolds (2023)<br/>相位流形插值"]
+    SM --> MOCHA["MOCHA (2023)<br/>Transformer+AdaIN"]
+    PM --> POMP["POMP (2023)<br/>相位 - 物理对齐"]
 ```
 
 ---
@@ -140,6 +154,7 @@ flowchart LR
 **与 PFNN 的继承关系**:
 - PFNN: 全局相位，需手动标注
 - Local Phases: 局部相位，无监督学习
+- 共同点：相位作为解耦变量
 
 **优点**:
 - 支持多接触交互
@@ -212,7 +227,7 @@ h^R_t &= o_t \\odot \\tau(c_t)
 
 ---
 
-### 2.5 Real-Time Style Modelling (SIGGRAPH 2020)
+### 2.6 Real-Time Style Modelling (SIGGRAPH 2020)
 
 **论文**: [[211.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/211.html)
 
@@ -246,6 +261,7 @@ flowchart LR
 **与 PFNN 的继承关系**:
 - PFNN: 全局相位，适用于 locomotion
 - Style Modelling: 局部相位，适用于更复杂动作
+- 继承：相位作为解耦变量的思想
 
 **优点**:
 - 实时 60+ FPS
@@ -258,7 +274,7 @@ flowchart LR
 
 ---
 
-### 2.6 Learned Motion Matching (SIGGRAPH 2020)
+### 2.7 Learned Motion Matching (SIGGRAPH 2020)
 
 **论文**: [[208.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/208.html)
 
@@ -285,7 +301,28 @@ flowchart LR
 
 ---
 
-### 2.7 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
+### 2.8 流派二：Motion Matching 系
+
+**核心思想**：从动作数据库搜索/预测最匹配当前状态的帧。
+
+**演进路径**：
+```mermaid
+flowchart LR
+    MG["Motion Graphs (2002)"] --> MM["Motion Matching (2019)<br/>工业标准"]
+    MM --> LMM["Learned Motion Matching (2020)<br/>神经网络替代"]
+    LMM --> MOCHA["MOCHA (2023)<br/>角色化扩展"]
+```
+
+**Motion Matching 核心流程**：
+1. 提取当前帧特征（姿势、速度、轨迹）
+2. 在数据库中搜索最近邻
+3. 返回对应帧并推进索引
+
+**Learned Motion Matching 创新**：用三个神经网络替代数据库搜索，固定内存占用。
+
+---
+
+### 2.9 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
 
 **论文**: [[209.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/209.html)
 
@@ -332,7 +369,21 @@ p(s_i | z_{i-1}^{cha}, f(z_i^{src})) = \\mathcal{N}(\\mu, \\sigma)
 
 ---
 
-### 2.8 Motion In-Betweening with Phase Manifolds (2023)
+### 2.10 Phase Manifolds 与 POMP：相位的高级应用
+
+**核心思想**：将相位从「动作周期指示器」升级为「运动 - 物理对齐的语义空间」。
+
+**演进关系**：
+```mermaid
+flowchart LR
+    PFNN["PFNN (2017)"] --> LP["Local Phases (2020)"]
+    LP --> PM["Phase Manifolds (2023)<br/>相位流形插值"]
+    PM --> POMP["POMP (2023)<br/>相位 - 物理对齐"]
+```
+
+---
+
+### 2.9 Motion In-Betweening with Phase Manifolds (2023)
 
 **论文**: [[212.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/212.html)
 
@@ -372,7 +423,7 @@ flowchart TB
 
 ---
 
-### 2.9 POMP: Physics-consistent Motion Prior (2023)
+### 2.10 POMP: Physics-consistent Motion Prior (2023)
 
 **论文**: [[112.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/112.html)
 
@@ -438,21 +489,37 @@ flowchart TB
 
 ---
 
-### 2.10 自回归扩散模型系列 (2024-2025)
+### 2.13 流派三：扩散模型系列 (Diffusion-based Methods)
 
-#### 核心思想演进
+**核心挑战**：标准扩散模型需要 1000 步去噪，无法满足实时性要求（60 FPS）。
 
+**演进路径**：
 ```mermaid
 flowchart TB
-    DM["标准扩散模型<br/>1000 步去噪"] --> AMDM["A-MDM<br/>自回归 +50 步"]
-    DM --> CAMDM["CAMDM<br/>8 步 + 风格转换"]
-    DM --> AAMDM["AAMDM<br/>5 步 DD-GAN+ADM"]
-    AMDM --> DART["DART<br/>Latent Space Control"]
+    DM["标准扩散模型<br/>1000 步去噪"] --> AMDM["A-MDM (2024)<br/>自回归 +50 步"]
+    DM --> CAMDM["CAMDM (2024)<br/>8 步 + 风格转换"]
+    DM --> AAMDM["AAMDM (2024)<br/>5 步 DD-GAN+ADM"]
+    AMDM --> DART["DART (2025)<br/>Latent Space Control"]
+
+    subgraph 加速演进
+    AMDM -.->|50 步 | CAMDM
+    CAMDM -.->|8 步 | AAMDM
+    AAMDM -.->|5 步 | DART
+    end
 ```
+
+**加速策略对比**：
+
+| 方法 | 去噪步数 | 加速策略 | 实时性 |
+|------|---------|---------|-------|
+| **A-MDM** | 50 步 | 自回归设计 | 30+ FPS |
+| **CAMDM** | 8 步 | 条件化 + 引导采样 | 60+ FPS |
+| **AAMDM** | 5 步 | DD-GAN+ADM 级联 | 60+ FPS |
+| **DART** | ~20 步 | Latent 空间扩散 | 60+ FPS |
 
 ---
 
-#### A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
+#### 2.13.1 A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
 
 **论文**: [[206.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/206.html)
 
@@ -477,7 +544,7 @@ p(x_{1:T}) = \\prod_{t=1}^{T} p(x_t | x_{1:t-1})
 
 ---
 
-#### CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
+#### 2.13.2 CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
 
 **论文**: [[207.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/207.html)
 
@@ -508,7 +575,7 @@ p(x_{1:T}) = \\prod_{t=1}^{T} p(x_t | x_{1:t-1})
 
 ---
 
-#### AAMDM: Accelerated Auto-regressive Motion Diffusion Model (CVPR 2024)
+#### 2.13.3 AAMDM: Accelerated Auto-regressive Motion Diffusion Model (CVPR 2024)
 
 **论文**: [[204.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/204.html)
 
@@ -533,7 +600,7 @@ Polishing Module: ADM (2 步)
 
 ---
 
-#### DARTControl: Diffusion-based Autoregressive Motion Model (ICLR 2025)
+#### 2.13.4 DARTControl: Diffusion-based Autoregressive Motion Model (ICLR 2025)
 
 **论文**: [[205.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/src/205.html)
 
@@ -555,7 +622,29 @@ Polishing Module: ADM (2 步)
 
 ---
 
-### 2.13 运动学方法对比
+### 2.14 运动学方法总结
+
+#### 三大流派核心思想对比
+
+| 流派 | 代表方法 | 核心贡献 | 典型应用 |
+|------|---------|---------|---------|
+| **相位表示系** | PFNN → Local Phases → Phase Manifolds → POMP | 相位解耦不同动作状态 | VR 化身、风格化动画 |
+| **Motion Matching 系** | MM → Learned MM → MOCHA | 数据搜索/预测生成动作 | 游戏 NPC、在线游戏 |
+| **扩散模型系** | A-MDM → CAMDM → AAMDM → DART | 概率扩散模型生成 | 电影动画、多样性生成 |
+
+#### 流派选择指南
+
+```mermaid
+flowchart TD
+    Q1["需要什么类型的控制？"] --> |风格转换 | A1["MOCHA / CAMDM / Style Modelling"]
+    Q1 --> |稀疏输入 VR | A2["PFNN / MOCHA"]
+    Q1 --> |高质量多样性 | A3["CAMDM / DART"]
+    Q1 --> |低内存占用 | A4["Learned Motion Matching"]
+    Q1 --> |物理交互 | A5["POMP"]
+    Q1 --> |transition 生成 | A6["RTN"]
+```
+
+#### 运动学方法详细对比
 
 | 方法 | 架构 | 去噪步数 | FPS | 风格转换 | 空间控制 | 物理感知 |
 |------|------|---------|-----|---------|---------|---------|
