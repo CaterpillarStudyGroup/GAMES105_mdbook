@@ -160,9 +160,9 @@ flowchart LR
 | 相位手动标注 | 无监督学习相位 |
 
 **局部相位表示**:
-\\[
-\\phi = \\{\\phi_{left\\_foot}, \\phi_{right\\_foot}, \\phi_{left\\_hand}, \\phi_{right\\_hand}, ...\\}
-\\]
+$$
+\phi = \{\phi_{left\_foot}, \phi_{right\_foot}, \phi_{left\_hand}, \phi_{right\_hand}, ...\}
+$$
 
 **与 PFNN 的继承关系**:
 - PFNN: 全局相位，需手动标注
@@ -199,9 +199,9 @@ flowchart LR
 ```
 
 **AdaIN 公式**:
-\\[
-\\text{AdaIN}(x, z) = \\sigma(z) \\cdot \\frac{x - \\mu(x)}{\\sigma(x)} + \\mu(z)
-\\]
+$$
+\text{AdaIN}(x, z) = \sigma(z) \cdot \frac{x - \mu(x)}{\sigma(x)} + \mu(z)
+$$
 
 **Local Motion Phases vs 全局相位**:
 
@@ -299,14 +299,14 @@ flowchart TB
 ```
 
 **AdaIN 公式**:
-\\[
-\\text{AdaIN}(z_{src}, z_{cha}) = \\sigma(z_{cha}) \\cdot \\frac{z_{src} - \\mu(z_{src})}{\\sigma(z_{src})} + \\mu(z_{cha})
-\\]
+$$
+\text{AdaIN}(z_{src}, z_{cha}) = \sigma(z_{cha}) \cdot \frac{z_{src} - \mu(z_{src})}{\sigma(z_{src})} + \mu(z_{cha})
+$$
 
 **NCM Prior**:
-\\[
-p(s_i | z_{i-1}^{cha}, f(z_i^{src})) = \\mathcal{N}(\\mu, \\sigma)
-\\]
+$$
+p(s_i | z_{i-1}^{cha}, f(z_i^{src})) = \mathcal{N}(\mu, \sigma)
+$$
 
 **与 Style Modelling 的继承关系**:
 - Style Modelling: AdaIN 用于风格转换
@@ -345,8 +345,8 @@ flowchart TB
 ```
 
 **相位约束**:
-- 相位在单位圆上：$\\phi \\in [0, 2\\pi)$
-- 周期性：$\\phi(t) = \\phi(t + T)$
+- 相位在单位圆上：$\phi \in [0, 2\pi)$
+- 周期性：$\phi(t) = \phi(t + T)$
 
 **与 RTN 的差异**:
 - RTN: transition 生成，连接两个状态
@@ -466,9 +466,9 @@ flowchart TB
 **核心创新**: 将扩散模型从 space-time 重新设计为 auto-regressive
 
 **自回归公式**:
-\\[
-p(x_{1:T}) = \\prod_{t=1}^{T} p(x_t | x_{1:t-1})
-\\]
+$$
+p(x_{1:T}) = \prod_{t=1}^{T} p(x_t | x_{1:t-1})
+$$
 
 **架构**: 简单 3 层 MLP，50 步去噪
 
@@ -755,9 +755,9 @@ flowchart LR
 ```
 
 **关键公式**:
-- Setpoint 目标：$E(x) = ||\\ddot{y}_d - \\ddot{y}||^2$
-- 角动量目标：$E_{AM}(x) = ||\\dot{L}_d - \\dot{L}||^2$
-- 优先级优化：$h_i = \\min_x E_i(x)$ s.t. $E_k(x) = h_k, \\forall k < i$
+- Setpoint 目标：$E(x) = ||\ddot{y}_d - \ddot{y}||^2$
+- 角动量目标：$E_{AM}(x) = ||\dot{L}_d - \dot{L}||^2$
+- 优先级优化：$h_i = \min_x E_i(x)$ s.t. $E_k(x) = h_k, \forall k < i$
 
 **优点**: 可解释、无需数据
 **缺点**: 实现复杂、动态性差
@@ -781,14 +781,14 @@ flowchart LR
 ```
 
 **模仿奖励**:
-\\[
+$$
 r^I_t = w_p r^p_t + w_v r^v_t + w_e r^e_t + w_c r^c_t
-\\]
+$$
 
 **训练技巧**:
 - **RSI (Reference State Initialization)**: 从参考动作随机状态开始
 - **ET (Early Termination)**: 跌倒立即终止
-- **相位条件化**: $\\phi_t = (t \\mod T_{cycle}) / T_{cycle}$
+- **相位条件化**: $\phi_t = (t \mod T_{cycle}) / T_{cycle}$
 
 **优点**: 动作质量高、可学习动态动作
 **缺点**: 每技能单独训练、样本效率低
@@ -907,9 +907,9 @@ flowchart LR
 ```
 
 **对抗奖励**:
-\\[
-r_{adv} = -\\log(1 - D(s_t, s_{t+1}))
-\\]
+$$
+r_{adv} = -\log(1 - D(s_t, s_{t+1}))
+$$
 
 **AMP 的核心优势**:
 1. 无需精确跟踪参考动作
@@ -947,9 +947,9 @@ flowchart TB
 ```
 
 **预训练目标**:
-\\[
-\\max_{\\pi} -D_{JS}(d_{\\pi} || d_M) + \\beta I(s, s'; z | \\pi)
-\\]
+$$
+\max_{\pi} -D_{JS}(d_{\pi} || d_M) + \beta I(s, s'; z | \pi)
+$$
 
 **与 AMP 的差异**:
 - AMP: 每任务从头训练
