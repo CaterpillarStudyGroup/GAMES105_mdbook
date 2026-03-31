@@ -84,7 +84,8 @@ flowchart TB
 **演进路径**：
 ```mermaid
 flowchart LR
-    PFNN --> LP["Local Phases (2020)"]
+    PFNN --> FS["Few-shot Styles (2018)"]
+    FS --> LP["Local Phases (2020)"]
     LP --> SM["Style Modelling (2020)"]
     LP --> PM["Phase Manifolds (2023)"]
     PM --> POMP["POMP (2023)"]
@@ -94,11 +95,12 @@ flowchart LR
 
 | 分支 | 演进路径 | 核心贡献 | 典型应用 |
 |------|---------|---------|---------|
-| **相位表示分支** | PFNN → Local Phases → Style Modelling | 相位解耦不同动作状态 | VR 化身、风格化动画 |
+| **相位表示分支** | PFNN → Few-shot Styles → Local Phases → Style Modelling | 相位解耦不同动作状态 / 少样本风格学习 | VR 化身、风格化动画、快速原型 |
 | **相位流形分支** | Local Phases → Phase Manifolds → POMP | 相位流形插值与物理对齐 | 过渡生成、物理一致运动 |
 
 **代表论文**：
 - PFNN (2017): 相位函数化权重
+- **Few-shot Locomotion Styles (2018)**: 残差适配器 + CP 分解，少样本风格学习
 - Local Motion Phases (2020): 局部相位表示
 - Style Modelling (2020): 特征变换 + 局部相位
 - Phase Manifolds (2023): 相位流形插值
@@ -143,7 +145,86 @@ flowchart LR
 
 ---
 
-### 2.2.2 Local Motion Phases (SIGGRAPH 2020)
+### 2.2.2 Few-shot Locomotion Styles (EG 2018)
+
+**论文**: [[214.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/214.html)
+
+**核心创新**: 首个**少样本风格学习**框架，几秒视频即可学会新走路风格
+
+**背景**: PFNN 需要大量数据训练每种新风格，但动画师通常只有几秒参考视频。
+
+**方法框架**:
+
+```mermaid
+flowchart TB
+    subgraph Stage1["第一阶段：预训练"]
+        data1["8 种风格大量数据"]
+        pfnn["PFNN 主干网络"]
+        adapter["残差适配器"]
+        agnostic["风格无关参数 β_ag"]
+        specific["风格相关参数 β_s (8 套)"]
+    end
+
+    subgraph Stage2["第二阶段：少样本学习"]
+        data2["新风格几秒视频"]
+        freeze["冻结主干网络"]
+        learn["只学习新残差适配器"]
+        cp["CP 分解降维"]
+    end
+
+    data1 --> pfnn
+    pfnn --> agnostic
+    pfnn --> adapter
+    adapter --> specific
+
+    data2 --> learn
+    freeze --> learn
+    learn --> cp
+
+    style Stage1 fill:#e1f5fe
+    style Stage2 fill:#fff3e0
+```
+
+**关键技术**:
+
+| 技术 | 作用 | 效果 |
+|------|------|------|
+| **残差适配器** | 分离风格无关/相关参数 | 只需学习少量新参数 |
+| **CP 分解** | 3D 张量分解为三个矩阵 | 参数从 4MB 降至 0.13MB (30 倍压缩) |
+| **可变 Dropout** | 根据数据量调整正则化 | 防止少样本过拟合 |
+
+**CP 分解公式**:
+$$
+X_k = A D(k) B^T
+$$
+- $A, B$: 与相位无关的矩形矩阵
+- $D(k)$: 与相位相关的对角矩阵
+
+**训练数据**:
+- 预训练：8 种风格 × 23104 帧（愤怒、孩子气、沮丧、中性、老人、骄傲、性感、大摇大摆）
+- 少样本：50 种新风格，每种仅 1-5 秒视频
+
+**性能**:
+- 推理时间：0.0011 秒/帧（约 900 FPS）
+- 存储：每风格仅需 0.13MB
+
+**优点**:
+- 几秒视频即可学会新风格
+- 支持实时生成
+- 参数效率高，内存占用低
+
+**缺点**:
+- 仅支持 Homogeneous 迁移（走→走，不能走→跑）
+- 无法处理非周期性动作
+- 生成动作略平滑，丢失高频细节
+
+**与 PFNN 的继承关系**:
+- PFNN: 每风格单独训练，需要大量数据
+- Few-shot: 添加残差适配器，风格无关参数共享
+
+---
+
+### 2.2.3 Local Motion Phases (SIGGRAPH 2020)
 
 **论文**: [[216.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/216.html)
 
@@ -180,7 +261,7 @@ $$
 
 ---
 
-### 2.2.3 Style Modelling: 特征变换与风格转换 (SIGGRAPH 2020)
+### 2.2.4 Style Modelling: 特征变换与风格转换 (SIGGRAPH 2020)
 
 **论文**: [[211.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/211.html)
 
@@ -323,7 +404,7 @@ $$
 
 ---
 
-### 2.2.4 Motion In-Betweening with Phase Manifolds (2023)
+### 2.2.5 Motion In-Betweening with Phase Manifolds (2023)
 
 **论文**: [[212.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/212.html)
 
@@ -363,7 +444,7 @@ flowchart TB
 
 ---
 
-### 2.2.5 POMP: Physics-consistent Motion Prior (2023)
+### 2.2.6 POMP: Physics-consistent Motion Prior (2023)
 
 **论文**: [[112.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/112.html)
 
@@ -589,6 +670,7 @@ flowchart TD
 | 方法 | 架构 | 去噪步数 | FPS | 风格转换 | 空间控制 | 物理感知 |
 |------|------|---------|-----|---------|---------|---------|
 | **PFNN** | 混合专家 | N/A | 60+ | △ | △ | ✗ |
+| **Few-shot Styles (214)** | 残差适配器+CP 分解 | N/A | 60+ | ✓ (少样本) | △ | ✗ |
 | **Local Motion Phases** | 相位条件化 | N/A | 60+ | ✗ | △ | ✗ |
 | **RTN** | LSTM | N/A | 60+ | ✗ | ✓ | △ |
 | **Learned MM** | 三网络 | N/A | 60+ | ✗ | △ | ✗ |
@@ -1346,6 +1428,7 @@ flowchart TD
 | 论文 | 年份 | 链接 | 核心贡献 |
 |------|------|------|---------|
 | PFNN | 2017 | [113](https://caterpillarstudygroup.github.io/ReadPapers/113.html) | 相位函数化权重 |
+| **Few-shot Locomotion Styles** | **2018** | **[214](https://caterpillarstudygroup.github.io/ReadPapers/214.html)** | **残差适配器 +CP 分解，少样本风格学习** |
 | Local Motion Phases | 2020 | [216](https://caterpillarstudygroup.github.io/ReadPapers/216.html) | 局部相位表示 |
 | RTN | 2018 | [210](https://caterpillarstudygroup.github.io/ReadPapers/210.html) | 循环转移网络 |
 | Style Modelling | 2020 | [211](https://caterpillarstudygroup.github.io/ReadPapers/211.html) | 特征变换 + 局部相位 |
@@ -1384,7 +1467,7 @@ flowchart TD
 角色位移控制领域呈现**双轨并行、多线演进**的发展态势：
 
 **运动学方法**沿三大主线演进：
-1. **相位系**：PFNN 的相位函数化权重 → Local Motion Phases 的局部相位 → Style Modelling 的特征变换 / Phase Manifolds 的相位流形插值 → POMP 的物理一致运动先验
+1. **相位系**：PFNN 的相位函数化权重 (2017) → **Few-shot Styles 的残差适配器 +CP 分解 (2018)** → Local Motion Phases 的局部相位 (2020) → Style Modelling 的特征变换 (2020) / Phase Manifolds 的相位流形插值 (2023) → POMP 的物理一致运动先验 (2023)
 2. **Motion Matching 系**：工业界标准 Motion Matching → Learned Motion Matching 的神经网络替代 → MOCHA 的上下文匹配角色化
 3. **扩散模型系**：A-MDM 的自回归设计 → CAMDM 的 8 步去噪 + 风格转换 → AAMDM 的 5 步加速 → DART 的潜在空间控制
 
