@@ -106,7 +106,7 @@ flowchart LR
 - Phase Manifolds (2023): 相位流形插值
 - POMP (2023): 物理一致运动先验
 
-**注意**：MOCHA (2023) 虽然使用了 AdaIN 进行风格转换（继承自 Style Modelling），但其核心是 Neural Context Matcher 进行上下文匹配，**不属于相位系**，而是属于**Motion Matching 系**（见 2.3 节）。
+**注意**：MOCHA (2023) 虽然使用了 AdaIN 进行风格转换（继承自 Style Modelling），但其核心是 Neural Context Matcher 进行上下文匹配，**不属于相位系**，而是属于**Motion Matching 系**（见 2.4 节）。
 
 ---
 
@@ -264,7 +264,7 @@ $$
 
 ---
 
-### 2.2.4 Style Modelling: 特征变换与风格转换 (SIGGRAPH 2020)
+### 2.2.4 Style Modelling: 特征变换与局部相位 (SIGGRAPH 2020)
 
 **论文**: [[211.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/211.html)
 
@@ -312,7 +312,7 @@ $$
 
 ---
 
-### 2.3 流派二：Motion Matching 系
+### 2.4 流派二：Motion Matching 系
 
 **核心思想**：从动作数据库搜索/预测最匹配当前状态的帧。
 
@@ -334,7 +334,7 @@ flowchart LR
 
 ---
 
-### 2.3.1 Learned Motion Matching (SIGGRAPH 2020)
+### 2.4.1 Learned Motion Matching (SIGGRAPH 2020)
 
 **论文**: [[208.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/208.html)
 
@@ -361,7 +361,7 @@ flowchart LR
 
 ---
 
-### 2.3.2 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
+### 2.4.2 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
 
 **论文**: [[209.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/209.html)
 
@@ -415,6 +415,8 @@ $$
 **论文**: [[212.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/212.html)
 
 **核心创新**: 使用 Periodic Autoencoder 学习相位变量，在相位空间进行插值
+
+**注意**: 虽然本论文与 Style Modelling (211) 同样使用局部相位表示，但其核心是相位流形插值用于 transition 生成，**属于相位系**而非 Motion Matching 系。
 
 **架构**:
 
@@ -516,7 +518,7 @@ flowchart TB
 
 ---
 
-### 2.4 流派三：扩散模型系 (Diffusion-based Methods)
+### 2.5 流派三：扩散模型系 (Diffusion-based Methods)
 
 **核心挑战**：标准扩散模型需要 1000 步去噪，无法满足实时性要求（60 FPS）。
 
