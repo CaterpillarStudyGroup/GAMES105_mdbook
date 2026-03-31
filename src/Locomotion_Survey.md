@@ -104,11 +104,11 @@ flowchart LR
 - Phase Manifolds (2023): 相位流形插值
 - POMP (2023): 物理一致运动先验
 
-**注意**：MOCHA (2023) 虽然使用了 AdaIN 进行风格转换（继承自 Style Modelling），但其核心是 Neural Context Matcher 进行上下文匹配，**不属于相位系**，而是属于**Motion Matching 系**（见 2.5 节）。
+**注意**：MOCHA (2023) 虽然使用了 AdaIN 进行风格转换（继承自 Style Modelling），但其核心是 Neural Context Matcher 进行上下文匹配，**不属于相位系**，而是属于**Motion Matching 系**（见 2.3 节）。
 
 ---
 
-### 2.3 PFNN: Phase-Functioned Neural Networks (SIGGRAPH 2017)
+### 2.2.1 PFNN: Phase-Functioned Neural Networks (SIGGRAPH 2017)
 
 **论文**: [[113.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/113.html)
 
@@ -140,25 +140,6 @@ flowchart LR
 **缺点**:
 - 仍需手工标注相位和步态标签
 - 泛化能力有限，仅支持训练过的步态
-
----
-
-### 2.2.1 相位表示分支：Local/Style Modelling
-
-**核心思想**：从全局相位到局部相位的演进，支持更复杂的异步运动和风格转换。
-
-**演进路径**：
-```mermaid
-flowchart LR
-    PFNN --> LP["Local Phases (2020)"]
-    LP --> SM["Style Modelling (2020)"]
-```
-
-**代表论文**：
-- Local Motion Phases (2020): 每个身体部位独立相位
-- Style Modelling (2020): Feature-Wise Transformations + 局部相位
-
-**注意**：MOCHA (2023) 虽然使用了 AdaIN 风格转换（继承自 Style Modelling），但其核心是 Neural Context Matcher 进行上下文匹配，**不属于相位表示系**，而是属于**Motion Matching 系**（见 2.5 节）。
 
 ---
 
@@ -246,7 +227,7 @@ flowchart LR
 
 ---
 
-### 2.4 流派二：Motion Matching 系
+### 2.3 流派二：Motion Matching 系
 
 **核心思想**：从动作数据库搜索/预测最匹配当前状态的帧。
 
@@ -268,7 +249,7 @@ flowchart LR
 
 ---
 
-### 2.4.1 Learned Motion Matching (SIGGRAPH 2020)
+### 2.3.1 Learned Motion Matching (SIGGRAPH 2020)
 
 **论文**: [[208.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/208.html)
 
@@ -295,7 +276,7 @@ flowchart LR
 
 ---
 
-### 2.4.2 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
+### 2.3.2 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
 
 **论文**: [[209.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/209.html)
 
@@ -342,21 +323,7 @@ p(s_i | z_{i-1}^{cha}, f(z_i^{src})) = \\mathcal{N}(\\mu, \\sigma)
 
 ---
 
-### 2.2.4 相位流形分支：Phase Manifolds 与 POMP
-
-**核心思想**：将相位从「动作周期指示器」升级为「运动 - 物理对齐的语义空间」。
-
-**演进关系**：
-```mermaid
-flowchart LR
-    PFNN["PFNN (2017)"] --> LP["Local Phases (2020)"]
-    LP --> PM["Phase Manifolds (2023)<br/>相位流形插值"]
-    PM --> POMP["POMP (2023)<br/>相位 - 物理对齐"]
-```
-
----
-
-### 2.2.5 Motion In-Betweening with Phase Manifolds (2023)
+### 2.2.4 Motion In-Betweening with Phase Manifolds (2023)
 
 **论文**: [[212.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/212.html)
 
@@ -396,7 +363,7 @@ flowchart TB
 
 ---
 
-### 2.2.6 POMP: Physics-consistent Motion Prior (2023)
+### 2.2.5 POMP: Physics-consistent Motion Prior (2023)
 
 **论文**: [[112.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/112.html)
 
@@ -462,7 +429,7 @@ flowchart TB
 
 ---
 
-### 2.5 流派三：扩散模型系 (Diffusion-based Methods)
+### 2.4 流派三：扩散模型系 (Diffusion-based Methods)
 
 **核心挑战**：标准扩散模型需要 1000 步去噪，无法满足实时性要求（60 FPS）。
 
@@ -492,7 +459,7 @@ flowchart TB
 
 ---
 
-#### 2.5.1 A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
+#### 2.4.1 A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
 
 **论文**: [[206.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/206.html)
 
@@ -517,7 +484,7 @@ p(x_{1:T}) = \\prod_{t=1}^{T} p(x_t | x_{1:t-1})
 
 ---
 
-#### 2.5.2 CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
+#### 2.4.2 CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
 
 **论文**: [[207.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/207.html)
 
@@ -548,7 +515,7 @@ p(x_{1:T}) = \\prod_{t=1}^{T} p(x_t | x_{1:t-1})
 
 ---
 
-#### 2.5.3 AAMDM: Accelerated Auto-regressive Motion Diffusion Model (CVPR 2024)
+#### 2.4.3 AAMDM: Accelerated Auto-regressive Motion Diffusion Model (CVPR 2024)
 
 **论文**: [[204.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/204.html)
 
@@ -573,7 +540,7 @@ Polishing Module: ADM (2 步)
 
 ---
 
-#### 2.5.4 DARTControl: Diffusion-based Autoregressive Motion Model (ICLR 2025)
+#### 2.4.4 DARTControl: Diffusion-based Autoregressive Motion Model (ICLR 2025)
 
 **论文**: [[205.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/205.html)
 
