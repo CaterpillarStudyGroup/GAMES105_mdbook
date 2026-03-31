@@ -194,9 +194,11 @@ flowchart TB
 | **可变 Dropout** | 根据数据量调整正则化 | 防止少样本过拟合 |
 
 **CP 分解公式**:
+
 $$
 X_k = A D(k) B^T
 $$
+
 - $A, B$: 与相位无关的矩形矩阵
 - $D(k)$: 与相位相关的对角矩阵
 
@@ -241,6 +243,7 @@ $$
 | 相位手动标注 | 无监督学习相位 |
 
 **局部相位表示**:
+
 $$
 \phi = \{\phi_{left\_foot}, \phi_{right\_foot}, \phi_{left\_hand}, \phi_{right\_hand}, ...\}
 $$
@@ -280,6 +283,7 @@ flowchart LR
 ```
 
 **AdaIN 公式**:
+
 $$
 \text{AdaIN}(x, z) = \sigma(z) \cdot \frac{x - \mu(x)}{\sigma(x)} + \mu(z)
 $$
@@ -380,11 +384,13 @@ flowchart TB
 ```
 
 **AdaIN 公式**:
+
 $$
 \text{AdaIN}(z_{src}, z_{cha}) = \sigma(z_{cha}) \cdot \frac{z_{src} - \mu(z_{src})}{\sigma(z_{src})} + \mu(z_{cha})
 $$
 
 **NCM Prior**:
+
 $$
 p(s_i | z_{i-1}^{cha}, f(z_i^{src})) = \mathcal{N}(\mu, \sigma)
 $$
@@ -547,6 +553,7 @@ flowchart TB
 **核心创新**: 将扩散模型从 space-time 重新设计为 auto-regressive
 
 **自回归公式**:
+
 $$
 p(x_{1:T}) = \prod_{t=1}^{T} p(x_t | x_{1:t-1})
 $$
@@ -837,6 +844,7 @@ flowchart LR
 ```
 
 **关键公式**:
+
 - Setpoint 目标：$E(x) = ||\ddot{y}_d - \ddot{y}||^2$
 - 角动量目标：$E_{AM}(x) = ||\dot{L}_d - \dot{L}||^2$
 - 优先级优化：$h_i = \min_x E_i(x)$ s.t. $E_k(x) = h_k, \forall k < i$
@@ -863,6 +871,7 @@ flowchart LR
 ```
 
 **模仿奖励**:
+
 $$
 r^I_t = w_p r^p_t + w_v r^v_t + w_e r^e_t + w_c r^c_t
 $$
@@ -989,6 +998,7 @@ flowchart LR
 ```
 
 **对抗奖励**:
+
 $$
 r_{adv} = -\log(1 - D(s_t, s_{t+1}))
 $$
@@ -1029,6 +1039,7 @@ flowchart TB
 ```
 
 **预训练目标**:
+
 $$
 \max_{\pi} -D_{JS}(d_{\pi} || d_M) + \beta I(s, s'; z | \pi)
 $$
