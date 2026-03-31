@@ -276,7 +276,7 @@ $$
 flowchart LR
     motion["输入动作 x"] --> Enc["动作编码器"]
     style["风格代码 z"] --> StyleEnc["风格编码器"]
-    Enc --> FWT["Feature-Wise<br/>Transformation"]
+    Enc --> FWT["Feature-Wise Transformation"]
     StyleEnc --> FWT
     FWT --> Dec["动作解码器"]
     Dec --> out["风格化动作 y"]
