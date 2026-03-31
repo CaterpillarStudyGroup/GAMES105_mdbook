@@ -720,6 +720,8 @@ timeline
 
 ### 3.2 核心思想继承关系
 
+动力学方法经过十余年发展，形成了**四条主要演进主线**：
+
 ```mermaid
 flowchart TB
     subgraph RL["RL lineage"]
@@ -745,6 +747,22 @@ flowchart TB
         DReCon --> PARC["PARC<br/>迭代扩增"]
     end
 ```
+
+#### 四条演进主线详解
+
+| 主线 | 演进路径 | 核心问题 | 解决方案 |
+|------|---------|---------|---------|
+| **RL Lineage** | Feature-Based → DeepMimic → AMP → ASE | 如何从数据学习控制策略？ | 手工特征 → RL 模仿 → 对抗学习 → 预训练技能库 |
+| **Hybrid Lineage** | DeepMimic → DReCon → PDP | 如何统一多技能控制？ | 单一轨迹 → 动态参考选择 → 多专家蒸馏 |
+| **Pretraining Lineage** | ASE → ControlVAE → UniRep | 如何提高样本效率？ | 对抗预训练 → 状态条件先验 → Prior+ 蒸馏 +RL 范式 |
+| **Diffusion Lineage** | PDP → DiffuseLoco / ASE → MaskedMimic → UniPhys / DReCon → PARC | 2024 年扩散模型如何应用？ | 扩散策略 / 掩码补全 / 迭代扩增 |
+
+**关键洞察**：
+- **DeepMimic (2018)** 是深度学习时代的起点，首次证明 RL+ 模仿可以学习高质量动态动作
+- **AMP (2021)** 解决数据标注问题，从需要精确跟踪 → 无标注对抗学习
+- **ASE (2022)** 解决技能复用问题，预训练的技能库可以微调至下游任务
+- **DReCon (2019)** 开创混合控制范式，生成器 (MM) + 跟踪器 (RL) 的架构被 PDP/PARC 继承
+- **2024 年趋势**：扩散模型成为主流（DiffuseLoco、MaskedMimic、UniPhys、PARC）
 
 ---
 
