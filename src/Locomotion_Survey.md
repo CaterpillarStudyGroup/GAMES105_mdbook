@@ -766,7 +766,13 @@ flowchart TB
 
 ---
 
-### 3.3 Feature-Based Control (SIGGRAPH 2010)
+### 3.3 主线一：RL 模仿学习 (RL Lineage)
+
+**演进路径**: Feature-Based Control (2010) → DeepMimic (2018) → AMP (2021) → ASE (2022)
+
+---
+
+#### 3.3.1 Feature-Based Control (SIGGRAPH 2010)
 
 **论文**: [[200.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/200.html)
 
@@ -791,7 +797,7 @@ flowchart LR
 
 ---
 
-### 3.4 DeepMimic (SIGGRAPH 2018)
+#### 3.3.2 DeepMimic (SIGGRAPH 2018)
 
 **论文**: [[201.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/201.html)
 
@@ -822,7 +828,15 @@ r^I_t = w_p r^p_t + w_v r^v_t + w_e r^e_t + w_c r^c_t
 
 ---
 
-### 3.5 Mode-Adaptive Neural Networks (SIGGRAPH 2018)
+### 3.4 主线二：混合控制 (Hybrid Lineage)
+
+**演进路径**: DReCon (2019) → PDP (2024) → PARC (2025)
+
+**核心思想**: 生成器（选择/生成参考轨迹）+ RL 跟踪器（保证物理稳定性）。
+
+---
+
+#### 3.4.1 DReCon (SIGGRAPH Asia 2019)
 
 **论文**: [[213.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/213.html)
 
@@ -853,7 +867,38 @@ flowchart TB
 
 ---
 
-### 3.6 DReCon (SIGGRAPH Asia 2019)
+### 3.5 特殊应用：四足动物控制 (Mode-Adaptive)
+
+**论文**: [[213.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/213.html)
+
+**核心创新**: 单个神经网络处理多种四足动物步态
+
+**架构**:
+
+```mermaid
+flowchart TB
+    state["角色状态"] --> ModeEst["Mode 估计"]
+    cmd["用户命令"] --> ModeEst
+    terrain["地形信息"] --> ModeEst
+    ModeEst --> Adaptive["Adaptive 权重"]
+    state --> Control["控制器"]
+    cmd --> Control
+    Adaptive --> Control
+    Control --> Action["关节目标"]
+```
+
+**优点**:
+- 流畅的步态切换
+- 适应不同地形
+- 自然运动质量
+
+**缺点**:
+- 仅适用于四足动物
+- 需要 mocap 数据
+
+---
+
+#### 3.4.1 DReCon (SIGGRAPH Asia 2019)
 
 **论文**: [[190.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/190.html)
 
@@ -878,7 +923,7 @@ flowchart LR
 
 ---
 
-### 3.7 AMP: Adversarial Motion Priors (SIGGRAPH 2021)
+#### 3.3.3 AMP: Adversarial Motion Priors (SIGGRAPH 2021)
 
 **论文**: [[198.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/198.html)
 
@@ -910,7 +955,7 @@ r_{adv} = -\\log(1 - D(s_t, s_{t+1}))
 
 ---
 
-### 3.8 ASE: Adversarial Skill Embeddings (SIGGRAPH 2022)
+#### 3.3.4 ASE: Adversarial Skill Embeddings (SIGGRAPH 2022)
 
 **论文**: [[199.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/199.html)
 
@@ -948,7 +993,13 @@ flowchart TB
 
 ---
 
-### 3.9 ControlVAE (TOG 2023)
+### 3.6 主线三：预训练与统一表示 (Pretraining Lineage)
+
+**演进路径**: ControlVAE (2023) → UniRep (2023) → MaskedMimic (2024) → UniPhys (2025)
+
+---
+
+#### 3.6.1 ControlVAE (TOG 2023)
 
 **论文**: [[202.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/202.html)
 
@@ -963,7 +1014,7 @@ flowchart TB
 
 ---
 
-### 3.10 Perpetual Humanoid Control (ICCV 2023)
+#### 3.6.2 UniRep: Universal Humanoid Motion Representations (2023)
 
 **论文**: [[196.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/196.html)
 
@@ -987,7 +1038,41 @@ flowchart LR
 
 ---
 
-### 3.11 Universal Humanoid Motion Representations (2023)
+### 3.7 特殊应用：实时虚拟化身 (Perpetual)
+
+**论文**: [[196.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/196.html)
+
+**核心创新**: 实时虚拟化身控制系统
+
+**系统架构**:
+
+```mermaid
+flowchart LR
+    Input["视频/动捕/控制信号"] --> MotionGen["运动生成"]
+    MotionGen --> Track["物理跟踪控制器"]
+    Track --> Output["物理稳定全身控制"]
+    Output --> Disturb["扰动恢复"]
+    Disturb --> Track
+```
+
+**特点**:
+- Meta 出品，面向 VR/AR 应用
+- 实时优先，支持多种输入源
+- 物理感知保证可行性
+
+**定位**: 实时系统应用，不属于上述演进主线
+
+---
+
+### 3.8 主线四：扩散策略 (Diffusion Lineage)
+
+**演进路径**: DiffuseLoco (2024)
+
+**核心思想**: 使用扩散模型学习物理一致的控制策略。
+
+---
+
+#### 3.8.1 DiffuseLoco (2024)
 
 **论文**: [[191.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/191.html)
 
@@ -1017,9 +1102,7 @@ flowchart TB
 
 ---
 
-### 3.12 扩散模型时代的动力学方法 (2024-2025)
-
-#### DiffuseLoco (2024)
+#### 3.8.1 DiffuseLoco (2024)
 
 **论文**: [[195.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/195.html)
 
@@ -1036,7 +1119,7 @@ flowchart LR
 
 ---
 
-#### PDP: Physics-Based Character Animation via Diffusion Policy (2024)
+#### 3.4.2 PDP: Physics-Based Character Animation via Diffusion Policy (2024)
 
 **论文**: [[192.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/192.html)
 
@@ -1073,7 +1156,7 @@ flowchart LR
 
 ---
 
-#### PARC (SIGGRAPH 2025)
+#### 3.4.3 PARC (SIGGRAPH 2025)
 
 **论文**: [[189.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/189.html)
 
@@ -1104,7 +1187,7 @@ flowchart TB
 
 ---
 
-#### UniPhys (2025)
+#### 3.6.4 UniPhys (2025)
 
 **论文**: [[191.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/191.html)
 
@@ -1136,7 +1219,7 @@ flowchart LR
 
 ---
 
-### 3.13 动力学方法对比
+### 3.9 动力学方法对比
 
 | 方法 | 训练范式 | 样本效率 | 动作质量 | 抗扰动 | 实时性 |
 |------|---------|---------|---------|-------|-------|
