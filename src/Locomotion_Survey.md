@@ -836,37 +836,6 @@ $$
 
 ---
 
-### 3.5 特殊应用：四足动物控制 (Mode-Adaptive)
-
-**论文**: [[213.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/213.html)
-
-**核心创新**: 单个神经网络处理多种四足动物步态
-
-**架构**:
-
-```mermaid
-flowchart TB
-    state["角色状态"] --> ModeEst["Mode 估计"]
-    cmd["用户命令"] --> ModeEst
-    terrain["地形信息"] --> ModeEst
-    ModeEst --> Adaptive["Adaptive 权重"]
-    state --> Control["控制器"]
-    cmd --> Control
-    Adaptive --> Control
-    Control --> Action["关节目标"]
-```
-
-**优点**:
-- 流畅的步态切换
-- 适应不同地形
-- 自然运动质量
-
-**缺点**:
-- 仅适用于四足动物
-- 需要 mocap 数据
-
----
-
 #### 3.4.1 DReCon (SIGGRAPH Asia 2019)
 
 **论文**: [[190.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/190.html)
@@ -961,6 +930,37 @@ $$
 
 **优点**: 技能可复用、支持插值和组合
 **缺点**: 需要大规模并行模拟（Isaac Gym）
+
+---
+
+### 3.5 特殊应用：四足动物控制 (Mode-Adaptive)
+
+**论文**: [[213.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/213.html)
+
+**核心创新**: 单个神经网络处理多种四足动物步态
+
+**架构**:
+
+```mermaid
+flowchart TB
+    state["角色状态"] --> ModeEst["Mode 估计"]
+    cmd["用户命令"] --> ModeEst
+    terrain["地形信息"] --> ModeEst
+    ModeEst --> Adaptive["Adaptive 权重"]
+    state --> Control["控制器"]
+    cmd --> Control
+    Adaptive --> Control
+    Control --> Action["关节目标"]
+```
+
+**优点**:
+- 流畅的步态切换
+- 适应不同地形
+- 自然运动质量
+
+**缺点**:
+- 仅适用于四足动物
+- 需要 mocap 数据
 
 ---
 
@@ -1207,7 +1207,7 @@ flowchart TB
 
 #### 3.8.6 UniPhys (2025)
 
-**论文**: [[191.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/191.html)
+**论文**: Universal Humanoid Physics Control (论文笔记待补充)
 
 **核心创新**: 统一规划器 + 控制器，Diffusion Forcing 范式
 
@@ -1427,7 +1427,7 @@ flowchart TD
 | PDP | 2024 | [192](https://caterpillarstudygroup.github.io/ReadPapers/192.html) | RL 专家蒸馏 |
 | MaskedMimic | 2024 | [183](https://caterpillarstudygroup.github.io/ReadPapers/183.html) | 掩码运动补全 |
 | PARC | 2025 | [189](https://caterpillarstudygroup.github.io/ReadPapers/189.html) | 迭代数据扩增 |
-| UniPhys | 2025 | [191](https://caterpillarstudygroup.github.io/ReadPapers/191.html) | 统一规划 + 控制 |
+| UniPhys | 2025 | 待补充 | 统一规划 + 控制 |
 
 ---
 
@@ -1455,7 +1455,5 @@ flowchart TD
 ---
 
 **参考文献**: 详见各论文笔记文件
-
----
 
 > 本文出自CaterpillarStudyGroup，转载请注明出处。
