@@ -112,7 +112,7 @@ flowchart LR
 
 ### 2.2.1 PFNN: Phase-Functioned Neural Networks (SIGGRAPH 2017)
 
-**论文**: [[113.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/113.html)
+**论文**: [113.md](https://caterpillarstudygroup.github.io/ReadPapers/113.html)
 
 **核心创新**: 将相位从「网络输入特征」升级为「网络权重的参数化变量」
 
@@ -147,7 +147,7 @@ flowchart LR
 
 ### 2.2.2 Few-shot Locomotion Styles (EG 2018)
 
-**论文**: [[214.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/214.html)
+**论文**: [214.md](https://caterpillarstudygroup.github.io/ReadPapers/214.html)
 
 **核心创新**: 首个**少样本风格学习**框架，几秒视频即可学会新走路风格
 
@@ -228,7 +228,7 @@ $$
 
 ### 2.2.3 Local Motion Phases (SIGGRAPH 2020)
 
-**论文**: [[216.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/216.html)
+**论文**: [216.md](https://caterpillarstudygroup.github.io/ReadPapers/216.html)
 
 **核心创新**: 每个身体部位学习独立相位，支持多接触交互
 
@@ -266,7 +266,7 @@ $$
 
 ### 2.2.4 Style Modelling: 特征变换与局部相位 (SIGGRAPH 2020)
 
-**论文**: [[211.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/211.html)
+**论文**: [211.md](https://caterpillarstudygroup.github.io/ReadPapers/211.html)
 
 **核心创新**: Feature-Wise Transformations + Local Motion Phases
 
@@ -314,7 +314,7 @@ $$
 
 ### 2.2.5 Phase Manifolds: 相位流形插值 (2023)
 
-**论文**: [[212.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/212.html)
+**论文**: [212.md](https://caterpillarstudygroup.github.io/ReadPapers/212.html)
 
 **核心创新**: 使用 Periodic Autoencoder 学习相位变量，在相位流形空间进行插值生成过渡动作
 
@@ -384,7 +384,7 @@ flowchart LR
 
 ### 2.3.1 Learned Motion Matching (SIGGRAPH 2020)
 
-**论文**: [[208.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/208.html)
+**论文**: [208.md](https://caterpillarstudygroup.github.io/ReadPapers/208.html)
 
 **核心创新**: 用三个神经网络替代 Motion Matching 的数据库搜索
 
@@ -411,7 +411,7 @@ flowchart LR
 
 ### 2.3.2 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
 
-**论文**: [[209.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/209.html)
+**论文**: [209.md](https://caterpillarstudygroup.github.io/ReadPapers/209.html)
 
 **核心创新**: 首个实时角色表征框架，**同时转换动作风格和身体比例**
 
@@ -490,7 +490,7 @@ flowchart TB
 
 #### 2.4.1 A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
 
-**论文**: [[206.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/206.html)
+**论文**: [206.md](https://caterpillarstudygroup.github.io/ReadPapers/206.html)
 
 **核心创新**: 将扩散模型从 space-time 重新设计为 auto-regressive
 
@@ -516,7 +516,7 @@ $$
 
 #### 2.4.2 CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
 
-**论文**: [[207.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/207.html)
+**论文**: [207.md](https://caterpillarstudygroup.github.io/ReadPapers/207.html)
 
 **核心创新**: **8 步去噪**实现实时高质量多样角色动画
 
@@ -547,7 +547,7 @@ $$
 
 #### 2.4.3 AAMDM: Accelerated Auto-regressive Motion Diffusion Model (CVPR 2024)
 
-**论文**: [[204.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/204.html)
+**论文**: [204.md](https://caterpillarstudygroup.github.io/ReadPapers/204.html)
 
 **核心创新**: **5 步去噪** (3 DD-GAN + 2 ADM)
 
@@ -572,7 +572,7 @@ Polishing Module: ADM (2 步)
 
 #### 2.4.4 DARTControl: Diffusion-based Autoregressive Motion Model (ICLR 2025)
 
-**论文**: [[205.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/205.html)
+**论文**: [205.md](https://caterpillarstudygroup.github.io/ReadPapers/205.html)
 
 **核心创新**: Motion Primitive 表示 + Latent Space Control
 
@@ -772,7 +772,7 @@ flowchart TB
 
 #### 3.3.1 Feature-Based Control (SIGGRAPH 2010)
 
-**论文**: [[200.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/200.html)
+**论文**: [200.md](https://caterpillarstudygroup.github.io/ReadPapers/200.html)
 
 **核心思想**: 用高层物理特征设计控制器
 
@@ -798,7 +798,7 @@ flowchart LR
 
 #### 3.3.2 DeepMimic (SIGGRAPH 2018)
 
-**论文**: [[201.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/201.html)
+**论文**: [201.md](https://caterpillarstudygroup.github.io/ReadPapers/201.html)
 
 **核心创新**: 深度 RL + 模仿学习
 
@@ -838,7 +838,7 @@ $$
 
 #### 3.4.1 DReCon (SIGGRAPH Asia 2019)
 
-**论文**: [[190.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/190.html)
+**论文**: [190.md](https://caterpillarstudygroup.github.io/ReadPapers/190.html)
 
 **核心架构**:
 
@@ -863,7 +863,7 @@ flowchart LR
 
 #### 3.4.2 AMP: Adversarial Motion Priors (SIGGRAPH 2021)
 
-**论文**: [[198.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/198.html)
+**论文**: [198.md](https://caterpillarstudygroup.github.io/ReadPapers/198.html)
 
 **核心创新**: 用对抗学习从**无标注数据**学习
 
@@ -896,7 +896,7 @@ $$
 
 #### 3.4.3 ASE: Adversarial Skill Embeddings (SIGGRAPH 2022)
 
-**论文**: [[199.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/199.html)
+**论文**: [199.md](https://caterpillarstudygroup.github.io/ReadPapers/199.html)
 
 **核心创新**: 预训练通用技能库 + 下游微调
 
@@ -935,7 +935,7 @@ $$
 
 ### 3.5 特殊应用：四足动物控制 (Mode-Adaptive)
 
-**论文**: [[213.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/213.html)
+**论文**: [213.md](https://caterpillarstudygroup.github.io/ReadPapers/213.html)
 
 **核心创新**: 单个神经网络处理多种四足动物步态
 
@@ -972,7 +972,7 @@ flowchart TB
 
 #### 3.6.1 ControlVAE (TOG 2023)
 
-**论文**: [[202.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/202.html)
+**论文**: [202.md](https://caterpillarstudygroup.github.io/ReadPapers/202.html)
 
 **核心创新**: 状态条件先验 + 世界模型
 
@@ -987,7 +987,7 @@ flowchart TB
 
 #### 3.6.2 UniRep: Universal Humanoid Motion Representations (2023)
 
-**论文**: [[191.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/191.html)
+**论文**: [191.md](https://caterpillarstudygroup.github.io/ReadPapers/191.html)
 
 **核心创新**: 建立 **Prior + Distillation + RL** 的标准范式，用 CVAE 学习动作先验，再蒸馏进物理稳定的 Decoder
 
@@ -1023,7 +1023,7 @@ flowchart TB
 
 ### 3.7 特殊应用：实时虚拟化身 (Perpetual)
 
-**论文**: [[196.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/196.html)
+**论文**: [196.md](https://caterpillarstudygroup.github.io/ReadPapers/196.html)
 
 **核心创新**: 实时虚拟化身控制系统
 
@@ -1057,7 +1057,7 @@ flowchart LR
 
 #### 3.8.1 DiffuseLoco (2024)
 
-**论文**: [[195.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/195.html)
+**论文**: [195.md](https://caterpillarstudygroup.github.io/ReadPapers/195.html)
 
 **方法框架**:
 
@@ -1074,7 +1074,7 @@ flowchart LR
 
 #### 3.8.2 POMP: Physics-consistent Motion Prior (CVPR 2024)
 
-**论文**: [[112.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/112.html)
+**论文**: [112.md](https://caterpillarstudygroup.github.io/ReadPapers/112.html)
 
 **核心创新**: 基于相流形的物理一致运动先验，**将动力学模块置于训练循环外**
 
@@ -1139,7 +1139,7 @@ flowchart TB
 
 #### 3.8.3 PDP: Physics-Based Character Animation via Diffusion Policy (2024)
 
-**论文**: [[192.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/192.html)
+**论文**: [192.md](https://caterpillarstudygroup.github.io/ReadPapers/192.html)
 
 **核心**: RL 专家蒸馏 + 扩散策略
 
@@ -1155,7 +1155,7 @@ flowchart TB
 
 #### 3.8.4 MaskedMimic (SIGGRAPH Asia 2024)
 
-**论文**: [[183.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/183.html)
+**论文**: [183.md](https://caterpillarstudygroup.github.io/ReadPapers/183.html)
 
 **核心创新**: 掩码运动补全统一多模态控制
 
@@ -1176,7 +1176,7 @@ flowchart TB
 
 #### 3.8.5 PARC (SIGGRAPH 2025)
 
-**论文**: [[189.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/189.html)
+**论文**: [189.md](https://caterpillarstudygroup.github.io/ReadPapers/189.html)
 
 **核心创新**: 基于物理仿真的迭代数据扩增框架
 
