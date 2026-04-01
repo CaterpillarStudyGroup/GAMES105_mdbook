@@ -488,7 +488,7 @@ flowchart TB
 
 ---
 
-#### 2.3.1 A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
+#### 2.4.1 A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
 
 **论文**: [[206.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/206.html)
 
@@ -514,7 +514,7 @@ $$
 
 ---
 
-#### 2.3.2 CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
+#### 2.4.2 CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
 
 **论文**: [[207.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/207.html)
 
@@ -892,7 +892,7 @@ flowchart LR
 
 ---
 
-#### 3.3.3 AMP: Adversarial Motion Priors (SIGGRAPH 2021)
+#### 3.4.2 AMP: Adversarial Motion Priors (SIGGRAPH 2021)
 
 **论文**: [[198.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/198.html)
 
@@ -925,7 +925,7 @@ $$
 
 ---
 
-#### 3.3.4 ASE: Adversarial Skill Embeddings (SIGGRAPH 2022)
+#### 3.4.3 ASE: Adversarial Skill Embeddings (SIGGRAPH 2022)
 
 **论文**: [[199.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/199.html)
 
@@ -987,25 +987,37 @@ $$
 
 #### 3.6.2 UniRep: Universal Humanoid Motion Representations (2023)
 
-**论文**: [[196.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/196.html)
+**论文**: [[191.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/191.html)
 
-**核心创新**: 实时虚拟化身控制系统
+**核心创新**: 建立 **Prior + Distillation + RL** 的标准范式，用 CVAE 学习动作先验，再蒸馏进物理稳定的 Decoder
 
-**系统架构**:
+**三阶段训练**:
 
 ```mermaid
-flowchart LR
-    Input["视频/动捕/控制信号"] --> MotionGen["运动生成"]
-    MotionGen --> Track["物理跟踪控制器"]
-    Track --> Output["物理稳定全身控制"]
-    Output --> Disturb["扰动恢复"]
-    Disturb --> Track
+flowchart TB
+    Mocap["MoCap 数据"] --> CVAE["CVAE 训练"]
+    CVAE --> Prior["动作先验 z"]
+
+    TO["轨迹优化器"] --> Stable["物理稳定轨迹"]
+    Stable --> Distill["蒸馏到 Decoder"]
+
+    Prior --> RL["高层 RL"]
+    Distill --> RL
 ```
 
-**特点**:
-- Meta 出品，面向 VR/AR 应用
-- 实时优先，支持多种输入源
-- 物理感知保证可行性
+**核心困境解决**:
+- MoCap 生成模型：动作自然但物理不稳定
+- 纯轨迹优化：物理稳定但动作单调
+
+**方案**: 用蒸馏将物理稳定性灌进网络，保留 z 的多样性
+
+**优点**:
+- 定型并普及了 Prior + Distillation + RL 的标准流水线
+- 动作自然性与物理稳定性兼顾
+
+**缺点**:
+- 能力上限受限于轨迹优化器的求解能力
+- 仅覆盖简单 Locomotion（走、跑、转向等）
 
 ---
 
@@ -1043,37 +1055,7 @@ flowchart LR
 
 ---
 
-#### 3.8.1 Universal Humanoid Representations (2024)
-
-**论文**: [[191.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/191.html)
-
-**核心创新**: 建立 Prior + Distillation + RL 的标准范式
-
-**三阶段训练**:
-
-```mermaid
-flowchart TB
-    Mocap["MoCap 数据"] --> CVAE["CVAE 训练"]
-    CVAE --> Prior["动作先验 z"]
-
-    TO["轨迹优化器"] --> Stable["物理稳定轨迹"]
-    Stable --> Distill["蒸馏到 Decoder"]
-
-    Prior --> RL["高层 RL"]
-    Distill --> RL
-```
-
-**核心困境解决**:
-- MoCap 生成模型：动作自然但物理不稳定
-- 纯轨迹优化：物理稳定但动作单调
-
-**方案**: 用蒸馏将物理稳定性灌进网络，保留 z 的多样性
-
-**历史贡献**: 定型并普及了 **Prior + Distillation + RL** 的标准流水线
-
----
-
-#### 3.8.2 DiffuseLoco (2024)
+#### 3.8.1 DiffuseLoco (2024)
 
 **论文**: [[195.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/195.html)
 
@@ -1090,7 +1072,7 @@ flowchart LR
 
 ---
 
-#### 3.8.3 POMP: Physics-consistent Motion Prior (CVPR 2024)
+#### 3.8.2 POMP: Physics-consistent Motion Prior (CVPR 2024)
 
 **论文**: [[112.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/112.html)
 
@@ -1155,7 +1137,7 @@ flowchart TB
 
 ---
 
-#### 3.8.4 PDP: Physics-Based Character Animation via Diffusion Policy (2024)
+#### 3.8.3 PDP: Physics-Based Character Animation via Diffusion Policy (2024)
 
 **论文**: [[192.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/192.html)
 
@@ -1171,7 +1153,7 @@ flowchart TB
 
 ---
 
-#### MaskedMimic (SIGGRAPH Asia 2024)
+#### 3.8.4 MaskedMimic (SIGGRAPH Asia 2024)
 
 **论文**: [[183.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/183.html)
 
@@ -1223,7 +1205,7 @@ flowchart TB
 
 ---
 
-#### 3.6.4 UniPhys (2025)
+#### 3.8.6 UniPhys (2025)
 
 **论文**: [[191.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/191.html)
 
@@ -1473,3 +1455,7 @@ flowchart TD
 ---
 
 **参考文献**: 详见各论文笔记文件
+
+---
+
+> 本文出自CaterpillarStudyGroup，转载请注明出处。
