@@ -452,69 +452,45 @@ flowchart TB
 
 ---
 
-### 2.2.6 POMP: Physics-consistent Motion Prior (2023)
+### 2.2.5 Motion In-Betweening with Phase Manifolds (2023)
 
-**论文**: [[112.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/112.html)
+**论文**: [[212.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/212.html)
 
-**核心创新**: 基于相流形的物理一致运动先验，将运动学先验与物理约束对齐
+**核心创新**: 使用 Periodic Autoencoder 学习相位变量，在相位空间进行插值
+
+**注意**: 虽然本论文与 Style Modelling (211) 同样使用局部相位表示，但其核心是相位流形插值用于 transition 生成，**属于相位系**而非 Motion Matching 系。
 
 **架构**:
 
 ```mermaid
 flowchart TB
-    subgraph Input["输入"]
-        state["角色状态 + 地形 + 轨迹"]
-    end
-
-    subgraph Kinematic["运动学模块"]
-        MoE["OrthoMoE Encoder"]
-        Diff["Diffusion Decoder"]
-    end
-
-    subgraph Dynamic["动力学模块"]
-        IK["逆动力学 PD 控制"]
-        FK["前向动力仿真"]
-    end
-
-    subgraph Phase["相位编码模块"]
-        PAE["Periodic Autoencoder"]
-        Align["语义对齐"]
-    end
-
-    Input --> MoE
-    MoE --> Diff
-    Diff --> IK
-    IK --> FK
-    FK --> Align
-    Align --> PAE
-    PAE --> MoE
-
-    style Kinematic fill:#e1f5fe
-    style Dynamic fill:#fff3e0
-    style Phase fill:#e8f5e9
+    start["起始帧 s"] --> PAE["Periodic<br/>Autoencoder"]
+    target["目标帧 t"] --> PAE
+    duration["过渡时长 T"] --> Interp["相位插值"]
+    PAE --> PhaseS["起始相位φ_s"]
+    PAE --> PhaseT["目标相位φ_t"]
+    PhaseS --> Interp
+    PhaseT --> Interp
+    Interp --> MoE["Mixture of Experts"]
+    MoE --> Motion["过渡动作序列"]
 ```
 
-**三模块协作**:
-1. **运动学模块**: 基于扩散的运动先验生成初始姿态
-2. **动力学模块**: 物理仿真确保物理合理性（接触力、碰撞）
-3. **相位编码模块**: 将仿真姿态投影回运动先验的相流形
+**相位约束**:
+- 相位在单位圆上：$\phi \in [0, 2\pi)$
+- 周期性：$\phi(t) = \phi(t + T)$
 
-**关键洞察**:
-- 直接反馈仿真结果会导致误差累积
-- 相流形中的语义对齐解决领域鸿沟问题
-
-**与 PFNN 的继承关系**:
-- PFNN: 相位作为权重参数
-- POMP: 相位作为运动 - 物理对齐的语义空间
+**与 RTN 的差异**:
+- RTN: transition 生成，连接两个状态
+- Phase Manifolds: in-betweening，支持用户约束
 
 **优点**:
-- 物理一致的运动生成
-- 实时响应物理扰动
-- 计算高效（动力学模块在训练循环外）
+- 生成自然流畅的过渡
+- 支持用户约束（end effector 位置）
+- 多样化过渡生成
 
 **缺点**:
-- 依赖地形和冲量数据提取
-- 复杂交互质量受限
+- 依赖训练数据
+- 长过渡质量下降
 
 ---
 
@@ -1178,6 +1154,71 @@ flowchart LR
 ```
 
 **优点**: 离线训练、无需在线 RL
+
+---
+
+#### 3.8.2 POMP: Physics-consistent Motion Prior (CVPR 2024)
+
+**论文**: [[112.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/112.html)
+
+**核心创新**: 基于相流形的物理一致运动先验，**将动力学模块置于训练循环外**
+
+**注意**: POMP 虽然使用相位表示（类似相位系），但其核心是**物理一致的运动生成**，输出关节力矩并使用物理仿真器，因此**属于动力学方法**而非运动学相位系。
+
+**架构**:
+
+```mermaid
+flowchart TB
+    subgraph Input["输入"]
+        state["角色状态 + 地形 + 轨迹"]
+    end
+
+    subgraph Kinematic["运动学模块"]
+        MoE["OrthoMoE Encoder"]
+        Diff["Diffusion Decoder"]
+    end
+
+    subgraph Dynamic["动力学模块"]
+        IK["逆动力学 PD 控制"]
+        FK["前向动力仿真"]
+    end
+
+    subgraph Phase["相位编码模块"]
+        PAE["Periodic Autoencoder"]
+        Align["语义对齐"]
+    end
+
+    Input --> MoE
+    MoE --> Diff
+    Diff --> IK
+    IK --> FK
+    FK --> Align
+    Align --> PAE
+    PAE --> MoE
+
+    style Kinematic fill:#e1f5fe
+    style Dynamic fill:#fff3e0
+    style Phase fill:#e8f5e9
+```
+
+**三模块协作**:
+1. **运动学模块**: 基于扩散的运动先验生成初始姿态
+2. **动力学模块**: 物理仿真确保物理合理性（接触力、碰撞）
+3. **相位编码模块**: 将仿真姿态投影回运动先验的相流形
+
+**关键洞察**:
+- 直接反馈仿真结果会导致误差累积
+- 相流形中的语义对齐解决领域鸿沟问题
+- 动力学模块在训练循环外，计算高效
+
+**优点**:
+- 物理一致的运动生成
+- 实时响应物理扰动
+- 计算高效（动力学模块在训练循环外）
+
+**缺点**:
+- 依赖地形和冲量数据提取
+- 复杂交互质量受限
 
 ---
 
