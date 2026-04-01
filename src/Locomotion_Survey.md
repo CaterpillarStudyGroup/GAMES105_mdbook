@@ -312,7 +312,55 @@ $$
 
 ---
 
-### 2.4 流派二：Motion Matching 系
+### 2.2.5 Phase Manifolds: 相位流形插值 (2023)
+
+**论文**: [[212.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/212.html)
+
+**核心创新**: 使用 Periodic Autoencoder 学习相位变量，在相位流形空间进行插值生成过渡动作
+
+**注意**: 虽然本论文与 Style Modelling (211) 同样使用局部相位表示，但其核心是相位流形插值用于 transition 生成，与 POMP (112) 的物理一致运动生成不同，本论文**属于运动学相位系**。
+
+**架构**:
+
+```mermaid
+flowchart TB
+    start["起始帧 s"] --> PAE["Periodic<br/>Autoencoder"]
+    target["目标帧 t"] --> PAE
+    duration["过渡时长 T"] --> Interp["相位流形插值"]
+    PAE --> PhaseS["起始相位φ_s"]
+    PAE --> PhaseT["目标相位φ_t"]
+    PhaseS --> Interp
+    PhaseT --> Interp
+    Interp --> MoE["Mixture of Experts"]
+    MoE --> Motion["过渡动作序列"]
+```
+
+**相位流形约束**:
+- 相位在单位圆上：$\phi \in [0, 2\pi)$
+- 周期性：$\phi(t) = \phi(t + T)$
+- 流形插值：$\phi_t = \text{slerp}(\phi_s, \phi_t, t)$（球面线性插值）
+
+**与 Style Modelling 的关系**:
+- **共同点**: 都使用局部相位表示解耦身体部位
+- **差异**: Style Modelling 用于风格转换，Phase Manifolds 用于过渡生成
+
+**与 POMP 的差异**:
+- **Phase Manifolds (212)**: 运动学过渡生成，输出关节位置
+- **POMP (112)**: 物理一致运动生成，输出关节力矩 + 物理仿真
+
+**优点**:
+- 生成自然流畅的过渡
+- 支持用户约束（end effector 位置）
+- 多样化过渡生成
+
+**缺点**:
+- 依赖训练数据
+- 长过渡质量下降
+- 无法处理物理交互
+
+---
+
+### 2.3 流派二：Motion Matching 系
 
 **核心思想**：从动作数据库搜索/预测最匹配当前状态的帧。
 
@@ -334,7 +382,7 @@ flowchart LR
 
 ---
 
-### 2.4.1 Learned Motion Matching (SIGGRAPH 2020)
+### 2.3.1 Learned Motion Matching (SIGGRAPH 2020)
 
 **论文**: [[208.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/208.html)
 
@@ -361,7 +409,7 @@ flowchart LR
 
 ---
 
-### 2.4.2 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
+### 2.3.2 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
 
 **论文**: [[209.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/209.html)
 
@@ -410,91 +458,7 @@ $$
 
 ---
 
-### 2.2.5 Motion In-Betweening with Phase Manifolds (2023)
-
-**论文**: [[212.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/212.html)
-
-**核心创新**: 使用 Periodic Autoencoder 学习相位变量，在相位空间进行插值
-
-**注意**: 虽然本论文与 Style Modelling (211) 同样使用局部相位表示，但其核心是相位流形插值用于 transition 生成，**属于相位系**而非 Motion Matching 系。
-
-**架构**:
-
-```mermaid
-flowchart TB
-    start["起始帧 s"] --> PAE["Periodic<br/>Autoencoder"]
-    target["目标帧 t"] --> PAE
-    duration["过渡时长 T"] --> Interp["相位插值"]
-    PAE --> PhaseS["起始相位φ_s"]
-    PAE --> PhaseT["目标相位φ_t"]
-    PhaseS --> Interp
-    PhaseT --> Interp
-    Interp --> MoE["Mixture of Experts"]
-    MoE --> Motion["过渡动作序列"]
-```
-
-**相位约束**:
-- 相位在单位圆上：$\phi \in [0, 2\pi)$
-- 周期性：$\phi(t) = \phi(t + T)$
-
-**与 RTN 的差异**:
-- RTN: transition 生成，连接两个状态
-- Phase Manifolds: in-betweening，支持用户约束
-
-**优点**:
-- 生成自然流畅的过渡
-- 支持用户约束（end effector 位置）
-- 多样化过渡生成
-
-**缺点**:
-- 依赖训练数据
-- 长过渡质量下降
-
----
-
-### 2.2.5 Motion In-Betweening with Phase Manifolds (2023)
-
-**论文**: [[212.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/212.html)
-
-**核心创新**: 使用 Periodic Autoencoder 学习相位变量，在相位空间进行插值
-
-**注意**: 虽然本论文与 Style Modelling (211) 同样使用局部相位表示，但其核心是相位流形插值用于 transition 生成，**属于相位系**而非 Motion Matching 系。
-
-**架构**:
-
-```mermaid
-flowchart TB
-    start["起始帧 s"] --> PAE["Periodic<br/>Autoencoder"]
-    target["目标帧 t"] --> PAE
-    duration["过渡时长 T"] --> Interp["相位插值"]
-    PAE --> PhaseS["起始相位φ_s"]
-    PAE --> PhaseT["目标相位φ_t"]
-    PhaseS --> Interp
-    PhaseT --> Interp
-    Interp --> MoE["Mixture of Experts"]
-    MoE --> Motion["过渡动作序列"]
-```
-
-**相位约束**:
-- 相位在单位圆上：$\phi \in [0, 2\pi)$
-- 周期性：$\phi(t) = \phi(t + T)$
-
-**与 RTN 的差异**:
-- RTN: transition 生成，连接两个状态
-- Phase Manifolds: in-betweening，支持用户约束
-
-**优点**:
-- 生成自然流畅的过渡
-- 支持用户约束（end effector 位置）
-- 多样化过渡生成
-
-**缺点**:
-- 依赖训练数据
-- 长过渡质量下降
-
----
-
-### 2.5 流派三：扩散模型系 (Diffusion-based Methods)
+### 2.4 流派三：扩散模型系 (Diffusion-based Methods)
 
 **核心挑战**：标准扩散模型需要 1000 步去噪，无法满足实时性要求（60 FPS）。
 
@@ -524,7 +488,7 @@ flowchart TB
 
 ---
 
-#### 2.4.1 A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
+#### 2.3.1 A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
 
 **论文**: [[206.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/206.html)
 
@@ -550,7 +514,7 @@ $$
 
 ---
 
-#### 2.4.2 CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
+#### 2.3.2 CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
 
 **论文**: [[207.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/207.html)
 
@@ -628,7 +592,7 @@ Polishing Module: ADM (2 步)
 
 ---
 
-### 2.7 运动学方法总结
+### 2.5 运动学方法总结
 
 #### 三大流派核心思想对比
 
@@ -670,7 +634,7 @@ flowchart TD
 
 ---
 
-### 2.8 常见问题解答 (FAQ)
+### 2.6 常见问题解答 (FAQ)
 
 #### Q1: 相位系内部的两大分支有什么区别？
 
@@ -869,37 +833,6 @@ $$
 **演进路径**: DReCon (2019) → PDP (2024) → PARC (2025)
 
 **核心思想**: 生成器（选择/生成参考轨迹）+ RL 跟踪器（保证物理稳定性）。
-
----
-
-#### 3.4.1 DReCon (SIGGRAPH Asia 2019)
-
-**论文**: [[213.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/213.html)
-
-**核心创新**: 单个神经网络处理多种四足动物步态
-
-**架构**:
-
-```mermaid
-flowchart TB
-    state["角色状态"] --> ModeEst["Mode 估计"]
-    cmd["用户命令"] --> ModeEst
-    terrain["地形信息"] --> ModeEst
-    ModeEst --> Adaptive["Adaptive 权重"]
-    state --> Control["控制器"]
-    cmd --> Control
-    Adaptive --> Control
-    Control --> Action["关节目标"]
-```
-
-**优点**:
-- 流畅的步态切换
-- 适应不同地形
-- 自然运动质量
-
-**缺点**:
-- 仅适用于四足动物
-- 需要 mocap 数据
 
 ---
 
@@ -1110,7 +1043,7 @@ flowchart LR
 
 ---
 
-#### 3.8.1 DiffuseLoco (2024)
+#### 3.8.1 Universal Humanoid Representations (2024)
 
 **论文**: [[191.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/191.html)
 
@@ -1140,7 +1073,7 @@ flowchart TB
 
 ---
 
-#### 3.8.1 DiffuseLoco (2024)
+#### 3.8.2 DiffuseLoco (2024)
 
 **论文**: [[195.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/195.html)
 
@@ -1157,7 +1090,7 @@ flowchart LR
 
 ---
 
-#### 3.8.2 POMP: Physics-consistent Motion Prior (CVPR 2024)
+#### 3.8.3 POMP: Physics-consistent Motion Prior (CVPR 2024)
 
 **论文**: [[112.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/112.html)
 
@@ -1222,7 +1155,7 @@ flowchart TB
 
 ---
 
-#### 3.4.2 PDP: Physics-Based Character Animation via Diffusion Policy (2024)
+#### 3.8.4 PDP: Physics-Based Character Animation via Diffusion Policy (2024)
 
 **论文**: [[192.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/192.html)
 
@@ -1259,7 +1192,7 @@ flowchart TB
 
 ---
 
-#### 3.4.3 PARC (SIGGRAPH 2025)
+#### 3.8.5 PARC (SIGGRAPH 2025)
 
 **论文**: [[189.md](https://caterpillarstudygroup.github.io/ReadPapers/index.html)](https://caterpillarstudygroup.github.io/ReadPapers/189.html)
 
