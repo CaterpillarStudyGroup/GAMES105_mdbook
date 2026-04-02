@@ -37,7 +37,7 @@
 
 ### 2.1 技术流派总览
 
-运动学方法经过十余年发展，形成了**三大主要流派**：
+运动学方法经过十余年发展，形成了**四大主要流派**：
 
 ```mermaid
 flowchart TB
@@ -46,16 +46,20 @@ flowchart TB
         PFNN["PFNN (2017)"] --> LP["Local Phases (2020)"]
         LP --> SM["Style Modelling (2020)"]
         LP --> PM["Phase Manifolds (2023)"]
-        PM --> POMP["POMP (2023)"]
     end
 
-    subgraph MM["流派二：Motion Matching 系"]
+    subgraph Trans["流派二：RTN (Transition Generation)"]
+        direction TB
+        RTN["RTN (2018)"]
+    end
+
+    subgraph MM["流派三：Motion Matching 系"]
         direction TB
         MM0["Motion Matching (2019)"] --> LMM["Learned MM (2020)"]
         LMM --> MOCHA["MOCHA (2023)"]
     end
 
-    subgraph Diff["流派三：扩散模型系"]
+    subgraph Diff["流派四：扩散模型系"]
         direction TB
         AMDM["A-MDM (2024)"] --> CAMDM["CAMDM (2024)"]
         CAMDM --> AAMDM["AAMDM (2024)"]
@@ -63,15 +67,17 @@ flowchart TB
     end
 
     style Phase fill:#e1f5fe
-    style MM fill:#fff3e0
-    style Diff fill:#f0f0f0
+    style Trans fill:#fff3e0
+    style MM fill:#f0f0f0
+    style Diff fill:#e8f5e9
 ```
 
-**关键洞察**：Local Phases (2020) 是相位系的核心分支点 —— 一支朝风格转换方向发展（Style Modelling），另一支朝相位流形插值和物理对齐方向发展（Phase Manifolds → POMP）。
+**关键洞察**：Local Phases (2020) 是相位系的核心分支点 —— 一支朝风格转换方向发展（Style Modelling），另一支朝相位流形插值方向发展（Phase Manifolds）。
 
 | 流派 | 核心思想 | 优势 | 局限 |
 |------|---------|------|------|
 | **相位系** | 相位解耦动作状态 / 相位流形插值 | 流畅无 artifacts / 自然过渡 | 相位定义需领域知识 |
+| **RTN (Transition Generation)** | RNN 连接两个状态 | 无需标注、固定内存 | 过渡长度固定 |
 | **Motion Matching 系** | 数据搜索/预测 | 工业验证质量高 | 内存/训练成本 |
 | **扩散模型系** | 概率扩散生成 | 高质量多样性 | 推理速度挑战 |
 
@@ -88,7 +94,6 @@ flowchart LR
     FS --> LP["Local Phases (2020)"]
     LP --> SM["Style Modelling (2020)"]
     LP --> PM["Phase Manifolds (2023)"]
-    PM --> POMP["POMP (2023)"]
 ```
 
 **两大分支**：
@@ -96,7 +101,7 @@ flowchart LR
 | 分支 | 演进路径 | 核心贡献 | 典型应用 |
 |------|---------|---------|---------|
 | **相位表示分支** | PFNN → Few-shot Styles → Local Phases → Style Modelling | 相位解耦不同动作状态 / 少样本风格学习 | VR 化身、风格化动画、快速原型 |
-| **相位流形分支** | Local Phases → Phase Manifolds → POMP | 相位流形插值与物理对齐 | 过渡生成、物理一致运动 |
+| **相位流形分支** | Local Phases → Phase Manifolds | 相位流形插值与过渡生成 | 过渡生成、自然插值 |
 
 **代表论文**：
 - PFNN (2017): 相位函数化权重
@@ -104,9 +109,11 @@ flowchart LR
 - Local Motion Phases (2020): 局部相位表示
 - Style Modelling (2020): 特征变换 + 局部相位
 - Phase Manifolds (2023): 相位流形插值
-- POMP (2023): 物理一致运动先验
+- **RTN (2018)**: 循环转移网络，transition 生成
 
 **注意**：MOCHA (2023) 虽然使用了 AdaIN 进行风格转换（继承自 Style Modelling），但其核心是 Neural Context Matcher 进行上下文匹配，**不属于相位系**，而是属于**Motion Matching 系**（见 2.4 节）。
+
+**注意**：POMP (2023) 虽然使用相位表示，但其核心是物理一致运动生成，输出关节力矩并使用物理仿真器，**属于动力学方法**（见 3.8.3 节）。
 
 ---
 
@@ -360,7 +367,99 @@ flowchart TB
 
 ---
 
-### 2.3 流派二：Motion Matching 系
+### 2.3 流派二：RTN: Recurrent Transition Networks (SIGGRAPH 2018)
+
+**论文**: [210.md](https://caterpillarstudygroup.github.io/ReadPapers/210.html)
+
+**核心创新**: 首个专门为 **transition 生成**设计的未来感知（future-aware）深度循环网络
+
+**背景**: 在大型游戏中，动画图（Animation Graph）需要大量 transition 动画。传统方法的问题：
+- **手工制作 transition 非常耗时**：动画师需要手动制作大量的过渡动画
+- **内存占用大**：Motion Graph 方法需要将动画数据和图结构加载到内存中
+- **扩展性差**：随着数据集增大，内存需求线性增长
+- **需要标注**：很多方法需要 gait、phase、contact 等标签
+
+**方法框架**:
+
+```mermaid
+flowchart TB
+    past["过去上下文<br/>10 帧"] --> Enc["Frame Encoder"]
+    target["目标姿态<br/>归一化"] --> TargetEnc["Target Encoder"]
+    offset["全局偏移<br/>目标 - 当前"] --> OffsetEnc["Offset Encoder"]
+
+    Enc --> LSTM["改进的 LSTM<br/>512 单元"]
+    TargetEnc --> LSTM
+    OffsetEnc --> LSTM
+
+    LSTM --> Dec["Frame Decoder"]
+    Dec --> out["下一帧预测"]
+
+    style Enc fill:#e1f5fe
+    style LSTM fill:#fff3e0
+    style Dec fill:#e8f5e9
+```
+
+**核心架构**:
+
+| 组件 | 架构 | 作用 |
+|------|------|------|
+| **Frame Encoder** | 2 层 MLP, 512 单元 | 编码当前帧 + 地形（可选） |
+| **Target Encoder** | 2 层 MLP, 128 单元 | 编码目标姿态（整序列恒定） |
+| **Offset Encoder** | 2 层 MLP, 128 单元 | 编码目标与当前的差异 |
+| **Recurrent Generator** | 改进 LSTM, 512 单元 | 添加未来上下文条件化权重 |
+| **Frame Decoder** | 2 层 MLP | 输出下一帧 |
+
+**改进的 LSTM**:
+
+$$i_t = \alpha(W^{(i)}h^E_t + U^{(i)}h^R_{t-1} + C^{(i)}h^{F,O}_t + b^{(i)})$$
+$$o_t = \alpha(W^{(o)}h^E_t + U^{(o)}h^R_{t-1} + C^{(o)}h^{F,O}_t + b^{(o)})$$
+$$f_t = \alpha(W^{(f)}h^E_t + U^{(f)}h^R_{t-1} + C^{(f)}h^{F,O}_t + b^{(f)})$$
+$$\hat{c}_t = W^{(c)}h^E_t + W^{(c)}h^R_{t-1} + C^{(c)}h^{F,O}_t + b^{(c)}$$
+$$c_t = f_t \odot c_{t-1} + i_t \odot \tau(\hat{c}_t)$$
+$$h^R_t = o_t \odot \tau(c_t)$$
+
+**关键设计**:
+- 添加了 $C^{(\cdot)}$ 权重用于未来上下文条件化
+- Hidden State 初始化器：学习逆函数 $H(x_{past\_first}) \to (h_0, c_0)$
+- 地形感知：通过局部高度图（13×13 网格）实现崎岖地形导航
+
+**数据表示**:
+- 根节点相对位置：$\tilde{x}_t = [v_t, j^t_1, ..., j^t_{K-1}]^T$
+- 根节点速度：$v_t = r_t - r_{t-1}$
+- 标准化：$x_t = (\tilde{x}_t - \mu_x) / \sigma_x$
+
+**训练细节**:
+- Transition 长度：30 帧（1 秒）
+- Past context：10 帧
+- Future context：2 帧（目标姿态）
+- 总窗口长度：50 帧
+- 损失函数：$\mathcal{L} = \frac{1}{P} \sum_{t=1}^{P} ||x_{t+1} - \hat{x}_{t+1}||^2$
+- **无需任何 gait、phase、contact 或 action 标签**
+
+**优点**:
+- 自动生成高质量 transition，无需手工制作
+- 固定大小的网络，内存占用恒定
+- 无需任何标注即可训练
+- 质量媲美 Mocap ground truth
+
+**缺点**:
+- Transition 长度固定，需要预设
+- 自回归生成，推理速度取决于长度
+- 无法处理复杂障碍物
+
+**与 PFNN 的对比**:
+- PFNN：相位条件化，生成连续 locomotion
+- RTN：transition 专用，连接两个状态
+- PFNN 需要相位标注，RTN 无需标注
+
+**应用场景**:
+1. **Animation Graph 的 transition 节点**：替代手工制作的过渡动画
+2. **动画超分辨率**：从 1fps 压缩动画恢复
+3. **地形导航**：崎岖地形上的长 transition
+
+---
+
+### 2.4 流派三：Motion Matching 系
 
 **核心思想**：从动作数据库搜索/预测最匹配当前状态的帧。
 
@@ -382,7 +481,7 @@ flowchart LR
 
 ---
 
-### 2.3.1 Learned Motion Matching (SIGGRAPH 2020)
+### 2.4.1 Learned Motion Matching (SIGGRAPH 2020)
 
 **论文**: [208.md](https://caterpillarstudygroup.github.io/ReadPapers/208.html)
 
@@ -409,7 +508,7 @@ flowchart LR
 
 ---
 
-### 2.3.2 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
+### 2.4.2 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)
 
 **论文**: [209.md](https://caterpillarstudygroup.github.io/ReadPapers/209.html)
 
@@ -458,7 +557,7 @@ $$
 
 ---
 
-### 2.4 流派三：扩散模型系 (Diffusion-based Methods)
+### 2.5 流派四：扩散模型系 (Diffusion-based Methods)
 
 **核心挑战**：标准扩散模型需要 1000 步去噪，无法满足实时性要求（60 FPS）。
 
@@ -488,7 +587,7 @@ flowchart TB
 
 ---
 
-#### 2.4.1 A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
+#### 2.5.1 A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)
 
 **论文**: [206.md](https://caterpillarstudygroup.github.io/ReadPapers/206.html)
 
@@ -514,7 +613,7 @@ $$
 
 ---
 
-#### 2.4.2 CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
+#### 2.5.2 CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)
 
 **论文**: [207.md](https://caterpillarstudygroup.github.io/ReadPapers/207.html)
 
@@ -545,7 +644,7 @@ $$
 
 ---
 
-#### 2.4.3 AAMDM: Accelerated Auto-regressive Motion Diffusion Model (CVPR 2024)
+#### 2.5.3 AAMDM: Accelerated Auto-regressive Motion Diffusion Model (CVPR 2024)
 
 **论文**: [204.md](https://caterpillarstudygroup.github.io/ReadPapers/204.html)
 
@@ -570,7 +669,7 @@ Polishing Module: ADM (2 步)
 
 ---
 
-#### 2.4.4 DARTControl: Diffusion-based Autoregressive Motion Model (ICLR 2025)
+#### 2.5.4 DARTControl: Diffusion-based Autoregressive Motion Model (ICLR 2025)
 
 **论文**: [205.md](https://caterpillarstudygroup.github.io/ReadPapers/205.html)
 
@@ -592,13 +691,14 @@ Polishing Module: ADM (2 步)
 
 ---
 
-### 2.5 运动学方法总结
+### 2.6 运动学方法总结
 
-#### 三大流派核心思想对比
+#### 四大流派核心思想对比
 
 | 流派 | 代表方法 | 核心贡献 | 典型应用 |
 |------|---------|---------|---------|
-| **相位系** | PFNN → Local Phases → Style Modelling<br>Local Phases → Phase Manifolds → POMP | 相位解耦动作状态 / 相位流形插值 | VR 化身、风格化动画、过渡生成 |
+| **相位系** | PFNN → Few-shot Styles → Local Phases → Style Modelling<br>Local Phases → Phase Manifolds | 相位解耦动作状态 / 相位流形插值 | VR 化身、风格化动画、过渡生成 |
+| **RTN (Transition Generation)** | RTN (2018) | RNN 连接两个状态 | 动画图 transition、超分辨率 |
 | **Motion Matching 系** | MM → Learned MM → MOCHA | 数据搜索/预测生成动作 + 角色化 | 游戏 NPC、在线游戏、角色设计 |
 | **扩散模型系** | A-MDM → CAMDM → AAMDM → DART | 概率扩散模型生成 | 电影动画、多样性生成 |
 
@@ -610,8 +710,8 @@ flowchart TD
     Q1 --> |稀疏输入 VR | A2["PFNN / MOCHA"]
     Q1 --> |高质量多样性 | A3["CAMDM / DART"]
     Q1 --> |低内存占用 | A4["Learned Motion Matching"]
-    Q1 --> |物理交互 | A5["POMP"]
-    Q1 --> |transition 生成 | A6["RTN"]
+    Q1 --> |transition 生成 | A5["RTN / Phase Manifolds"]
+    Q1 --> |少样本学习 | A6["Few-shot Styles"]
 ```
 
 #### 运动学方法详细对比
@@ -621,12 +721,11 @@ flowchart TD
 | **PFNN** | 混合专家 | N/A | 60+ | △ | △ | ✗ |
 | **Few-shot Styles (214)** | 残差适配器+CP 分解 | N/A | 60+ | ✓ (少样本) | △ | ✗ |
 | **Local Motion Phases** | 相位条件化 | N/A | 60+ | ✗ | △ | ✗ |
+| **Style Modelling** | FWT+ 相位 | N/A | 60+ | ✓ | ✗ | ✗ |
+| **Phase Manifolds** | MoE+PAE | N/A | 30+ | ✗ | ✓ | ✗ |
 | **RTN** | LSTM | N/A | 60+ | ✗ | ✓ | △ |
 | **Learned MM** | 三网络 | N/A | 60+ | ✗ | △ | ✗ |
-| **Style Modelling** | FWT+ 相位 | N/A | 60+ | ✓ | ✗ | ✗ |
 | **MOCHA** | Transformer | N/A | 60+ | ✓ | ✗ | ✗ |
-| **Phase Manifolds** | MoE+PAE | N/A | 30+ | ✗ | ✓ | ✗ |
-| **POMP** | Diff+ 物理 | N/A | 60+ | ✗ | ✓ | ✓ |
 | **A-MDM** | MLP | 50 | 30+ | △ | △ | ✗ |
 | **CAMDM** | Transformer | 8 | 60+ | ✓ | ✓ | ✗ |
 | **AAMDM** | DD-GAN+ADM | 5 | 60+ | △ | ✗ | ✗ |
@@ -634,7 +733,7 @@ flowchart TD
 
 ---
 
-### 2.6 常见问题解答 (FAQ)
+### 2.7 常见问题解答 (FAQ)
 
 #### Q1: 相位系内部的两大分支有什么区别？
 
@@ -642,21 +741,23 @@ flowchart TD
 
 | 维度 | 相位表示分支 | 相位流形分支 |
 |------|-----------|-----------|
-| **核心目标** | 用相位解耦不同动作状态 | 在相位空间进行插值和物理对齐 |
+| **核心目标** | 用相位解耦不同动作状态 | 在相位空间进行插值 |
 | **相位角色** | 动作周期指示器 | 流形空间坐标 |
-| **演进路径** | PFNN → Local Phases → Style Modelling | Local Phases → Phase Manifolds → POMP |
-| **典型应用** | VR 化身、风格化动画 | 过渡生成、物理一致运动 |
+| **演进路径** | PFNN → Local Phases → Style Modelling | Local Phases → Phase Manifolds |
+| **典型应用** | VR 化身、风格化动画 | 过渡生成、自然插值 |
 
 **关系**：
 - **共同基础**: 两者都从 Local Motion Phases (2020) 的局部相位表示继承
 - **分叉点**:
   - 相位表示分支 → 朝风格转换方向发展（PFNN → Local Phases → Style Modelling）
-  - 相位流形分支 → 朝插值和物理对齐方向发展（Phase Manifolds → POMP）
+  - 相位流形分支 → 朝插值方向发展（Local Phases → Phase Manifolds）
 
 **为什么合并为相位系**：
 - 两者都使用相位作为核心变量
 - 都从 Local Phases (2020) 继承
 - 区别仅在于相位的使用方式（解耦 vs 流形插值）
+
+**注意**：POMP (2023) 虽然使用相位表示，但其核心是物理一致运动生成，输出关节力矩并使用物理仿真器，**属于动力学方法**（见 3.8.3 节）。
 
 #### Q2: MOCHA 属于哪个流派？
 
@@ -861,7 +962,7 @@ flowchart LR
 
 ---
 
-#### 3.4.2 AMP: Adversarial Motion Priors (SIGGRAPH 2021)
+#### 3.3.3 AMP: Adversarial Motion Priors (SIGGRAPH 2021)
 
 **论文**: [198.md](https://caterpillarstudygroup.github.io/ReadPapers/198.html)
 
@@ -894,7 +995,7 @@ $$
 
 ---
 
-#### 3.4.3 ASE: Adversarial Skill Embeddings (SIGGRAPH 2022)
+#### 3.3.4 ASE: Adversarial Skill Embeddings (SIGGRAPH 2022)
 
 **论文**: [199.md](https://caterpillarstudygroup.github.io/ReadPapers/199.html)
 
@@ -1435,10 +1536,11 @@ flowchart TD
 
 角色位移控制领域呈现**双轨并行、多线演进**的发展态势：
 
-**运动学方法**沿三大主线演进：
-1. **相位系**：PFNN 的相位函数化权重 (2017) → **Few-shot Styles 的残差适配器 +CP 分解 (2018)** → Local Motion Phases 的局部相位 (2020) → Style Modelling 的特征变换 (2020) / Phase Manifolds 的相位流形插值 (2023) → POMP 的物理一致运动先验 (2023)
-2. **Motion Matching 系**：工业界标准 Motion Matching → Learned Motion Matching 的神经网络替代 → MOCHA 的上下文匹配角色化
-3. **扩散模型系**：A-MDM 的自回归设计 → CAMDM 的 8 步去噪 + 风格转换 → AAMDM 的 5 步加速 → DART 的潜在空间控制
+**运动学方法**沿四大主线演进：
+1. **相位系**：PFNN 的相位函数化权重 (2017) → **Few-shot Styles 的残差适配器 +CP 分解 (2018)** → Local Motion Phases 的局部相位 (2020) → Style Modelling 的特征变换 (2020) / Phase Manifolds 的相位流形插值 (2023)
+2. **RTN (Transition Generation)**: 循环转移网络 (2018)，专用 transition 生成
+3. **Motion Matching 系**：工业界标准 Motion Matching → Learned Motion Matching 的神经网络替代 → MOCHA 的上下文匹配角色化
+4. **扩散模型系**：A-MDM 的自回归设计 → CAMDM 的 8 步去噪 + 风格转换 → AAMDM 的 5 步加速 → DART 的潜在空间控制
 
 **动力学方法**沿三条主线演进：
 1. **RL 模仿线**：DeepMimic 的 RL+ 模仿 → AMP 的对抗先验 → ASE 的预训练技能库
