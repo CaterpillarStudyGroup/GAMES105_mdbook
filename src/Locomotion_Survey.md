@@ -96,12 +96,15 @@ flowchart LR
     LP --> PM["Phase Manifolds (2023)"]
 ```
 
-**两大分支**：
+**统一框架**：
 
-| 分支 | 演进路径 | 核心贡献 | 典型应用 |
-|------|---------|---------|---------|
-| **相位表示分支** | PFNN → Few-shot Styles → Local Phases → Style Modelling | 相位解耦不同动作状态 / 少样本风格学习 | VR 化身、风格化动画、快速原型 |
-| **相位流形分支** | Local Phases → Phase Manifolds | 相位流形插值与过渡生成 | 过渡生成、自然插值 |
+| 演进阶段 | 代表论文 | 核心贡献 | 典型应用 |
+|---------|---------|---------|---------|
+| **全局相位** | PFNN (2017) | 相位函数化权重，避免 artifacts | 复杂地形 locomotion |
+| **少样本风格** | Few-shot Styles (2018) | 残差适配器 + CP 分解 | 风格迁移 |
+| **局部相位** | Local Phases (2020) | 每个身体部位独立相位 | 多接触交互 |
+| **风格调制** | Style Modelling (2020) | 特征变换 + 局部相位 | 实时风格切换 |
+| **相位流形** | Phase Manifolds (2023) | 相位流形插值与过渡生成 | 动作补间 |
 
 **代表论文**：
 - PFNN (2017): 相位函数化权重
@@ -697,7 +700,7 @@ Polishing Module: ADM (2 步)
 
 | 流派 | 代表方法 | 核心贡献 | 典型应用 |
 |------|---------|---------|---------|
-| **相位系** | PFNN → Few-shot Styles → Local Phases → Style Modelling<br>Local Phases → Phase Manifolds | 相位解耦动作状态 / 相位流形插值 | VR 化身、风格化动画、过渡生成 |
+| **相位系** | PFNN → Few-shot Styles → Local Phases → Style Modelling → Phase Manifolds | 相位作为权重参数/条件输入，避免 artifacts | VR 化身、风格化动画、过渡生成 |
 | **RTN (Transition Generation)** | RTN (2018) | RNN 连接两个状态 | 动画图 transition、超分辨率 |
 | **Motion Matching 系** | MM → Learned MM → MOCHA | 数据搜索/预测生成动作 + 角色化 | 游戏 NPC、在线游戏、角色设计 |
 | **扩散模型系** | A-MDM → CAMDM → AAMDM → DART | 概率扩散模型生成 | 电影动画、多样性生成 |
@@ -735,27 +738,23 @@ flowchart TD
 
 ### 2.7 常见问题解答 (FAQ)
 
-#### Q1: 相位系内部的两大分支有什么区别？
+#### Q1: 相位系的发展脉络是什么？
 
-相位系是一个统一的流派，其核心思想是**引入相位变量** $\phi \in [0, 2\pi)$ **作为动作的解耦表示**。根据相位的使用方式，分为两大分支：
+相位系是一个统一的方法论，其核心思想是**引入相位变量** $\phi \in [0, 2\pi)$ **作为动作的解耦表示**，通过相位来参数化网络权重或作为条件输入，避免不同动作状态的混合导致 artifacts。
 
-| 维度 | 相位表示分支 | 相位流形分支 |
-|------|-----------|-----------|
-| **核心目标** | 用相位解耦不同动作状态 | 在相位空间进行插值 |
-| **相位角色** | 动作周期指示器 | 流形空间坐标 |
-| **演进路径** | PFNN → Local Phases → Style Modelling | Local Phases → Phase Manifolds |
-| **典型应用** | VR 化身、风格化动画 | 过渡生成、自然插值 |
+**统一演进框架**：
 
-**关系**：
-- **共同基础**: 两者都从 Local Motion Phases (2020) 的局部相位表示继承
-- **分叉点**:
-  - 相位表示分支 → 朝风格转换方向发展（PFNN → Local Phases → Style Modelling）
-  - 相位流形分支 → 朝插值方向发展（Local Phases → Phase Manifolds）
+| 阶段 | 代表论文 | 核心创新 | 相位角色 |
+|------|---------|---------|---------|
+| **全局相位** | PFNN (2017) | 相位函数化网络权重 | 权重参数化变量 |
+| **少样本风格** | Few-shot Styles (2018) | 残差适配器 + CP 分解 | 风格条件 |
+| **局部相位** | Local Phases (2020) | 每个身体部位独立相位 | 多接触解耦 |
+| **风格调制** | Style Modelling (2020) | 特征变换 + 局部相位 | 风格注入条件 |
+| **相位流形** | Phase Manifolds (2023) | 周期自编码学习相位流形 | 流形空间坐标 |
 
-**为什么合并为相位系**：
-- 两者都使用相位作为核心变量
-- 都从 Local Phases (2020) 继承
-- 区别仅在于相位的使用方式（解耦 vs 流形插值）
+**关键洞察**：
+- Local Phases (2020) 是核心分支点，同时影响了 Style Modelling（风格转换）和 Phase Manifolds（过渡生成）两个方向
+- 相位系内部的区别仅在于**相位的使用方式**（全局 vs 局部、解耦 vs 流形插值），但核心思想统一
 
 **注意**：POMP (2023) 虽然使用相位表示，但其核心是物理一致运动生成，输出关节力矩并使用物理仿真器，**属于动力学方法**（见 3.8.3 节）。
 
@@ -1537,7 +1536,7 @@ flowchart TD
 角色位移控制领域呈现**双轨并行、多线演进**的发展态势：
 
 **运动学方法**沿四大主线演进：
-1. **相位系**：PFNN 的相位函数化权重 (2017) → **Few-shot Styles 的残差适配器 +CP 分解 (2018)** → Local Motion Phases 的局部相位 (2020) → Style Modelling 的特征变换 (2020) / Phase Manifolds 的相位流形插值 (2023)
+1. **相位系**：PFNN 的相位函数化权重 (2017) → **Few-shot Styles 的残差适配器 +CP 分解 (2018)** → Local Motion Phases 的局部相位 (2020) → Style Modelling 的特征变换 (2020) → Phase Manifolds 的相位流形插值 (2023)
 2. **RTN (Transition Generation)**: 循环转移网络 (2018)，专用 transition 生成
 3. **Motion Matching 系**：工业界标准 Motion Matching → Learned Motion Matching 的神经网络替代 → MOCHA 的上下文匹配角色化
 4. **扩散模型系**：A-MDM 的自回归设计 → CAMDM 的 8 步去噪 + 风格转换 → AAMDM 的 5 步加速 → DART 的潜在空间控制

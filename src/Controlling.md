@@ -2,50 +2,12 @@ P3
 # PD Control for Characters
 
 > &#x2705; 前面是 PD 的例子，这里是 PD 在物理仿真角色上的应用，计算在每个关节上施加多少力矩。
-
----
-
-## 控制系统层次结构
-
-理解 PD 控制在整个角色控制系统中的位置：
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  高层：任务规划 (Task Planning)                              │
-│  "做什么动作？什么时候做？"                                   │
-│  方法：有限状态机、行为树、任务规划                          │
-├─────────────────────────────────────────────────────────────┤
-│  中层：轨迹生成/策略学习 (Trajectory/Policy)                 │
-│  "如何生成目标动作序列？"                                     │
-│  方法：轨迹优化 (CMA-ES/SAMCON)、RL (DeepMimic/AMP/ASE)       │
-├─────────────────────────────────────────────────────────────┤
-│  底层：执行控制 (Low-level Control)                          │
-│  "如何计算关节力矩？"                                         │
-│  方法：PD 控制                                                │
-└─────────────────────────────────────────────────────────────┘
-```
-
-**PD 控制的位置**：
-- PD 控制属于**底层执行控制**
-- 输入：目标关节位置 $q^*$ 和速度 $\dot{q}^*$
-- 输出：关节力矩 $\tau$
-
-**与学习方法的关系**：
-
-```
-DeepMimic/AMP/ASE 策略 π(a|s)
-         ↓ 输出目标 q*, q̇*
-         ↓
-    PD 控制器 τ = k_p(q* - q) + k_d(q̇* - q̇)
-         ↓ 输出力矩 τ
-         ↓
-    物理仿真器
-```
-
-- DeepMimic/AMP/ASE 是**中层策略**，输出 PD 控制器的目标
-- PD 是**底层执行器**，负责跟踪目标
-
-**深入学习**: [DeepMimic 论文笔记](https://caterpillarstudygroup.github.io/ReadPapers/201.html) | [AMP](https://caterpillarstudygroup.github.io/ReadPapers/198.html) | [ASE](https://caterpillarstudygroup.github.io/ReadPapers/199.html)
+>
+> **控制系统层次**：PD 控制属于**底层执行控制**，输入是目标关节位置 $q^*$ 和速度 $\dot{q}^*$，输出是关节力矩 $\tau$。
+>
+> **中层策略**：轨迹优化或 DeepMimic/AMP/ASE 等学习方法输出 PD 的目标 $q^*$。
+>
+> **深入学习**: [DeepMimic](https://caterpillarstudygroup.github.io/ReadPapers/201.html) | [AMP](https://caterpillarstudygroup.github.io/ReadPapers/198.html) | [ASE](https://caterpillarstudygroup.github.io/ReadPapers/199.html)
 
 ---
 
