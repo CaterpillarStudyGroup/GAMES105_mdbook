@@ -236,7 +236,6 @@ flowchart LR
 | ID  | Year | Title | 特点 |
 |-----|------|-------|------|
 | 136 | 2021.3.26 |  Character Controllers Using Motion VAEs|在给定足够丰富的运动捕捉片段集合的情况下，如何实现有目的性且逼真的人体运动    | 使用RL策略控制或Monte-Carlo方式 |
-|    | 2023.10.16| MOCHA: RealTime Motion Characterization via Context Matching| 风格迁移 + 实时控制|风格迁移任务，根据源角色当前状态预测目标角色下一帧动作。不涉及未来轨迹引导。 |
 |  | 2024.8.16 |  Interactive Character Control with Auto-Regressive Motion Diffusion Models   | A-MDM<br>136中的VAE替换成了MLP diffusion<br>并使用分层强化学习进行控制。 |
 
 
