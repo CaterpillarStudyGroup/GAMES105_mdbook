@@ -1588,7 +1588,7 @@ flowchart TD
 | PDP | 2024 | [192](https://caterpillarstudygroup.github.io/ReadPapers/192.html) | RL 专家蒸馏 |
 | MaskedMimic | 2024 | [183](https://caterpillarstudygroup.github.io/ReadPapers/183.html) | 掩码运动补全 |
 | PARC | 2025 | [189](https://caterpillarstudygroup.github.io/ReadPapers/189.html) | 迭代数据扩增 |
-| UniPhys | 2025 | 待补充 | 统一规划 + 控制 |
+| UniPhys | 2025 | [184](https://caterpillarstudygroup.github.io/ReadPapers/184.html) | 统一规划 + 控制 |
 
 ---
 
