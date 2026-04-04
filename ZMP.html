@@ -1,0 +1,399 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Zero-Moment Point (ZMP) - 3D角色骨骼动画技术</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="Locomotion_Survey.html"><strong aria-hidden="true">4.</strong> Locomotion 控制技术洞察</a></li><li class="chapter-item expanded affix "><li class="part-title">Keyframe-based/Kinematic Approaches</li><li class="chapter-item expanded "><a href="Forward.html"><strong aria-hidden="true">5.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="Keyframe.html"><strong aria-hidden="true">6.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="Data-driven.html"><strong aria-hidden="true">7.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="Learning-based.html"><strong aria-hidden="true">8.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="cont.html"><strong aria-hidden="true">9.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded "><a href="Skinning.html"><strong aria-hidden="true">10.</strong> Skinning</a></li><li class="chapter-item expanded affix "><li class="part-title">Physics-based/Dynamic Approaches</li><li class="chapter-item expanded "><a href="Simulation.html"><strong aria-hidden="true">11.</strong> Physics-based Simulation and Articulated Rigid Bodies</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 角色动力学</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Constraints.html"><strong aria-hidden="true">12.1.</strong> Constraints</a></li><li class="chapter-item expanded "><a href="JointConstraint.html"><strong aria-hidden="true">12.2.</strong> 关节约束</a></li><li class="chapter-item expanded "><a href="Contacts.html"><strong aria-hidden="true">12.3.</strong> Contacts</a></li><li class="chapter-item expanded "><a href="Actuating.html"><strong aria-hidden="true">12.4.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">13.</strong> PD Control</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Outline.html"><strong aria-hidden="true">13.1.</strong> 驱动角色</a></li><li class="chapter-item expanded "><a href="Proportional-DerivativeControl.html"><strong aria-hidden="true">13.2.</strong> Proportional-Derivative Control</a></li><li class="chapter-item expanded "><a href="Controlling.html"><strong aria-hidden="true">13.3.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="PDControl/StaticBalance.html"><strong aria-hidden="true">13.4.</strong> Static Balance</a></li></ol></li><li class="chapter-item expanded "><a href="Tracking/Tracking.html"><strong aria-hidden="true">14.</strong> 轨迹优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Tracking/SimpleCase.html"><strong aria-hidden="true">14.1.</strong> 简单例子</a></li><li class="chapter-item expanded "><a href="Optimal.html"><strong aria-hidden="true">14.2.</strong> Optimal Control and Reinforcement Learning</a></li><li class="chapter-item expanded "><a href="LQR.html"><strong aria-hidden="true">14.3.</strong> Linear Quadratic Regulator (LQR)</a></li><li class="chapter-item expanded "><a href="Nonlinear_problems.html"><strong aria-hidden="true">14.4.</strong> Nonlinear problems</a></li><li class="chapter-item expanded "><a href="Sampling_based.html"><strong aria-hidden="true">14.5.</strong> Sampling-based Policy Optimization</a></li><li class="chapter-item expanded "><a href="Optimal_Control.html"><strong aria-hidden="true">14.6.</strong> Optimal Control-Reinforcement Learning</a></li><li class="chapter-item expanded "><a href="Digital_Cerebellum.html"><strong aria-hidden="true">14.7.</strong> Digital Cerebellum</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">15.</strong> Character Control</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Learning.html"><strong aria-hidden="true">15.1.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="ZMP.html" class="active"><strong aria-hidden="true">15.2.</strong> Zero-Moment Point (ZMP)</a></li><li class="chapter-item expanded "><a href="SIMBICON.html"><strong aria-hidden="true">15.3.</strong> SIMBICON</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Application</li><li class="chapter-item expanded "><a href="Application/Locomotion.html"><strong aria-hidden="true">16.</strong> Locomotion</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">3D角色骨骼动画技术</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <p>P11</p>
+<h1 id="zero-moment-point-zmp"><a class="header" href="#zero-moment-point-zmp">Zero-Moment Point (ZMP)</a></h1>
+<blockquote>
+<p>✅ 通过ZMP的控制实现比较稳定的走路。</p>
+</blockquote>
+<h2 id="全身受力分析与问题简化"><a class="header" href="#全身受力分析与问题简化">全身受力分析与问题简化</a></h2>
+<p><img src="./assets/11-12.png" alt="" /></p>
+<blockquote>
+<p>✅ 角色受到重力和GRF力。<br />
+✅ GRF ＝ 支持力（向上）＋ 动摩擦力（有速度时才有）<br />
+✅ 简化：上半身受到的所有的力，都体现在 ankle 关节上。<br />
+✅ 通过对 ankle 施加力/力矩来实现全身移动。</p>
+</blockquote>
+<p>P12</p>
+<h3 id="recall-a-system-of-links-and-joints"><a class="header" href="#recall-a-system-of-links-and-joints">Recall: A System of Links and Joints</a></h3>
+<p><img src="./assets/11-13.png" alt="" /></p>
+<p>$$
+M\dot{v} +C(x,v)=f+f_J
+$$</p>
+<blockquote>
+<p>✅ 在满足这个公式的前提下，一个部分动了另一个部分就会跟着动。因此可以把问题简化，只分析ankle。</p>
+</blockquote>
+<p>P15</p>
+<h2 id="脚上受力分析"><a class="header" href="#脚上受力分析">脚上受力分析</a></h2>
+<p><img src="./assets/11-14.png" alt="" /></p>
+<blockquote>
+<p>✅ 仅分析脚上的力，\(f_{\text{ankle}}\) 为 ankle 上的力转化到脚上的力。</p>
+</blockquote>
+<p><img src="./assets/11-15.png" alt="" /></p>
+<blockquote>
+<p>✅ 地面对脚的力不是施加到某一个点上，但可以根据公式换算成施加到某一点的力。</p>
+</blockquote>
+<p>P17</p>
+<p>Assuming the ground is flat and level<br />
+so \(p_i\) - \(p\)  is always in the horizontal plane</p>
+<p><img src="./assets/11-16.png" alt="" /></p>
+<blockquote>
+<p>✅ 把 \(\tau _{GRF} \) 分解为与地面垂直部分和与地面平行部分（力矩的方向是指它的旋转轴的方向。），其中垂直的部分为：</p>
+</blockquote>
+<p><img src="./assets/11-1.png" alt="" /></p>
+<p>水平的部分为： </p>
+<p><img src="./assets/11-17.png" alt="" /></p>
+<p><strong>Can we find \(p\) such that \(\tau _{GRF}^{xz}=0\) ?</strong></p>
+<p>P21</p>
+<h2 id="zero-moment-point-zmp-1"><a class="header" href="#zero-moment-point-zmp-1">Zero-Moment Point (ZMP)</a></h2>
+<p><img src="./assets/11-18.png" alt="" /></p>
+<p>当\(p\) 为 center pressure时：</p>
+<p>$$
+\begin{align*}
+f_{GRF}  &amp; =\sum _{i}^{} f_i \\
+\tau _{GRF} &amp; =\tau _{GRF}^y=\sum _{i}^{}(p_i-p)\times f_i^{xz}
+\end{align*}
+$$</p>
+<p>The position of \(p\) is not known, but we assume 以上公式成立。</p>
+<h2 id="zmp条件下支撑脚的受力分析"><a class="header" href="#zmp条件下支撑脚的受力分析">ZMP条件下支撑脚的受力分析</a></h2>
+<p>假设： 支撑脚 should not move in a <strong>stance phase</strong>，且支撑脚与地面完成接触<br />
+则：在所有力作用下处于静平衡状态。</p>
+<p><img src="./assets/11-20.png" alt="" /></p>
+<p>Static Equilibrium:</p>
+<p>静态平衡满足：所有合力为0</p>
+<p>$$
+f_{\text{ankle}} + f_{\text{GRF}} + mg = 0<br />
+$$</p>
+<p>静态平衡满足：任选一个参考点，所有合力（力矩）相对于参考点的动量为0，否则会旋转。</p>
+<p>The moment around a reference point \(o\):</p>
+<p>$$
+(u-o) \times f_{\text{ankle}} + (p-o) \times f_{\text{GRF}} + (x-o)\times mg + \tau _{GRF}^{y} + \tau _{\text{ankle}} = 0
+$$</p>
+<blockquote>
+<p>✅ \(o\) 是一个参考点，可以在任意位置<br />
+✅ U：ankle 位置。<br />
+✅ X：质心位置
+✅ P：位置未知，高度为 0．</p>
+</blockquote>
+<p>同样只关心水平方向：</p>
+<p>Horizontal components (moment projected onto \(xz\) plane):</p>
+<p>$$
+((u-o) \times f_{\text{ankle}})^{xz} +( (p-o) \times f_{\text{GRF}} ) ^{xz}+ (x-o)\times mg + \tau _{\text{ankle}}^{xz} = 0
+$$</p>
+<blockquote>
+<p>✅ 总力矩为 0，否则人会旋转。</p>
+</blockquote>
+<p>P28</p>
+<h2 id="求解-zero-moment-point-zmp"><a class="header" href="#求解-zero-moment-point-zmp">求解 Zero-Moment Point (ZMP)</a></h2>
+<p>We can solve this equation to find \(p\)</p>
+<p>\(p\) is <strong>called Zero-Moment Point (ZMP)</strong> because it makes</p>
+<p>$$
+\tau _{GRF}^{xz}=0
+$$</p>
+<p>and the horizontal moment</p>
+<p>$$
+((u-o) \times f_{\text{ankle}})^{xz} +( (p-o) \times f_{\text{GRF}} ) ^{xz}+ (x-o)\times mg + \tau _{\text{ankle}}^{xz} = 0
+$$</p>
+<p>Only when 𝑝 is <strong>within the support polygon</strong>!</p>
+<blockquote>
+<p>✅ \(p\) 满足（1）水平力矩为0. （2）人整体上平衡。<br />
+✅ \(u，O，X\) 都是已知，\(p\) 的高度为 0，只有 \(P_xP_y\) 未知且该公式分别在 \(X\) 和 \(Z\) 上成立，实际上是两个方程。<br />
+✅ 两个未知量和两个方程，可以解出 \(p\)。</p>
+</blockquote>
+<p>P33</p>
+<p>如果解出公式得到的\(p\) is outside the support polygon，那么：<br />
+\(p\) could NOT be the center of pressure, because all the GRFs 
+are applied within the polygon, so that</p>
+<p>$$
+\tau _{GRF}^{xz}\ne 0
+$$</p>
+<blockquote>
+<p>✅ 如果求出 \(p\) 在 polygon外 则不能平衡，因为不是 center pressure.</p>
+</blockquote>
+<p>如果选择polygon上的real center of pressure\({p}' \) ,那么：</p>
+<p>$$
+((u-o) \times f_{\text{ankle}})^{xz} +( ({p}'-o) \times f_{\text{GRF}} ) ^{xz}+ (x-o)\times mg + \tau _{\text{ankle}}^{xz} \ne 0
+$$</p>
+<blockquote>
+<p>✅ \({p}' \ne p\)，\({p}'\) 处水平方向的合外力不为零，脚会翻转人会摔倒。</p>
+</blockquote>
+<h1 id="simplified-models"><a class="header" href="#simplified-models">Simplified Models</a></h1>
+<p>P35</p>
+<h2 id="关于zmp的思考"><a class="header" href="#关于zmp的思考">关于ZMP的思考</a></h2>
+<p>The existence of ZMP is an indication of dynamic balance We can achieve balanced walking by controlling ZMP But how?</p>
+<p>P36</p>
+<h2 id="simplified-models的基本套路"><a class="header" href="#simplified-models的基本套路">Simplified Models的基本套路</a></h2>
+<ul>
+<li>Simplify humanoid / biped robot into an abstract model
+<ul>
+<li>Often consists of a CoM and a massless mechanism</li>
+<li>Need to map the state of the robot to the abstract model</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>✅ 因此，把最影响平衡的量拿出来，建立简化模型。<br />
+✅ 实际上更加复杂，对上半身任何一个部位的干挠，都会影响到脚上的力。</p>
+</blockquote>
+<ul>
+<li>
+<p>Plan the control and movement of the model</p>
+<ul>
+<li>Optimization</li>
+<li>Dynamic programming</li>
+<li>Optimal control</li>
+<li>MPC</li>
+</ul>
+</li>
+<li>
+<p>Track the planned motion of the abstract model</p>
+<ul>
+<li>Inverse Kinematics</li>
+<li>Inverse Dynamics</li>
+</ul>
+</li>
+</ul>
+<p><img src="./assets/11-23.png" alt="" /></p>
+<p>P37</p>
+<h2 id="example-zmp-guided-control"><a class="header" href="#example-zmp-guided-control">Example: ZMP-Guided Control</a></h2>
+<blockquote>
+<p>🔎 <img src="./assets/11-25.png" alt="" /></p>
+</blockquote>
+<p><img src="./assets/11-26-1.png" alt="" /></p>
+<blockquote>
+<p>✅ 把机器人简化为桌子和小车，通过控制小车m的运动来控制 ZMP。使 ZMP 满足预定义轨迹。</p>
+</blockquote>
+<p><img src="./assets/11-26.png" alt="" /></p>
+<blockquote>
+<p>✅ 预定义轨迹的轨迹是指保持在pologon里面。通过优化得到 \(m\) 的运动。<br />
+✅ 然后通过IK和PD control控制脚的运动。</p>
+</blockquote>
+<blockquote>
+<p>✅ ASIMO机器人局限性：(1) 脚必须与地面平行。 (2) 脚必须弯曲。 (3) 整体移动速度慢。</p>
+</blockquote>
+<p>P40</p>
+<h2 id="inverted-pendulum-model-ipm"><a class="header" href="#inverted-pendulum-model-ipm">Inverted Pendulum Model (IPM)</a></h2>
+<p><strong>Walking == Falling + Step Planning</strong></p>
+<blockquote>
+<p>✅ 人的特点是重心偏离再拉回来，这样比始终保持平更省。</p>
+</blockquote>
+<p>P42</p>
+<h3 id="ipm问题"><a class="header" href="#ipm问题">IPM问题</a></h3>
+<blockquote>
+<p>✅ IPM： 倒立摆模型，控制小车使杆不掉下去。</p>
+</blockquote>
+<p><img src="./assets/11-27-1.png" alt="" /></p>
+<h3 id="step-plan-with-ipm"><a class="header" href="#step-plan-with-ipm">Step Plan with IPM</a></h3>
+<blockquote>
+<p>🔎 <img src="./assets/11-28.png" alt="" /></p>
+</blockquote>
+<p>P45</p>
+<ul>
+<li>Map CoM of the character and the stance foot as IPM</li>
+<li>Plan the position of the next foot step so that the mass point rests at the top of the pendulum</li>
+<li>Create foot trajectory based on the step plan</li>
+<li>Compute target poses using IK</li>
+</ul>
+<p><img src="./assets/11-29.png" alt="" /></p>
+<blockquote>
+<p>✅ 脚到重心是一个倒立摆。<br />
+✅ 由于失去平衡，质心有一个向前的速度，通过到一个合适的落脚点，使质心到达脚的正上方刚好到达速度稳定。<br />
+✅ 算出脚的目标位置后，插值，IK，PD 控制。</p>
+</blockquote>
+<p>P46</p>
+<p><img src="./assets/11-30.png" alt="" /></p>
+<blockquote>
+<p>✅ 动能转势能，能量守恒．算出高度。<br />
+❗ 注意：杆的长度是不确定的，因为腿会弯曲。</p>
+</blockquote>
+<p>P47</p>
+<blockquote>
+<p>✅ 方法优点：可以适用于不同角色，不同动作，不同环境交互。</p>
+</blockquote>
+<hr />
+<blockquote>
+<p>本文出自CaterpillarStudyGroup，转载请注明出处。</p>
+<p>https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Learning.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="SIMBICON.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Learning.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="SIMBICON.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="theme/pagetoc.js"></script>
+        <script type="text/javascript" src="theme/mermaid.min.js"></script>
+        <script type="text/javascript" src="theme/mermaid-init.js"></script>
+    </body>
+</html>

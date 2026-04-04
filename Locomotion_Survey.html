@@ -1,0 +1,1592 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Locomotion 控制技术洞察 - 3D角色骨骼动画技术</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="Locomotion_Survey.html" class="active"><strong aria-hidden="true">4.</strong> Locomotion 控制技术洞察</a></li><li class="chapter-item expanded affix "><li class="part-title">Keyframe-based/Kinematic Approaches</li><li class="chapter-item expanded "><a href="Forward.html"><strong aria-hidden="true">5.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="Keyframe.html"><strong aria-hidden="true">6.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="Data-driven.html"><strong aria-hidden="true">7.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="Learning-based.html"><strong aria-hidden="true">8.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="cont.html"><strong aria-hidden="true">9.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded "><a href="Skinning.html"><strong aria-hidden="true">10.</strong> Skinning</a></li><li class="chapter-item expanded affix "><li class="part-title">Physics-based/Dynamic Approaches</li><li class="chapter-item expanded "><a href="Simulation.html"><strong aria-hidden="true">11.</strong> Physics-based Simulation and Articulated Rigid Bodies</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 角色动力学</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Constraints.html"><strong aria-hidden="true">12.1.</strong> Constraints</a></li><li class="chapter-item expanded "><a href="JointConstraint.html"><strong aria-hidden="true">12.2.</strong> 关节约束</a></li><li class="chapter-item expanded "><a href="Contacts.html"><strong aria-hidden="true">12.3.</strong> Contacts</a></li><li class="chapter-item expanded "><a href="Actuating.html"><strong aria-hidden="true">12.4.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">13.</strong> PD Control</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Outline.html"><strong aria-hidden="true">13.1.</strong> 驱动角色</a></li><li class="chapter-item expanded "><a href="Proportional-DerivativeControl.html"><strong aria-hidden="true">13.2.</strong> Proportional-Derivative Control</a></li><li class="chapter-item expanded "><a href="Controlling.html"><strong aria-hidden="true">13.3.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="PDControl/StaticBalance.html"><strong aria-hidden="true">13.4.</strong> Static Balance</a></li></ol></li><li class="chapter-item expanded "><a href="Tracking/Tracking.html"><strong aria-hidden="true">14.</strong> 轨迹优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Tracking/SimpleCase.html"><strong aria-hidden="true">14.1.</strong> 简单例子</a></li><li class="chapter-item expanded "><a href="Optimal.html"><strong aria-hidden="true">14.2.</strong> Optimal Control and Reinforcement Learning</a></li><li class="chapter-item expanded "><a href="LQR.html"><strong aria-hidden="true">14.3.</strong> Linear Quadratic Regulator (LQR)</a></li><li class="chapter-item expanded "><a href="Nonlinear_problems.html"><strong aria-hidden="true">14.4.</strong> Nonlinear problems</a></li><li class="chapter-item expanded "><a href="Sampling_based.html"><strong aria-hidden="true">14.5.</strong> Sampling-based Policy Optimization</a></li><li class="chapter-item expanded "><a href="Optimal_Control.html"><strong aria-hidden="true">14.6.</strong> Optimal Control-Reinforcement Learning</a></li><li class="chapter-item expanded "><a href="Digital_Cerebellum.html"><strong aria-hidden="true">14.7.</strong> Digital Cerebellum</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">15.</strong> Character Control</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Learning.html"><strong aria-hidden="true">15.1.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="ZMP.html"><strong aria-hidden="true">15.2.</strong> Zero-Moment Point (ZMP)</a></li><li class="chapter-item expanded "><a href="SIMBICON.html"><strong aria-hidden="true">15.3.</strong> SIMBICON</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Application</li><li class="chapter-item expanded "><a href="Application/Locomotion.html"><strong aria-hidden="true">16.</strong> Locomotion</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">3D角色骨骼动画技术</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <h1 id="角色位移控制-locomotion-control-技术洞察"><a class="header" href="#角色位移控制-locomotion-control-技术洞察">角色位移控制 (Locomotion Control) 技术洞察</a></h1>
+<p><strong>更新时间</strong>: 2026-03-30</p>
+<p><strong>范围</strong>: 2010-2025 年角色位移 (locomotion) 控制技术分析</p>
+<hr />
+<h2 id="一概述"><a class="header" href="#一概述">一、概述</a></h2>
+<p>角色位移控制是计算机图形学、机器人学和游戏开发的核心问题，目标是<strong>生成自然、稳定、可控的角色运动</strong>（如行走、跑步、跳跃等）。</p>
+<h3 id="11-为什么-locomotion-是一个难题"><a class="header" href="#11-为什么-locomotion-是一个难题">1.1 为什么 Locomotion 是一个难题？</a></h3>
+<ol>
+<li><strong>高维状态空间</strong>: 人形角色通常有 30+ 自由度</li>
+<li><strong>强非线性动力学</strong>: 接触力、摩擦力、碰撞使系统高度非线性</li>
+<li><strong>多模态行为</strong>: 行走、跑步、跳跃等不同步态需要不同控制策略</li>
+<li><strong>实时性要求</strong>: 游戏/VR 应用需要 60+ FPS</li>
+<li><strong>鲁棒性要求</strong>: 需要抵抗外部扰动、适应地形变化</li>
+</ol>
+<h3 id="12-技术分类运动学-vs-动力学"><a class="header" href="#12-技术分类运动学-vs-动力学">1.2 技术分类：运动学 vs 动力学</a></h3>
+<table><thead><tr><th>维度</th><th>运动学方法 (Kinematics)</th><th>动力学方法 (Dynamics)</th></tr></thead><tbody>
+<tr><td><strong>核心目标</strong></td><td>生成视觉上合理的动作</td><td>生成物理可行的动作</td></tr>
+<tr><td><strong>输出</strong></td><td>关节姿态/速度</td><td>关节力矩/PD 控制目标</td></tr>
+<tr><td><strong>是否物理仿真</strong></td><td>否</td><td>是</td></tr>
+<tr><td><strong>典型应用</strong></td><td>动画生成、VR 化身</td><td>游戏、机器人仿真</td></tr>
+<tr><td><strong>优势</strong></td><td>速度快、质量高</td><td>物理交互、抗扰动</td></tr>
+<tr><td><strong>局限</strong></td><td>无法处理物理交互</td><td>训练成本高、实现复杂</td></tr>
+</tbody></table>
+<hr />
+<h2 id="二基于运动学的方法-kinematics-based-methods"><a class="header" href="#二基于运动学的方法-kinematics-based-methods">二、基于运动学的方法 (Kinematics-based Methods)</a></h2>
+<p><strong>核心特征</strong>：直接从数据学习动作生成，<strong>不经过物理仿真</strong>，输出为关节姿态。</p>
+<h3 id="21-技术流派总览"><a class="header" href="#21-技术流派总览">2.1 技术流派总览</a></h3>
+<p>运动学方法经过十余年发展，形成了<strong>四大主要流派</strong>：</p>
+<pre class="mermaid">flowchart TB
+    subgraph Phase[&quot;流派一：相位系 (Phase-based)&quot;]
+        direction TB
+        PFNN[&quot;PFNN (2017)&quot;] --&gt; LP[&quot;Local Phases (2020)&quot;]
+        LP --&gt; SM[&quot;Style Modelling (2020)&quot;]
+        LP --&gt; PM[&quot;Phase Manifolds (2023)&quot;]
+    end
+
+    subgraph Trans[&quot;流派二：RTN (Transition Generation)&quot;]
+        direction TB
+        RTN[&quot;RTN (2018)&quot;]
+    end
+
+    subgraph MM[&quot;流派三：Motion Matching 系&quot;]
+        direction TB
+        MM0[&quot;Motion Matching (2019)&quot;] --&gt; LMM[&quot;Learned MM (2020)&quot;]
+        LMM --&gt; MOCHA[&quot;MOCHA (2023)&quot;]
+    end
+
+    subgraph Diff[&quot;流派四：扩散模型系&quot;]
+        direction TB
+        AMDM[&quot;A-MDM (2024)&quot;] --&gt; CAMDM[&quot;CAMDM (2024)&quot;]
+        CAMDM --&gt; AAMDM[&quot;AAMDM (2024)&quot;]
+        AAMDM --&gt; DART[&quot;DART (2025)&quot;]
+    end
+
+    style Phase fill:#e1f5fe
+    style Trans fill:#fff3e0
+    style MM fill:#f0f0f0
+    style Diff fill:#e8f5e9
+</pre>
+<p><strong>关键洞察</strong>：Local Phases (2020) 是相位系的核心分支点 —— 一支朝风格转换方向发展（Style Modelling），另一支朝相位流形插值方向发展（Phase Manifolds）。</p>
+<table><thead><tr><th>流派</th><th>核心思想</th><th>优势</th><th>局限</th></tr></thead><tbody>
+<tr><td><strong>相位系</strong></td><td>相位解耦动作状态 / 相位流形插值</td><td>流畅无 artifacts / 自然过渡</td><td>相位定义需领域知识</td></tr>
+<tr><td><strong>RTN (Transition Generation)</strong></td><td>RNN 连接两个状态</td><td>无需标注、固定内存</td><td>过渡长度固定</td></tr>
+<tr><td><strong>Motion Matching 系</strong></td><td>数据搜索/预测</td><td>工业验证质量高</td><td>内存/训练成本</td></tr>
+<tr><td><strong>扩散模型系</strong></td><td>概率扩散生成</td><td>高质量多样性</td><td>推理速度挑战</td></tr>
+</tbody></table>
+<hr />
+<h3 id="22-流派一相位系-phase-based-methods"><a class="header" href="#22-流派一相位系-phase-based-methods">2.2 流派一：相位系 (Phase-based Methods)</a></h3>
+<p><strong>核心思想</strong>：引入相位变量 $\phi \in [0, 2\pi)$ 作为动作周期的隐式表示，用相位解耦不同动作状态或在相位空间进行插值。</p>
+<p><strong>演进路径</strong>：</p>
+<pre class="mermaid">flowchart LR
+    subgraph Phase[&quot;相位表示分支&quot;]
+        PFNN --&gt; FS[&quot;Few-shot Styles&quot;]
+        FS --&gt; LP[&quot;Local Phases&quot;]
+        LP --&gt; SM[&quot;Style Modelling&quot;]
+    end
+
+    subgraph Manifold[&quot;相位流形分支&quot;]
+        LP --&gt; PM[&quot;Phase Manifolds&quot;]
+    end
+</pre>
+<p><strong>两大分支</strong>：</p>
+<p>从演进路径可以看出，<strong>Local Phases (2020)</strong> 是核心分支点，衍生出两个方向：</p>
+<table><thead><tr><th>分支</th><th>演进路径</th><th>核心目标</th><th>典型应用</th></tr></thead><tbody>
+<tr><td><strong>相位表示分支</strong></td><td>PFNN → Local Phases → Style Modelling</td><td>用相位解耦不同动作状态</td><td>VR 化身、风格化动画</td></tr>
+<tr><td><strong>相位流形分支</strong></td><td>Local Phases → Phase Manifolds</td><td>在相位空间进行插值</td><td>过渡生成、动作补间</td></tr>
+</tbody></table>
+<p><strong>统一框架</strong>：</p>
+<table><thead><tr><th>演进阶段</th><th>代表论文</th><th>核心贡献</th><th>典型应用</th></tr></thead><tbody>
+<tr><td><strong>全局相位</strong></td><td>PFNN (2017)</td><td>相位函数化权重，避免 artifacts</td><td>复杂地形 locomotion</td></tr>
+<tr><td><strong>少样本风格</strong></td><td>Few-shot Styles (2018)</td><td>残差适配器 + CP 分解</td><td>风格迁移</td></tr>
+<tr><td><strong>局部相位</strong></td><td>Local Phases (2020)</td><td>每个身体部位独立相位</td><td>多接触交互</td></tr>
+<tr><td><strong>风格调制</strong></td><td>Style Modelling (2020)</td><td>特征变换 + 局部相位</td><td>实时风格切换</td></tr>
+<tr><td><strong>相位流形</strong></td><td>Phase Manifolds (2023)</td><td>相位流形插值与过渡生成</td><td>动作补间</td></tr>
+</tbody></table>
+<p><strong>两大分支</strong>：</p>
+<p>从演进路径可以看出，<strong>Local Phases (2020)</strong> 是核心分支点，衍生出两个方向：</p>
+<table><thead><tr><th>分支</th><th>演进路径</th><th>核心目标</th><th>典型应用</th></tr></thead><tbody>
+<tr><td><strong>相位表示分支</strong></td><td>PFNN → Local Phases → Style Modelling</td><td>用相位解耦不同动作状态</td><td>VR 化身、风格化动画</td></tr>
+<tr><td><strong>相位流形分支</strong></td><td>Local Phases → Phase Manifolds</td><td>在相位空间进行插值</td><td>过渡生成、动作补间</td></tr>
+</tbody></table>
+<p><strong>代表论文</strong>：</p>
+<ul>
+<li>PFNN (2017): 相位函数化权重</li>
+<li><strong>Few-shot Locomotion Styles (2018)</strong>: 残差适配器 + CP 分解，少样本风格学习</li>
+<li>Local Motion Phases (2020): 局部相位表示</li>
+<li>Style Modelling (2020): 特征变换 + 局部相位</li>
+<li>Phase Manifolds (2023): 相位流形插值</li>
+<li><strong>RTN (2018)</strong>: 循环转移网络，transition 生成</li>
+</ul>
+<p><strong>注意</strong>：MOCHA (2023) 虽然使用了 AdaIN 进行风格转换（继承自 Style Modelling），但其核心是 Neural Context Matcher 进行上下文匹配，<strong>不属于相位系</strong>，而是属于<strong>Motion Matching 系</strong>（见 2.4 节）。</p>
+<p><strong>注意</strong>：POMP (2023) 虽然使用相位表示，但其核心是物理一致运动生成，输出关节力矩并使用物理仿真器，<strong>属于动力学方法</strong>（见 3.8.3 节）。</p>
+<hr />
+<h3 id="221-pfnn-phase-functioned-neural-networks-siggraph-2017"><a class="header" href="#221-pfnn-phase-functioned-neural-networks-siggraph-2017">2.2.1 PFNN: Phase-Functioned Neural Networks (SIGGRAPH 2017)</a></h3>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/113.html">113.md</a></p>
+<p><strong>核心创新</strong>: 将相位从「网络输入特征」升级为「网络权重的参数化变量」</p>
+<p><strong>架构</strong>:</p>
+<pre class="mermaid">flowchart LR
+    Input[&quot;输入：状态 + 控制 + 相位φ&quot;] --&gt; PhaseFunc[&quot;相位函数Θ(φ)&quot;]
+    PhaseFunc --&gt; Weights[&quot;生成网络权重&quot;]
+    Weights --&gt; Expert1[&quot;专家 1&quot;]
+    Weights --&gt; Expert2[&quot;专家 2&quot;]
+    Weights --&gt; Expert3[&quot;专家 3&quot;]
+    Expert1 &amp; Expert2 &amp; Expert3 --&gt; Mix[&quot;混合输出&quot;]
+    Mix --&gt; Output[&quot;输出：姿态/速度/触地&quot;]
+</pre>
+<p><strong>关键洞察</strong>:</p>
+<ul>
+<li>相位作为权重参数，避免不同相位动作混合导致的 artifacts</li>
+<li>使用 Cubic Catmull-Rom Spline 插值专家权重</li>
+<li>地形数据增强：从平地 mocap 生成崎岖地形训练数据</li>
+</ul>
+<p><strong>优点</strong>:</p>
+<ul>
+<li>相位解耦，避免 artifacts</li>
+<li>仅 10MB 模型大小</li>
+<li>实时 60 FPS</li>
+</ul>
+<p><strong>缺点</strong>:</p>
+<ul>
+<li>仍需手工标注相位和步态标签</li>
+<li>泛化能力有限，仅支持训练过的步态</li>
+</ul>
+<hr />
+<h3 id="222-few-shot-locomotion-styles-eg-2018"><a class="header" href="#222-few-shot-locomotion-styles-eg-2018">2.2.2 Few-shot Locomotion Styles (EG 2018)</a></h3>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/214.html">214.md</a></p>
+<p><strong>核心创新</strong>: 首个<strong>少样本风格学习</strong>框架，几秒视频即可学会新走路风格</p>
+<p><strong>背景</strong>: PFNN 需要大量数据训练每种新风格，但动画师通常只有几秒参考视频。</p>
+<p><strong>方法框架</strong>:</p>
+<pre class="mermaid">flowchart TB
+    subgraph Stage1[&quot;第一阶段：预训练&quot;]
+        data1[&quot;8 种风格大量数据&quot;]
+        pfnn[&quot;PFNN 主干网络&quot;]
+        adapter[&quot;残差适配器&quot;]
+        agnostic[&quot;风格无关参数 β_ag&quot;]
+        specific[&quot;风格相关参数 β_s (8 套)&quot;]
+    end
+
+    subgraph Stage2[&quot;第二阶段：少样本学习&quot;]
+        data2[&quot;新风格几秒视频&quot;]
+        freeze[&quot;冻结主干网络&quot;]
+        learn[&quot;只学习新残差适配器&quot;]
+        cp[&quot;CP 分解降维&quot;]
+    end
+
+    data1 --&gt; pfnn
+    pfnn --&gt; agnostic
+    pfnn --&gt; adapter
+    adapter --&gt; specific
+
+    data2 --&gt; learn
+    freeze --&gt; learn
+    learn --&gt; cp
+
+    style Stage1 fill:#e1f5fe
+    style Stage2 fill:#fff3e0
+</pre>
+<p><strong>关键技术</strong>:</p>
+<table><thead><tr><th>技术</th><th>作用</th><th>效果</th></tr></thead><tbody>
+<tr><td><strong>残差适配器</strong></td><td>分离风格无关/相关参数</td><td>只需学习少量新参数</td></tr>
+<tr><td><strong>CP 分解</strong></td><td>3D 张量分解为三个矩阵</td><td>参数从 4MB 降至 0.13MB (30 倍压缩)</td></tr>
+<tr><td><strong>可变 Dropout</strong></td><td>根据数据量调整正则化</td><td>防止少样本过拟合</td></tr>
+</tbody></table>
+<p><strong>CP 分解公式</strong>:</p>
+<p>$$
+X_k = A D(k) B^T
+$$</p>
+<ul>
+<li>$A, B$: 与相位无关的矩形矩阵</li>
+<li>$D(k)$: 与相位相关的对角矩阵</li>
+</ul>
+<p><strong>训练数据</strong>:</p>
+<ul>
+<li>预训练：8 种风格 × 23104 帧（愤怒、孩子气、沮丧、中性、老人、骄傲、性感、大摇大摆）</li>
+<li>少样本：50 种新风格，每种仅 1-5 秒视频</li>
+</ul>
+<p><strong>性能</strong>:</p>
+<ul>
+<li>推理时间：0.0011 秒/帧（约 900 FPS）</li>
+<li>存储：每风格仅需 0.13MB</li>
+</ul>
+<p><strong>优点</strong>:</p>
+<ul>
+<li>几秒视频即可学会新风格</li>
+<li>支持实时生成</li>
+<li>参数效率高，内存占用低</li>
+</ul>
+<p><strong>缺点</strong>:</p>
+<ul>
+<li>仅支持 Homogeneous 迁移（走→走，不能走→跑）</li>
+<li>无法处理非周期性动作</li>
+<li>生成动作略平滑，丢失高频细节</li>
+</ul>
+<p><strong>与 PFNN 的继承关系</strong>:</p>
+<ul>
+<li>PFNN: 每风格单独训练，需要大量数据</li>
+<li>Few-shot: 添加残差适配器，风格无关参数共享</li>
+</ul>
+<hr />
+<h3 id="223-local-motion-phases-siggraph-2020"><a class="header" href="#223-local-motion-phases-siggraph-2020">2.2.3 Local Motion Phases (SIGGRAPH 2020)</a></h3>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/216.html">216.md</a></p>
+<p><strong>核心创新</strong>: 每个身体部位学习独立相位，支持多接触交互</p>
+<p><strong>背景</strong>: PFNN 的全局相位假设所有部位同步运动，无法处理多接触动作（如手扶墙、脚踩台阶）。</p>
+<p><strong>全局相位 vs 局部相位</strong>:</p>
+<table><thead><tr><th>全局相位</th><th>局部相位</th></tr></thead><tbody>
+<tr><td>单一相位值</td><td>每个身体部位独立相位</td></tr>
+<tr><td>适用于周期性 locomotion</td><td>适用于多接触交互</td></tr>
+<tr><td>相位手动标注</td><td>无监督学习相位</td></tr>
+</tbody></table>
+<p><strong>局部相位表示</strong>:</p>
+<p>$$
+\phi = {\phi_{left_foot}, \phi_{right_foot}, \phi_{left_hand}, \phi_{right_hand}, ...}
+$$</p>
+<p><strong>与 PFNN 的继承关系</strong>:</p>
+<ul>
+<li>PFNN: 全局相位，需手动标注</li>
+<li>Local Phases: 局部相位，无监督学习</li>
+<li>共同点：相位作为解耦变量</li>
+</ul>
+<p><strong>优点</strong>:</p>
+<ul>
+<li>支持多接触交互</li>
+<li>相位自动学习</li>
+<li>异步运动建模</li>
+</ul>
+<p><strong>缺点</strong>:</p>
+<ul>
+<li>相位数量固定</li>
+<li>新接触类型需要训练</li>
+</ul>
+<hr />
+<h3 id="224-style-modelling-特征变换与局部相位-siggraph-2020"><a class="header" href="#224-style-modelling-特征变换与局部相位-siggraph-2020">2.2.4 Style Modelling: 特征变换与局部相位 (SIGGRAPH 2020)</a></h3>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/211.html">211.md</a></p>
+<p><strong>核心创新</strong>: Feature-Wise Transformations + Local Motion Phases</p>
+<p><strong>架构</strong>:</p>
+<pre class="mermaid">flowchart LR
+    motion[&quot;输入动作 x&quot;] --&gt; Enc[&quot;动作编码器&quot;]
+    style[&quot;风格代码 z&quot;] --&gt; StyleEnc[&quot;风格编码器&quot;]
+    Enc --&gt; FWT[&quot;Feature-Wise Transformation&quot;]
+    StyleEnc --&gt; FWT
+    FWT --&gt; Dec[&quot;动作解码器&quot;]
+    Dec --&gt; out[&quot;风格化动作 y&quot;]
+</pre>
+<p><strong>AdaIN 公式</strong>:</p>
+<p>$$
+\text{AdaIN}(x, z) = \sigma(z) \cdot \frac{x - \mu(x)}{\sigma(x)} + \mu(z)
+$$</p>
+<p><strong>Local Motion Phases vs 全局相位</strong>:</p>
+<table><thead><tr><th>全局相位</th><th>局部相位</th></tr></thead><tbody>
+<tr><td>单一相位值</td><td>每个身体部位独立相位</td></tr>
+<tr><td>适用于周期性动作</td><td>适用于非同步动作</td></tr>
+<tr><td>难以处理复杂动作</td><td>灵活处理多接触动作</td></tr>
+</tbody></table>
+<p><strong>与 PFNN 的继承关系</strong>:</p>
+<ul>
+<li>PFNN: 全局相位，适用于 locomotion</li>
+<li>Style Modelling: 局部相位，适用于更复杂动作</li>
+<li>继承：相位作为解耦变量的思想</li>
+</ul>
+<p><strong>优点</strong>:</p>
+<ul>
+<li>实时 60+ FPS</li>
+<li>支持多种风格平滑过渡</li>
+<li>少样本风格学习</li>
+</ul>
+<p><strong>缺点</strong>:</p>
+<ul>
+<li>仅适用于 locomotion</li>
+<li>极端风格可能失真</li>
+</ul>
+<hr />
+<h3 id="225-phase-manifolds-相位流形插值-2023"><a class="header" href="#225-phase-manifolds-相位流形插值-2023">2.2.5 Phase Manifolds: 相位流形插值 (2023)</a></h3>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/212.html">212.md</a></p>
+<p><strong>核心创新</strong>: 使用 Periodic Autoencoder 学习相位变量，在相位流形空间进行插值生成过渡动作</p>
+<p><strong>注意</strong>: 虽然本论文与 Style Modelling (211) 同样使用局部相位表示，但其核心是相位流形插值用于 transition 生成，与 POMP (112) 的物理一致运动生成不同，本论文<strong>属于运动学相位系</strong>。</p>
+<p><strong>架构</strong>:</p>
+<pre class="mermaid">flowchart TB
+    start[&quot;起始帧 s&quot;] --&gt; PAE[&quot;Periodic&lt;br/&gt;Autoencoder&quot;]
+    target[&quot;目标帧 t&quot;] --&gt; PAE
+    duration[&quot;过渡时长 T&quot;] --&gt; Interp[&quot;相位流形插值&quot;]
+    PAE --&gt; PhaseS[&quot;起始相位φ_s&quot;]
+    PAE --&gt; PhaseT[&quot;目标相位φ_t&quot;]
+    PhaseS --&gt; Interp
+    PhaseT --&gt; Interp
+    Interp --&gt; MoE[&quot;Mixture of Experts&quot;]
+    MoE --&gt; Motion[&quot;过渡动作序列&quot;]
+</pre>
+<p><strong>相位流形约束</strong>:</p>
+<ul>
+<li>相位在单位圆上：$\phi \in [0, 2\pi)$</li>
+<li>周期性：$\phi(t) = \phi(t + T)$</li>
+<li>流形插值：$\phi_t = \text{slerp}(\phi_s, \phi_t, t)$（球面线性插值）</li>
+</ul>
+<p><strong>与 Style Modelling 的关系</strong>:</p>
+<ul>
+<li><strong>共同点</strong>: 都使用局部相位表示解耦身体部位</li>
+<li><strong>差异</strong>: Style Modelling 用于风格转换，Phase Manifolds 用于过渡生成</li>
+</ul>
+<p><strong>与 POMP 的差异</strong>:</p>
+<ul>
+<li><strong>Phase Manifolds (212)</strong>: 运动学过渡生成，输出关节位置</li>
+<li><strong>POMP (112)</strong>: 物理一致运动生成，输出关节力矩 + 物理仿真</li>
+</ul>
+<p><strong>优点</strong>:</p>
+<ul>
+<li>生成自然流畅的过渡</li>
+<li>支持用户约束（end effector 位置）</li>
+<li>多样化过渡生成</li>
+</ul>
+<p><strong>缺点</strong>:</p>
+<ul>
+<li>依赖训练数据</li>
+<li>长过渡质量下降</li>
+<li>无法处理物理交互</li>
+</ul>
+<hr />
+<h3 id="23-流派二rtn-recurrent-transition-networks-siggraph-2018"><a class="header" href="#23-流派二rtn-recurrent-transition-networks-siggraph-2018">2.3 流派二：RTN: Recurrent Transition Networks (SIGGRAPH 2018)</a></h3>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/210.html">210.md</a></p>
+<p><strong>核心创新</strong>: 首个专门为 <strong>transition 生成</strong>设计的未来感知（future-aware）深度循环网络</p>
+<p><strong>背景</strong>: 在大型游戏中，动画图（Animation Graph）需要大量 transition 动画。传统方法的问题：</p>
+<ul>
+<li><strong>手工制作 transition 非常耗时</strong>：动画师需要手动制作大量的过渡动画</li>
+<li><strong>内存占用大</strong>：Motion Graph 方法需要将动画数据和图结构加载到内存中</li>
+<li><strong>扩展性差</strong>：随着数据集增大，内存需求线性增长</li>
+<li><strong>需要标注</strong>：很多方法需要 gait、phase、contact 等标签</li>
+</ul>
+<p><strong>方法框架</strong>:</p>
+<pre class="mermaid">flowchart TB
+    past[&quot;过去上下文&lt;br/&gt;10 帧&quot;] --&gt; Enc[&quot;Frame Encoder&quot;]
+    target[&quot;目标姿态&lt;br/&gt;归一化&quot;] --&gt; TargetEnc[&quot;Target Encoder&quot;]
+    offset[&quot;全局偏移&lt;br/&gt;目标 - 当前&quot;] --&gt; OffsetEnc[&quot;Offset Encoder&quot;]
+
+    Enc --&gt; LSTM[&quot;改进的 LSTM&lt;br/&gt;512 单元&quot;]
+    TargetEnc --&gt; LSTM
+    OffsetEnc --&gt; LSTM
+
+    LSTM --&gt; Dec[&quot;Frame Decoder&quot;]
+    Dec --&gt; out[&quot;下一帧预测&quot;]
+
+    style Enc fill:#e1f5fe
+    style LSTM fill:#fff3e0
+    style Dec fill:#e8f5e9
+</pre>
+<p><strong>核心架构</strong>:</p>
+<table><thead><tr><th>组件</th><th>架构</th><th>作用</th></tr></thead><tbody>
+<tr><td><strong>Frame Encoder</strong></td><td>2 层 MLP, 512 单元</td><td>编码当前帧 + 地形（可选）</td></tr>
+<tr><td><strong>Target Encoder</strong></td><td>2 层 MLP, 128 单元</td><td>编码目标姿态（整序列恒定）</td></tr>
+<tr><td><strong>Offset Encoder</strong></td><td>2 层 MLP, 128 单元</td><td>编码目标与当前的差异</td></tr>
+<tr><td><strong>Recurrent Generator</strong></td><td>改进 LSTM, 512 单元</td><td>添加未来上下文条件化权重</td></tr>
+<tr><td><strong>Frame Decoder</strong></td><td>2 层 MLP</td><td>输出下一帧</td></tr>
+</tbody></table>
+<p><strong>改进的 LSTM</strong>:</p>
+<p>$$i_t = \alpha(W^{(i)}h^E_t + U^{(i)}h^R_{t-1} + C^{(i)}h^{F,O}<em>t + b^{(i)})$$
+$$o_t = \alpha(W^{(o)}h^E_t + U^{(o)}h^R</em>{t-1} + C^{(o)}h^{F,O}<em>t + b^{(o)})$$
+$$f_t = \alpha(W^{(f)}h^E_t + U^{(f)}h^R</em>{t-1} + C^{(f)}h^{F,O}_t + b^{(f)})$$
+$$\hat{c}<em>t = W^{(c)}h^E_t + W^{(c)}h^R</em>{t-1} + C^{(c)}h^{F,O}<em>t + b^{(c)}$$
+$$c_t = f_t \odot c</em>{t-1} + i_t \odot \tau(\hat{c}_t)$$
+$$h^R_t = o_t \odot \tau(c_t)$$</p>
+<p><strong>关键设计</strong>:</p>
+<ul>
+<li>添加了 $C^{(\cdot)}$ 权重用于未来上下文条件化</li>
+<li>Hidden State 初始化器：学习逆函数 $H(x_{past_first}) \to (h_0, c_0)$</li>
+<li>地形感知：通过局部高度图（13×13 网格）实现崎岖地形导航</li>
+</ul>
+<p><strong>数据表示</strong>:</p>
+<ul>
+<li>根节点相对位置：$\tilde{x}<em>t = [v_t, j^t_1, ..., j^t</em>{K-1}]^T$</li>
+<li>根节点速度：$v_t = r_t - r_{t-1}$</li>
+<li>标准化：$x_t = (\tilde{x}_t - \mu_x) / \sigma_x$</li>
+</ul>
+<p><strong>训练细节</strong>:</p>
+<ul>
+<li>Transition 长度：30 帧（1 秒）</li>
+<li>Past context：10 帧</li>
+<li>Future context：2 帧（目标姿态）</li>
+<li>总窗口长度：50 帧</li>
+<li>损失函数：$\mathcal{L} = \frac{1}{P} \sum_{t=1}^{P} ||x_{t+1} - \hat{x}_{t+1}||^2$</li>
+<li><strong>无需任何 gait、phase、contact 或 action 标签</strong></li>
+</ul>
+<p><strong>优点</strong>:</p>
+<ul>
+<li>自动生成高质量 transition，无需手工制作</li>
+<li>固定大小的网络，内存占用恒定</li>
+<li>无需任何标注即可训练</li>
+<li>质量媲美 Mocap ground truth</li>
+</ul>
+<p><strong>缺点</strong>:</p>
+<ul>
+<li>Transition 长度固定，需要预设</li>
+<li>自回归生成，推理速度取决于长度</li>
+<li>无法处理复杂障碍物</li>
+</ul>
+<p><strong>与 PFNN 的对比</strong>:</p>
+<ul>
+<li>PFNN：相位条件化，生成连续 locomotion</li>
+<li>RTN：transition 专用，连接两个状态</li>
+<li>PFNN 需要相位标注，RTN 无需标注</li>
+</ul>
+<p><strong>应用场景</strong>:</p>
+<ol>
+<li><strong>Animation Graph 的 transition 节点</strong>：替代手工制作的过渡动画</li>
+<li><strong>动画超分辨率</strong>：从 1fps 压缩动画恢复</li>
+<li><strong>地形导航</strong>：崎岖地形上的长 transition</li>
+</ol>
+<hr />
+<h3 id="24-流派三motion-matching-系"><a class="header" href="#24-流派三motion-matching-系">2.4 流派三：Motion Matching 系</a></h3>
+<p><strong>核心思想</strong>：从动作数据库搜索/预测最匹配当前状态的帧。</p>
+<p><strong>演进路径</strong>：</p>
+<pre class="mermaid">flowchart LR
+    MM[&quot;Motion Matching (2019)&lt;br/&gt;工业标准&quot;] --&gt; LMM[&quot;Learned Motion Matching (2020)&lt;br/&gt;神经网络替代&quot;]
+    LMM --&gt; MOCHA[&quot;MOCHA (2023)&lt;br/&gt;角色化扩展&quot;]
+</pre>
+<p><strong>Motion Matching 核心流程</strong>：</p>
+<ol>
+<li>提取当前帧特征（姿势、速度、轨迹）</li>
+<li>在数据库中搜索最近邻</li>
+<li>返回对应帧并推进索引</li>
+</ol>
+<p><strong>Learned Motion Matching 创新</strong>：用三个神经网络替代数据库搜索，固定内存占用。</p>
+<p><strong>MOCHA 扩展</strong>：在 Learned Motion Matching 基础上，增加 Neural Context Matcher 实现角色风格转换和体型适配。</p>
+<hr />
+<h3 id="241-learned-motion-matching-siggraph-2020"><a class="header" href="#241-learned-motion-matching-siggraph-2020">2.4.1 Learned Motion Matching (SIGGRAPH 2020)</a></h3>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/208.html">208.md</a></p>
+<p><strong>核心创新</strong>: 用三个神经网络替代 Motion Matching 的数据库搜索</p>
+<p><strong>背景</strong>: Motion Matching 是游戏工业标准，但需要存储海量动画数据库，内存占用随数据量线性增长。</p>
+<p><strong>三网络功能</strong>:</p>
+<table><thead><tr><th>网络</th><th>输入</th><th>输出</th><th>替代功能</th></tr></thead><tbody>
+<tr><td><strong>Decompressor</strong></td><td>特征向量 x + 潜变量 z</td><td>姿态 y</td><td>Animation Database 查找</td></tr>
+<tr><td><strong>Projector</strong></td><td>查询特征向量</td><td>最近邻索引 k*</td><td>最近邻搜索</td></tr>
+<tr><td><strong>Stepper</strong></td><td>当前索引 k*</td><td>下一帧索引</td><td>数据库索引推进</td></tr>
+</tbody></table>
+<p><strong>优点</strong>:</p>
+<ul>
+<li>保留 Motion Matching 的质量和可控性</li>
+<li>固定内存占用（网络权重），不随数据量增长</li>
+<li>已应用于多个 AAA 游戏</li>
+</ul>
+<p><strong>缺点</strong>:</p>
+<ul>
+<li>训练时间比原始 Motion Matching 长</li>
+<li>网络预测 vs 精确搜索有轻微质量损失</li>
+</ul>
+<hr />
+<h3 id="242-mocha-real-time-motion-characterization-siggraph-asia-2023"><a class="header" href="#242-mocha-real-time-motion-characterization-siggraph-asia-2023">2.4.2 MOCHA: Real-Time Motion Characterization (SIGGRAPH Asia 2023)</a></h3>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/209.html">209.md</a></p>
+<p><strong>核心创新</strong>: 首个实时角色表征框架，<strong>同时转换动作风格和身体比例</strong></p>
+<p><strong>背景</strong>: 将中性动作转换为特定角色风格（如僵尸、公主、小丑），同时适配不同体型。</p>
+<p><strong>架构</strong>:</p>
+<pre class="mermaid">flowchart TB
+    src[&quot;Source Motion&lt;br/&gt;中性动作&quot;] --&gt; BodyEnc[&quot;Bodypart Encoder&lt;br/&gt;6 身体部位&quot;]
+    BodyEnc --&gt; SrcFeat[&quot;Source Feature&quot;]
+    SrcFeat --&gt; NCM[&quot;Neural Context Matcher&lt;br/&gt;C-VAE + 自回归&quot;]
+    NCM --&gt; CharFeat[&quot;Character Feature&quot;]
+    CharFeat --&gt; Charz[&quot;Characterizer&lt;br/&gt;Transformer+AdaIN&quot;]
+    SrcFeat --&gt; Charz
+    Charz --&gt; OutFeat[&quot;Translated Feature&quot;]
+    OutFeat --&gt; Output[&quot;Characterized Motion&quot;]
+</pre>
+<p><strong>AdaIN 公式</strong>:</p>
+<p>$$
+\text{AdaIN}(z_{src}, z_{cha}) = \sigma(z_{cha}) \cdot \frac{z_{src} - \mu(z_{src})}{\sigma(z_{src})} + \mu(z_{cha})
+$$</p>
+<p><strong>NCM Prior</strong>:</p>
+<p>$$
+p(s_i | z_{i-1}^{cha}, f(z_i^{src})) = \mathcal{N}(\mu, \sigma)
+$$</p>
+<p><strong>与 Style Modelling 的继承关系</strong>:</p>
+<ul>
+<li>Style Modelling: AdaIN 用于风格转换</li>
+<li>MOCHA: AdaIN + Transformer，同时处理风格 + 体型</li>
+</ul>
+<p><strong>优点</strong>:</p>
+<ul>
+<li>实时 60 FPS</li>
+<li>同时处理风格转换 + 身体比例适配</li>
+<li>支持稀疏输入（VR tracker）</li>
+</ul>
+<p><strong>缺点</strong>:</p>
+<ul>
+<li>训练数据中的角色有限，新角色需重新训练</li>
+<li>极端风格可能失真</li>
+</ul>
+<hr />
+<h3 id="25-流派四扩散模型系-diffusion-based-methods"><a class="header" href="#25-流派四扩散模型系-diffusion-based-methods">2.5 流派四：扩散模型系 (Diffusion-based Methods)</a></h3>
+<p><strong>核心挑战</strong>：标准扩散模型需要 1000 步去噪，无法满足实时性要求（60 FPS）。</p>
+<p><strong>演进路径</strong>：</p>
+<pre class="mermaid">flowchart TB
+    DM[&quot;标准扩散模型&lt;br/&gt;1000 步去噪&quot;] --&gt; AMDM[&quot;A-MDM (2024)&lt;br/&gt;自回归 +50 步&quot;]
+    DM --&gt; CAMDM[&quot;CAMDM (2024)&lt;br/&gt;8 步 + 风格转换&quot;]
+    DM --&gt; AAMDM[&quot;AAMDM (2024)&lt;br/&gt;5 步 DD-GAN+ADM&quot;]
+    AMDM --&gt; DART[&quot;DART (2025)&lt;br/&gt;Latent Space Control&quot;]
+
+    subgraph 加速演进
+    AMDM -.-&gt;|50 步 | CAMDM
+    CAMDM -.-&gt;|8 步 | AAMDM
+    AAMDM -.-&gt;|5 步 | DART
+    end
+</pre>
+<p><strong>加速策略对比</strong>：</p>
+<table><thead><tr><th>方法</th><th>去噪步数</th><th>加速策略</th><th>实时性</th></tr></thead><tbody>
+<tr><td><strong>A-MDM</strong></td><td>50 步</td><td>自回归设计</td><td>30+ FPS</td></tr>
+<tr><td><strong>CAMDM</strong></td><td>8 步</td><td>条件化 + 引导采样</td><td>60+ FPS</td></tr>
+<tr><td><strong>AAMDM</strong></td><td>5 步</td><td>DD-GAN+ADM 级联</td><td>60+ FPS</td></tr>
+<tr><td><strong>DART</strong></td><td>~20 步</td><td>Latent 空间扩散</td><td>60+ FPS</td></tr>
+</tbody></table>
+<hr />
+<h4 id="251-a-mdm-auto-regressive-motion-diffusion-model-siggraph-2024"><a class="header" href="#251-a-mdm-auto-regressive-motion-diffusion-model-siggraph-2024">2.5.1 A-MDM: Auto-regressive Motion Diffusion Model (SIGGRAPH 2024)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/206.html">206.md</a></p>
+<p><strong>核心创新</strong>: 将扩散模型从 space-time 重新设计为 auto-regressive</p>
+<p><strong>自回归公式</strong>:</p>
+<p>$$
+p(x_{1:T}) = \prod_{t=1}^{T} p(x_t | x_{1:t-1})
+$$</p>
+<p><strong>架构</strong>: 简单 3 层 MLP，50 步去噪</p>
+<p><strong>控制套件</strong>:</p>
+<ul>
+<li>Task-oriented sampling</li>
+<li>Motion in-painting</li>
+<li>Keyframe in-betweening</li>
+<li>Hierarchical reinforcement learning</li>
+</ul>
+<p><strong>与 CAMDM 的差异</strong>:</p>
+<ul>
+<li>A-MDM: 强调控制套件，MLP 架构</li>
+<li>CAMDM: 强调风格转换，Transformer 架构</li>
+</ul>
+<hr />
+<h4 id="252-camdm-conditional-autoregressive-motion-diffusion-model-siggraph-2024"><a class="header" href="#252-camdm-conditional-autoregressive-motion-diffusion-model-siggraph-2024">2.5.2 CAMDM: Conditional Autoregressive Motion Diffusion Model (SIGGRAPH 2024)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/207.html">207.md</a></p>
+<p><strong>核心创新</strong>: <strong>8 步去噪</strong>实现实时高质量多样角色动画</p>
+<p><strong>关键技术</strong>:</p>
+<table><thead><tr><th>技术</th><th>作用</th></tr></thead><tbody>
+<tr><td><strong>分离条件 Tokenization</strong></td><td>每个控制条件独立 token，避免特征主导</td></tr>
+<tr><td><strong>Classifier-free guidance on history</strong></td><td>在历史动作上应用 guidance，实现风格转换</td></tr>
+<tr><td><strong>启发式轨迹扩展</strong></td><td>回收上次预测轨迹，避免抖动</td></tr>
+</tbody></table>
+<p><strong>条件输入</strong>:</p>
+<ul>
+<li>风格/步态</li>
+<li>移动速度</li>
+<li>朝向方向</li>
+<li>未来轨迹</li>
+</ul>
+<p><strong>优点</strong>:</p>
+<ul>
+<li>8 步去噪 ≈ 几毫秒，60+ FPS</li>
+<li>支持多风格平滑转换</li>
+<li>无需微调实现风格转换</li>
+</ul>
+<p><strong>缺点</strong>:</p>
+<ul>
+<li>8 步去噪仍有优化空间</li>
+<li>依赖 mocap 数据</li>
+</ul>
+<hr />
+<h4 id="253-aamdm-accelerated-auto-regressive-motion-diffusion-model-cvpr-2024"><a class="header" href="#253-aamdm-accelerated-auto-regressive-motion-diffusion-model-cvpr-2024">2.5.3 AAMDM: Accelerated Auto-regressive Motion Diffusion Model (CVPR 2024)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/204.html">204.md</a></p>
+<p><strong>核心创新</strong>: <strong>5 步去噪</strong> (3 DD-GAN + 2 ADM)</p>
+<p><strong>架构</strong>:</p>
+<pre><code>Autoencoder: 338D pose → 64D latent
+      ↓
+Generation Module: DD-GANs (3 步)
+      ↓
+Polishing Module: ADM (2 步)
+      ↓
+输出：高质量动作
+</code></pre>
+<p><strong>总去噪步数</strong>: $T_{AA} = T_{GAN} + T_{ADM} = 3 + 2 = 5$</p>
+<p><strong>与 CAMDM 的差异</strong>:</p>
+<ul>
+<li>CAMDM: 8 步，强调风格转换</li>
+<li>AAMDM: 5 步，强调加速</li>
+</ul>
+<hr />
+<h4 id="254-dartcontrol-diffusion-based-autoregressive-motion-model-iclr-2025"><a class="header" href="#254-dartcontrol-diffusion-based-autoregressive-motion-model-iclr-2025">2.5.4 DARTControl: Diffusion-based Autoregressive Motion Model (ICLR 2025)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/205.html">205.md</a></p>
+<p><strong>核心创新</strong>: Motion Primitive 表示 + Latent Space Control</p>
+<p><strong>Motion Primitive</strong>:</p>
+<ul>
+<li>H=2 帧历史（与前一 primitive 重叠）</li>
+<li>F=8 帧未来</li>
+</ul>
+<p><strong>Latent Space Control 方法</strong>:</p>
+<ol>
+<li><strong>优化方法</strong>: latent noise optimization</li>
+<li><strong>学习方法</strong>: MDP + RL (PPO)</li>
+</ol>
+<p><strong>优势</strong>: 10x 加速 vs FlowMDM</p>
+<p><strong>与 A-MDM 的差异</strong>:</p>
+<ul>
+<li>A-MDM: 原始空间扩散</li>
+<li>DART: Latent 空间扩散，更高效</li>
+</ul>
+<hr />
+<h3 id="26-运动学方法总结"><a class="header" href="#26-运动学方法总结">2.6 运动学方法总结</a></h3>
+<h4 id="四大流派核心思想对比"><a class="header" href="#四大流派核心思想对比">四大流派核心思想对比</a></h4>
+<table><thead><tr><th>流派</th><th>代表方法</th><th>核心贡献</th><th>典型应用</th></tr></thead><tbody>
+<tr><td><strong>相位系</strong></td><td>PFNN → Few-shot Styles → Local Phases → Style Modelling → Phase Manifolds</td><td>相位作为权重参数/条件输入，避免 artifacts</td><td>VR 化身、风格化动画、过渡生成</td></tr>
+<tr><td><strong>RTN (Transition Generation)</strong></td><td>RTN (2018)</td><td>RNN 连接两个状态</td><td>动画图 transition、超分辨率</td></tr>
+<tr><td><strong>Motion Matching 系</strong></td><td>MM → Learned MM → MOCHA</td><td>数据搜索/预测生成动作 + 角色化</td><td>游戏 NPC、在线游戏、角色设计</td></tr>
+<tr><td><strong>扩散模型系</strong></td><td>A-MDM → CAMDM → AAMDM → DART</td><td>概率扩散模型生成</td><td>电影动画、多样性生成</td></tr>
+</tbody></table>
+<h4 id="流派选择指南"><a class="header" href="#流派选择指南">流派选择指南</a></h4>
+<pre class="mermaid">flowchart TD
+    Q1[&quot;需要什么类型的控制？&quot;] --&gt; |风格转换 | A1[&quot;MOCHA / CAMDM / Style Modelling&quot;]
+    Q1 --&gt; |稀疏输入 VR | A2[&quot;PFNN / MOCHA&quot;]
+    Q1 --&gt; |高质量多样性 | A3[&quot;CAMDM / DART&quot;]
+    Q1 --&gt; |低内存占用 | A4[&quot;Learned Motion Matching&quot;]
+    Q1 --&gt; |transition 生成 | A5[&quot;RTN / Phase Manifolds&quot;]
+    Q1 --&gt; |少样本学习 | A6[&quot;Few-shot Styles&quot;]
+</pre>
+<h4 id="运动学方法详细对比"><a class="header" href="#运动学方法详细对比">运动学方法详细对比</a></h4>
+<table><thead><tr><th>方法</th><th>架构</th><th>去噪步数</th><th>FPS</th><th>风格转换</th><th>空间控制</th><th>物理感知</th></tr></thead><tbody>
+<tr><td><strong>PFNN</strong></td><td>混合专家</td><td>N/A</td><td>60+</td><td>△</td><td>△</td><td>✗</td></tr>
+<tr><td><strong>Few-shot Styles (214)</strong></td><td>残差适配器+CP 分解</td><td>N/A</td><td>60+</td><td>✓ (少样本)</td><td>△</td><td>✗</td></tr>
+<tr><td><strong>Local Motion Phases</strong></td><td>相位条件化</td><td>N/A</td><td>60+</td><td>✗</td><td>△</td><td>✗</td></tr>
+<tr><td><strong>Style Modelling</strong></td><td>FWT+ 相位</td><td>N/A</td><td>60+</td><td>✓</td><td>✗</td><td>✗</td></tr>
+<tr><td><strong>Phase Manifolds</strong></td><td>MoE+PAE</td><td>N/A</td><td>30+</td><td>✗</td><td>✓</td><td>✗</td></tr>
+<tr><td><strong>RTN</strong></td><td>LSTM</td><td>N/A</td><td>60+</td><td>✗</td><td>✓</td><td>△</td></tr>
+<tr><td><strong>Learned MM</strong></td><td>三网络</td><td>N/A</td><td>60+</td><td>✗</td><td>△</td><td>✗</td></tr>
+<tr><td><strong>MOCHA</strong></td><td>Transformer</td><td>N/A</td><td>60+</td><td>✓</td><td>✗</td><td>✗</td></tr>
+<tr><td><strong>A-MDM</strong></td><td>MLP</td><td>50</td><td>30+</td><td>△</td><td>△</td><td>✗</td></tr>
+<tr><td><strong>CAMDM</strong></td><td>Transformer</td><td>8</td><td>60+</td><td>✓</td><td>✓</td><td>✗</td></tr>
+<tr><td><strong>AAMDM</strong></td><td>DD-GAN+ADM</td><td>5</td><td>60+</td><td>△</td><td>✗</td><td>✗</td></tr>
+<tr><td><strong>DART</strong></td><td>Latent Diffusion</td><td>~20</td><td>60+</td><td>✓</td><td>✓</td><td>✗</td></tr>
+</tbody></table>
+<hr />
+<h3 id="27-常见问题解答-faq"><a class="header" href="#27-常见问题解答-faq">2.7 常见问题解答 (FAQ)</a></h3>
+<h4 id="q1-相位系的发展脉络是什么"><a class="header" href="#q1-相位系的发展脉络是什么">Q1: 相位系的发展脉络是什么？</a></h4>
+<p>相位系是一个统一的方法论，其核心思想是<strong>引入相位变量</strong> $\phi \in [0, 2\pi)$ <strong>作为动作的解耦表示</strong>，通过相位来参数化网络权重或作为条件输入，避免不同动作状态的混合导致 artifacts。</p>
+<p><strong>统一演进框架</strong>：</p>
+<table><thead><tr><th>阶段</th><th>代表论文</th><th>核心创新</th><th>相位角色</th></tr></thead><tbody>
+<tr><td><strong>全局相位</strong></td><td>PFNN (2017)</td><td>相位函数化网络权重</td><td>权重参数化变量</td></tr>
+<tr><td><strong>少样本风格</strong></td><td>Few-shot Styles (2018)</td><td>残差适配器 + CP 分解</td><td>风格条件</td></tr>
+<tr><td><strong>局部相位</strong></td><td>Local Phases (2020)</td><td>每个身体部位独立相位</td><td>多接触解耦</td></tr>
+<tr><td><strong>风格调制</strong></td><td>Style Modelling (2020)</td><td>特征变换 + 局部相位</td><td>风格注入条件</td></tr>
+<tr><td><strong>相位流形</strong></td><td>Phase Manifolds (2023)</td><td>周期自编码学习相位流形</td><td>流形空间坐标</td></tr>
+</tbody></table>
+<p><strong>关键洞察</strong>：</p>
+<ul>
+<li>Local Phases (2020) 是核心分支点，同时影响了 Style Modelling（风格转换）和 Phase Manifolds（过渡生成）两个方向</li>
+<li>相位系内部的区别仅在于<strong>相位的使用方式</strong>（全局 vs 局部、解耦 vs 流形插值），但核心思想统一</li>
+</ul>
+<p><strong>注意</strong>：POMP (2023) 虽然使用相位表示，但其核心是物理一致运动生成，输出关节力矩并使用物理仿真器，<strong>属于动力学方法</strong>（见 3.8.3 节）。</p>
+<h4 id="q2-mocha-属于哪个流派"><a class="header" href="#q2-mocha-属于哪个流派">Q2: MOCHA 属于哪个流派？</a></h4>
+<p><strong>MOCHA 属于 Motion Matching 系</strong>，而不是相位系。理由如下：</p>
+<table><thead><tr><th>维度</th><th>相位系</th><th>MOCHA</th></tr></thead><tbody>
+<tr><td><strong>核心机制</strong></td><td>相位作为权重参数或输入特征</td><td>Neural Context Matcher 上下文匹配</td></tr>
+<tr><td><strong>相位使用</strong></td><td>显式相位变量 $\phi$</td><td>无显式相位，用上下文特征条件化</td></tr>
+<tr><td><strong>继承关系</strong></td><td>PFNN → Local Phases → Style Modelling</td><td>Motion Matching → Learned MM → MOCHA</td></tr>
+</tbody></table>
+<p><strong>MOCHA 的核心贡献</strong>：</p>
+<ol>
+<li><strong>Neural Context Matcher</strong>: 用 C-VAE + 自回归生成替代数据库搜索</li>
+<li><strong>Characterizer</strong>: 用 AdaIN + Cross-Attention 实现风格转换和体型适配</li>
+</ol>
+<p><strong>注意</strong>：MOCHA 虽然使用了 AdaIN（继承自 Style Modelling），但这只是风格注入的工具，其核心架构是基于上下文匹配的，因此属于 Motion Matching 系。</p>
+<h4 id="q3-rtn-属于什么系"><a class="header" href="#q3-rtn-属于什么系">Q3: RTN 属于什么系？</a></h4>
+<p><strong>RTN 不属于任何主要流派</strong>，它是一个<strong>专用场景方法</strong>：</p>
+<table><thead><tr><th>维度</th><th>RTN</th><th>三大流派</th></tr></thead><tbody>
+<tr><td><strong>目标场景</strong></td><td>Transition 生成</td><td>连续 locomotion</td></tr>
+<tr><td><strong>相位需求</strong></td><td>无需相位</td><td>需要相位或类似机制</td></tr>
+<tr><td><strong>标注需求</strong></td><td>无需任何标注</td><td>通常需要相位/步态标注</td></tr>
+<tr><td><strong>网络结构</strong></td><td>改进 LSTM</td><td>多样化（混合专家、Transformer、扩散）</td></tr>
+</tbody></table>
+<p><strong>RTN 的定位</strong>：</p>
+<ul>
+<li>RTN 是一个特殊的存在，专门处理游戏动画图中的<strong>transition 生成</strong>问题</li>
+<li>它不属于相位系（无需相位）、不属于 Motion Matching 系（不用搜索）、不属于扩散模型系（2018 年工作）</li>
+<li>在流派选择指南中，RTN 作为&quot;transition 生成&quot;的专用方案被推荐</li>
+</ul>
+<hr />
+<h2 id="三基于动力学的方法-dynamics-based-methods"><a class="header" href="#三基于动力学的方法-dynamics-based-methods">三、基于动力学的方法 (Dynamics-based Methods)</a></h2>
+<p><strong>核心特征</strong>: 输出为<strong>关节力矩或 PD 控制目标</strong>，需要物理仿真器执行。</p>
+<h3 id="31-技术演进时间线"><a class="header" href="#31-技术演进时间线">3.1 技术演进时间线</a></h3>
+<pre class="mermaid">timeline
+    title 动力学方法发展时间线
+    2010 : Feature-Based : 高层物理特征
+    2017 : DeepLoco : 分层 RL+ 环境感知
+    2018 : DeepMimic : RL+ 模仿
+    2018 : Mode-Adaptive : 四足统一控制
+    2019 : DReCon : MM+RL
+    2021 : AMP : 对抗运动先验
+    2022 : ASE : 预训练技能库
+    2023 : ControlVAE : 状态条件先验
+    2023 : Perpetual : 实时虚拟化身
+    2023 : UniRep : 统一表示 + 蒸馏
+    2024 : PDP/DiffuseLoco : 扩散策略
+    2024 : MaskedMimic : 掩码运动补全
+    2025 : PARC : 迭代数据扩增
+    2025 : UniPhys : 统一规划 + 控制
+</pre>
+<h3 id="32-核心思想继承关系"><a class="header" href="#32-核心思想继承关系">3.2 核心思想继承关系</a></h3>
+<p>动力学方法经过十余年发展，形成了<strong>四条主要演进主线</strong>：</p>
+<pre class="mermaid">flowchart TB
+    subgraph RL[&quot;RL lineage&quot;]
+        FB[&quot;Feature-Based&quot;] --&gt; DL[&quot;DeepLoco&quot;]
+        DL --&gt; DM[&quot;DeepMimic&quot;]
+        DM --&gt; AMP[&quot;AMP&quot;]
+        AMP --&gt; ASE[&quot;ASE&quot;]
+    end
+
+    subgraph Hybrid[&quot;Hybrid lineage&quot;]
+        DL --&gt; DReCon[&quot;DReCon&lt;br/&gt;MM+RL&quot;]
+        DM --&gt; DReCon
+        DReCon --&gt; PDP[&quot;PDP&lt;br/&gt;RL 专家蒸馏&quot;]
+    end
+
+    subgraph Pretrain[&quot;Pretraining lineage&quot;]
+        ASE --&gt; CVAE[&quot;ControlVAE&quot;]
+        ASE --&gt; UniRep[&quot;Universal Representation&quot;]
+    end
+
+    subgraph Diffusion[&quot;Diffusion lineage&quot;]
+        PDP --&gt; DiffuseLoco[&quot;DiffuseLoco&quot;]
+        ASE --&gt; MaskedMimic[&quot;MaskedMimic&quot;]
+        MaskedMimic --&gt; UniPhys[&quot;UniPhys&quot;]
+        DReCon --&gt; PARC[&quot;PARC&lt;br/&gt;迭代扩增&quot;]
+    end
+</pre>
+<h4 id="四条演进主线详解"><a class="header" href="#四条演进主线详解">四条演进主线详解</a></h4>
+<table><thead><tr><th>主线</th><th>演进路径</th><th>核心问题</th><th>解决方案</th></tr></thead><tbody>
+<tr><td><strong>RL Lineage</strong></td><td>DeepLoco → DeepMimic → AMP → ASE</td><td>如何从数据学习控制策略？</td><td>分层 RL → RL 模仿 → 对抗学习 → 预训练技能库</td></tr>
+<tr><td><strong>Hybrid Lineage</strong></td><td>DeepLoco → DReCon → PDP</td><td>如何统一多技能控制？</td><td>分层架构 → 动态参考选择 → 多专家蒸馏</td></tr>
+<tr><td><strong>Pretraining Lineage</strong></td><td>ASE → ControlVAE → UniRep</td><td>如何提高样本效率？</td><td>对抗预训练 → 状态条件先验 → Prior+ 蒸馏 +RL 范式</td></tr>
+<tr><td><strong>Diffusion Lineage</strong></td><td>PDP → DiffuseLoco / ASE → MaskedMimic → UniPhys / DReCon → PARC</td><td>2024 年扩散模型如何应用？</td><td>扩散策略 / 掩码补全 / 迭代扩增</td></tr>
+</tbody></table>
+<p><strong>关键洞察</strong>：</p>
+<ul>
+<li><strong>DeepLoco (2017)</strong> 是分层 RL 的开创者，首次实现环境感知（32×32 高度图）+ 双控制器架构（HLC 规划 + LLC 执行）</li>
+<li><strong>DeepMimic (2018)</strong> 是深度学习时代的起点，首次证明 RL+ 模仿可以学习高质量动态动作（后空翻、旋转）</li>
+<li><strong>AMP (2021)</strong> 解决数据标注问题，从需要精确跟踪 → 无标注对抗学习</li>
+<li><strong>ASE (2022)</strong> 解决技能复用问题，预训练的技能库可以微调至下游任务</li>
+<li><strong>DReCon (2019)</strong> 开创混合控制范式，生成器 (MM) + 跟踪器 (RL) 的架构被 PDP/PARC 继承</li>
+<li><strong>2024 年趋势</strong>：扩散模型成为主流（DiffuseLoco、MaskedMimic、UniPhys、PARC）</li>
+</ul>
+<hr />
+<h3 id="33-主线一rl-模仿学习-rl-lineage"><a class="header" href="#33-主线一rl-模仿学习-rl-lineage">3.3 主线一：RL 模仿学习 (RL Lineage)</a></h3>
+<p><strong>演进路径</strong>: Feature-Based Control (2010) → DeepLoco (2017) → DeepMimic (2018) → AMP (2021) → ASE (2022)</p>
+<hr />
+<h4 id="331-feature-based-control-siggraph-2010"><a class="header" href="#331-feature-based-control-siggraph-2010">3.3.1 Feature-Based Control (SIGGRAPH 2010)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/200.html">200.md</a></p>
+<p><strong>核心思想</strong>: 用高层物理特征设计控制器</p>
+<p><strong>方法框架</strong>:</p>
+<pre class="mermaid">flowchart LR
+    Define[&quot;定义特征&quot;] --&gt; Obj[&quot;设计目标函数&quot;]
+    Obj --&gt; Priority[&quot;优先级优化&quot;]
+    Priority --&gt; Solve[&quot;求解关节力矩τ&quot;]
+</pre>
+<p><strong>关键公式</strong>:</p>
+<ul>
+<li>Setpoint 目标：$E(x) = ||\ddot{y}_d - \ddot{y}||^2$</li>
+<li>角动量目标：$E_{AM}(x) = ||\dot{L}_d - \dot{L}||^2$</li>
+<li>优先级优化：$h_i = \min_x E_i(x)$ s.t. $E_k(x) = h_k, \forall k &lt; i$</li>
+</ul>
+<p><strong>优点</strong>: 可解释、无需数据
+<strong>缺点</strong>: 实现复杂、动态性差</p>
+<hr />
+<h4 id="332-deeploco-siggraph-2017"><a class="header" href="#332-deeploco-siggraph-2017">3.3.2 DeepLoco (SIGGRAPH 2017)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/218.html">218.md</a></p>
+<p><strong>核心创新</strong>: 分层深度强化学习 + 环境感知</p>
+<p><strong>方法框架</strong>:</p>
+<pre class="mermaid">flowchart TB
+    Terrain[&quot;32×32 地形图&quot;] --&gt; HLC[&quot;高层控制器 HLC&lt;br/&gt;2Hz 规划步法&quot;]
+    HLC --&gt;|&quot;p̂₀, p̂₁, θ̂_root&quot;| LLC[&quot;低层控制器 LLC&lt;br/&gt;30Hz 执行动作&quot;]
+    LLC --&gt; PD[&quot;PD 控制器&quot;]
+    PD --&gt; Sim[&quot;物理仿真&quot;]
+</pre>
+<p><strong>分层架构</strong>:</p>
+<table><thead><tr><th>控制器</th><th>频率</th><th>输入</th><th>输出</th></tr></thead><tbody>
+<tr><td><strong>HLC</strong></td><td>2Hz</td><td>地形图 + 任务目标</td><td>步法计划 (p̂₀, p̂₁, θ̂_root)</td></tr>
+<tr><td><strong>LLC</strong></td><td>30Hz</td><td>状态 + 步法计划</td><td>关节 PD 目标</td></tr>
+</tbody></table>
+<p><strong>关键技术</strong>:</p>
+<ul>
+<li><strong>双线性相位变换</strong>: 将相位φ分 4 区间，强制不同阶段用不同子网络</li>
+<li><strong>参考动作引导</strong>: 不精确跟踪，只模仿风格</li>
+<li><strong>迁移学习</strong>: 同一 LLC 可复用多个 HLC 任务</li>
+</ul>
+<p><strong>优点</strong>: 环境感知、多任务支持、组件可复用
+<strong>缺点</strong>: 训练时间长 (LLC 2 天+HLC 7 天)、采样效率低</p>
+<hr />
+<h4 id="333-deepmimic-siggraph-2018"><a class="header" href="#333-deepmimic-siggraph-2018">3.3.3 DeepMimic (SIGGRAPH 2018)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/201.html">201.md</a></p>
+<p><strong>核心创新</strong>: 深度 RL + 模仿学习</p>
+<p><strong>方法框架</strong>:</p>
+<pre class="mermaid">flowchart LR
+    Mocap[&quot;参考动作 mocap&quot;] --&gt; Reward[&quot;定义奖励 r^I+r^G&quot;]
+    Reward --&gt; PPO[&quot;PPO 训练π(a|s)&quot;]
+    PPO --&gt; PD[&quot;PD 控制器执行&quot;]
+    PD --&gt; Sim[&quot;物理仿真&quot;]
+</pre>
+<p><strong>模仿奖励</strong>:</p>
+<p>$$
+r^I_t = w_p r^p_t + w_v r^v_t + w_e r^e_t + w_c r^c_t
+$$</p>
+<p><strong>训练技巧</strong>:</p>
+<ul>
+<li><strong>RSI (Reference State Initialization)</strong>: 从参考动作随机状态开始</li>
+<li><strong>ET (Early Termination)</strong>: 跌倒立即终止</li>
+<li><strong>相位条件化</strong>: $\phi_t = (t \mod T_{cycle}) / T_{cycle}$</li>
+</ul>
+<p><strong>优点</strong>: 动作质量高、可学习动态动作
+<strong>缺点</strong>: 每技能单独训练、样本效率低</p>
+<hr />
+<h3 id="34-主线二混合控制-hybrid-lineage"><a class="header" href="#34-主线二混合控制-hybrid-lineage">3.4 主线二：混合控制 (Hybrid Lineage)</a></h3>
+<p><strong>演进路径</strong>: DReCon (2019) → PDP (2024) → PARC (2025)</p>
+<p><strong>核心思想</strong>: 生成器（选择/生成参考轨迹）+ RL 跟踪器（保证物理稳定性）。</p>
+<hr />
+<h4 id="341-drecon-siggraph-asia-2019"><a class="header" href="#341-drecon-siggraph-asia-2019">3.4.1 DReCon (SIGGRAPH Asia 2019)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/190.html">190.md</a></p>
+<p><strong>核心架构</strong>:</p>
+<pre class="mermaid">flowchart LR
+    MM[&quot;Motion Matching&quot;] --&gt; RL[&quot;RL 规划&quot;]
+    RL --&gt; PD[&quot;PD 执行&quot;]
+    PD --&gt; Sim[&quot;物理仿真&quot;]
+    Sim --&gt; MM
+</pre>
+<p><strong>创新点</strong>:</p>
+<ul>
+<li>用 Motion Matching 替代 mocap 参考轨迹</li>
+<li>RL 输出 PD 目标而非直接力矩</li>
+<li>支持实时响应</li>
+</ul>
+<p><strong>与 DeepMimic 的差异</strong>:</p>
+<ul>
+<li>DeepMimic: 跟踪单一 mocap 片段</li>
+<li>DReCon: 用 Motion Matching 选择参考轨迹</li>
+</ul>
+<hr />
+<h4 id="333-amp-adversarial-motion-priors-siggraph-2021"><a class="header" href="#333-amp-adversarial-motion-priors-siggraph-2021">3.3.3 AMP: Adversarial Motion Priors (SIGGRAPH 2021)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/198.html">198.md</a></p>
+<p><strong>核心创新</strong>: 用对抗学习从<strong>无标注数据</strong>学习</p>
+<p><strong>方法框架</strong>:</p>
+<pre class="mermaid">flowchart LR
+    Data[&quot;无标注 mocap&quot;] --&gt; D[&quot;判别器 D(s,s')&quot;]
+    D --&gt; Policy[&quot;策略π&quot;]
+    Policy --&gt; Adv[&quot;对抗奖励-log(1-D)&quot;]
+    Adv --&gt; Policy
+</pre>
+<p><strong>对抗奖励</strong>:</p>
+<p>$$
+r_{adv} = -\log(1 - D(s_t, s_{t+1}))
+$$</p>
+<p><strong>AMP 的核心优势</strong>:</p>
+<ol>
+<li>无需精确跟踪参考动作</li>
+<li>能够从多样化数据集学习</li>
+<li>自动学习技能组合</li>
+</ol>
+<p><strong>局限性</strong>:</p>
+<ul>
+<li>训练不稳定（对抗博弈）</li>
+<li>GAN+RL 训练难度大</li>
+</ul>
+<hr />
+<h4 id="334-ase-adversarial-skill-embeddings-siggraph-2022"><a class="header" href="#334-ase-adversarial-skill-embeddings-siggraph-2022">3.3.4 ASE: Adversarial Skill Embeddings (SIGGRAPH 2022)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/199.html">199.md</a></p>
+<p><strong>核心创新</strong>: 预训练通用技能库 + 下游微调</p>
+<p><strong>两阶段训练</strong>:</p>
+<pre class="mermaid">flowchart TB
+    subgraph PreTrain[&quot;阶段 1: 预训练&quot;]
+        Data[&quot;无标注数据集&quot;] --&gt; LowPolicy[&quot;低级策略π(a|s,z)&quot;]
+        Data --&gt; Discriminator[&quot;对抗 + 互信息&quot;]
+    end
+
+    subgraph TaskTrain[&quot;阶段 2: 任务训练&quot;]
+        Goal[&quot;任务目标 g&quot;] --&gt; HighPolicy[&quot;高级策略ω(z|s,g)&quot;]
+        LowPolicyFixed[&quot;低级策略 (固定)&quot;] --&gt; Output[&quot;输出动作 a&quot;]
+        HighPolicy --&gt; LowPolicyFixed
+    end
+
+    PreTrain --&gt; TaskTrain
+</pre>
+<p><strong>预训练目标</strong>:</p>
+<p>$$
+\max_{\pi} -D_{JS}(d_{\pi} || d_M) + \beta I(s, s'; z | \pi)
+$$</p>
+<p><strong>与 AMP 的差异</strong>:</p>
+<ul>
+<li>AMP: 每任务从头训练</li>
+<li>ASE: 预训练可复用，技能库学习</li>
+</ul>
+<p><strong>优点</strong>: 技能可复用、支持插值和组合
+<strong>缺点</strong>: 需要大规模并行模拟（Isaac Gym）</p>
+<hr />
+<h3 id="35-特殊应用四足动物控制-mode-adaptive"><a class="header" href="#35-特殊应用四足动物控制-mode-adaptive">3.5 特殊应用：四足动物控制 (Mode-Adaptive)</a></h3>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/213.html">213.md</a></p>
+<p><strong>核心创新</strong>: 单个神经网络处理多种四足动物步态</p>
+<p><strong>架构</strong>:</p>
+<pre class="mermaid">flowchart TB
+    state[&quot;角色状态&quot;] --&gt; ModeEst[&quot;Mode 估计&quot;]
+    cmd[&quot;用户命令&quot;] --&gt; ModeEst
+    terrain[&quot;地形信息&quot;] --&gt; ModeEst
+    ModeEst --&gt; Adaptive[&quot;Adaptive 权重&quot;]
+    state --&gt; Control[&quot;控制器&quot;]
+    cmd --&gt; Control
+    Adaptive --&gt; Control
+    Control --&gt; Action[&quot;关节目标&quot;]
+</pre>
+<p><strong>优点</strong>:</p>
+<ul>
+<li>流畅的步态切换</li>
+<li>适应不同地形</li>
+<li>自然运动质量</li>
+</ul>
+<p><strong>缺点</strong>:</p>
+<ul>
+<li>仅适用于四足动物</li>
+<li>需要 mocap 数据</li>
+</ul>
+<hr />
+<h3 id="36-主线三预训练与统一表示-pretraining-lineage"><a class="header" href="#36-主线三预训练与统一表示-pretraining-lineage">3.6 主线三：预训练与统一表示 (Pretraining Lineage)</a></h3>
+<p><strong>演进路径</strong>: ControlVAE (2023) → UniRep (2023) → MaskedMimic (2024) → UniPhys (2025)</p>
+<hr />
+<h4 id="361-controlvae-tog-2023"><a class="header" href="#361-controlvae-tog-2023">3.6.1 ControlVAE (TOG 2023)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/202.html">202.md</a></p>
+<p><strong>核心创新</strong>: 状态条件先验 + 世界模型</p>
+<p><strong>与 ASE 对比</strong>:
+| 维度 | ASE | ControlVAE |
+|------|-----|------------|
+| 先验类型 | 球面均匀分布 | 状态条件高斯 |
+| 学习方式 | 对抗 + 互信息 | 世界模型 + ELBO |
+| 技能表示 | 离散技能库 | 连续潜在空间 |</p>
+<hr />
+<h4 id="362-unirep-universal-humanoid-motion-representations-2023"><a class="header" href="#362-unirep-universal-humanoid-motion-representations-2023">3.6.2 UniRep: Universal Humanoid Motion Representations (2023)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/191.html">191.md</a></p>
+<p><strong>核心创新</strong>: 建立 <strong>Prior + Distillation + RL</strong> 的标准范式，用 CVAE 学习动作先验，再蒸馏进物理稳定的 Decoder</p>
+<p><strong>三阶段训练</strong>:</p>
+<pre class="mermaid">flowchart TB
+    Mocap[&quot;MoCap 数据&quot;] --&gt; CVAE[&quot;CVAE 训练&quot;]
+    CVAE --&gt; Prior[&quot;动作先验 z&quot;]
+
+    TO[&quot;轨迹优化器&quot;] --&gt; Stable[&quot;物理稳定轨迹&quot;]
+    Stable --&gt; Distill[&quot;蒸馏到 Decoder&quot;]
+
+    Prior --&gt; RL[&quot;高层 RL&quot;]
+    Distill --&gt; RL
+</pre>
+<p><strong>核心困境解决</strong>:</p>
+<ul>
+<li>MoCap 生成模型：动作自然但物理不稳定</li>
+<li>纯轨迹优化：物理稳定但动作单调</li>
+</ul>
+<p><strong>方案</strong>: 用蒸馏将物理稳定性灌进网络，保留 z 的多样性</p>
+<p><strong>优点</strong>:</p>
+<ul>
+<li>定型并普及了 Prior + Distillation + RL 的标准流水线</li>
+<li>动作自然性与物理稳定性兼顾</li>
+</ul>
+<p><strong>缺点</strong>:</p>
+<ul>
+<li>能力上限受限于轨迹优化器的求解能力</li>
+<li>仅覆盖简单 Locomotion（走、跑、转向等）</li>
+</ul>
+<hr />
+<h3 id="37-特殊应用实时虚拟化身-perpetual"><a class="header" href="#37-特殊应用实时虚拟化身-perpetual">3.7 特殊应用：实时虚拟化身 (Perpetual)</a></h3>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/196.html">196.md</a></p>
+<p><strong>核心创新</strong>: 实时虚拟化身控制系统</p>
+<p><strong>系统架构</strong>:</p>
+<pre class="mermaid">flowchart LR
+    Input[&quot;视频/动捕/控制信号&quot;] --&gt; MotionGen[&quot;运动生成&quot;]
+    MotionGen --&gt; Track[&quot;物理跟踪控制器&quot;]
+    Track --&gt; Output[&quot;物理稳定全身控制&quot;]
+    Output --&gt; Disturb[&quot;扰动恢复&quot;]
+    Disturb --&gt; Track
+</pre>
+<p><strong>特点</strong>:</p>
+<ul>
+<li>Meta 出品，面向 VR/AR 应用</li>
+<li>实时优先，支持多种输入源</li>
+<li>物理感知保证可行性</li>
+</ul>
+<p><strong>定位</strong>: 实时系统应用，不属于上述演进主线</p>
+<hr />
+<h3 id="38-主线四扩散策略-diffusion-lineage"><a class="header" href="#38-主线四扩散策略-diffusion-lineage">3.8 主线四：扩散策略 (Diffusion Lineage)</a></h3>
+<p><strong>演进路径</strong>: DiffuseLoco (2024)</p>
+<p><strong>核心思想</strong>: 使用扩散模型学习物理一致的控制策略。</p>
+<hr />
+<h4 id="381-diffuseloco-2024"><a class="header" href="#381-diffuseloco-2024">3.8.1 DiffuseLoco (2024)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/195.html">195.md</a></p>
+<p><strong>方法框架</strong>:</p>
+<pre class="mermaid">flowchart LR
+    Data[&quot;离线 mocap&quot;] --&gt; Diff[&quot;扩散模型π(a|s,goal)&quot;]
+    Diff --&gt; Distill[&quot;蒸馏 RL 策略&quot;]
+    Distill --&gt; Control[&quot;实时控制&quot;]
+</pre>
+<p><strong>优点</strong>: 离线训练、无需在线 RL</p>
+<hr />
+<h4 id="382-pomp-physics-consistent-motion-prior-cvpr-2024"><a class="header" href="#382-pomp-physics-consistent-motion-prior-cvpr-2024">3.8.2 POMP: Physics-consistent Motion Prior (CVPR 2024)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/112.html">112.md</a></p>
+<p><strong>核心创新</strong>: 基于相流形的物理一致运动先验，<strong>将动力学模块置于训练循环外</strong></p>
+<p><strong>注意</strong>: POMP 虽然使用相位表示（类似相位系），但其核心是<strong>物理一致的运动生成</strong>，输出关节力矩并使用物理仿真器，因此<strong>属于动力学方法</strong>而非运动学相位系。</p>
+<p><strong>架构</strong>:</p>
+<pre class="mermaid">flowchart TB
+    subgraph Input[&quot;输入&quot;]
+        state[&quot;角色状态 + 地形 + 轨迹&quot;]
+    end
+
+    subgraph Kinematic[&quot;运动学模块&quot;]
+        MoE[&quot;OrthoMoE Encoder&quot;]
+        Diff[&quot;Diffusion Decoder&quot;]
+    end
+
+    subgraph Dynamic[&quot;动力学模块&quot;]
+        IK[&quot;逆动力学 PD 控制&quot;]
+        FK[&quot;前向动力仿真&quot;]
+    end
+
+    subgraph Phase[&quot;相位编码模块&quot;]
+        PAE[&quot;Periodic Autoencoder&quot;]
+        Align[&quot;语义对齐&quot;]
+    end
+
+    Input --&gt; MoE
+    MoE --&gt; Diff
+    Diff --&gt; IK
+    IK --&gt; FK
+    FK --&gt; Align
+    Align --&gt; PAE
+    PAE --&gt; MoE
+
+    style Kinematic fill:#e1f5fe
+    style Dynamic fill:#fff3e0
+    style Phase fill:#e8f5e9
+</pre>
+<p><strong>三模块协作</strong>:</p>
+<ol>
+<li><strong>运动学模块</strong>: 基于扩散的运动先验生成初始姿态</li>
+<li><strong>动力学模块</strong>: 物理仿真确保物理合理性（接触力、碰撞）</li>
+<li><strong>相位编码模块</strong>: 将仿真姿态投影回运动先验的相流形</li>
+</ol>
+<p><strong>关键洞察</strong>:</p>
+<ul>
+<li>直接反馈仿真结果会导致误差累积</li>
+<li>相流形中的语义对齐解决领域鸿沟问题</li>
+<li>动力学模块在训练循环外，计算高效</li>
+</ul>
+<p><strong>优点</strong>:</p>
+<ul>
+<li>物理一致的运动生成</li>
+<li>实时响应物理扰动</li>
+<li>计算高效（动力学模块在训练循环外）</li>
+</ul>
+<p><strong>缺点</strong>:</p>
+<ul>
+<li>依赖地形和冲量数据提取</li>
+<li>复杂交互质量受限</li>
+</ul>
+<hr />
+<h4 id="383-pdp-physics-based-character-animation-via-diffusion-policy-2024"><a class="header" href="#383-pdp-physics-based-character-animation-via-diffusion-policy-2024">3.8.3 PDP: Physics-Based Character Animation via Diffusion Policy (2024)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/192.html">192.md</a></p>
+<p><strong>核心</strong>: RL 专家蒸馏 + 扩散策略</p>
+<p><strong>两阶段训练</strong>:</p>
+<ol>
+<li>训练多个单任务 RL 专家</li>
+<li>离线行为克隆蒸馏到单一 Diffusion Policy</li>
+</ol>
+<p><strong>与 DReCon 的继承关系</strong>:</p>
+<ul>
+<li>DReCon: Motion Matching + RL</li>
+<li>PDP: RL 专家 + Diffusion Policy</li>
+</ul>
+<hr />
+<h4 id="384-maskedmimic-siggraph-asia-2024"><a class="header" href="#384-maskedmimic-siggraph-asia-2024">3.8.4 MaskedMimic (SIGGRAPH Asia 2024)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/183.html">183.md</a></p>
+<p><strong>核心创新</strong>: 掩码运动补全统一多模态控制</p>
+<p><strong>CVAE 架构</strong>:</p>
+<ul>
+<li>输入：多模态控制信号（掩码关键帧、对象、文本等）</li>
+<li>输出：物理一致的 PD 控制目标</li>
+</ul>
+<p><strong>特点</strong>:</p>
+<ul>
+<li>无需奖励工程</li>
+<li>支持无缝任务切换</li>
+<li>实时响应能力</li>
+</ul>
+<p><strong>与 UniPhys 的对比</strong>:</p>
+<ul>
+<li>MaskedMimic: 掩码补全范式</li>
+<li>UniPhys: Diffusion Forcing 范式</li>
+</ul>
+<hr />
+<h4 id="385-parc-siggraph-2025"><a class="header" href="#385-parc-siggraph-2025">3.8.5 PARC (SIGGRAPH 2025)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/189.html">189.md</a></p>
+<p><strong>核心创新</strong>: 基于物理仿真的迭代数据扩增框架</p>
+<p><strong>迭代循环</strong>:</p>
+<pre class="mermaid">flowchart TB
+    Gen[&quot;Motion Generator&lt;br/&gt;扩散模型&quot;] --&gt; Synth[&quot;合成新地形轨迹&quot;]
+    Synth --&gt; Track[&quot;Motion Tracker&lt;br/&gt;RL 物理修正&quot;]
+    Track --&gt; Filter[&quot;质量筛选&quot;]
+    Filter --&gt; Dataset[&quot;数据集扩增&quot;]
+    Dataset --&gt; Gen
+</pre>
+<p><strong>四项关键机制防止性能退化</strong>:</p>
+<ol>
+<li><strong>固定采样比例</strong>: 保留原始 mocap 作为监督锚点</li>
+<li><strong>物理约束修正</strong>: RL 控制器修正为物理可信运动</li>
+<li><strong>质量筛选</strong>: 仅保留成功样本</li>
+<li><strong>小步迭代</strong>: 微调策略，防止分布漂移</li>
+</ol>
+<p><strong>应用场景</strong>: 敏捷地形穿越（如跑酷）</p>
+<p><strong>与 DReCon 的继承关系</strong>:</p>
+<ul>
+<li>DReCon: Motion Matching + RL 跟踪</li>
+<li>PARC: 扩散生成 + RL 跟踪 + 迭代扩增</li>
+</ul>
+<hr />
+<h4 id="386-uniphys-2025"><a class="header" href="#386-uniphys-2025">3.8.6 UniPhys (2025)</a></h4>
+<p><strong>论文</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/184.html">UniPhys: Unified Planner and Controller with Diffusion</a> (2025)</p>
+<p><strong>核心创新</strong>: 统一规划器 + 控制器，Diffusion Forcing 范式</p>
+<p><strong>方法框架</strong>:</p>
+<pre class="mermaid">flowchart LR
+    Mocap[&quot;mocap 数据&quot;] --&gt; Preprocess[&quot;PD 控制预处理&quot;]
+    Preprocess --&gt; GT[&quot;物理合理 GT&lt;br/&gt;动作略僵硬&quot;]
+    GT --&gt; Train[&quot;训练 Diffusion 模型&quot;]
+    MultiModal[&quot;多模态输入&lt;br/&gt;文本/轨迹/目标&quot;] --&gt; Infer[&quot;引导采样推理&quot;]
+    Train --&gt; Infer
+    Infer --&gt; Output[&quot;物理合理运动&quot;]
+</pre>
+<p><strong>与 MaskedMimic 对比</strong>:
+| 维度 | MaskedMimic | UniPhys |
+|------|-------------|---------|
+| 训练范式 | 掩码补全 | Diffusion Forcing |
+| PD 目标来源 | mocap+ 跟踪 | mocap+PD 预处理 |
+| 长序列处理 | 较短序列 | 噪声历史去噪 |</p>
+<p><strong>优点</strong>:</p>
+<ul>
+<li>无需强化学习和蒸馏</li>
+<li>训练简单，单模型推理</li>
+<li>物理合理但动作略僵硬</li>
+</ul>
+<hr />
+<h3 id="39-动力学方法对比"><a class="header" href="#39-动力学方法对比">3.9 动力学方法对比</a></h3>
+<table><thead><tr><th>方法</th><th>训练范式</th><th>样本效率</th><th>动作质量</th><th>抗扰动</th><th>实时性</th></tr></thead><tbody>
+<tr><td><strong>Feature-Based</strong></td><td>无需训练</td><td>N/A</td><td>中</td><td>中</td><td>✓</td></tr>
+<tr><td><strong>DeepLoco</strong></td><td>分层 RL</td><td>低</td><td>高</td><td>高</td><td>✓</td></tr>
+<tr><td><strong>DeepMimic</strong></td><td>RL+ 模仿</td><td>低</td><td>极高</td><td>高</td><td>✓</td></tr>
+<tr><td><strong>Mode-Adaptive</strong></td><td>模仿学习</td><td>中</td><td>高</td><td>高</td><td>✓</td></tr>
+<tr><td><strong>DReCon</strong></td><td>RL+MM</td><td>中</td><td>高</td><td>高</td><td>✓</td></tr>
+<tr><td><strong>AMP</strong></td><td>对抗学习</td><td>低</td><td>极高</td><td>高</td><td>✓</td></tr>
+<tr><td><strong>ASE</strong></td><td>预训练 + 微调</td><td>高</td><td>极高</td><td>高</td><td>✓</td></tr>
+<tr><td><strong>ControlVAE</strong></td><td>世界模型</td><td>高</td><td>高</td><td>高</td><td>✓</td></tr>
+<tr><td><strong>Perpetual</strong></td><td>实时跟踪</td><td>高</td><td>高</td><td>高</td><td>✓</td></tr>
+<tr><td><strong>UniRep</strong></td><td>Prior+ 蒸馏 +RL</td><td>高</td><td>高</td><td>高</td><td>✓</td></tr>
+<tr><td><strong>DiffuseLoco</strong></td><td>离线蒸馏</td><td>高</td><td>极高</td><td>高</td><td>✓</td></tr>
+<tr><td><strong>PDP</strong></td><td>RL 专家蒸馏</td><td>中</td><td>极高</td><td>高</td><td>✓</td></tr>
+<tr><td><strong>MaskedMimic</strong></td><td>掩码补全</td><td>高</td><td>极高</td><td>高</td><td>✓</td></tr>
+<tr><td><strong>PARC</strong></td><td>迭代扩增</td><td>高</td><td>极高</td><td>高</td><td>⚠️</td></tr>
+<tr><td><strong>UniPhys</strong></td><td>直接训练</td><td>高</td><td>高</td><td>高</td><td>⚠️</td></tr>
+</tbody></table>
+<hr />
+<h2 id="四运动学-vs-动力学技术选型指南"><a class="header" href="#四运动学-vs-动力学技术选型指南">四、运动学 vs 动力学：技术选型指南</a></h2>
+<h3 id="41-核心差异"><a class="header" href="#41-核心差异">4.1 核心差异</a></h3>
+<table><thead><tr><th>维度</th><th>运动学方法</th><th>动力学方法</th></tr></thead><tbody>
+<tr><td><strong>输出</strong></td><td>关节姿态/速度</td><td>关节力矩/PD 控制目标</td></tr>
+<tr><td><strong>物理仿真</strong></td><td>否</td><td>是</td></tr>
+<tr><td><strong>真实感来源</strong></td><td>数据驱动</td><td>物理约束 + 数据</td></tr>
+<tr><td><strong>抗扰动能力</strong></td><td>无</td><td>强</td></tr>
+<tr><td><strong>环境交互</strong></td><td>有限</td><td>强</td></tr>
+<tr><td><strong>训练成本</strong></td><td>低 - 中</td><td>中 - 高</td></tr>
+<tr><td><strong>实现难度</strong></td><td>低</td><td>高</td></tr>
+</tbody></table>
+<h3 id="42-思想演进总结"><a class="header" href="#42-思想演进总结">4.2 思想演进总结</a></h3>
+<h4 id="运动学方法演进主线"><a class="header" href="#运动学方法演进主线">运动学方法演进主线</a></h4>
+<ol>
+<li>
+<p><strong>相位表示线</strong> (PFNN → Style Modelling → MOCHA → Phase Manifolds)</p>
+<ul>
+<li>核心思想：用相位解耦不同动作状态</li>
+<li>演进：全局相位 → 局部相位 → 相位流形插值</li>
+</ul>
+</li>
+<li>
+<p><strong>Motion Matching 线</strong> (MM → Learned MM → MOCHA)</p>
+<ul>
+<li>核心思想：用数据搜索生成动作</li>
+<li>演进：数据库搜索 → 神经网络预测 → 角色化扩展</li>
+</ul>
+</li>
+<li>
+<p><strong>扩散模型线</strong> (A-MDM → CAMDM → AAMDM → DART)</p>
+<ul>
+<li>核心思想：扩散模型高质量生成</li>
+<li>演进：1000 步 → 50 步 → 8 步 → 5 步，同时支持实时控制</li>
+</ul>
+</li>
+</ol>
+<h4 id="动力学方法演进主线"><a class="header" href="#动力学方法演进主线">动力学方法演进主线</a></h4>
+<ol>
+<li>
+<p><strong>RL 模仿线</strong> (DeepMimic → AMP → ASE)</p>
+<ul>
+<li>核心思想：从 mocap 数据学习控制策略</li>
+<li>演进：单技能跟踪 → 对抗先验 → 预训练技能库</li>
+</ul>
+</li>
+<li>
+<p><strong>混合控制线</strong> (DReCon → PDP → PARC)</p>
+<ul>
+<li>核心思想：生成器 + RL 跟踪</li>
+<li>演进：Motion Matching → RL 专家 → 扩散模型 + 迭代扩增</li>
+</ul>
+</li>
+<li>
+<p><strong>统一表示线</strong> (ControlVAE → UniRep → MaskedMimic → UniPhys)</p>
+<ul>
+<li>核心思想：统一潜在空间表示</li>
+<li>演进：状态条件先验 → Prior+ 蒸馏 → 掩码补全 → Diffusion Forcing</li>
+</ul>
+</li>
+</ol>
+<h3 id="43-应用场景推荐"><a class="header" href="#43-应用场景推荐">4.3 应用场景推荐</a></h3>
+<table><thead><tr><th>应用场景</th><th>推荐方法</th><th>理由</th></tr></thead><tbody>
+<tr><td><strong>游戏 NPC</strong></td><td>DeepMimic / ASE / Learned MM</td><td>实时、质量高、抗扰动</td></tr>
+<tr><td><strong>电影动画</strong></td><td>CAMDM / DART / MOCHA</td><td>多样性、风格控制、无需物理</td></tr>
+<tr><td><strong>VR 化身</strong></td><td>PFNN / CAMDM / MOCHA / Perpetual</td><td>低延迟、稀疏输入支持</td></tr>
+<tr><td><strong>机器人仿真</strong></td><td>Feature-Based + RL / ASE</td><td>安全、可解释、物理正确</td></tr>
+<tr><td><strong>在线游戏</strong></td><td>Learned Motion Matching</td><td>低内存、服务器友好</td></tr>
+<tr><td><strong>角色设计</strong></td><td>MOCHA / Style Modelling</td><td>风格转换、体型适配</td></tr>
+<tr><td><strong>四足动物</strong></td><td>Mode-Adaptive</td><td>统一多步态控制</td></tr>
+<tr><td><strong>敏捷地形</strong></td><td>PARC / RTN (地形版)</td><td>复杂地形穿越</td></tr>
+<tr><td><strong>多任务控制</strong></td><td>MaskedMimic / UniPhys</td><td>统一框架处理多模态输入</td></tr>
+</tbody></table>
+<h3 id="44-方法选择决策树"><a class="header" href="#44-方法选择决策树">4.4 方法选择决策树</a></h3>
+<pre class="mermaid">flowchart TD
+    Q1[&quot;需要物理仿真/抗扰动？&quot;] --&gt; |否 | A1[&quot;运动学方法&quot;]
+    Q1 --&gt; |是 | A2[&quot;动力学方法&quot;]
+
+    A1 --&gt; Q2[&quot;需要风格转换？&quot;]
+    Q2 --&gt; |是 | A3[&quot;MOCHA / Style Modelling / CAMDM&quot;]
+    Q2 --&gt; |否 | A4[&quot;PFNN / Learned MM / AAMDM&quot;]
+
+    A2 --&gt; Q3[&quot;有无标注数据？&quot;]
+    Q3 --&gt; |无 | A5[&quot;AMP / ASE&quot;]
+    Q3 --&gt; |有 | A6[&quot;DeepMimic / DiffuseLoco&quot;]
+
+    A6 --&gt; Q4[&quot;需要多模态控制？&quot;]
+    Q4 --&gt; |是 | A7[&quot;MaskedMimic / UniPhys&quot;]
+    Q4 --&gt; |否 | A8[&quot;PDP / DiffuseLoco&quot;]
+
+    A2 --&gt; Q5[&quot;需要敏捷地形穿越？&quot;]
+    Q5 --&gt; |是 | A9[&quot;PARC&quot;]
+</pre>
+<hr />
+<h2 id="五开放性问题与未来趋势"><a class="header" href="#五开放性问题与未来趋势">五、开放性问题与未来趋势</a></h2>
+<h3 id="51-技术挑战"><a class="header" href="#51-技术挑战">5.1 技术挑战</a></h3>
+<ol>
+<li>
+<p><strong>实时性与质量权衡</strong></p>
+<ul>
+<li>扩散模型推理速度仍是瓶颈</li>
+<li>方向：一致性模型、蒸馏、更少去噪步数</li>
+</ul>
+</li>
+<li>
+<p><strong>长时序规划</strong></p>
+<ul>
+<li>当前方法多为短时域反应式</li>
+<li>方向：分层控制、世界模型、Diffusion Forcing</li>
+</ul>
+</li>
+<li>
+<p><strong>多角色泛化</strong></p>
+<ul>
+<li>技能绑定特定形态</li>
+<li>方向：形态无关表示、零样本迁移</li>
+</ul>
+</li>
+<li>
+<p><strong>与语言模型结合</strong></p>
+<ul>
+<li>自然语言指令驱动</li>
+<li>方向：LLM + 运动生成联合训练</li>
+</ul>
+</li>
+<li>
+<p><strong>在线适应</strong></p>
+<ul>
+<li>适应新环境、新扰动</li>
+<li>方向：Test-Time Training、元学习、迭代扩增（如 PARC）</li>
+</ul>
+</li>
+</ol>
+<h3 id="52-未来趋势"><a class="header" href="#52-未来趋势">5.2 未来趋势</a></h3>
+<ol>
+<li>
+<p><strong>运动学 + 动力学融合</strong></p>
+<ul>
+<li>运动学方法生成参考轨迹</li>
+<li>动力学方法保证物理可行性</li>
+<li>代表工作：UniPhys、PARC</li>
+</ul>
+</li>
+<li>
+<p><strong>世界模型 + 扩散</strong></p>
+<ul>
+<li>学习可微物理引擎</li>
+<li>在 latent space 规划</li>
+</ul>
+</li>
+<li>
+<p><strong>多模态大模型</strong></p>
+<ul>
+<li>视觉 + 语言 + 运动联合训练</li>
+<li>具身智能 (Embodied AI)</li>
+</ul>
+</li>
+<li>
+<p><strong>自动技能发现</strong></p>
+<ul>
+<li>无监督发现技能层级</li>
+<li>类似 LLM 的 emergent abilities</li>
+</ul>
+</li>
+<li>
+<p><strong>数据高效学习</strong></p>
+<ul>
+<li>少样本风格学习</li>
+<li>迭代数据扩增（PARC 范式）</li>
+</ul>
+</li>
+</ol>
+<hr />
+<h2 id="六关键论文索引"><a class="header" href="#六关键论文索引">六、关键论文索引</a></h2>
+<h3 id="运动学方法"><a class="header" href="#运动学方法">运动学方法</a></h3>
+<table><thead><tr><th>论文</th><th>年份</th><th>链接</th><th>核心贡献</th></tr></thead><tbody>
+<tr><td>PFNN</td><td>2017</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/113.html">113</a></td><td>相位函数化权重</td></tr>
+<tr><td><strong>Few-shot Locomotion Styles</strong></td><td><strong>2018</strong></td><td><strong><a href="https://caterpillarstudygroup.github.io/ReadPapers/214.html">214</a></strong></td><td><strong>残差适配器 +CP 分解，少样本风格学习</strong></td></tr>
+<tr><td>Local Motion Phases</td><td>2020</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/216.html">216</a></td><td>局部相位表示</td></tr>
+<tr><td>RTN</td><td>2018</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/210.html">210</a></td><td>循环转移网络</td></tr>
+<tr><td>Style Modelling</td><td>2020</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/211.html">211</a></td><td>特征变换 + 局部相位</td></tr>
+<tr><td>Learned Motion Matching</td><td>2020</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/208.html">208</a></td><td>神经网络替代数据库</td></tr>
+<tr><td>MOCHA</td><td>2023</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/209.html">209</a></td><td>上下文匹配角色化</td></tr>
+<tr><td>Phase Manifolds</td><td>2023</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/212.html">212</a></td><td>相位流形中间帧</td></tr>
+<tr><td>POMP</td><td>2023</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/112.html">112</a></td><td>物理一致运动先验</td></tr>
+<tr><td>A-MDM</td><td>2024</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/206.html">206</a></td><td>自回归扩散模型</td></tr>
+<tr><td>CAMDM</td><td>2024</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/207.html">207</a></td><td>8 步去噪 + 风格转换</td></tr>
+<tr><td>AAMDM</td><td>2024</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/204.html">204</a></td><td>5 步 DD-GAN+ADM</td></tr>
+<tr><td>DARTControl</td><td>2025</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/205.html">205</a></td><td>潜在空间控制</td></tr>
+</tbody></table>
+<h3 id="动力学方法"><a class="header" href="#动力学方法">动力学方法</a></h3>
+<table><thead><tr><th>论文</th><th>年份</th><th>链接</th><th>核心贡献</th></tr></thead><tbody>
+<tr><td>Feature-Based Control</td><td>2010</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/200.html">200</a></td><td>高层物理特征控制</td></tr>
+<tr><td>DeepMimic</td><td>2018</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/201.html">201</a></td><td>RL+ 模仿学习</td></tr>
+<tr><td>Mode-Adaptive</td><td>2018</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/213.html">213</a></td><td>四足动物统一控制</td></tr>
+<tr><td>DReCon</td><td>2019</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/190.html">190</a></td><td>Motion Matching+RL</td></tr>
+<tr><td>AMP</td><td>2021</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/198.html">198</a></td><td>对抗运动先验</td></tr>
+<tr><td>ASE</td><td>2022</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/199.html">199</a></td><td>预训练技能嵌入</td></tr>
+<tr><td>ControlVAE</td><td>2023</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/202.html">202</a></td><td>状态条件先验</td></tr>
+<tr><td>Perpetual</td><td>2023</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/196.html">196</a></td><td>实时虚拟化身</td></tr>
+<tr><td>UniRep</td><td>2023</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/191.html">191</a></td><td>统一表示 + 蒸馏</td></tr>
+<tr><td>DiffuseLoco</td><td>2024</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/195.html">195</a></td><td>扩散策略</td></tr>
+<tr><td>PDP</td><td>2024</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/192.html">192</a></td><td>RL 专家蒸馏</td></tr>
+<tr><td>MaskedMimic</td><td>2024</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/183.html">183</a></td><td>掩码运动补全</td></tr>
+<tr><td>PARC</td><td>2025</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/189.html">189</a></td><td>迭代数据扩增</td></tr>
+<tr><td>UniPhys</td><td>2025</td><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/184.html">184</a></td><td>统一规划 + 控制</td></tr>
+</tbody></table>
+<hr />
+<h2 id="七总结"><a class="header" href="#七总结">七、总结</a></h2>
+<p>角色位移控制领域呈现<strong>双轨并行、多线演进</strong>的发展态势：</p>
+<p><strong>运动学方法</strong>沿四大主线演进：</p>
+<ol>
+<li><strong>相位系</strong>：PFNN 的相位函数化权重 (2017) → <strong>Few-shot Styles 的残差适配器 +CP 分解 (2018)</strong> → Local Motion Phases 的局部相位 (2020) → Style Modelling 的特征变换 (2020) → Phase Manifolds 的相位流形插值 (2023)</li>
+<li><strong>RTN (Transition Generation)</strong>: 循环转移网络 (2018)，专用 transition 生成</li>
+<li><strong>Motion Matching 系</strong>：工业界标准 Motion Matching → Learned Motion Matching 的神经网络替代 → MOCHA 的上下文匹配角色化</li>
+<li><strong>扩散模型系</strong>：A-MDM 的自回归设计 → CAMDM 的 8 步去噪 + 风格转换 → AAMDM 的 5 步加速 → DART 的潜在空间控制</li>
+</ol>
+<p><strong>动力学方法</strong>沿三条主线演进：</p>
+<ol>
+<li><strong>RL 模仿线</strong>：DeepMimic 的 RL+ 模仿 → AMP 的对抗先验 → ASE 的预训练技能库</li>
+<li><strong>混合控制线</strong>：DReCon 的 Motion Matching+RL → PDP 的 RL 专家蒸馏 → PARC 的扩散生成 + 迭代扩增</li>
+<li><strong>统一表示线</strong>：ControlVAE 的状态条件先验 → UniRep 的 Prior+ 蒸馏范式 → MaskedMimic 的掩码补全 → UniPhys 的 Diffusion Forcing</li>
+</ol>
+<p><strong>融合趋势</strong>：2024-2025 年的工作开始探索运动学 + 动力学的融合：</p>
+<ul>
+<li>UniPhys 用 PD 预处理保证物理合理性</li>
+<li>PARC 用迭代扩增结合生成与物理修正</li>
+<li>Perpetual 实现实时物理跟踪</li>
+</ul>
+<p>这将是未来的重要方向。</p>
+<hr />
+<p><strong>参考文献</strong>: 详见各论文笔记文件</p>
+<blockquote>
+<p>本文出自CaterpillarStudyGroup，转载请注明出处。</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Math.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="Forward.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Math.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="Forward.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="theme/pagetoc.js"></script>
+        <script type="text/javascript" src="theme/mermaid.min.js"></script>
+        <script type="text/javascript" src="theme/mermaid-init.js"></script>
+    </body>
+</html>

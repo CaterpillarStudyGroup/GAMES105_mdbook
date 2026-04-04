@@ -1,0 +1,386 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Optimal Control and Reinforcement Learning - 3D角色骨骼动画技术</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="Locomotion_Survey.html"><strong aria-hidden="true">4.</strong> Locomotion 控制技术洞察</a></li><li class="chapter-item expanded affix "><li class="part-title">Keyframe-based/Kinematic Approaches</li><li class="chapter-item expanded "><a href="Forward.html"><strong aria-hidden="true">5.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="Keyframe.html"><strong aria-hidden="true">6.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="Data-driven.html"><strong aria-hidden="true">7.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="Learning-based.html"><strong aria-hidden="true">8.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="cont.html"><strong aria-hidden="true">9.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded "><a href="Skinning.html"><strong aria-hidden="true">10.</strong> Skinning</a></li><li class="chapter-item expanded affix "><li class="part-title">Physics-based/Dynamic Approaches</li><li class="chapter-item expanded "><a href="Simulation.html"><strong aria-hidden="true">11.</strong> Physics-based Simulation and Articulated Rigid Bodies</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 角色动力学</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Constraints.html"><strong aria-hidden="true">12.1.</strong> Constraints</a></li><li class="chapter-item expanded "><a href="JointConstraint.html"><strong aria-hidden="true">12.2.</strong> 关节约束</a></li><li class="chapter-item expanded "><a href="Contacts.html"><strong aria-hidden="true">12.3.</strong> Contacts</a></li><li class="chapter-item expanded "><a href="Actuating.html"><strong aria-hidden="true">12.4.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">13.</strong> PD Control</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Outline.html"><strong aria-hidden="true">13.1.</strong> 驱动角色</a></li><li class="chapter-item expanded "><a href="Proportional-DerivativeControl.html"><strong aria-hidden="true">13.2.</strong> Proportional-Derivative Control</a></li><li class="chapter-item expanded "><a href="Controlling.html"><strong aria-hidden="true">13.3.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="PDControl/StaticBalance.html"><strong aria-hidden="true">13.4.</strong> Static Balance</a></li></ol></li><li class="chapter-item expanded "><a href="Tracking/Tracking.html"><strong aria-hidden="true">14.</strong> 轨迹优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Tracking/SimpleCase.html"><strong aria-hidden="true">14.1.</strong> 简单例子</a></li><li class="chapter-item expanded "><a href="Optimal.html" class="active"><strong aria-hidden="true">14.2.</strong> Optimal Control and Reinforcement Learning</a></li><li class="chapter-item expanded "><a href="LQR.html"><strong aria-hidden="true">14.3.</strong> Linear Quadratic Regulator (LQR)</a></li><li class="chapter-item expanded "><a href="Nonlinear_problems.html"><strong aria-hidden="true">14.4.</strong> Nonlinear problems</a></li><li class="chapter-item expanded "><a href="Sampling_based.html"><strong aria-hidden="true">14.5.</strong> Sampling-based Policy Optimization</a></li><li class="chapter-item expanded "><a href="Optimal_Control.html"><strong aria-hidden="true">14.6.</strong> Optimal Control-Reinforcement Learning</a></li><li class="chapter-item expanded "><a href="Digital_Cerebellum.html"><strong aria-hidden="true">14.7.</strong> Digital Cerebellum</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">15.</strong> Character Control</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Learning.html"><strong aria-hidden="true">15.1.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="ZMP.html"><strong aria-hidden="true">15.2.</strong> Zero-Moment Point (ZMP)</a></li><li class="chapter-item expanded "><a href="SIMBICON.html"><strong aria-hidden="true">15.3.</strong> SIMBICON</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Application</li><li class="chapter-item expanded "><a href="Application/Locomotion.html"><strong aria-hidden="true">16.</strong> Locomotion</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">3D角色骨骼动画技术</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <p>P2</p>
+<h1 id="outline"><a class="header" href="#outline">Outline</a></h1>
+<ul>
+<li>
+<p>Optimal Control</p>
+</li>
+<li>
+<p>Model-based Approaches vs. Model-free Approaches</p>
+</li>
+<li>
+<p>Sampling-based Optimization</p>
+</li>
+<li>
+<p>Reinforcement Learning</p>
+</li>
+<li>
+<p>Conclusion</p>
+</li>
+</ul>
+<p>P3</p>
+<h2 id="recap"><a class="header" href="#recap">Recap</a></h2>
+<table><thead><tr><th>feedforward</th><th>feedback</th></tr></thead><tbody>
+<tr><td><img src="./assets/12-01.png" alt="" /></td><td><img src="./assets/12-04.png" alt="" /></td></tr>
+<tr><td><img src="./assets/12-02.png" alt="" /></td><td><img src="./assets/12-03.png" alt="" /></td></tr>
+</tbody></table>
+<blockquote>
+<p>✅ 开环控制：只考虑初始状态。<br />
+✅ 前馈控制：考虑初始状态和干挠。<br />
+✅ 前馈控制优化的是轨迹。<br />
+✅ 反馈控制优化的是控制策略，控制策略是一个函数，根据当前状态优化轨迹。</p>
+</blockquote>
+<p>P9</p>
+<p><img src="./assets/12-05.png" alt="" /></p>
+<blockquote>
+<p>✅ Feedback 类似构造一个场，把任何状态推到目标状态。</p>
+</blockquote>
+<p>P10</p>
+<h1 id="开环控制"><a class="header" href="#开环控制">开环控制</a></h1>
+<h2 id="问题描述"><a class="header" href="#问题描述">问题描述</a></h2>
+<p>$$
+\begin{matrix}
+\min_{x}  f(x)\\
+𝑠.𝑡. g(x)=0
+\end{matrix}
+$$</p>
+<p><img src="./assets/12-06.png" alt="" /></p>
+<p>P12</p>
+<h2 id="把硬约束转化为软约束"><a class="header" href="#把硬约束转化为软约束">把硬约束转化为软约束</a></h2>
+<p>$$
+\min_{x}  f(x)+ wg(x)
+$$</p>
+<p>\(^\ast \) The solution \(x^\ast\)  may not satisfy the constraint</p>
+<p>P16</p>
+<h2 id="lagrange-multiplier---把约束条件转化为优化"><a class="header" href="#lagrange-multiplier---把约束条件转化为优化">Lagrange Multiplier - 把约束条件转化为优化</a></h2>
+<blockquote>
+<p>✅ 拉格朗日乘子法。</p>
+</blockquote>
+<p><img src="./assets/12-08.png" alt="" /></p>
+<blockquote>
+<p>✅ 通过观察可知，极值点位于\({f}'(x)\) 与 \(g\) 的切线垂直，即 \({f}' (x)\) 与 \({g}' (x)\) 平行。（充分非必要条件。）</p>
+</blockquote>
+<p>因此：</p>
+<p><img src="./assets/12-07.png" alt="" /></p>
+<p>Lagrange function</p>
+<p>$$
+L(x,\lambda )=f(x)+\lambda ^Tg(x)
+$$</p>
+<blockquote>
+<p>✅ 把约束条件转化为优化。</p>
+</blockquote>
+<p>P18</p>
+<h2 id="lagrange-multiplier"><a class="header" href="#lagrange-multiplier">Lagrange Multiplier</a></h2>
+<p><img src="./assets/12-09-1.png" alt="" /></p>
+<blockquote>
+<p>✅ 这是一个优化问题，通过梯度下降找到极值点。</p>
+</blockquote>
+<p>P20</p>
+<h2 id="solving-trajectory-optimization-problem"><a class="header" href="#solving-trajectory-optimization-problem">Solving Trajectory Optimization Problem</a></h2>
+<h3 id="定义带约束的优化问题"><a class="header" href="#定义带约束的优化问题">定义带约束的优化问题</a></h3>
+<p>Find a control sequence {\(a_t\)} that generates a state sequence {\(s_t\)} start from \(s_o\) minimizes</p>
+<p>$$
+\min h (s_r)+\sum _{t=0}^{T-1} h(s_t,a_t)
+$$</p>
+<blockquote>
+<p>✅ 因为把时间离散化，此处用求和不用积分。</p>
+</blockquote>
+<p>subject to</p>
+<p>$$
+\begin{matrix}
+f(s_t,a_t)-s_{t+1}=0\\
+\text{ for } 0 \le t &lt; T
+\end{matrix}
+$$</p>
+<blockquote>
+<p>✅ 运动学方程，作为约束</p>
+</blockquote>
+<h3 id="转化为优化问题"><a class="header" href="#转化为优化问题">转化为优化问题</a></h3>
+<p>The Lagrange function</p>
+<p>$$
+L(s,a,\lambda ) = h(s _ T)+ \sum _ {t=0} ^ {T-1} h(s _t,a _t) + \lambda _ {t+1}^T(f(s _t,a _t) - s _ {t+1})
+$$</p>
+<p>P27</p>
+<h3 id="求解拉格朗日方程"><a class="header" href="#求解拉格朗日方程">求解拉格朗日方程</a></h3>
+<p><img src="./assets/12-10-1.png" alt="" /></p>
+<blockquote>
+<p>✅ 拉格朗日方程，对每个变量求导，并令导数为零。因此得到右边方程组。<br />
+✅ 右边方程组进一步整理，得到左边。<br />
+✅ \(\lambda \) 类似于逆向仿真。<br />
+✅ 公式 3：通过转为优化问题求 \(a\)．</p>
+</blockquote>
+<p>P30</p>
+<h3 id="pontryagins-maximum-principle-for-discrete-systems"><a class="header" href="#pontryagins-maximum-principle-for-discrete-systems">Pontryagin’s Maximum Principle for discrete systems</a></h3>
+<p><img src="./assets/12-11.png" alt="" /></p>
+<p><img src="./assets/12-12.png" alt="" /></p>
+<blockquote>
+<p>✅ 方程组整理得到左边，称为 PMP 条件。是开环控制最优的必要条件。</p>
+</blockquote>
+<p>P32</p>
+<h2 id="optimal-control"><a class="header" href="#optimal-control">Optimal Control</a></h2>
+<p><strong>Open-loop Control</strong>:<br />
+given a start state \(s_0\), compute sequence of actions {\(a_t\)} to reach the goal</p>
+<p><img src="./assets/12-13.png" alt="" /></p>
+<blockquote>
+<p><strong>Shooting method</strong> directly applies PMP. However, it does not scale well to complicated problems such as motion control…<br />
+\(<br>\)<br />
+Need to be combined with collocation method, multiple shooting, etc. for those problems.<br />
+\(<br>\)<br />
+Or use derivative-free approaches.</p>
+</blockquote>
+<p><img src="./assets/12-14.png" alt="" /></p>
+<blockquote>
+<p>✅ 对于复杂函数，表现比较差，还需要借助其它方法。</p>
+</blockquote>
+<h1 id="闭环控制"><a class="header" href="#闭环控制">闭环控制</a></h1>
+<p><img src="./assets/12-05.png" alt="" /></p>
+<p>P34</p>
+<h2 id="dynamic-programming"><a class="header" href="#dynamic-programming">Dynamic Programming</a></h2>
+<p><img src="./assets/12-15.png" alt="" /> </p>
+<p>希望找到一条最短路径到达另一个点，对这个问题用不同的方式建模，会得到不同的方法：</p>
+<table><thead><tr><th></th><th></th><th></th></tr></thead><tbody>
+<tr><td>动态规划问题</td><td>Find a path {\(s_t\)} that minimizes</td><td>\(J(s_0)=\sum _ {t=0}^{ } h(s_t,s_{t+1})\)</td></tr>
+<tr><td>轨迹问题</td><td>Find a sequence of action {\(a_t\)} that minimizes</td><td>\(J(s_0)=\sum _ {t=0}^{ } h(s_t,a_t)\)<br> subject to <br> \( s_{t+1}=f(s_t,a_t)\)</td></tr>
+<tr><td>控制策略问题</td><td>Find a policy \( a_t=\pi (s_t,t)\)或 \( a_t=\pi (s_t)\)that minimizes</td><td>\(J(s_0)=\sum _ {t=0}^{ } h(s_t,a_t)\)<br>subject to  <br>\(s_{t+1}=f(s_t,a_t)\)</td></tr>
+</tbody></table>
+<p>P39</p>
+<h2 id="bellmans-principle-of-optimality"><a class="header" href="#bellmans-principle-of-optimality">Bellman’s Principle of Optimality</a></h2>
+<blockquote>
+<p>✅ 针对控制策略问题，什么样的策略是最优策略？</p>
+</blockquote>
+<p><img src="./assets/12-16.png" alt="" /> </p>
+<p>An optimal policy has the property that whatever the initial 
+state and initial decision are, the remaining decisions must 
+constitute an optimal policy with regard to the state resulting 
+from the first decision.</p>
+<p>\(^\ast \) The problem is said to have <strong>optimal substructure</strong></p>
+<p>P40</p>
+<h2 id="value-function"><a class="header" href="#value-function">Value Function</a></h2>
+<p>Value of a state \(V(s)\) :</p>
+<ul>
+<li>the minimal total cost for finishing the task starting from \(s\)</li>
+<li>the total cost for finishing the task starting from \(s\) using the optimal policy</li>
+</ul>
+<blockquote>
+<p>✅ Value Funcron，计算从某个结点到 gool 的最小代价。<br />
+✅ 后面动态规划原理跳过。</p>
+</blockquote>
+<p>P49</p>
+<h2 id="the-bellman-equation"><a class="header" href="#the-bellman-equation">The Bellman Equation</a></h2>
+<p>Mathematically, an optimal <strong>value function</strong> \(V(s)\) can be defined recursively as:</p>
+<p>$$
+V(s)=\min_{a} (h(s,a)+V(f(s,a)))
+$$</p>
+<blockquote>
+<p>✅ h代表s状态下执行一步a的代价。f代表以s状态下执行一步a之后的状态。</p>
+</blockquote>
+<p>If we know this value function, the optimal <strong>policy</strong> can be computed as</p>
+<p>$$
+\pi (s)=\arg \min_{a} (h(s,a)+V(f(s,a)))
+$$</p>
+<blockquote>
+<p>✅ pi代表一种策略，根据当前状态s找到最优的下一步a。<br />
+✅ This arg max can be easily computed for discrete control problems.<br />
+But there are not always closed-forms solution for continuous control problems.</p>
+</blockquote>
+<p>or</p>
+<p>$$
+\begin{matrix}
+\pi (s)=\arg \min_{a} Q(s,a)\\
+\text{where} \quad \quad  Q(s,a)=h(s,a)+V(f(s,a))
+\end{matrix}
+$$</p>
+<p>Q-function称为State-action value function<br />
+Learning \(V(s)\) and/or \(Q(s,a)\) is the core of optimal control / reinforcement learning methods</p>
+<blockquote>
+<p>✅ 强化学习最主要的目的是学习 \(V\) 函数和 \(Q\) 函数，如果 \(a\) 是有限状态，遍历即可。但在角色动画里，\(a\) 是连续状态。</p>
+</blockquote>
+<hr />
+<blockquote>
+<p>本文出自CaterpillarStudyGroup，转载请注明出处。</p>
+<p>https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Tracking/SimpleCase.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="LQR.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Tracking/SimpleCase.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="LQR.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="theme/pagetoc.js"></script>
+        <script type="text/javascript" src="theme/mermaid.min.js"></script>
+        <script type="text/javascript" src="theme/mermaid-init.js"></script>
+    </body>
+</html>

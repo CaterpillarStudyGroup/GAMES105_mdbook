@@ -1,0 +1,354 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>驱动角色 - 3D角色骨骼动画技术</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="Locomotion_Survey.html"><strong aria-hidden="true">4.</strong> Locomotion 控制技术洞察</a></li><li class="chapter-item expanded affix "><li class="part-title">Keyframe-based/Kinematic Approaches</li><li class="chapter-item expanded "><a href="Forward.html"><strong aria-hidden="true">5.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="Keyframe.html"><strong aria-hidden="true">6.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="Data-driven.html"><strong aria-hidden="true">7.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="Learning-based.html"><strong aria-hidden="true">8.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="cont.html"><strong aria-hidden="true">9.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded "><a href="Skinning.html"><strong aria-hidden="true">10.</strong> Skinning</a></li><li class="chapter-item expanded affix "><li class="part-title">Physics-based/Dynamic Approaches</li><li class="chapter-item expanded "><a href="Simulation.html"><strong aria-hidden="true">11.</strong> Physics-based Simulation and Articulated Rigid Bodies</a></li><li class="chapter-item expanded "><div><strong aria-hidden="true">12.</strong> 角色动力学</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Constraints.html"><strong aria-hidden="true">12.1.</strong> Constraints</a></li><li class="chapter-item expanded "><a href="JointConstraint.html"><strong aria-hidden="true">12.2.</strong> 关节约束</a></li><li class="chapter-item expanded "><a href="Contacts.html"><strong aria-hidden="true">12.3.</strong> Contacts</a></li><li class="chapter-item expanded "><a href="Actuating.html"><strong aria-hidden="true">12.4.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">13.</strong> PD Control</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Outline.html" class="active"><strong aria-hidden="true">13.1.</strong> 驱动角色</a></li><li class="chapter-item expanded "><a href="Proportional-DerivativeControl.html"><strong aria-hidden="true">13.2.</strong> Proportional-Derivative Control</a></li><li class="chapter-item expanded "><a href="Controlling.html"><strong aria-hidden="true">13.3.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="PDControl/StaticBalance.html"><strong aria-hidden="true">13.4.</strong> Static Balance</a></li></ol></li><li class="chapter-item expanded "><a href="Tracking/Tracking.html"><strong aria-hidden="true">14.</strong> 轨迹优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Tracking/SimpleCase.html"><strong aria-hidden="true">14.1.</strong> 简单例子</a></li><li class="chapter-item expanded "><a href="Optimal.html"><strong aria-hidden="true">14.2.</strong> Optimal Control and Reinforcement Learning</a></li><li class="chapter-item expanded "><a href="LQR.html"><strong aria-hidden="true">14.3.</strong> Linear Quadratic Regulator (LQR)</a></li><li class="chapter-item expanded "><a href="Nonlinear_problems.html"><strong aria-hidden="true">14.4.</strong> Nonlinear problems</a></li><li class="chapter-item expanded "><a href="Sampling_based.html"><strong aria-hidden="true">14.5.</strong> Sampling-based Policy Optimization</a></li><li class="chapter-item expanded "><a href="Optimal_Control.html"><strong aria-hidden="true">14.6.</strong> Optimal Control-Reinforcement Learning</a></li><li class="chapter-item expanded "><a href="Digital_Cerebellum.html"><strong aria-hidden="true">14.7.</strong> Digital Cerebellum</a></li></ol></li><li class="chapter-item expanded "><div><strong aria-hidden="true">15.</strong> Character Control</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="Learning.html"><strong aria-hidden="true">15.1.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="ZMP.html"><strong aria-hidden="true">15.2.</strong> Zero-Moment Point (ZMP)</a></li><li class="chapter-item expanded "><a href="SIMBICON.html"><strong aria-hidden="true">15.3.</strong> SIMBICON</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Application</li><li class="chapter-item expanded "><a href="Application/Locomotion.html"><strong aria-hidden="true">16.</strong> Locomotion</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">3D角色骨骼动画技术</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <h1 id="simulating--actuating-characters"><a class="header" href="#simulating--actuating-characters">Simulating &amp; Actuating Characters</a></h1>
+<blockquote>
+<p>✅ 在仿真基础之上，如何驱动角色动画，如何动得更好，更真实。
+✅（1）控制力如何施加到角色身上
+✅（2）如何计算控制力</p>
+</blockquote>
+<hr />
+<h2 id="控制系统层次结构"><a class="header" href="#控制系统层次结构">控制系统层次结构</a></h2>
+<p>理解角色控制的三个层次：</p>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│  高层：任务规划 (Task Planning)                              │
+│  &quot;做什么动作？什么时候做？&quot;                                   │
+│  方法：有限状态机、行为树、任务规划                          │
+├─────────────────────────────────────────────────────────────┤
+│  中层：轨迹生成/策略学习 (Trajectory/Policy)                 │
+│  &quot;如何生成目标动作序列？&quot;                                     │
+│  方法：轨迹优化 (CMA-ES/SAMCON)、RL (DeepMimic/AMP/ASE)       │
+├─────────────────────────────────────────────────────────────┤
+│  底层：执行控制 (Low-level Control)                          │
+│  &quot;如何计算关节力矩？&quot;                                         │
+│  方法：PD 控制                                                │
+└─────────────────────────────────────────────────────────────┘
+</code></pre>
+<p><strong>本章节重点</strong>：</p>
+<ul>
+<li><strong>Outline.md</strong>: 控制系统概览</li>
+<li><strong>Proportional-DerivativeControl.md</strong>: 底层 PD 控制原理</li>
+<li><strong>Controlling.md</strong>: PD 在角色上的应用</li>
+<li><strong>Tracking/</strong>: 中层轨迹优化方法</li>
+</ul>
+<p><strong>层次之间的关系</strong>：</p>
+<pre><code>中层 (轨迹优化/DeepMimic) 输出目标 q*, q̇*
+              ↓
+底层 PD 控制器 τ = k_p(q* - q) + k_d(q̇* - q̇)
+              ↓
+         物理仿真器
+</code></pre>
+<p><strong>深入学习</strong>: <a href="https://caterpillarstudygroup.github.io/ReadPapers/201.html">DeepMimic</a> | <a href="https://caterpillarstudygroup.github.io/ReadPapers/198.html">AMP</a> | <a href="https://caterpillarstudygroup.github.io/ReadPapers/199.html">ASE</a></p>
+<hr />
+<p>P22</p>
+<h2 id="施加力力矩会得到的效果"><a class="header" href="#施加力力矩会得到的效果">施加力/力矩会得到的效果</a></h2>
+<table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>力加在质心上，只会导致平移，不会导致旋转。</td><td><img src="./assets/09-08.png" alt="" /></td></tr>
+<tr><td>✅ 在物体边缘旋加力，等价于在质心施加力，并施加一个导致旋转的力矩。</td><td><img src="./assets/09-09.png" alt="" /><br><img src="./assets/09-10-1.png" alt="" /></td></tr>
+<tr><td>✅ 在质心上施加一个力矩，等价于施加一对大小相同方向相反的力。在质心处的合力为零，不会产生位移，只会产生旋转。<br> ✅ 力矩只是数学上的概念。</td><td><img src="./assets/09-11.png" alt="" /></td></tr>
+</tbody></table>
+<p>P26</p>
+<h2 id="怎么对角色产生效果"><a class="header" href="#怎么对角色产生效果">怎么对角色产生效果</a></h2>
+<blockquote>
+<p>✅ 想让角色做指定动作，不能直接修改其状态，而是控制力影响状态。</p>
+</blockquote>
+<table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td>✅ 为了驱动角色，可以单独对每个刚体施加力或力矩。</td><td><img src="./assets/09-12.png" alt="" /></td></tr>
+<tr><td>✅ 也可以在关节上施加力矩。</td><td><img src="./assets/09-13.png" alt="" /></td></tr>
+</tbody></table>
+<blockquote>
+<p>✅ 回顾前面公式，力和力矩都是施加在刚体上的，如何施加在关节上?</p>
+</blockquote>
+<p>P29</p>
+<h1 id="joint-torques"><a class="header" href="#joint-torques">Joint Torques</a></h1>
+<p>P33</p>
+<h2 id="什么是joint-torques"><a class="header" href="#什么是joint-torques">什么是Joint Torques</a></h2>
+<blockquote>
+<p>✅ 关节上的力矩，可以看作是一个刚体对另一个刚体在关节处施加的成对的力。其合力为零但每个力施加的位置不同，可以转化为对另一刚体的力矩。</p>
+</blockquote>
+<p><img src="./assets/09-014.png" alt="" /></p>
+<p>$$
+\sum_{i}^{} f_i=0
+$$</p>
+<blockquote>
+<p>✅ 每个力都会对其中一个刚体的质心上产生力矩，合力矩不为0。</p>
+</blockquote>
+<p>$$
+\tau _1= \sum _ {i}^{} (r_1+r_i) \times f_i=r_1 \times \sum _ {i}^{}f_i + \sum _ {i}^{}r_i \times f_i
+$$</p>
+<p>P34<br />
+由于</p>
+<p>$$
+\sum _ {i}^{}  f_i=0
+$$</p>
+<p>得： </p>
+<p>$$
+\tau _1= \sum _ {i}^{} r_i \times f_i \quad \quad \quad \quad \tau _2= -\sum _ {i}^{} r_i \times f_i
+$$</p>
+<blockquote>
+<p>✅ 另一个方向同理。<br />
+✅ 力矩跟关节的位置没有关系。</p>
+</blockquote>
+<p>P36<br />
+结论：</p>
+<p><img src="./assets/09-16.png" alt="" /></p>
+<blockquote>
+<p>✅ 在关节上施加力矩 \( \tau\) 等价于在一个刚体上施加 \( \tau\)，在另一个刚体上施加 \(- \tau\).</p>
+</blockquote>
+<p>P38</p>
+<h2 id="怎样施加joint-torques"><a class="header" href="#怎样施加joint-torques">怎样施加Joint Torques</a></h2>
+<p>Applying a joint torque \( \tau\):</p>
+<ul>
+<li>Add \( \tau\) to one attached body</li>
+<li>Add \( -\tau\) to the other attached body</li>
+</ul>
+<p>$$
+M\begin{bmatrix}
+\dot{v}_1 \\
+\dot{\omega }_1 \\
+\dot{v}_2\\
+\dot{\omega }_2 
+\end{bmatrix} + \begin{bmatrix}
+0\\
+\omega_1 \times I_1 \omega _1\\
+0\\
+\omega_2 \times I_2 \omega _2
+\end{bmatrix}=\begin{bmatrix}
+0 \\
+\tau \\
+0 \\
+-\tau 
+\end{bmatrix}+J^T\lambda 
+$$</p>
+<p>$$
+Jv=0
+$$</p>
+<blockquote>
+<p>✅ 通常在子关节上加 \(\tau \)，在父关节上加 \(-\tau \)． </p>
+</blockquote>
+<p>P40</p>
+<h1 id="simulating--controlling-a-character"><a class="header" href="#simulating--controlling-a-character">Simulating + Controlling a Character</a></h1>
+<p><img src="./assets/09-17.png" alt="" /></p>
+<blockquote>
+<p>✅ 控制器，根据当前角色状态，以及额外控制信号实时计算出 \(f \) 和 \(\tau \)，影响角色动作变化。</p>
+</blockquote>
+<p>P44</p>
+<h2 id="forward-dynamics-vs-inverse-dynamics"><a class="header" href="#forward-dynamics-vs-inverse-dynamics">Forward Dynamics vs. Inverse Dynamics</a></h2>
+<p><img src="./assets/09-18.png" alt="" /></p>
+<blockquote>
+<p>✅ 运动方程，本质上是建立力与加速度之间的联系。<br />
+✅ 前向与后向，是一个运动方程的两种用法。<br />
+✅ 仿真器为前向部分，控制后逆向部分。</p>
+</blockquote>
+<p>P46</p>
+<h2 id="fully-actuated-vs-underactuated"><a class="header" href="#fully-actuated-vs-underactuated">Fully-Actuated vs. Underactuated</a></h2>
+<p>在上一节中，\(f\) 与 \(V\) 的自由度可能是不同的。\(f\) 是关节数\( × 3\)，\(V\) 是刚体数\( × 3\)。</p>
+<table><thead><tr><th></th><th></th></tr></thead><tbody>
+<tr><td><img src="./assets/09-20.png" alt="" /></td><td><img src="./assets/09-21.png" alt="" /></td></tr>
+<tr><td>If #actuators ≥ #dofs, the system is <strong>fully-actuated</strong></td><td>If #actuators &lt; #dofs, the system is <strong>underactuated</strong></td></tr>
+<tr><td>For any \([x,v,\dot{v} ]\), there exists an \(f\) that produces the motion</td><td>For many \([x,v,\dot{v} ]\) , there is no such \(f\) that produces the motion</td></tr>
+<tr><td>✅ 可以精确控制机械臂到达目标状态。</td><td>✅ 不借助外力情况，人无法控制 Hips 的状态（位置）。</td></tr>
+</tbody></table>
+<blockquote>
+<p>✅ ＃actuators：\(f \) 和 \(\tau \) 的自由度。<br />
+✅ #dofs：角色状态的自由度。<br />
+✅ 避免让角色掉入无法控制的状态。<br />
+[❓] 一个关节边接多个刚体是不是也会导欠驱动？</p>
+</blockquote>
+<p>P49</p>
+<h2 id="feedforward-vs-feedback"><a class="header" href="#feedforward-vs-feedback">Feedforward vs. Feedback</a></h2>
+<p><img src="./assets/09-22.png" alt="" /></p>
+<p>驱动角色运动的控制器是通过优化目标函数产生的。</p>
+<table><thead><tr><th>Feedforward control</th><th>Feedback control</th></tr></thead><tbody>
+<tr><td>\(f,\tau =\pi (t)\)</td><td>\(f,\tau =\pi (s_t,t)\)</td></tr>
+<tr><td>Apply predefined control signals <strong>without considering the current state</strong> of the system</td><td>Adjust control signals based on the current state of the system</td></tr>
+<tr><td>Assuming unchanging system.</td><td>Certain perturbations are expected.</td></tr>
+<tr><td>Perturbations may lead to unpredicted results<br>✅ 如果角色受到挠动而偏离了原计划，无法修正回来。</td><td>The feedback signal will be used to improves the performance at the next state.</td></tr>
+</tbody></table>
+<hr />
+<blockquote>
+<p>本文出自CaterpillarStudyGroup，转载请注明出处。</p>
+<p>https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Actuating.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="Proportional-DerivativeControl.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Actuating.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="Proportional-DerivativeControl.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="theme/pagetoc.js"></script>
+        <script type="text/javascript" src="theme/mermaid.min.js"></script>
+        <script type="text/javascript" src="theme/mermaid-init.js"></script>
+    </body>
+</html>
