@@ -374,24 +374,6 @@ PD控制器是传统方法，需要调 \\(k_d\\)、\\(k_s\\) 两个参数。用L
 优点：    
 1. 同“可控生成”
 
-|ID|Year|Name|解决了什么痛点|主要贡献是什么|Tags|Link|
-|---|---|---|---|---|---|---|
-||2023.10.18|Interactive Locomotion Style Control for a Human Character based on Gait Cycle Features| 没有下载到论文 |
-||2022.5.12|AMP: Adversarial Motion Priors for Stylized Physics-Based Character Control|
-||2020.7.26|**Feature-based locomotion controllers**|
-||2018.4.8|DeepMimic: Example-Guided Deep Reinforcement Learning of Physics-Based Character Skills|
-||2010|Real-time planning and control for simulated bipedal locomotion|
-
-
----------------
-笔记P11
-
-| ID | Year | Name | 主要贡献 |
-|----|------|------|----------|
-|    | [1]  |      | Tracer（扩散模型）结合地形与用户控制生成优化轨迹。<br>Pacer根据轨迹、地形等因素生成关节控制策略，且可泛化到不同体型的人身上。 |
-
-
-
 ---------------------------------------
 > 本文出自CaterpillarStudyGroup，转载请注明出处。
 >
