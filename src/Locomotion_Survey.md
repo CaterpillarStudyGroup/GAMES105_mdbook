@@ -1367,7 +1367,7 @@ flowchart TB
 
 #### 3.8.6 UniPhys (2025)
 
-**论文**: Universal Humanoid Physics Control (论文笔记待补充)
+**论文**: [UniPhys: Unified Planner and Controller with Diffusion](https://caterpillarstudygroup.github.io/ReadPapers/184.html) (2025)
 
 **核心创新**: 统一规划器 + 控制器，Diffusion Forcing 范式
 
