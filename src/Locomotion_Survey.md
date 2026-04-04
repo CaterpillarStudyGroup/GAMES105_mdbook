@@ -90,11 +90,25 @@ flowchart TB
 **演进路径**：
 ```mermaid
 flowchart LR
-    PFNN --> FS["Few-shot Styles (2018)"]
-    FS --> LP["Local Phases (2020)"]
-    LP --> SM["Style Modelling (2020)"]
-    LP --> PM["Phase Manifolds (2023)"]
+    subgraph Phase["相位表示分支"]
+        PFNN --> FS["Few-shot Styles"]
+        FS --> LP["Local Phases"]
+        LP --> SM["Style Modelling"]
+    end
+
+    subgraph Manifold["相位流形分支"]
+        LP --> PM["Phase Manifolds"]
+    end
 ```
+
+**两大分支**：
+
+从演进路径可以看出，**Local Phases (2020)** 是核心分支点，衍生出两个方向：
+
+| 分支 | 演进路径 | 核心目标 | 典型应用 |
+|------|---------|---------|---------|
+| **相位表示分支** | PFNN → Local Phases → Style Modelling | 用相位解耦不同动作状态 | VR 化身、风格化动画 |
+| **相位流形分支** | Local Phases → Phase Manifolds | 在相位空间进行插值 | 过渡生成、动作补间 |
 
 **统一框架**：
 
@@ -105,6 +119,15 @@ flowchart LR
 | **局部相位** | Local Phases (2020) | 每个身体部位独立相位 | 多接触交互 |
 | **风格调制** | Style Modelling (2020) | 特征变换 + 局部相位 | 实时风格切换 |
 | **相位流形** | Phase Manifolds (2023) | 相位流形插值与过渡生成 | 动作补间 |
+
+**两大分支**：
+
+从演进路径可以看出，**Local Phases (2020)** 是核心分支点，衍生出两个方向：
+
+| 分支 | 演进路径 | 核心目标 | 典型应用 |
+|------|---------|---------|---------|
+| **相位表示分支** | PFNN → Local Phases → Style Modelling | 用相位解耦不同动作状态 | VR 化身、风格化动画 |
+| **相位流形分支** | Local Phases → Phase Manifolds | 在相位空间进行插值 | 过渡生成、动作补间 |
 
 **代表论文**：
 - PFNN (2017): 相位函数化权重
@@ -802,6 +825,7 @@ flowchart TD
 timeline
     title 动力学方法发展时间线
     2010 : Feature-Based : 高层物理特征
+    2017 : DeepLoco : 分层 RL+ 环境感知
     2018 : DeepMimic : RL+ 模仿
     2018 : Mode-Adaptive : 四足统一控制
     2019 : DReCon : MM+RL
@@ -823,13 +847,15 @@ timeline
 ```mermaid
 flowchart TB
     subgraph RL["RL lineage"]
-        FB["Feature-Based"] --> DM["DeepMimic"]
+        FB["Feature-Based"] --> DL["DeepLoco"]
+        DL --> DM["DeepMimic"]
         DM --> AMP["AMP"]
         AMP --> ASE["ASE"]
     end
 
     subgraph Hybrid["Hybrid lineage"]
-        DM --> DReCon["DReCon<br/>MM+RL"]
+        DL --> DReCon["DReCon<br/>MM+RL"]
+        DM --> DReCon
         DReCon --> PDP["PDP<br/>RL 专家蒸馏"]
     end
 
@@ -850,13 +876,14 @@ flowchart TB
 
 | 主线 | 演进路径 | 核心问题 | 解决方案 |
 |------|---------|---------|---------|
-| **RL Lineage** | Feature-Based → DeepMimic → AMP → ASE | 如何从数据学习控制策略？ | 手工特征 → RL 模仿 → 对抗学习 → 预训练技能库 |
-| **Hybrid Lineage** | DeepMimic → DReCon → PDP | 如何统一多技能控制？ | 单一轨迹 → 动态参考选择 → 多专家蒸馏 |
+| **RL Lineage** | DeepLoco → DeepMimic → AMP → ASE | 如何从数据学习控制策略？ | 分层 RL → RL 模仿 → 对抗学习 → 预训练技能库 |
+| **Hybrid Lineage** | DeepLoco → DReCon → PDP | 如何统一多技能控制？ | 分层架构 → 动态参考选择 → 多专家蒸馏 |
 | **Pretraining Lineage** | ASE → ControlVAE → UniRep | 如何提高样本效率？ | 对抗预训练 → 状态条件先验 → Prior+ 蒸馏 +RL 范式 |
 | **Diffusion Lineage** | PDP → DiffuseLoco / ASE → MaskedMimic → UniPhys / DReCon → PARC | 2024 年扩散模型如何应用？ | 扩散策略 / 掩码补全 / 迭代扩增 |
 
 **关键洞察**：
-- **DeepMimic (2018)** 是深度学习时代的起点，首次证明 RL+ 模仿可以学习高质量动态动作
+- **DeepLoco (2017)** 是分层 RL 的开创者，首次实现环境感知（32×32 高度图）+ 双控制器架构（HLC 规划 + LLC 执行）
+- **DeepMimic (2018)** 是深度学习时代的起点，首次证明 RL+ 模仿可以学习高质量动态动作（后空翻、旋转）
 - **AMP (2021)** 解决数据标注问题，从需要精确跟踪 → 无标注对抗学习
 - **ASE (2022)** 解决技能复用问题，预训练的技能库可以微调至下游任务
 - **DReCon (2019)** 开创混合控制范式，生成器 (MM) + 跟踪器 (RL) 的架构被 PDP/PARC 继承
@@ -866,7 +893,7 @@ flowchart TB
 
 ### 3.3 主线一：RL 模仿学习 (RL Lineage)
 
-**演进路径**: Feature-Based Control (2010) → DeepMimic (2018) → AMP (2021) → ASE (2022)
+**演进路径**: Feature-Based Control (2010) → DeepLoco (2017) → DeepMimic (2018) → AMP (2021) → ASE (2022)
 
 ---
 
@@ -896,7 +923,40 @@ flowchart LR
 
 ---
 
-#### 3.3.2 DeepMimic (SIGGRAPH 2018)
+#### 3.3.2 DeepLoco (SIGGRAPH 2017)
+
+**论文**: [218.md](https://caterpillarstudygroup.github.io/ReadPapers/218.html)
+
+**核心创新**: 分层深度强化学习 + 环境感知
+
+**方法框架**:
+
+```mermaid
+flowchart TB
+    Terrain["32×32 地形图"] --> HLC["高层控制器 HLC<br/>2Hz 规划步法"]
+    HLC -->|"p̂₀, p̂₁, θ̂_root"| LLC["低层控制器 LLC<br/>30Hz 执行动作"]
+    LLC --> PD["PD 控制器"]
+    PD --> Sim["物理仿真"]
+```
+
+**分层架构**:
+
+| 控制器 | 频率 | 输入 | 输出 |
+|--------|------|------|------|
+| **HLC** | 2Hz | 地形图 + 任务目标 | 步法计划 (p̂₀, p̂₁, θ̂_root) |
+| **LLC** | 30Hz | 状态 + 步法计划 | 关节 PD 目标 |
+
+**关键技术**:
+- **双线性相位变换**: 将相位φ分 4 区间，强制不同阶段用不同子网络
+- **参考动作引导**: 不精确跟踪，只模仿风格
+- **迁移学习**: 同一 LLC 可复用多个 HLC 任务
+
+**优点**: 环境感知、多任务支持、组件可复用
+**缺点**: 训练时间长 (LLC 2 天+HLC 7 天)、采样效率低
+
+---
+
+#### 3.3.3 DeepMimic (SIGGRAPH 2018)
 
 **论文**: [201.md](https://caterpillarstudygroup.github.io/ReadPapers/201.html)
 
@@ -1342,6 +1402,7 @@ flowchart LR
 | 方法 | 训练范式 | 样本效率 | 动作质量 | 抗扰动 | 实时性 |
 |------|---------|---------|---------|-------|-------|
 | **Feature-Based** | 无需训练 | N/A | 中 | 中 | ✓ |
+| **DeepLoco** | 分层 RL | 低 | 高 | 高 | ✓ |
 | **DeepMimic** | RL+ 模仿 | 低 | 极高 | 高 | ✓ |
 | **Mode-Adaptive** | 模仿学习 | 中 | 高 | 高 | ✓ |
 | **DReCon** | RL+MM | 中 | 高 | 高 | ✓ |
