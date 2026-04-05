@@ -18,13 +18,13 @@
 
 # Physics-based/Dynamic Approaches
 
+ - [Outline.md](Outline.md)
 - [角色物理仿真基础](Simulation.md)
   - [Constraints](Constraints.md)
   - [关节约束](JointConstraint.md)
   - [Contacts](Contacts.md)
   - [总结](Actuating.md)
-- [PD Control]()
-  - [驱动角色](Outline.md)
+- [PD 控制](PDControl/PDControl.md)
   - [Proportional-Derivative Control](Proportional-DerivativeControl.md)
   - [Controlling Characters](Controlling.md)
   - [Static Balance](PDControl/StaticBalance.md)
