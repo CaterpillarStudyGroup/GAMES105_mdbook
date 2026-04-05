@@ -7,22 +7,28 @@
 ## 在控制系统中的位置
 
 ```mermaid
-flowchart LR
-    subgraph "中层：轨迹生成/策略学习"
-        A[目标状态 q*, q̇*]
+flowchart TD
+    subgraph "高层：任务规划"
+        A["做什么动作？<br/>有限状态机、行为树"]
     end
 
-    subgraph "底层：PD 控制"
-        B["PD 控制器<br/>τ = k_p(q* - q) + k_d(q̇* - q̇)"]
+    subgraph "中层：轨迹生成/策略学习"
+        B["如何生成目标动作？<br/>轨迹优化、DeepMimic、AMP"]
+    end
+
+    subgraph "底层：执行控制 (本章)"
+        C["如何计算关节力矩？<br/>PD 控制"]
     end
 
     subgraph "仿真器"
-        C["物理仿真<br/>Mv̇ + C = f + Jᵀλ"]
+        D["物理仿真<br/>Mv̇ + C = f + Jᵀλ"]
     end
 
-    A -->|"目标"| B
-    B -->|"关节力矩 τ"| C
-    C -->|"当前状态 q, q̇"| B
+    A -->|动作指令 | B
+    B -->|目标状态 q*, q̇* | C
+    C -->|关节力矩 τ | D
+    D -->|当前状态 q, q̇ | C
+    D -->|新状态 | A
 ```
 
 **PD 控制的输入输出**：
@@ -46,34 +52,7 @@ flowchart LR
 
 ---
 
-## 与控制系统其它组件的关系
-
-```mermaid
-flowchart TD
-    subgraph "高层"
-        A["任务规划<br/>做什么动作？"]
-    end
-
-    subgraph "中层"
-        B["轨迹优化 / RL<br/>如何生成目标动作？"]
-    end
-
-    subgraph "底层"
-        C["PD 控制<br/>如何计算关节力矩？"]
-    end
-
-    subgraph "执行"
-        D[物理仿真器]
-    end
-
-    A -->|动作指令 | B
-    B -->|目标状态 q*, q̇* | C
-    C -->|关节力矩 τ | D
-    D -->|当前状态 q, q̇ | C
-    D -->|新状态 | A
-```
-
-**三层控制的关系**：
+## 三层控制结构
 
 | 层次 | 功能 | 典型方法 |
 |------|------|----------|
