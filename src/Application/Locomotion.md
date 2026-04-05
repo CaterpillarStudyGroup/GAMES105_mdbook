@@ -299,7 +299,7 @@ mindmap
 
 | ID | Paper | Note |
 |----|-------|------|
-| 185 | [2025.9.15] Gait-Conditioned Reinforcement Learning with Multi-Phase Curriculum for Humanoid Locomotion | 1. 单个循环策略同时学习站立、行走、奔跑及步态过渡，避免多策略架构的切换复杂度<br> 2. 一种路由机制根据步态ID动态激活步态目标，核心解决不同步态的奖励目标冲突问题<br> 3.让机器人自主学习符合人体生物力学的自然运动，摆脱对 MoCap 数据的依赖<br>4. 用于技能扩展的渐近式多阶段课程。 |
+| 185 | [Gait-Conditioned Reinforcement Learning with Multi-Phase Curriculum for Humanoid Locomotion](https://caterpillarstudygroup.github.io/ReadPapers/185.html) | 1. 单个循环策略同时学习站立、行走、奔跑及步态过渡，避免多策略架构的切换复杂度<br> 2. 一种路由机制根据步态 ID 动态激活步态目标，核心解决不同步态的奖励目标冲突问题<br> 3.让机器人自主学习符合人体生物力学的自然运动，摆脱对 MoCap 数据的依赖<br>4. 用于技能扩展的渐近式多阶段课程。 |
 
 基于参考的学习，例如APM、模仿学习，动作空间还是来自于数据，物理只是一种动作合理化的方法。
 优势：  
