@@ -13,16 +13,16 @@ flowchart LR
     end
 
     subgraph "底层：PD 控制"
-        B[PD 控制器<br/>τ = k_p(q* - q) + k_d(q̇* - q̇)]
+        B["PD 控制器<br/>τ = k_p(q* - q) + k_d(q̇* - q̇)"]
     end
 
     subgraph "仿真器"
-        C[物理仿真<br/>Mv̇ + C = f + Jᵀλ]
+        C["物理仿真<br/>Mv̇ + C = f + Jᵀλ"]
     end
 
-    A -- 目标 --> B
-    B -- 关节力矩 τ --> C
-    C -- 当前状态 q, q̇ --> B
+    A -->|"目标"| B
+    B -->|"关节力矩 τ"| C
+    C -->|"当前状态 q, q̇"| B
 ```
 
 **PD 控制的输入输出**：
@@ -51,15 +51,15 @@ flowchart LR
 ```mermaid
 flowchart TD
     subgraph "高层"
-        A[任务规划<br/>"做什么动作？"]
+        A["任务规划<br/>做什么动作？"]
     end
 
     subgraph "中层"
-        B[轨迹优化 / RL<br/>"如何生成目标动作？"]
+        B["轨迹优化 / RL<br/>如何生成目标动作？"]
     end
 
     subgraph "底层"
-        C[PD 控制<br/>"如何计算关节力矩？"]
+        C["PD 控制<br/>如何计算关节力矩？"]
     end
 
     subgraph "执行"
