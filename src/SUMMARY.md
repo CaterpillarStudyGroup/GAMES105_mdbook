@@ -18,8 +18,7 @@
 
 # Physics-based/Dynamic Approaches
 
-- [Physics-based Simulation and Articulated Rigid Bodies](Simulation.md)
-- [角色动力学]()
+- [角色物理仿真基础](Simulation.md)
   - [Constraints](Constraints.md)
   - [关节约束](JointConstraint.md)
   - [Contacts](Contacts.md)

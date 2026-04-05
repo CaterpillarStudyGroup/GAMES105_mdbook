@@ -26,20 +26,16 @@ P4
 
 ```mermaid
 flowchart LR
-    Controller[控制器<br/>Controller]
-    Simulator[仿真器<br/>Simulator]
+    subgraph "控制器"
+        C[输入：目标状态/轨迹<br/>输出：关节力矩 τ]
+    end
+
+    subgraph "仿真器"
+        S[输入：关节力矩 τ<br/>输出：新状态 x', R', v', ω']
+    end
 
     Controller -- 关节力矩 τ --> Simulator
     Simulator -- 新状态<br/>x, R, v, ω --> Controller
-    Controller -- 目标状态/轨迹 --> Controller
-
-    subgraph 控制器问题
-        Controller -->|逆向问题 | Torque[如何生成力矩<br/>让角色达到目标？]
-    end
-
-    subgraph 仿真器问题
-        Simulator -->|前向问题 | Motion[给定力矩<br/>角色会如何运动？]
-    end
 ```
 
 | 模块 | 输入 | 输出 | 核心问题 |
@@ -59,46 +55,34 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    subgraph 输入
-        A[当前状态<br/>x, R, v, ω]
-    end
-
+    A[当前状态<br/>x, R, v, ω]
     B[计算外力<br/>重力、风力、关节力矩τ]
-
     C{约束类型？}
 
-    subgraph Pipeline1
-        D1[积分<br/>x' = x + v·dt]
-        E1[新状态<br/>无约束]
+    subgraph "Pipeline 1：无约束"
+        D1[求解约束力<br/>无约束力]
     end
 
-    subgraph Pipeline2
+    subgraph "Pipeline 2：关节约束"
         D2[求解约束力 Jᵀλ<br/>关节约束方程]
-        E2[积分]
-        F2[新状态<br/>关节连接]
     end
 
-    subgraph Pipeline3
+    subgraph "Pipeline 3：关节 + 接触"
         D3[接触检测]
         E3[求解约束力<br/>Jᵀλ + 接触力 + 摩擦力]
-        F3[积分]
-        G3[新状态<br/>站在地面上]
+        D3 --> E3
     end
 
     A --> B
     B --> C
 
     C -->|无关节约束 | D1
-    D1 --> E1
-
     C -->|有关节约束 | D2
-    D2 --> E2
-    E2 --> F2
-
     C -->|有关节约束 + 接触 | D3
-    D3 --> E3
-    E3 --> F3
-    F3 --> G3
+
+    D1 --> E[积分更新状态<br/>x' = x + v·dt<br/>R', v', ω']
+    D2 --> E
+    E3 --> E
 ```
 
 #### Pipeline 1：不考虑关节约束
