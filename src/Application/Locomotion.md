@@ -136,7 +136,7 @@ A([当前帧frame]) --> B("是否重新匹配(1)")
 |        |      | Motion Graph   | Baseline，以clip为单位<br>(1) 只在一个clip结束时重新匹配自己<br>(2) 寻找最适配的clip，并用拖帧衔接。|
 |        |      | Motion Matching   | 以frame为单位<br>(1) 每帧或几帧重新匹配，响应更快<br>(2) 寻找最匹配的帧，并用blend 做衔接。 |
 | - | 2020 | [Learned Motion Matching](https://caterpillarstudygroup.github.io/ReadPapers/208.html) | 基于数据集，把 (1)(2)(3)(4) 替换成了网络模块，消除了在线推理时对数据库的依赖。 |
-| 231016 | 2023.10.16 | MOCHA: RealTime Motion Characterization via Context Matching  | 让(5)和(6)分别是不同的角色，并增加将运动内容与运动风格解耦的模块。<br>在运动空间进行最近邻匹配，在匹配结果中融入目标风格，实现在线风格迁移的效果。 |
+| 209 | 2023.10.16 | [MOCHA: Real-Time Motion Characterization via Context Matching](https://caterpillarstudygroup.github.io/ReadPapers/209.html) | 让 (5) 和 (6) 分别是不同的角色，并增加将运动内容与运动风格解耦的模块。<br>在运动空间进行最近邻匹配，在匹配结果中融入目标风格，实现在线风格迁移的效果。 | [link](https://caterpillarstudygroup.github.io/ReadPapers/209.html)|
 
 
 
