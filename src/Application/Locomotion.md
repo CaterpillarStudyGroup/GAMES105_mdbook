@@ -317,7 +317,7 @@ mindmap
 
 |ID|Year|Name|解决了什么痛点|主要贡献是什么|Tags|Link|
 |---|---|---|---|---|---|---|
-||2022.5.12|AMP: Adversarial Motion Priors for Stylized Physics-Based Character Control|模仿学习时，模仿目标需要精心设定，模仿效果的目标函数也难设定。|不模仿特定的动作，而是模仿目标动作的风格。通过对抗学习来判断模仿的风格像不像。<br>AMP动作先验 = 对抗式判别器。|
+|198|2022.5.12|[AMP: Adversarial Motion Priors for Stylized Physics-Based Character Control](https://caterpillarstudygroup.github.io/ReadPapers/198.html)|模仿学习时，模仿目标需要精心设定，模仿效果的目标函数也难设定。|不模仿特定的动作，而是模仿目标动作的风格。通过对抗学习来判断模仿的风格像不像。<br>AMP 动作先验 = 对抗式判别器。||[link](https://caterpillarstudygroup.github.io/ReadPapers/198.html)|
 
 
 ### 运动规划器 + 运动控制器 + 运动执行器(PD控制)
@@ -332,9 +332,9 @@ mindmap
 
 |ID|Paper|Note|
 |--|--|--|
-|190|[2019.11.13] DReCon: data-driven responsive control of physics-based characters|   |
-|189|[2025.5.6] PARC: Physics-based Augmentation with Reinforcement Learning for Character Controllers|   |
-|188|[2025.5.13] CLOSD: CLOSING THE LOOP BETWEEN SIMULATION AND DIFFUSION FOR MULTI-TASK CHARACTER CONTROL|   |
+|190|[DReCon: data-driven responsive control of physics-based characters](https://caterpillarstudygroup.github.io/ReadPapers/190.html)|Motion Matching+RL 跟踪 +PD 执行 |
+|189|[PARC: Physics-based Augmentation with Reinforcement Learning for Character Controllers](https://caterpillarstudygroup.github.io/ReadPapers/189.html)|迭代数据扩增 |
+|188|[CLOSD: CLOSING THE LOOP BETWEEN SIMULATION AND DIFFUSION FOR MULTI-TASK CHARACTER CONTROL](https://caterpillarstudygroup.github.io/ReadPapers/188.html)|Diffusion 规划器 +RL 跟踪器 |
 
 ### (规划器, 控制器)+PD    
 
@@ -342,16 +342,15 @@ mindmap
 
 | ID | Paper | Note |
 |----|-------|------|
-| 183 | [2024.9.22]Maskedmimic: Unified physics-based character control through masked motion | |
-| 192 |[2024.12.4]PDP: Physics-Based Character Animation via Diffusion Policy | |
-| 193 | [2025.10.15] UniPhys Unified Planner and Controller with Diffusion for Flexible | |
-| 184 | [2025.10.15] UniPhys: Unified Planner and Controller with Diffusion for Flexible | 1. 把运动规划和控制整合到一个模型中，消除两个模型带来的domaingap<br>2. 文本、目标、轨迹等多模态输入<br>3. Diffusion Forcing范式进行训练，消除长期累计误差<br>4. 通过引导采样，无需finetune，即可泛化到不同（包括没见过）的控制信号。<br>具体方法为行为克隆学习，先从动捕数据中提取状态-策略对，再用diffusion学习策略。 |
+| 183 | [Maskedmimic: Unified physics-based character control through masked motion](https://caterpillarstudygroup.github.io/ReadPapers/183.html) | 掩码运动补全 |
+| 192 |[PDP: Physics-Based Character Animation via Diffusion Policy](https://caterpillarstudygroup.github.io/ReadPapers/192.html) | RL 专家蒸馏 |
+| 184 | [UniPhys: Unified Planner and Controller with Diffusion for Flexible](https://caterpillarstudygroup.github.io/ReadPapers/184.html) | 1. 把运动规划和控制整合到一个模型中，消除两个模型带来的 domaingap<br>2. 文本、目标、轨迹等多模态输入<br>3. Diffusion Forcing 范式进行训练，消除长期累计误差<br>4. 通过引导采样，无需 finetune，即可泛化到不同（包括没见过）的控制信号。<br>具体方法为行为克隆学习，先从动捕数据中提取状态 - 策略对，再用 diffusion 学习策略。 |
 
 或者更直接一点，把PD也整合进一个模型，生成模型直接出力/力矩    
 
 | ID | Paper | Note |
 |----|-------|------|
-| 186 | [2025.8.5] Diffuse-CLoC Guided Diffusion for Physics-based Character Look-ahead | |
+| 186 | [Diffuse-CLoC: Guided Diffusion for Physics-based Character Look-ahead](https://caterpillarstudygroup.github.io/ReadPapers/186.html) | 直接生成力/力矩 |
 
 ### 控制 + 转移 + PD
 
@@ -359,7 +358,7 @@ mindmap
 
 | ID | Paper | Note |
 |----|-------|------|
-| 191 | [2023.10.1]Universal Humanoid Motion Representations for Physics-Based Control | |
+| 191 | [Universal Humanoid Motion Representations for Physics-Based Control](https://caterpillarstudygroup.github.io/ReadPapers/191.html) | Prior+ 蒸馏 +RL|
 
 运动执行器：   
 
