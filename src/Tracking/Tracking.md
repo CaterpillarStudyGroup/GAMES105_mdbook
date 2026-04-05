@@ -61,15 +61,10 @@ flowchart TD
 - 在 mocap 基础上添加修正量，使其物理可行
 - 引入轨迹优化之后，控制本质上变成了设计 target state
 
----
+![](../assets/09-32.png)
 
-> &#x2705; 解决方法：不直接学习目标轨迹，而是先对目标轨迹增加一个修正。即轨迹优化。
-> &#x2705; 引入轨迹优化之后，控制本质上变成了设计 targer state．
->
-> ![](../assets/09-32.png)
->
-> P30
-> ## 轨迹优化的问题描述
+P30
+## 轨迹优化的问题描述
 
 > &#x1F50E; [Witkin and Kass 1988 – Spacetime constraints]   
 
