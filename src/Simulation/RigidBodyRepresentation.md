@@ -38,7 +38,6 @@ $$
 
 **深入学习**：
 - [GAMES103 - 刚体动力学](https://caterpillarstudygroup.github.io/GAMES103_mdbook/)
-- [GAMES103 - 运动学基础](https://caterpillarstudygroup.github.io/GAMES103_mdbook/)
 
 ---
 
@@ -120,49 +119,7 @@ $$
 
 ![](../assets/08-04.png)
 
-> &#x2705; 关节约束防止刚体分离，\\(f_J\\) 是未知的约束力。
-
-### 约束方程
-
-**关节约束**（以 Ball Joint 为例）：
-
-$$
-x_1 + R_1 r_1 = x_2 + R_2 r_2
-$$
-
-对时间求导得到速度级约束：
-
-$$
-v_1 + \omega_1 \times r_1 = v_2 + \omega_2 \times r_2
-$$
-
-矩阵形式：
-
-$$
-\begin{bmatrix}
- I_3 & -[r_1]_\times & -I_3 & [r_2]_\times
-\end{bmatrix}
-\begin{bmatrix}
-v_1 \\\\ \omega_1 \\\\ v_2 \\\\ \omega_2
-\end{bmatrix} = 0
-$$
-
-简化为：
-
-$$
-Jv = 0
-$$
-
-### 运动方程 + 约束方程联立
-
-$$
-\begin{align*}
- M\dot{v} + C(x,v) &= f + J^T\lambda \\\\
- Jv &= 0
-\end{align*}
-$$
-
-> &#x2705; 联立方程组可以解出约束力 \\(\lambda\\) 和下一时刻的速度。
+> &#x2705; 关节约束防止刚体分离，\\(f_J\\) 是未知的约束力，由约束求解算法计算。
 
 ### 多刚体系统的扩展
 
@@ -174,15 +131,26 @@ $$
 - \\(M\\) 是 \\(6n \times 6n\\) 的分块对角矩阵
 - \\(J\\) 是 \\(m \times 6n\\) 的矩阵（\\(m\\) 是约束数量）
 
+> &#x2705; **关于约束求解的详细说明**：
+> - 小球约束例子：[Constraints.md](Constraints.md)
+> - 关节约束推导：[JointConstraint.md](JointConstraint.md)
+> - 接触约束：[Contacts.md](Contacts.md)
+
 ---
 
-## 四、与后续章节的关系
+## 与后续章节的关系
 
 | 本节内容 | 后续应用 |
 |----------|----------|
 | 刚体动力学基础 | 理解单个身体的运动 |
 | 角色仿真表示 | 碰撞检测、接触求解 |
-| 分段多刚体动力学 | [Constraints.md](Constraints.md) - 约束求解 [JointConstraint.md](JointConstraint.md) - 关节约束 [Contacts.md](Contacts.md) - 接触模型 |
+| 分段多刚体公式 | 所有仿真章节的基础 |
+
+**约束求解专题**（本节不涉及，见后续章节）：
+- [Constraints.md](Constraints.md) - 约束求解原理（小球例子）
+- [JointConstraint.md](JointConstraint.md) - 关节约束推导
+- [Contacts.md](Contacts.md) - 接触模型
+- [SimulationPipeline.md](SimulationPipeline.md) - 完整仿真流程
 
 ---
 
@@ -199,8 +167,13 @@ $$
 M\dot{v} + C(x,v) = f + J^T\lambda
 $$
 
-- \\(f\\)：外力（重力、风力、关节力矩）
-- \\(J^T\lambda\\)：约束力（关节约束、接触约束）
+| 项 | 含义 |
+|----|------|
+| \\(M\dot{v} + C(x,v)\\) | 惯性力（质量 + 科氏力/离心力） |
+| \\(f\\) | 外力（重力、风力、关节力矩） |
+| \\(J^T\lambda\\) | 约束力（关节约束、接触约束） |
+
+> &#x2705; 本节只介绍分段多刚体的表示方法，约束求解的详细内容见后续章节。
 
 ---
 
