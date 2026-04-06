@@ -41,7 +41,7 @@ $$
  I_3 & -[r_1]_\times & -I_3 & [r_2]_\times
 \end{bmatrix}
 \begin{bmatrix}
-v_1 \\ \omega_1 \\ v_2 \\ \omega_2
+v_1 \\\\ \omega_1 \\\\ v_2 \\\\ \omega_2
 \end{bmatrix} = 0
 $$
 
@@ -77,7 +77,7 @@ $$
 **矩阵形式**：
 $$
 Jv = \begin{bmatrix}
- J_{\text{pos}} \\ J_{\text{ang}}
+ J_{\text{pos}} \\\\ J_{\text{ang}}
 \end{bmatrix} v = 0
 $$
 
@@ -134,7 +134,7 @@ $$
 
 $$
 \begin{align*}
- M\dot{v} + C(x,v) &= f + J^T\lambda \\
+ M\dot{v} + C(x,v) &= f + J^T\lambda \\\\
  Jv &= 0
 \end{align*}
 $$
@@ -243,11 +243,11 @@ Applying a joint torque \\(\tau\\):
 
 $$
 M\begin{bmatrix}
- \dot{v}_1 \\ \dot{\omega}_1 \\ \dot{v}_2 \\ \dot{\omega}_2
+ \dot{v}_1 \\\\ \dot{\omega}_1 \\\\ \dot{v}_2 \\\\ \dot{\omega}_2
 \end{bmatrix} + \begin{bmatrix}
- 0 \\ \omega_1 \times I_1 \omega_1 \\ 0 \\ \omega_2 \times I_2 \omega_2
+ 0 \\\\ \omega_1 \times I_1 \omega_1 \\\\ 0 \\\\ \omega_2 \times I_2 \omega_2
 \end{bmatrix} = \begin{bmatrix}
- 0 \\ \tau \\ 0 \\ -\tau
+ 0 \\\\ \tau \\\\ 0 \\\\ -\tau
 \end{bmatrix} + J^T\lambda
 $$
 
