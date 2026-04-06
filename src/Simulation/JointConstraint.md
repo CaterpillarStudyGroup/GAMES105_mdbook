@@ -6,6 +6,8 @@
 
 ## 关节类型与约束方程
 
+![](../assets/08-11.png)
+
 | 关节类型 | 约束自由度 | 位置约束 | 角速度约束 |
 |----------|-----------|----------|-----------|
 | **Ball Joint**（球铰） | 3 个平移 | ✅ | ❌ |
@@ -39,7 +41,7 @@ $$
  I_3 & -[r_1]_\times & -I_3 & [r_2]_\times
 \end{bmatrix}
 \begin{bmatrix}
-v_1 \\\\ \omega_1 \\\\ v_2 \\\\ \omega_2
+v_1 \\ \omega_1 \\ v_2 \\ \omega_2
 \end{bmatrix} = 0
 $$
 
@@ -54,7 +56,7 @@ $$
 
 ## Hinge Joint（铰链）
 
-![](../assets/08-11.png)
+
 
 > &#x2705; Hinge Joint 约束位置 + 2 个旋转自由度，只允许绕铰链轴旋转。
 
@@ -75,7 +77,7 @@ $$
 **矩阵形式**：
 $$
 Jv = \begin{bmatrix}
- J_{\text{pos}} \\\\ J_{\text{ang}}
+ J_{\text{pos}} \\ J_{\text{ang}}
 \end{bmatrix} v = 0
 $$
 
@@ -132,7 +134,7 @@ $$
 
 $$
 \begin{align*}
- M\dot{v} + C(x,v) &= f + J^T\lambda \\\\
+ M\dot{v} + C(x,v) &= f + J^T\lambda \\
  Jv &= 0
 \end{align*}
 $$
@@ -206,11 +208,11 @@ Applying a joint torque \\(\tau\\):
 
 $$
 M\begin{bmatrix}
- \dot{v}_1 \\\\ \dot{\omega}_1 \\\\ \dot{v}_2 \\\\ \dot{\omega}_2
+ \dot{v}_1 \\ \dot{\omega}_1 \\ \dot{v}_2 \\ \dot{\omega}_2
 \end{bmatrix} + \begin{bmatrix}
- 0 \\\\ \omega_1 \times I_1 \omega_1 \\\\ 0 \\\\ \omega_2 \times I_2 \omega_2
+ 0 \\ \omega_1 \times I_1 \omega_1 \\ 0 \\ \omega_2 \times I_2 \omega_2
 \end{bmatrix} = \begin{bmatrix}
- 0 \\\\ \tau \\\\ 0 \\\\ -\tau
+ 0 \\ \tau \\ 0 \\ -\tau
 \end{bmatrix} + J^T\lambda
 $$
 
