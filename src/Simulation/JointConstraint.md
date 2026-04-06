@@ -1,135 +1,99 @@
+# 关节约束
 
-P105
-# Joint Constraint
-
-## 角色动力学基础
-
-### 定义仿真角色
-
-![](../assets/09-06.png)
-
-一个仿真角色由以下元素组成：
-
-**Rigid bodies（刚体）**:
- - \\(m_i, I_i\\) - 质量和转动惯量
- - \\(x_i, R_i\\) - 位置和旋转
- - Geometries - 几何体（仿真中使用简单几何体代替 Mesh，便于碰撞检测）
-
-**Joints（关节）**:
- - Position - 关节位置
- - Type - 关节类型（如 Hinge、Universal 等，决定了约束方程）
- - Bodies - 连接的刚体
-
-> &#x2705; 关节的数量比刚体的数量少 1
+> 💡 **前置知识**：关于角色的分段刚体表示，见 [RigidBodyRepresentation.md](RigidBodyRepresentation.md)
 
 ---
 
-## 无关节约束
+## 关节约束方程
 
-两个独立刚体的仿真   
-
-![](../assets/08-02.png)
-
-> &#x2705; 两个刚体的场景，如果两个刚体独立，可以以矩阵的方式扩展。  
-> &#x2705; 物体在力的作用下的物理状态的更新公式．见 GAMES 103．   
-> &#x2705; 每一行是独立的，联立起来为方程组。   
-
-以上公式会简化为：
-
-$$
-M\dot{v} +C(x,v)=f
-$$
-
-> &#x2705; 第二项是关于x和v的函数，x体现在\\(\omega\\)，v体现在I。  
-
-P93   
-
-> &#x2705; 结果是两个物体会分开。  
-
-![](../assets/08-03.png)
-
-## 两个刚体和一个关节约束
+两个刚体通过关节连接时，需要满足约束条件。
 
 ![](../assets/08-04.png)
 
-$$
-M\dot{v} +C(x,v)=f+f_J
-$$
+> &#x2705; 关节约束防止刚体分离，\\(f_J\\) 是未知的约束力。
 
-> &#x2705; 两个物体中间有一个关节通过在关节处添加旋转力\\(f_J\\)的方法来约束两个物体不能分开。但 \\(f_J\\) 是未知的。   
-
-### 约束方程
-
-> &#x2705; 参考约束应用的简单例子，如何把约束应用到两个物体的连接约束上。   
+### 位置级约束
 
 ![](../assets/08-10.png)
 
-> &#x2705; 因此设计约束：从 \\(x_1\\) 求 \\(x_J\\)位置 和从 \\(x_2\\) 求 \\(x_J\\)位置所得结果应该相同。  
+> &#x2705; 关节约束：两个刚体在关节处的位置必须相同。
 
 $$
-x_1+R_1r_1=x_J=x_2+R_2r_2
+x_1 + R_1 r_1 = x_J = x_2 + R_2 r_2
 $$
 
-对\\(dt\\)求导：
+### 速度级约束
+
+对时间求导：
 
 $$
-v_1+\omega _1\times r_1=v_2+\omega _2\times r_2
+v_1 + \omega_1 \times r_1 = v_2 + \omega_2 \times r_2
 $$
 
-P106   
-> &#x2705; 整理得矩阵形式，得：   
+### 矩阵形式
+
+整理得：
 
 $$
 \begin{bmatrix}
- I_3 & -[r_1] _ \times  & -I_3 & [r_2] _ \times 
-\end{bmatrix}\begin{bmatrix}
-v_1 \\\\
-w_1 \\\\
-v_2 \\\\
-w_2
-\end{bmatrix}=0
+ I_3 & -[r_1]_\times & -I_3 & [r_2]_\times
+\end{bmatrix}
+\begin{bmatrix}
+v_1 \\\\ \omega_1 \\\\ v_2 \\\\ \omega_2
+\end{bmatrix} = 0
 $$
 
-> &#x2705; 矩阵乘法第一项为 \\(J\\)，第二项为 \\(v\\). 进一步简化为：  
+简化为：
 
 $$
-Jv=0
+Jv = 0
 $$
 
-P107   
- 
-### 运动方程+约束方程   
+---
+
+## 运动方程 + 约束方程
 
 $$
 \begin{align*}
- M\dot{v} +C(x,v)& =f+J^T\lambda  \\\\
-  Jv&=0
+ M\dot{v} + C(x,v) &= f + J^T\lambda \\\\
+ Jv &= 0
 \end{align*}
 $$
 
-> &#x2705; 公式 1：运动方程。公式 2：约束方程。  
-> &#x2705; 运动方程与约束方程联立，可以解出约束力\\(f_J\\)，以及下一时刻的速度。   
+> &#x2705; 公式 1：运动方程。公式 2：约束方程。
+> &#x2705; 联立方程组可以解出约束力 \\(\lambda\\) 和下一时刻的速度。
 
+**约束求解的详细推导**：见 [Constraints.md](Constraints.md)（小球例子）
 
-P109  
-### Different Types of Joints
+---
 
-> &#x2705; 前面描述的是 Ball Joint的约束。  
+## 不同类型的关节
+
+### Ball Joint（球铰）
+
+> &#x2705; 前面推导的是 Ball Joint 的约束，只约束位置，允许三个方向的旋转。
+
+### Hinge Joint（铰链）
 
 ![](../assets/08-11.png)
 
-> &#x2705; Hinge 约束：除了位置还有角速度约束，在某个轴上的角速度应当一致。Universal 类似。    
+> &#x2705; Hinge 约束：除了位置约束，还有角速度约束——在某个轴上的角速度必须一致。
 
+### Universal Joint（万向节）
 
+> &#x2705; Universal 约束：约束两个旋转自由度，允许一个旋转自由度。
 
-P110   
+---
+
 ## 多个刚体与多个约束
 
 ![](../assets/08-12.png)
 
+> &#x2705; 分段多刚体系统：公式形式相同，只是矩阵维度更大。
 
-> &#x2705; 分段多刚体在公式上没有本质区别，只是矩阵更大一点。
-
+对于 \\(n\\) 个刚体、\\(m\\) 个约束的系统：
+- \\(M\\) 是 \\(6n \times 6n\\) 的分块对角矩阵
+- \\(J\\) 是 \\(m \times 6n\\) 的矩阵
 
 ---
 
@@ -137,30 +101,24 @@ P110
 
 ### 什么是 Joint Torques
 
-> &#x2705; 关节上的力矩，可以看作是一个刚体对另一个刚体在关节处施加的成对的力。其合力为零但每个力施加的位置不同，可以转化为对另一刚体的力矩。
+> &#x2705; 关节上的力矩，可以看作是一个刚体对另一个刚体在关节处施加的成对的力。其合力为零，但每个力施加的位置不同，可以转化为对另一刚体的力矩。
 
 ![](../assets/09-014.png)
 
 $$
-\sum_{i}^{} f_i=0
+\sum_{i} f_i = 0
 $$
 
 > &#x2705; 每个力都会对其中一个刚体的质心上产生力矩，合力矩不为 0。
 
 $$
-\tau _1= \sum _ {i}^{} (r_1+r_i) \times f_i=r_1 \times \sum _ {i}^{}f_i + \sum _ {i}^{}r_i \times f_i
+\tau_1 = \sum_{i} (r_1 + r_i) \times f_i = r_1 \times \sum_{i} f_i + \sum_{i} r_i \times f_i
 $$
 
-由于
+由于 \\(\sum_{i} f_i = 0\\)，得：
 
 $$
-\sum _ {i}^{}  f_i=0
-$$
-
-得：
-
-$$
-\tau _1= \sum _ {i}^{} r_i \times f_i \quad \quad \quad \quad \tau _2= -\sum _ {i}^{} r_i \times f_i
+\tau_1 = \sum_{i} r_i \times f_i \quad\quad\quad \tau_2 = -\sum_{i} r_i \times f_i
 $$
 
 > &#x2705; 另一个方向同理。
@@ -170,43 +128,33 @@ $$
 
 ![](../assets/09-16.png)
 
-> &#x2705; 在关节上施加力矩 \\( \tau\\) 等价于在一个刚体上施加 \\( \tau\\)，在另一个刚体上施加 \\(- \tau\\).
+> &#x2705; 在关节上施加力矩 \\(\tau\\) 等价于在一个刚体上施加 \\(\tau\\)，在另一个刚体上施加 \\(-\tau\\)。
 
 ---
 
 ### 怎样施加 Joint Torques
 
-Applying a joint torque \\( \tau\\):
- - Add \\( \tau\\) to one attached body
- - Add \\( -\tau\\) to the other attached body
+Applying a joint torque \\(\tau\\):
+- Add \\(\tau\\) to one attached body
+- Add \\(-\tau\\) to the other attached body
 
 $$
 M\begin{bmatrix}
- \dot{v}_1 \\\\
-\dot{\omega }_1 \\\\
-\dot{v}_2\\\\
-\dot{\omega }_2
+ \dot{v}_1 \\\\ \dot{\omega}_1 \\\\ \dot{v}_2 \\\\ \dot{\omega}_2
 \end{bmatrix} + \begin{bmatrix}
- 0\\\\
-\omega_1 \times I_1 \omega _1\\\\
-0\\\\
-\omega_2 \times I_2 \omega _2
-\end{bmatrix}=\begin{bmatrix}
-0 \\\\
-\tau \\\\
-0 \\\\
--\tau
-\end{bmatrix}+J^T\lambda
+ 0 \\\\ \omega_1 \times I_1 \omega_1 \\\\ 0 \\\\ \omega_2 \times I_2 \omega_2
+\end{bmatrix} = \begin{bmatrix}
+ 0 \\\\ \tau \\\\ 0 \\\\ -\tau
+\end{bmatrix} + J^T\lambda
 $$
 
 $$
-Jv=0
+Jv = 0
 $$
 
-> &#x2705; 通常在子关节上加 \\(\tau \\)，在父关节上加 \\(-\tau \\)．   
+> &#x2705; 通常在子关节上加 \\(\tau\\)，在父关节上加 \\(-\tau\\)。
 
+---
 
----------------------------------------
-> 本文出自CaterpillarStudyGroup，转载请注明出处。
->
+> 本文出自 CaterpillarStudyGroup，转载请注明出处。
 > https://caterpillarstudygroup.github.io/GAMES105_mdbook/
