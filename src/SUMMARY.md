@@ -41,7 +41,10 @@
   - [Zero-Moment Point (ZMP)](ZMP.md)
   - [SIMBICON](SIMBICON.md)
 
+# 混合方法
 
+- [混合方法](Hybrid.md)
+  
 # Application
 
 - [Locomotion](Application/Locomotion.md)
