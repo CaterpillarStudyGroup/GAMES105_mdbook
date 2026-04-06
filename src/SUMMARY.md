@@ -20,10 +20,11 @@
 
 - [动力学方法概览](DynamicsOverview.md)
 - [角色物理仿真基础](Simulation/Simulation.md)
+  - [角色的分段刚体表示](Simulation/RigidBodyRepresentation.md)
   - [Constraints](Simulation/Constraints.md)
   - [关节约束](Simulation/JointConstraint.md)
   - [Contacts](Simulation/Contacts.md)
-  - [总结](Simulation/Actuating.md)
+  - [总结](Simulation/SimulationPipeline.md)
 - [PD 控制](PDControl/PDControl.md)
   - [Proportional-Derivative Control](Proportional-DerivativeControl.md)
   - [Controlling Characters](Controlling.md)
