@@ -1,6 +1,6 @@
 # 关节力矩（Joint Torques）
 
-> &#128712; **前置知识**：关于关节约束的数学形式，见 [JointConstraint.md](JointConstraint.md)
+> &#128712; **前置知识**：关于关节约束的数学形式，见 [JointConstraint.md](../Simulation/JointConstraint.md)
 
 ---
 
@@ -10,7 +10,7 @@
 
 ### 物理意义
 
-![](../assets/09-014.png)
+![](../../assets/09-014.png)
 
 > &#10004; 关节力矩可以看作是一个刚体对另一个刚体在关节处施加的**成对的力**。
 
@@ -52,7 +52,7 @@ $$
 > - 在一个刚体上施加 $\tau$
 > - 在另一个刚体上施加 $-\tau$
 
-![](../assets/09-16.png)
+![](../../assets/09-16.png)
 
 ---
 
@@ -331,8 +331,9 @@ $$
 
 | 章节 | 与关节力矩的关系 |
 |------|----------------|
-| [PD 控制](../PDControl/PDControl.md) | 如何计算关节力矩 $\tau$ |
-| [StaticBalance](../PDControl/StaticBalance.md) | 平衡时的关节力矩计算 |
+| [Proportional-Derivative Control](Proportional-DerivativeControl.md) | 如何计算关节力矩 $\tau$ |
+| [Controlling Characters](Controlling.md) | PD 控制在角色上的应用 |
+| [Static Balance](StaticBalance.md) | 平衡时的关节力矩计算 |
 | [Tracking](../Tracking/Tracking.md) | 优化关节力矩序列跟踪参考运动 |
 | [Learning](../CharacterControl/Learning.md) | 学习策略输出关节力矩 |
 

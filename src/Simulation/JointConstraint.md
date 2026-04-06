@@ -273,7 +273,7 @@ $$
 
 ## 关节力矩
 
-**关节力矩的详细介绍**：见 [JointTorques.md](JointTorques.md)
+**关节力矩的详细介绍**：见 [JointTorques.md](../PDControl/JointTorques.md)
 
 > &#x2705; 关节力矩是**主动控制力矩**，用于驱动角色运动。在运动方程中：
 > $$

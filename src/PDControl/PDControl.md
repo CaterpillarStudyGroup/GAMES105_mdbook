@@ -62,6 +62,7 @@ flowchart TD
 
 | 文件 | 内容 |
 |------|------|
+| [关节力矩](JointTorques.md) | **什么是关节力矩**<br/>- 物理定义与数学推导<br/>- 为什么需要关节力矩（vs. 外力）<br/>- 在运动方程中的位置 |
 | [Proportional-Derivative Control](../Proportional-DerivativeControl.md) | PD 控制理论基础<br/>- 简化例子：物体上下移动<br/>- P 控制、PD 控制、PID 控制<br/>- Stable PD（隐式欧拉） |
 | [Controlling Characters](../Controlling.md) | PD 在角色上的应用<br/>- 参数调优（\\(k_p\\)、\\(k_d\\)）<br/>- 欠驱动问题与净外力<br/>- 稳态误差问题 |
 | [Static Balance](StaticBalance.md) | 静态平衡专题<br/>- 支撑面与质心<br/>- PD 控制策略<br/>- Jacobian Transpose Control |
