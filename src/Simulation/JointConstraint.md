@@ -37,9 +37,11 @@ $$
 
 **矩阵形式**：
 $$
-\begin{bmatrix}
- I_3 & -[r_1]_\times & -I_3 & [r_2]_\times
-\end{bmatrix}
+J = \begin{bmatrix} I_3 & -[r_1]_\times & -I_3 & [r_2]_\times \end{bmatrix}
+$$
+
+$$
+\begin{bmatrix} I_3 & -[r_1]_\times & -I_3 & [r_2]_\times \end{bmatrix}
 \begin{bmatrix}
 v_1 \\\\ \omega_1 \\\\ v_2 \\\\ \omega_2
 \end{bmatrix} = 0
