@@ -14,9 +14,9 @@
 - **GAMES105 - 接触约束求解**：focus 在如何将接触建模为约束，并与关节约束统一求解
 
 **深入学习**：
-- [GAMES103 - 刚体的碰撞检测](https://caterpillarstudygroup.github.io/GAMES103_mdbook/src/9_collision_detect.md)
-- [GAMES103 - 内点法](https://caterpillarstudygroup.github.io/GAMES103_mdbook/src/Interior_Point_Methods.md)
-- [GAMES103 - 碰撞响应总结](https://caterpillarstudygroup.github.io/GAMES103_mdbook/src/9_collision_response.md)
+- [GAMES103 - 刚体的碰撞检测](https://caterpillarstudygroup.github.io/GAMES103_mdbook/9_collision_detect.md)
+- [GAMES103 - 内点法](https://caterpillarstudygroup.github.io/GAMES103_mdbook/Interior_Point_Methods.md)
+- [GAMES103 - 碰撞响应总结](https://caterpillarstudygroup.github.io/GAMES103_mdbook/9_collision_response.md)
 
 :::
 
