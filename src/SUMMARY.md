@@ -19,8 +19,7 @@
 # Physics-based/Dynamic Approaches
 
 - [动力学方法概览](DynamicsOverview.md)
-- [角色物理仿真基础](Simulation/README.md)
-  - [Simulation](Simulation/Simulation.md)
+- [角色物理仿真基础](Simulation/Simulation.md)
   - [Constraints](Simulation/Constraints.md)
   - [关节约束](Simulation/JointConstraint.md)
   - [Contacts](Simulation/Contacts.md)
