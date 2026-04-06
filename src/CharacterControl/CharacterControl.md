@@ -7,33 +7,27 @@
 ## 在控制系统中的位置
 
 ```mermaid
-flowchart TD
-    subgraph "仿真基础"
-        A[Simulation.md<br/>物理仿真基础]
+flowchart LR
+    subgraph "中层：策略生成"
+        C["Tracking.md<br/>轨迹优化（有参考）"]
+        D["Character Control<br/>简化模型控制（无参考）"]
     end
 
     subgraph "底层：执行控制"
         B[PDControl.md<br/>PD 控制]
     end
 
-    subgraph "中层：策略生成"
-        C["Tracking.md<br/>轨迹优化（有参考）"]
-        D["Character Control<br/>简化模型控制（无参考）"]
+    subgraph "仿真"
+        A[Simulation.md<br/>物理仿真基础]
     end
-
-    A -->|"输出状态 →"| B
-    A -->|"输出状态 →"| C
-    A -->|"输出状态 →"| D
-
-    B -->|"执行力矩 →"| A
-    C -->|"目标轨迹 →"| B
-    D -->|"目标轨迹/反馈 →"| B
 
     E["动捕数据"] -.->|参考 | C
     F["用户指令<br/>速度/方向"] -.->|目标 | D
 
-    style C fill:#e1f5ff
-    style D fill:#fff4e1
+    C -->|"目标轨迹"| B
+    D -->|"目标轨迹/反馈"| B
+    B -->|"关节力矩 τ"| A
+    A -->|"当前状态"| B
 ```
 
 ---
