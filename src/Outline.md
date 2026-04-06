@@ -1,4 +1,10 @@
-# 控制系统概览
+# 基于动力学的角色驱动方法概览
+
+> &#x2705; **本章定位**：理解如何**通过力/力矩驱动角色**，生成符合物理规律的动画。
+
+> 💡 **运动学 vs 动力学** 的详细对比参见 [Introduction](Introduction.md#运动学-vs-动力学对比)
+
+---
 
 ## 本章知识框架
 
@@ -33,40 +39,50 @@ mindmap
 
 ---
 
-## 控制系统层次结构
+## 动力学方法的四个核心模块
 
-理解角色控制的三个层次：
+理解动力学方法的四个核心模块：
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  高层：任务规划 (Task Planning)                              │
-│  "做什么动作？什么时候做？"                                   │
-│  方法：有限状态机、行为树、任务规划                          │
+│  仿真器 (Simulation)                                        │
+│  输入：力/力矩 → 输出：新状态                                │
+│  核心：Mv̇ + C = f + Jᵀλ                                    │
 ├─────────────────────────────────────────────────────────────┤
-│  中层：轨迹生成/策略学习 (Trajectory/Policy)                 │
-│  "如何生成目标动作序列？"                                     │
-│  方法：轨迹优化 (CMA-ES/SAMCON)、RL (DeepMimic/AMP/ASE)       │
+│  底层执行 (PD Control)                                      │
+│  输入：目标状态 → 输出：关节力矩 τ                            │
+│  核心：τ = k_p(q* - q) + k_d(q̇* - q̇)                       │
 ├─────────────────────────────────────────────────────────────┤
-│  底层：执行控制 (Low-level Control)                          │
-│  "如何计算关节力矩？"                                         │
-│  方法：PD 控制                                                │
+│  中层策略 (Trajectory/Policy Generation)                    │
+│  输入：任务指令 → 输出：目标轨迹/策略                         │
+│  ① 轨迹优化：有参考轨迹 (CMA-ES/SAMCON)                     │
+│  ② 角色控制：无参考轨迹 (ZMP/IPM/SIMBICON)                  │
+│  ③ 强化学习：DeepMimic/AMP/ASE                              │
+├─────────────────────────────────────────────────────────────┤
+│  高层规划 (Task Planning)                                   │
+│  输入：用户意图 → 输出：任务序列                              │
+│  方法：有限状态机、行为树                                    │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**本章节重点**：
-- **Outline.md**: 控制系统概览
-- **Proportional-DerivativeControl.md**: 底层 PD 控制原理
-- **Controlling.md**: PD 在角色上的应用
-- **Tracking/**: 中层轨迹优化方法
-
-**层次之间的关系**：
+**四个模块的关系**：
 
 ```
-中层 (轨迹优化/DeepMimic) 输出目标 q*, q̇*
-              ↓
-底层 PD 控制器 τ = k_p(q* - q) + k_d(q̇* - q̇)
-              ↓
-         物理仿真器
+高层规划 → 任务指令
+    ↓
+中层策略 → 目标轨迹 q*, q̇*  (轨迹优化/角色控制/RL)
+    ↓
+底层执行 → 关节力矩 τ
+    ↓
+仿真器 → 新状态
 ```
 
-**深入学习**: [DeepMimic](https://caterpillarstudygroup.github.io/ReadPapers/201.html) | [AMP](https://caterpillarstudygroup.github.io/ReadPapers/198.html) | [ASE](https://caterpillarstudygroup.github.io/ReadPapers/199.html)
+**本章子章节**：
+
+| 模块 | 文件 | 内容 |
+|------|------|------|
+| **仿真基础** | [Simulation.md](Simulation.md) | 物理仿真器的工作原理 |
+| **约束** | [JointConstraint.md](JointConstraint.md) | 关节约束、接触约束 |
+| **执行控制** | [PDControl/](PDControl/PDControl.md) | PD 控制原理与应用 |
+| **轨迹优化** | [Tracking/](Tracking/Tracking.md) | 有参考轨迹的生成方法 |
+| **角色控制** | [CharacterControl/](CharacterControl/CharacterControl.md) | 无参考轨迹的行走控制 |
