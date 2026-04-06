@@ -8,17 +8,15 @@
 > 1. **地面接触检测**：检测哪些点/面与地面接触
 > 2. **接触力施加**：如何对碰撞点施加力，使物体不陷入地面
 
-:::admonish info 与 GAMES103 的分工
-
-- **GAMES103 - 碰撞检测与响应**：详细介绍碰撞检测算法（Broad Phase、Narrow Phase、GJK、CCD）和穿透解除方法（内点法、Impact Zone）
-- **GAMES105 - 接触约束求解**：focus 在如何将接触建模为约束，并与关节约束统一求解
-
-**深入学习**：
-- [GAMES103 - 刚体的碰撞检测](https://caterpillarstudygroup.github.io/GAMES103_mdbook/9_collision_detect.md)
-- [GAMES103 - 内点法](https://caterpillarstudygroup.github.io/GAMES103_mdbook/Interior_Point_Methods.md)
-- [GAMES103 - 碰撞响应总结](https://caterpillarstudygroup.github.io/GAMES103_mdbook/9_collision_response.md)
-
-:::
+> 💡 **与 GAMES103 的分工**
+>
+> - **GAMES103 - 碰撞检测与响应**：详细介绍碰撞检测算法（Broad Phase、Narrow Phase、GJK、CCD）和穿透解除方法（内点法、Impact Zone）
+> - **GAMES105 - 接触约束求解**：focus 在如何将接触建模为约束，并与关节约束统一求解
+>
+> **深入学习**：
+> - [GAMES103 - 刚体的碰撞检测](https://caterpillarstudygroup.github.io/GAMES103_mdbook/9_collision_detect.md)
+> - [GAMES103 - 内点法](https://caterpillarstudygroup.github.io/GAMES103_mdbook/Interior_Point_Methods.md)
+> - [GAMES103 - 碰撞响应总结](https://caterpillarstudygroup.github.io/GAMES103_mdbook/9_collision_response.md)
 
 ---
 
@@ -75,21 +73,19 @@ $$
 
 ---
 
-:::admonish info 与 GAMES103 内点法的关系
-
-GAMES103 中介绍的**内点法（Interior Point Methods）**使用了类似的惩罚思想，但用能量场定义斥力：
-
-$$
-E(\mathbf{x}) = -\rho \log ||\mathbf{x}_{ij}||
-$$
-
-$$
-\mathbf{f} = -\nabla E = \rho \frac{\mathbf{x}_{ij}}{||\mathbf{x}_{ij}||^2}
-$$
-
-两种方法本质相同：**距离越近，斥力越大**。GAMES105 使用简化的弹簧模型，更易于理解。
-
-:::
+> 💡 **与 GAMES103 内点法的关系**
+>
+> GAMES103 中介绍的**内点法（Interior Point Methods）**使用了类似的惩罚思想，但用能量场定义斥力：
+>
+> $$
+> E(\mathbf{x}) = -\rho \log ||\mathbf{x}_{ij}||
+> $$
+>
+> $$
+> \mathbf{f} = -\nabla E = \rho \frac{\mathbf{x}_{ij}}{||\mathbf{x}_{ij}||^2}
+> $$
+>
+> 两种方法本质相同：**距离越近，斥力越大**。GAMES105 使用简化的弹簧模型，更易于理解。
 
 ---
 
