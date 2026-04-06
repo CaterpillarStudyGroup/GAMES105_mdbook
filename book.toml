@@ -9,7 +9,8 @@ title = "3D角色骨骼动画技术"
 [preprocessor.mermaid]
 command = "mdbook-mermaid"
 
-[preprocessor.alerts]
+[preprocessor.admonish]
+command = "mdbook-admonish"
 
 [output.html]
 mathjax-support = true

@@ -8,7 +8,7 @@
 > 1. **地面接触检测**：检测哪些点/面与地面接触
 > 2. **接触力施加**：如何对碰撞点施加力，使物体不陷入地面
 
-:::info 与 GAMES103 的分工
+:::admonish info 与 GAMES103 的分工
 
 - **GAMES103 - 碰撞检测与响应**：详细介绍碰撞检测算法（Broad Phase、Narrow Phase、GJK、CCD）和穿透解除方法（内点法、Impact Zone）
 - **GAMES105 - 接触约束求解**：focus 在如何将接触建模为约束，并与关节约束统一求解
@@ -75,7 +75,7 @@ $$
 
 ---
 
-:::info 与 GAMES103 内点法的关系
+:::admonish info 与 GAMES103 内点法的关系
 
 GAMES103 中介绍的**内点法（Interior Point Methods）**使用了类似的惩罚思想，但用能量场定义斥力：
 
