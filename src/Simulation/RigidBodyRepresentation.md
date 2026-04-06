@@ -37,8 +37,8 @@ $$
 | \\(f, \tau\\) | 外力、外力矩 |
 
 **深入学习**：
-- [GAMES103 - 刚体动力学](https://games103.tech/)
-- [GAMES103 - 运动学基础](https://games103.tech/)
+- [GAMES103 - 刚体动力学](https://caterpillarstudygroup.github.io/GAMES103_mdbook/)
+- [GAMES103 - 运动学基础](https://caterpillarstudygroup.github.io/GAMES103_mdbook/)
 
 ---
 
