@@ -4,7 +4,18 @@
 
 ![](../assets/08-13.png)
 
-> &#10004; 要解决的问题：(1) 地面接触检测 (2) 如何对碰撞点施加力，使物体出来。
+> &#10004; 要解决的问题：
+> 1. **地面接触检测**：检测哪些点/面与地面接触
+> 2. **接触力施加**：如何对碰撞点施加力，使物体不陷入地面
+
+:::info 与 GAMES103 的分工
+
+- **GAMES103 - 碰撞检测算法**：详细介绍 Broad Phase、Narrow Phase、GJK、CCD 等检测算法
+- **GAMES105 - 接触力/约束求解**： focus 在检测出接触后，如何计算接触力并施加到运动方程中
+
+**深入学习**：[GAMES103 - 刚体的碰撞检测](https://caterpillarstudygroup.github.io/GAMES103_mdbook/src/9_collision_detect.md) | [GAMES103 - 离散相交检测](https://caterpillarstudygroup.github.io/GAMES103_mdbook/src/9_collision_detect_narrow.md)
+
+:::
 
 ---
 
