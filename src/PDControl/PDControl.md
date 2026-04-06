@@ -90,4 +90,38 @@ flowchart TD
 
 ---
 
+## 补充概念
+
+### Fully-Actuated vs. Underactuated
+
+在上一节中，\\(f\\) 与 \\(V\\) 的自由度可能是不同的。\\(f\\) 是关节数\\( × 3\\)，\\(V\\) 是刚体数\\( × 3\\)。
+
+|||
+|--|--|
+|![](../assets/09-20.png) | ![](../assets/09-21.png)|
+|If #actuators ≥ #dofs, the system is **fully-actuated** | If #actuators < #dofs, the system is **underactuated** |
+|For any \\([x,v,\dot{v} ]\\), there exists an \\(f\\) that produces the motion|For many \\([x,v,\dot{v} ]\\) , there is no such \\(f\\) that produces the motion|
+|&#x2705; 可以精确控制机械臂到达目标状态。|&#x2705; 不借助外力情况，人无法控制 Hips 的状态（位置）。|
+
+> &#x2705; ＃actuators：\\(f \\) 和 \\(\tau \\) 的自由度。
+> &#x2705; #dofs：角色状态的自由度。
+> &#x2705; 避免让角色掉入无法控制的状态。
+
+---
+
+### Feedforward vs. Feedback
+
+![](../assets/09-22.png)
+
+驱动角色运动的控制器是通过优化目标函数产生的。
+
+|Feedforward control|Feedback control|
+|---|---|
+|\\(f,\tau =\pi (t)\\)|\\(f,\tau =\pi (s_t,t)\\)|
+|Apply predefined control signals **without considering the current state** of the system|Adjust control signals based on the current state of the system|
+|Assuming unchanging system.|Certain perturbations are expected.|
+|Perturbations may lead to unpredicted results<br>&#x2705; 如果角色受到挠动而偏离了原计划，无法修正回来。|The feedback signal will be used to improves the performance at the next state.|
+
+---
+
 **深入学习**：[DeepMimic](https://caterpillarstudygroup.github.io/ReadPapers/201.html) | [AMP](https://caterpillarstudygroup.github.io/ReadPapers/198.html) | [ASE](https://caterpillarstudygroup.github.io/ReadPapers/199.html)
