@@ -271,62 +271,15 @@ $$
 
 ---
 
-## 关节力矩（Joint Torques）
+## 关节力矩
 
-### 什么是 Joint Torques
+**关节力矩的详细介绍**：见 [JointTorques.md](JointTorques.md)
 
-> &#x2705; 关节上的力矩，可以看作是一个刚体对另一个刚体在关节处施加的成对的力。其合力为零，但每个力施加的位置不同，可以转化为对另一刚体的力矩。
-
-![](../assets/09-014.png)
-
-$$
-\sum_{i} f_i = 0
-$$
-
-> &#x2705; 每个力都会对其中一个刚体的质心上产生力矩，合力矩不为 0。
-
-$$
-\tau_1 = \sum_{i} (r_1 + r_i) \times f_i = r_1 \times \sum_{i} f_i + \sum_{i} r_i \times f_i
-$$
-
-由于 \\(\sum_{i} f_i = 0\\)，得：
-
-$$
-\tau_1 = \sum_{i} r_i \times f_i \quad\quad\quad \tau_2 = -\sum_{i} r_i \times f_i
-$$
-
-> &#x2705; 另一个方向同理。
-> &#x2705; 力矩跟关节的位置没有关系。
-
-**结论**：
-
-![](../assets/09-16.png)
-
-> &#x2705; 在关节上施加力矩 \\(\tau\\) 等价于在一个刚体上施加 \\(\tau\\)，在另一个刚体上施加 \\(-\tau\\)。
-
----
-
-### 怎样施加 Joint Torques
-
-Applying a joint torque \\(\tau\\):
-- Add \\(\tau\\) to one attached body
-- Add \\(-\tau\\) to the other attached body
-
-$$
-M\begin{bmatrix}
- \dot{v}_1 \\\\ \dot{\omega}_1 \\\\ \dot{v}_2 \\\\ \dot{\omega}_2
-\end{bmatrix} + \begin{bmatrix}
- 0 \\\\ \omega_1 \times I_1 \omega_1 \\\\ 0 \\\\ \omega_2 \times I_2 \omega_2
-\end{bmatrix} = \begin{bmatrix}
- 0 \\\\ \tau \\\\ 0 \\\\ -\tau
-\end{bmatrix} + J^T\lambda
-$$
-
-$$
-Jv = 0
-$$
-
-> &#x2705; 通常在子关节上加 \\(\tau\\)，在父关节上加 \\(-\tau\\)。
+> &#x2705; 关节力矩是**主动控制力矩**，用于驱动角色运动。在运动方程中：
+> $$
+> M\dot{v} + C(x,v) = f_{\text{ext}} + f_{\text{joint}} + J^T\lambda
+> $$
+> 其中 \\(f_{\text{joint}}\\) 是关节力矩（主动），\\(J^T\lambda\\) 是约束力（被动）。
 
 ---
 
