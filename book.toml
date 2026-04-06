@@ -9,6 +9,8 @@ title = "3D角色骨骼动画技术"
 [preprocessor.mermaid]
 command = "mdbook-mermaid"
 
+[preprocessor.alerts]
+
 [output.html]
 mathjax-support = true
 git-repository-url = "https://github.com/CaterpillarStudyGroup/GAMES105_mdbook"
