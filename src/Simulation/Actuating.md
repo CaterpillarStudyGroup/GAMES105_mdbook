@@ -1,11 +1,11 @@
 # 质点动力学
 
-![](./assets/09-01.png)
+![](../assets/09-01.png)
 
 P10  
 # 刚体动力学  
 
-![](./assets/09-02.png)   
+![](../assets/09-02.png)   
 
 $$
 \begin{bmatrix}
@@ -41,7 +41,7 @@ Geometry:
 P14   
 # 分段刚体动力学   
 
-![](./assets/09-04.png)  
+![](../assets/09-04.png)  
 
 > &#x2705; 两个独立刚体，和一个不让它们断开的约束。    
 
@@ -54,12 +54,12 @@ $$
 P16   
 # 刚体系统仿真（无contact）
 
-![](./assets/09-05.png)
+![](../assets/09-05.png)
 
 # 刚体系统仿真
 
 
-![](./assets/08-18.png)   
+![](../assets/08-18.png)   
 
 
 > &#x2705; 把人简化为分段刚体。整体过程为：  
@@ -71,7 +71,7 @@ P16
 P19   
 # Simulating a Character Pipeline  
 
-![](./assets/09-07.png)
+![](../assets/09-07.png)
 
 > &#x2705; 这个仿真流程是 ragdoll 效果。   
 

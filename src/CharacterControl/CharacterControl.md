@@ -18,7 +18,7 @@ flowchart LR
     end
 
     subgraph "仿真"
-        A[Simulation.md<br/>物理仿真基础]
+        A[Simulation/Simulation.md<br/>物理仿真基础]
     end
 
     E["动捕数据"] -.->|参考 | C

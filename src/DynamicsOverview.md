@@ -81,8 +81,8 @@ mindmap
 
 | 模块 | 文件 | 内容 |
 |------|------|------|
-| **仿真基础** | [Simulation.md](Simulation.md) | 物理仿真器的工作原理 |
-| **约束** | [JointConstraint.md](JointConstraint.md) | 关节约束、接触约束 |
+| **仿真基础** | [Simulation/](Simulation/Simulation.md) | 物理仿真器的工作原理 |
+| **约束** | [Simulation/JointConstraint.md](Simulation/JointConstraint.md) | 关节约束、接触约束 |
 | **执行控制** | [PDControl/](PDControl/PDControl.md) | PD 控制原理与应用 |
 | **轨迹优化** | [Tracking/](Tracking/Tracking.md) | 有参考轨迹的生成方法 |
 | **角色控制** | [CharacterControl/](CharacterControl/CharacterControl.md) | 无参考轨迹的行走控制 |
