@@ -82,8 +82,29 @@ Jv = \begin{bmatrix}
 $$
 
 其中：
-- \\(J_{\text{pos}}\\) 是 \\(3 \times 12\\) 的位置约束矩阵（同 Ball Joint）
-- \\(J_{\text{ang}}\\) 是 \\(2 \times 12\\) 的角速度约束矩阵
+- \\(J_{\text{pos}}\\) 是 \\(3 \times 12\\) 的位置约束矩阵（同 Ball Joint）：
+  $$
+  J_{\text{pos}} = \begin{bmatrix}
+   I_3 & -[r_1]_\times & -I_3 & [r_2]_\times
+  \end{bmatrix}
+  $$
+- \\(J_{\text{ang}}\\) 是 \\(2 \times 12\\) 的角速度约束矩阵，约束两个刚体在垂直于铰链轴方向上的角速度分量相等：
+  $$
+  J_{\text{ang}} = \begin{bmatrix}
+   0_3 & a_{1\perp 1}^T & 0_3 & -a_{2\perp 1}^T \\\\
+   0_3 & a_{1\perp 2}^T & 0_3 & -a_{2\perp 2}^T
+  \end{bmatrix}
+  $$
+  其中 \\(a_{\perp 1}, a_{\perp 2}\\) 是两个垂直于铰链轴的方向。
+
+**完整 $J$ 矩阵**是 \\(5 \times 12\\)：
+$$
+J = \begin{bmatrix}
+ I_3 & -[r_1]_\times & -I_3 & [r_2]_\times \\\\
+ 0_3 & a_{1\perp 1}^T & 0_3 & -a_{2\perp 1}^T \\\\
+ 0_3 & a_{1\perp 2}^T & 0_3 & -a_{2\perp 2}^T
+\end{bmatrix}
+$$
 
 ---
 
@@ -106,7 +127,31 @@ $$
 \omega_1 \cdot b_1 = \omega_2 \cdot b_2
 $$
 
-其中 \\(a, b\\) 是两个相互垂直的轴向。
+其中 \\(a, b\\) 是两个相互垂直的轴向，分别位于两个刚体上。
+
+**矩阵形式**：
+$$
+Jv = \begin{bmatrix}
+ J_{\text{pos}} \\\\ J_{\text{ang}}
+\end{bmatrix} v = 0
+$$
+
+其中：
+- \\(J_{\text{pos}}\\) 是 \\(3 \times 12\\) 的位置约束矩阵（同 Ball Joint）
+- \\(J_{\text{ang}}\\) 是 \\(1 \times 12\\) 的角速度约束矩阵，约束两个刚体在万向节轴向上的角速度分量相等：
+  $$
+  J_{\text{ang}} = \begin{bmatrix}
+   0_3 & a_1^T & 0_3 & -a_2^T
+  \end{bmatrix}
+  $$
+
+**完整 $J$ 矩阵**是 \\(4 \times 12\\)：
+$$
+J = \begin{bmatrix}
+ I_3 & -[r_1]_\times & -I_3 & [r_2]_\times \\\\
+ 0_3 & a_1^T & 0_3 & -a_2^T
+\end{bmatrix}
+$$
 
 ---
 
@@ -124,6 +169,30 @@ $$
 **角速度约束**（全部约束）：
 $$
 \omega_1 = \omega_2
+$$
+
+**矩阵形式**：
+$$
+Jv = \begin{bmatrix}
+ J_{\text{pos}} \\\\ J_{\text{ang}}
+\end{bmatrix} v = 0
+$$
+
+其中：
+- \\(J_{\text{pos}}\\) 是 \\(3 \times 12\\) 的位置约束矩阵（同 Ball Joint）
+- \\(J_{\text{ang}}\\) 是 \\(3 \times 12\\) 的角速度约束矩阵，约束两个刚体的角速度完全相同：
+  $$
+  J_{\text{ang}} = \begin{bmatrix}
+   0_3 & I_3 & 0_3 & -I_3
+  \end{bmatrix}
+  $$
+
+**完整 $J$ 矩阵**是 \\(6 \times 12\\)：
+$$
+J = \begin{bmatrix}
+ I_3 & -[r_1]_\times & -I_3 & [r_2]_\times \\\\
+ 0_3 & I_3 & 0_3 & -I_3
+\end{bmatrix}
 $$
 
 ---
