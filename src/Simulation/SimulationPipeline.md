@@ -1,82 +1,94 @@
-# 质点动力学
+# 仿真流程总结
 
-![](../assets/09-01.png)
+> &#x2705; **本章定位**：串联整个物理仿真章节，展示完整的仿真 Pipeline。
 
-P10  
-# 刚体动力学  
+> 💡 **前置知识**：关于角色的分段刚体表示，见 [RigidBodyRepresentation.md](RigidBodyRepresentation.md)
 
-![](../assets/09-02.png)   
+---
 
-$$
-\begin{bmatrix}
- mI_3 & 0\\\\
- 0 & I
-\end{bmatrix}\begin{bmatrix}
-\dot{v}  \\\\
-\dot{\omega }
-\end{bmatrix}+\begin{bmatrix}
- 0\\\\
-\omega \times I\omega 
-\end{bmatrix}=\begin{bmatrix}
-f \\\\
-\tau 
-\end{bmatrix}
-$$
-
-
-P12   
-
-Masses: \\(m,I\\)    
-Kinematics:  \\(x,v,R,\omega \\)   
-
-Geometry:    
-• Box, Sphere, Capsule, Mesh, …    
-• Collision detection   
-• Compute \\(m,I\\)    
-
-
-> &#x2705; 在物理引擎里面定义一个刚体，需要提供这些参数。   
-
-
-P14   
-# 分段刚体动力学   
-
-![](../assets/09-04.png)  
-
-> &#x2705; 两个独立刚体，和一个不让它们断开的约束。    
-
-P15  
-
-$$
-M\dot{v} +C(x,v)  =f+J^T\lambda
-$$
-
-P16   
-# 刚体系统仿真（无contact）
-
-![](../assets/09-05.png)
-
-# 刚体系统仿真
-
-
-![](../assets/08-18.png)   
-
-
-> &#x2705; 把人简化为分段刚体。整体过程为：  
-> &#x2705; (1) 黄：计算当前状态。  
-> &#x2705; (2) 绿：计算约束，求解，解出下一时刻的速度。   
-> &#x2705; (3) 蓝：更新下一时刻的量（积分）。   
-> &#x2705; 缺少部分：主动力 \\(f\\) 推动角色产生运动。
-
-P19   
-# Simulating a Character Pipeline  
+## 完整仿真 Pipeline
 
 ![](../assets/09-07.png)
 
-> &#x2705; 这个仿真流程是 ragdoll 效果。   
+> &#x2705; 角色仿真的完整流程：
 
----------------------------------------
-> 本文出自CaterpillarStudyGroup，转载请注明出处。
->
+1. **计算当前状态** - 位置、速度、约束信息
+2. **计算外力** - 重力、风力、关节力矩（由控制器生成）
+3. **检测约束** - 关节约束、接触约束
+4. **求解约束力** - 解出 \\(\lambda\\)，计算 \\(J^T\lambda\\)
+5. **积分更新状态** - 更新位置、速度
+
+---
+
+## 仿真方程
+
+**分段多刚体系统**（详见 [RigidBodyRepresentation.md](RigidBodyRepresentation.md)）：
+
+$$
+M\dot{v} + C(x,v) = f + J^T\lambda
+$$
+
+| 项 | 含义 | 对应章节 |
+|----|------|----------|
+| \\(M\dot{v} + C(x,v)\\) | 惯性力 | [RigidBodyRepresentation.md](RigidBodyRepresentation.md) |
+| \\(f\\) | 外力 | 重力、风力、关节力矩 |
+| \\(J^T\lambda\\) | 约束力 | [Constraints.md](Constraints.md) / [JointConstraint.md](JointConstraint.md) / [Contacts.md](Contacts.md) |
+
+---
+
+## 仿真流程详解
+
+### 步骤 1：计算外力
+
+![](../assets/09-05.png)
+
+> &#x2705; 外力包括：
+> - 重力：\\(mg\\)
+> - 风力等其他外力
+> - **关节力矩**：由控制器（如 PD 控制）生成
+
+---
+
+### 步骤 2：约束求解
+
+**关节约束**（详见 [JointConstraint.md](JointConstraint.md)）：
+- 防止刚体分离
+- 求解 \\(J^T\lambda\\)
+
+**接触约束**（详见 [Contacts.md](Contacts.md)）：
+- 防止穿透地面
+- 摩擦力防止滑动
+
+---
+
+### 步骤 3：积分更新
+
+![](../assets/08-18.png)
+
+> &#x2705; 把人简化为分段刚体。整体过程为：
+> - (1) 黄：计算当前状态
+> - (2) 绿：计算约束，求解，解出下一时刻的速度
+> - (3) 蓝：更新下一时刻的量（积分）
+
+---
+
+## 本章小结
+
+| 章节 | 内容 |
+|------|------|
+| [Simulation.md](Simulation.md) | 仿真器概述、力与力矩、前向/后向动力学 |
+| [RigidBodyRepresentation.md](RigidBodyRepresentation.md) | 角色的分段刚体表示 |
+| [Constraints.md](Constraints.md) | 约束求解原理（小球例子） |
+| [JointConstraint.md](JointConstraint.md) | 关节约束与关节力矩 |
+| [Contacts.md](Contacts.md) | 接触模型 |
+| 本文 | 完整仿真流程总结 |
+
+**核心公式**：
+$$
+M\dot{v} + C(x,v) = f + J^T\lambda
+$$
+
+---
+
+> 本文出自 CaterpillarStudyGroup，转载请注明出处。
 > https://caterpillarstudygroup.github.io/GAMES105_mdbook/
-
