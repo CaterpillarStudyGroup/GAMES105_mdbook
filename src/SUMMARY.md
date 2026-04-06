@@ -36,7 +36,7 @@
   - [Sampling-based Policy Optimization](Sampling_based.md)
   - [Optimal Control-Reinforcement Learning](Optimal_Control.md)
   - [Digital Cerebellum](Digital_Cerebellum.md)
-- [Character Control]()
+- [角色控制技术](CharacterControl/CharacterControl.md)
   - [Learning to Walk](Learning.md)
   - [Zero-Moment Point (ZMP)](ZMP.md)
   - [SIMBICON](SIMBICON.md)
