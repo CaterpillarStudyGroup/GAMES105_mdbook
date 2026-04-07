@@ -199,6 +199,8 @@ $$
 M\dot{v} + C(x,v) = f_{\text{ext}} + J^T\lambda
 $$
 
+---
+
 ### 为什么 Ragdoll 的关节会旋转？
 
 即使 \\(f_{\text{joint}} = 0\\)，Ragdoll 仍然会运动，原因是：
