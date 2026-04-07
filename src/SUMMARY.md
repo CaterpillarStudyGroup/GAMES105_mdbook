@@ -23,6 +23,7 @@
   - [角色的分段刚体表示](Simulation/RigidBodyRepresentation.md)
   - [Constraints](Simulation/Constraints.md)
   - [关节约束](Simulation/JointConstraint.md)
+  - [运动方程中的力与力矩](Simulation/ForcesAndTorques.md)
   - [Contacts](Simulation/Contacts.md)
   - [总结](Simulation/SimulationPipeline.md)
 - [PD 控制](PDControl/PDControl.md)
