@@ -17,110 +17,80 @@ P3
 
 
 
-> &#x2705; 通常目标的速度 \\(\dot{\bar{q}}  = 0\\).   
+> &#x2705; 通常目标的速度 \\(\dot{\bar{q}}  = 0\\).
 
-因此：  
+因此：
 ![](./assets/09-31.png)
 
-![](./assets/09-33.png)   
+![](./assets/09-33.png)
 
-P63  
-### PD Control for Characters的参数和效果
+P63
+### PD Control for Characters 的参数和效果
 
-> &#x2705; \\(K_p\\) 太小：可能无法达到目标状态。   
-> &#x2705; \\(K_p\\) 太大：人体很僵硬。  
-> &#x2705; \\(k_d\\) 太小：动作有明显振荡。    
-> &#x2705; \\(k_d\\) 太大，要花更多时间到达目标资态。   
+> &#x2705; \\(K_p\\) 太小：可能无法达到目标状态。
+> &#x2705; \\(K_p\\) 太大：人体很僵硬。
+> &#x2705; \\(k_d\\) 太小：动作有明显振荡。
+> &#x2705; \\(k_d\\) 太大，要花更多时间到达目标资态。
 
- - Determining gain and damping coefficients can be difficult…   
-    - A typical setting \\(k_p\\) = 200, \\(k_d\\) = 20 for a 50kg character   
-    - Light body requires smaller gains   
+ - Determining gain and damping coefficients can be difficult…
+    - A typical setting \\(k_p\\) = 200, \\(k_d\\) = 20 for a 50kg character
+    - Light body requires smaller gains
     - Dynamic motions need larger gains
 
- - High-gain/high-damping control can be unstable, so small times is necessary  
-    - \\(h\\) = 0.5~1ms is often used, or 1000~2000Hz   
-    - \\(h\\) = 1/120s~1/60s, or 120Hz/60Hz **with Stable PD**   
-    - Higher gain/damping requires smaller time step   
+ - High-gain/high-damping control can be unstable, so small times is necessary
+    - \\(h\\) = 0.5~1ms is often used, or 1000~2000Hz
+    - \\(h\\) = 1/120s~1/60s, or 120Hz/60Hz **with Stable PD**
+    - Higher gain/damping requires smaller time step
 
-P66  
+P66
 
 
 
-P72   
+P72
 ## 欠驱动系统问题
 
-### 欠驱动系统的问题
+> &#x2705; **详细说明**：参见 [欠驱动系统问题](PDControl/UnderactuatedSystem.md)
 
-由于是欠驱动系统，Tracking Mocap with Joint Torques会遇到问题，因为：   
+由于是欠驱动系统，Tracking Mocap with Joint Torques 会遇到问题，因为：
 
-\\(\tau _j\\): joint torques   
-Apply \\(\tau _j\\) to “child” body    
-Apply \\(-\tau _j\\) to “parent” body   
-**All forces/torques sum up to zero**   
+- \\(\tau _j\\): joint torques
+- Apply \\(\tau _j\\) to "child" body
+- Apply \\(-\tau _j\\) to "parent" body
+- **All forces/torques sum up to zero**
 
+> &#x2705; 合力为零，无法控制整体的位置和朝向。
+> &#x2705; 解决方法：增加净外力（Root Force/Torque），详见 [欠驱动系统问题](PDControl/UnderactuatedSystem.md)
 
-> &#x2705; 合力为零，无法控制整体的位置和朝向。   
+---
 
+## 稳态误差问题
 
+PD control computes torques based on **errors**
 
-P73  
-### 解决方法：增加净外力
+### Steady state error
 
-![](./assets/10-10.png)
+This arm never reaches the target angle under gravity
 
-\\(\tau _j\\): joint torques   
-\\(\text{ }\\) Apply \\(\tau _j\\) to “child” body   
-\\(\text{ }\\) Apply \\(-\tau _j\\) to “parent” body    
-\\(\text{ }\\) All forces/torques sum up to zero   
+![](./assets/10-03.png)
 
-\\(f_0,\tau _0\\): root force / torque   
-
-\\(\quad\quad\\) Apply \\(f _0\\) to the root body
-
-\\(\quad\quad\\) Apply \\(\tau _0\\) to the root body   
-
-\\(\quad\quad\\) Non-zero net force/torque on the character!   
-
-> &#x2705; 净外力，无施力者，用于帮助角色保持平衡。   
-> &#x2705; 缺点：让角色看起来像提线木偶。   
-
-P75   
-### 相关工作：Mixture Simulation and Mocap
-
-![](./assets/09-34.png)
-
-
-> &#x2705; 关键帧与仿真的混合。  
-
-P4  
-## 稳态误差问题   
-
-PD control computes torques based on **errors**   
-
-### Steady state error   
-
-This arm never reaches the target angle under gravity   
-
-![](./assets/10-03.png)  
-
-在角色上的表现就是 Motion falls behind the reference   
+在角色上的表现就是 Motion falls behind the reference
 
 ![](./assets/10-04.png)
 
 
-P7   
-### 问题原因 
+P7
+### 问题原因
 
-> &#x2705; 前面两个问题的根本原因是相同的，因为需要有误差才能计算force，有了force才能控制。  
+> &#x2705; 前面两个问题的根本原因是相同的，因为需要有误差才能计算 force，有了 force 才能控制。
 
-High-gain \\((k_p)\\) control is more precise but less stable…   
+High-gain \\((k_p)\\) control is more precise but less stable…
 
 ### 解决方法
 
-> &#x2705; 增大 \\(k_p\\)能缓解以上问题，但大的 \\(k_p\\) 会带来肢体僵硬和计算不稳定。   
+> &#x2705; 增大 \\(k_p\\)能缓解以上问题，但大的 \\(k_p\\) 会带来肢体僵硬和计算不稳定。
 
-P25  
-### 相关工作   
+P25
+### 相关工作
 
 > &#x1F50E; ![](./assets/10-09.png)
 
@@ -128,17 +98,17 @@ $$
 \tau _{\mathrm{int} }=-K_p(q^n+\dot{q}^n \Delta t-\bar{q} ^{n+1})-K_d(\dot{q} ^n+\ddot{q} ^n \Delta t)
 $$
 
-P71  
-## feedforward ？ feedback
+P71
+## feedforward？feedback
 
-Is PD control a **feedforward** control?   
-a **feedback** control?   
+Is PD control a **feedforward** control?
+a **feedback** control?
 
 
-> &#x2705; 是反馈控制，因为计算 \\(\tau \\) 时使用了当前状态 \\(q\\)．  
-> &#x2705; 是前馈控制，因为在 PD 系统里，状态是位置不是 \\(q\\).   
+> &#x2705; 是反馈控制，因为计算 \\(\tau \\) 时使用了当前状态 \\(q\\)．
+> &#x2705; 是前馈控制，因为在 PD 系统里，状态是位置不是 \\(q\\).
 
 ---------------------------------------
-> 本文出自CaterpillarStudyGroup，转载请注明出处。
+> 本文出自 CaterpillarStudyGroup，转载请注明出处。
 >
 > https://caterpillarstudygroup.github.io/GAMES105_mdbook/

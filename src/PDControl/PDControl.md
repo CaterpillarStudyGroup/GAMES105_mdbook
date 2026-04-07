@@ -108,6 +108,8 @@ flowchart TD
 > &#x2705; #dofs：角色状态的自由度。
 > &#x2705; 避免让角色掉入无法控制的状态。
 
+> &#x2705; **深入学习**：[欠驱动系统问题](UnderactuatedSystem.md) - 详细讲解人形角色为什么是欠驱动系统以及解决方案。
+
 ---
 
 ### Feedforward vs. Feedback
