@@ -31,6 +31,7 @@
   - [Proportional-Derivative Control](Proportional-DerivativeControl.md)
   - [Controlling Characters](Controlling.md)
   - [欠驱动系统问题](PDControl/UnderactuatedSystem.md)
+  - [稳态误差问题](PDControl/SteadyStateError.md)
   - [Static Balance](PDControl/StaticBalance.md)
 - [轨迹优化](Tracking/Tracking.md)
   - [简单例子](Tracking/SimpleCase.md)

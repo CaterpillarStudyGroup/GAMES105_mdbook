@@ -65,6 +65,8 @@ P72
 
 ## 稳态误差问题
 
+> &#x2705; **详细说明**：参见 [稳态误差问题](PDControl/SteadyStateError.md)
+
 PD control computes torques based on **errors**
 
 ### Steady state error
@@ -77,28 +79,11 @@ This arm never reaches the target angle under gravity
 
 ![](./assets/10-04.png)
 
+> &#x2705; **核心问题**：需要有误差才能计算 force，有了 force 才能控制。
+> &#x2705; **解决方法**：增大 \\(k_p\\)、Stable PD、前馈补偿，详见 [稳态误差问题](PDControl/SteadyStateError.md)
 
-P7
-### 问题原因
+---
 
-> &#x2705; 前面两个问题的根本原因是相同的，因为需要有误差才能计算 force，有了 force 才能控制。
-
-High-gain \\((k_p)\\) control is more precise but less stable…
-
-### 解决方法
-
-> &#x2705; 增大 \\(k_p\\)能缓解以上问题，但大的 \\(k_p\\) 会带来肢体僵硬和计算不稳定。
-
-P25
-### 相关工作
-
-> &#x1F50E; ![](./assets/10-09.png)
-
-$$
-\tau _{\mathrm{int} }=-K_p(q^n+\dot{q}^n \Delta t-\bar{q} ^{n+1})-K_d(\dot{q} ^n+\ddot{q} ^n \Delta t)
-$$
-
-P71
 ## feedforward？feedback
 
 Is PD control a **feedforward** control?
