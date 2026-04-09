@@ -32,6 +32,7 @@
   - [Controlling Characters](Controlling.md)
   - [欠驱动系统问题](PDControl/UnderactuatedSystem.md)
   - [稳态误差问题](PDControl/SteadyStateError.md)
+  - [前馈与反馈控制](PDControl/FeedforwardVsFeedback.md)
   - [Static Balance](PDControl/StaticBalance.md)
 - [轨迹优化](Tracking/Tracking.md)
   - [简单例子](Tracking/SimpleCase.md)

@@ -84,14 +84,20 @@ This arm never reaches the target angle under gravity
 
 ---
 
-## feedforward？feedback
+## 前馈控制 vs. 反馈控制
 
-Is PD control a **feedforward** control?
-a **feedback** control?
+> &#x2705; **详细说明**：参见 [前馈与反馈控制](PDControl/FeedforwardVsFeedback.md)
 
+Is PD control a **feedforward** control? a **feedback** control?
 
-> &#x2705; 是反馈控制，因为计算 \\(\tau \\) 时使用了当前状态 \\(q\\)．
-> &#x2705; 是前馈控制，因为在 PD 系统里，状态是位置不是 \\(q\\).
+**答案：取决于观察层次**
+
+| 观察层次 | 控制类型 | 原因 |
+|---------|---------|------|
+| **关节级别** | 反馈控制 | 使用当前关节状态 \\(q\\) 计算力矩 |
+| **系统级别** | 前馈控制 | 目标状态由上层决定，PD 只是执行器 |
+
+> &#x2705; **深入学习**：[前馈与反馈控制](PDControl/FeedforwardVsFeedback.md) - 详细讲解两者的区别、组合控制方案、以及在 DeepMimic/AMP 中的应用。
 
 ---------------------------------------
 > 本文出自 CaterpillarStudyGroup，转载请注明出处。
