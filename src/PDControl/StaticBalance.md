@@ -1,10 +1,44 @@
-P62  
-# Static Balance   
+P62
+# Static Balance
+
+## 本章要解决的问题
+
+**核心问题**：如何在**静止站立**的情况下，通过控制策略保证角色**不摔倒**？
+
+### 问题分解
+
+| 子问题 | 说明 | 解决方案 |
+|--------|------|---------|
+| **什么是平衡？** | 质心在支撑面内 | 检测质心投影位置 |
+| **为什么难？** | 人形角色是欠驱动系统 | 无法直接控制质心 |
+| **如何纠正？** | 需要施加力/力矩 | PD 控制、Jacobian Transpose |
+| **力矩如何计算？** | 关节力矩如何产生期望效果 | \\(\tau = J^T f\\) |
+
+### 与欠驱动系统的关系
+
+```
+欠驱动系统 → 无法直接控制质心 → 需要间接控制
+                    ↓
+        通过关节力矩控制质心位置
+                    ↓
+      在脚踝或髋关节施加额外力矩
+```
+
+### 两种控制策略
+
+| 策略 | 方法 | 特点 |
+|------|------|------|
+| **简单 PD 控制** | 在脚踝/髋关节加额外力矩 | 简单直接，适用于静止站立 |
+| **Jacobian Transpose** | 虚拟力 → 关节力矩转换 | 更灵活，可实现多种动作 |
+
+> &#x2705; **深入学习**：[欠驱动系统问题](UnderactuatedSystem.md) - 理解为什么质心无法直接控制
+
+---
 
 ## 定义
-What is balance?   
+What is balance?
 
-> &#x2705; Static Balance：在不发生移动的情况下，通过简单的控制策略，保证角色不摔倒。  
+> &#x2705; Static Balance：在不发生移动的情况下，通过简单的控制策略，保证角色不摔倒。
 > &#x2705; 平衡：质心在支撑面内。  
 
 
@@ -138,11 +172,60 @@ P78
 > &#x2705; 但这种方式能施加的力非常弱，只能实现比较微弱的平衡
 
 
-P79   
-## A fancier strategy:   
+P79
+## A fancier strategy:
 
- - Mocap tracking as an objective function   
- - Controlling both the CoM position/**momentum** and the **angular** momentum   
- - Solve a **one-step** optimization problem to compute joint torques   
- 
-> &#x1F50E; ![](../assets/10-34.png)   
+ - Mocap tracking as an objective function
+ - Controlling both the CoM position/**momentum** and the **angular** momentum
+ - Solve a **one-step** optimization problem to compute joint torques
+
+> &#x1F50E; ![](../assets/10-34.png)
+
+---
+
+## 小结：静态平衡要解决的问题
+
+### 核心问题回顾
+
+**Static Balance** 要解决的是：**在静止站立的情况下，如何通过控制策略保证角色不摔倒？**
+
+### 问题链条
+
+```
+欠驱动系统
+    ↓
+无法直接控制质心位置
+    ↓
+需要通过关节力矩间接控制
+    ↓
+在关键关节（脚踝/髋关节）施加额外力矩
+    ↓
+让质心投影回到支撑面中心
+```
+
+### 关键概念
+
+| 概念 | 说明 |
+|------|------|
+| **质心（CoM）** | 身体各部分质心的加权平均 |
+| **支撑面** | 双脚接触区域构成的多边形 |
+| **平衡条件** | 质心投影在支撑面内 |
+| **虚拟力** | 通过 Jacobian 转换为实现效果的力 |
+| **Jacobian Transpose** | \\(\tau = J^T f\\)，力到力矩的转换 |
+
+### 两种策略对比
+
+| 策略 | 优点 | 局限 |
+|------|------|------|
+| **简单 PD 控制** | 实现简单、计算快 | 只能实现基础平衡 |
+| **Jacobian Transpose** | 灵活、可控制多方向 | 能施加的力有限 |
+
+### 与前面章节的关系
+
+| 章节 | 关系 |
+|------|------|
+| [欠驱动系统问题](UnderactuatedSystem.md) | 解释了为什么质心无法直接控制 |
+| [稳态误差问题](SteadyStateError.md) | PD 控制用于平衡时的精度限制 |
+| [前馈与反馈控制](FeedforwardVsFeedback.md) | 平衡控制主要是反馈控制 |
+
+---
