@@ -35,6 +35,7 @@
   - [前馈与反馈控制](PDControl/FeedforwardVsFeedback.md)
   - [Static Balance](PDControl/StaticBalance.md)
 - [轨迹优化](Tracking/Tracking.md)
+  - [数学形式化描述](Tracking/MathematicalFormulation.md)
   - [简单例子](Tracking/SimpleCase.md)
   - [Optimal Control and Reinforcement Learning](Optimal.md)
   - [Linear Quadratic Regulator (LQR)](LQR.md)
