@@ -37,6 +37,7 @@
 - [轨迹优化](Tracking/Tracking.md)
   - [数学形式化描述](Tracking/MathematicalFormulation.md)
   - [Linear Quadratic Regulator (LQR)](Tracking/LQR.md)
+  - [最优控制与强化学习](Tracking/Optimal.md)
   - [简单例子](Tracking/SimpleCase.md)
   - [Nonlinear problems](Nonlinear_problems.md)
   - [Sampling-based Policy Optimization](Sampling_based.md)
