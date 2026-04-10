@@ -63,8 +63,10 @@ LQR 问题（有闭式解）
 在标称轨迹 \\((\bar{x}, \bar{u})\\) 附近做一阶泰勒展开：
 
 $$
-f(x,u) \approx f(\bar{x},\bar{u}) + \underbrace{\frac{\partial f}{\partial x}}_{A}(x-\bar{x}) + \underbrace{\frac{\partial f}{\partial u}}_{B}(u-\bar{u})
+f(x,u) \approx f(\bar{x},\bar{u}) + \frac{\partial f}{\partial x}(x-\bar{x}) + \frac{\partial f}{\partial u}(u-\bar{u})
 $$
+
+令 \\(A = \frac{\partial f}{\partial x}\\)，\\(B = \frac{\partial f}{\partial u}\\)，则：
 
 定义偏差变量：\\(\delta x = x - \bar{x}, \quad \delta u = u - \bar{u}\\)
 
