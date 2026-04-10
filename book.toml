@@ -2,9 +2,8 @@
 authors = ["windmissing"]
 language = "en"
 description = "The note of GAMES105"
-multilingual = false
 src = "src"
-title = "3D角色骨骼动画技术"
+title = "3D 角色骨骼动画技术"
 
 [preprocessor.mermaid]
 command = "mdbook-mermaid"
