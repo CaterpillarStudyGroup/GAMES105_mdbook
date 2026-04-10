@@ -50,8 +50,17 @@
         {{/each}}
 
         {{#if mathjax_support}}
-        <!-- MathJax -->
-        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <!-- MathJax with Latin Modern font for better appearance -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript">
+        MathJax.Hub.Config({
+            "TeX/Font": {
+                availableFonts: ["Latin-Modern"],
+                preferredFont: "Latin-Modern",
+                webFont: "Latin-Modern"
+            }
+        });
+        </script>
         {{/if}}
     </head>
     <body>
