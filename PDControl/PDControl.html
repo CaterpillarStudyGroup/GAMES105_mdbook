@@ -1,0 +1,377 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>PD 控制 - 3D 角色骨骼动画技术</title>
+        <base href="../">
+
+
+        <!-- Custom HTML head -->
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/pagetoc.css">
+
+        <!-- Override CSS variables for sidebar resize indicator -->
+        <style>
+        :root {
+            --sidebar-resize-indicator-width: 0px !important;
+            --sidebar-resize-indicator-space: 0px !important;
+        }
+        </style>
+
+        <!-- MathJax with Latin Modern font for better appearance -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript">
+        MathJax.Hub.Config({
+            "TeX/Font": {
+                availableFonts: ["Latin-Modern"],
+                preferredFont: "Latin-Modern",
+                webFont: "Latin-Modern"
+            }
+        });
+        </script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><span class="chapter-link-wrapper"><span>GAMES105</span></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Locomotion_Survey.html"><strong aria-hidden="true">4.</strong> Locomotion 控制技术洞察</a></span></li><li class="chapter-item expanded "><li class="part-title">Keyframe-based/Kinematic Approaches</li></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Forward.html"><strong aria-hidden="true">5.</strong> Character Kinematics:Forward and Inverse Kinematics</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Keyframe.html"><strong aria-hidden="true">6.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Data-driven.html"><strong aria-hidden="true">7.</strong> Data-driven Character Animation</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Learning-based.html"><strong aria-hidden="true">8.</strong> Statistical Models of Human Motion</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="cont.html"><strong aria-hidden="true">9.</strong> Learning-based Character Animation</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Skinning.html"><strong aria-hidden="true">10.</strong> Skinning</a></span></li><li class="chapter-item expanded "><li class="part-title">Physics-based/Dynamic Approaches</li></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="DynamicsOverview.html"><strong aria-hidden="true">11.</strong> 动力学方法概览</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/Simulation.html"><strong aria-hidden="true">12.</strong> 角色物理仿真基础</a></span><ol class="section"><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/RigidBodyRepresentation.html"><strong aria-hidden="true">12.1.</strong> 角色的分段刚体表示</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/Constraints.html"><strong aria-hidden="true">12.2.</strong> Constraints</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/JointConstraint.html"><strong aria-hidden="true">12.3.</strong> 关节约束</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/JointTorques.html"><strong aria-hidden="true">12.4.</strong> 关节力矩</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/ForcesAndTorques.html"><strong aria-hidden="true">12.5.</strong> 运动方程中的力与力矩</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/Contacts.html"><strong aria-hidden="true">12.6.</strong> Contacts</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/SimulationPipeline.html"><strong aria-hidden="true">12.7.</strong> 总结</a></span></li></ol><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/PDControl.html"><strong aria-hidden="true">13.</strong> PD 控制</a></span><ol class="section"><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/Proportional-DerivativeControl.html"><strong aria-hidden="true">13.1.</strong> Proportional-Derivative Control</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/Controlling.html"><strong aria-hidden="true">13.2.</strong> Controlling Characters</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/UnderactuatedSystem.html"><strong aria-hidden="true">13.3.</strong> 欠驱动系统问题</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/SteadyStateError.html"><strong aria-hidden="true">13.4.</strong> 稳态误差问题</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/FeedforwardVsFeedback.html"><strong aria-hidden="true">13.5.</strong> 前馈与反馈控制</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/StaticBalance.html"><strong aria-hidden="true">13.6.</strong> Static Balance</a></span></li></ol><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/Tracking.html"><strong aria-hidden="true">14.</strong> 轨迹优化</a></span><ol class="section"><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/MathematicalFormulation.html"><strong aria-hidden="true">14.1.</strong> 数学形式化描述</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/LQR.html"><strong aria-hidden="true">14.2.</strong> Linear Quadratic Regulator (LQR)</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/Optimal.html"><strong aria-hidden="true">14.3.</strong> 最优控制与强化学习</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/Concepts.html"><strong aria-hidden="true">14.4.</strong> 概念澄清</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/SimpleCase.html"><strong aria-hidden="true">14.5.</strong> 简单例子</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Nonlinear_problems.html"><strong aria-hidden="true">14.6.</strong> Nonlinear problems</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Sampling_based.html"><strong aria-hidden="true">14.7.</strong> Sampling-based Policy Optimization</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Optimal_Control.html"><strong aria-hidden="true">14.8.</strong> Optimal Control-Reinforcement Learning</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Digital_Cerebellum.html"><strong aria-hidden="true">14.9.</strong> Digital Cerebellum</a></span></li></ol><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="CharacterControl/CharacterControl.html"><strong aria-hidden="true">15.</strong> 角色控制技术</a></span><ol class="section"><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Learning.html"><strong aria-hidden="true">15.1.</strong> Learning to Walk</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="ZMP.html"><strong aria-hidden="true">15.2.</strong> Zero-Moment Point (ZMP)</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="SIMBICON.html"><strong aria-hidden="true">15.3.</strong> SIMBICON</a></span></li></ol><li class="chapter-item expanded "><li class="part-title">混合方法</li></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Hybrid.html"><strong aria-hidden="true">16.</strong> 混合方法</a></span></li><li class="chapter-item expanded "><li class="part-title">Application</li></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Application/Locomotion.html"><strong aria-hidden="true">17.</strong> Locomotion</a></span></li></ol>
+            </div>
+            <!-- Hidden resize handle for mdbook 0.5.x compatibility -->
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle" style="display: none !important; visibility: hidden !important; pointer-events: none !important;"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">3D 角色骨骼动画技术</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <h1 id="pd-控制"><a class="header" href="#pd-控制">PD 控制</a></h1>
+<blockquote>
+<p>✅ <strong>本章定位</strong>：理解如何设计和应用 PD 控制器，将<strong>目标状态</strong>转换为<strong>关节力矩</strong>。</p>
+</blockquote>
+<hr>
+<h2 id="在控制系统中的位置"><a class="header" href="#在控制系统中的位置">在控制系统中的位置</a></h2>
+<pre class="mermaid">flowchart TD
+    subgraph "高层：任务规划"
+        A["做什么动作？&lt;br/&gt;有限状态机、行为树"]
+    end
+
+    subgraph "中层：轨迹生成/策略学习"
+        B["如何生成目标动作？&lt;br/&gt;轨迹优化、DeepMimic、AMP"]
+    end
+
+    subgraph "底层：执行控制 (本章)"
+        C["如何计算关节力矩？&lt;br/&gt;PD 控制"]
+    end
+
+    subgraph "仿真器"
+        D["物理仿真&lt;br/&gt;Mv̇ + C = f + Jᵀλ"]
+    end
+
+    A --&gt;|动作指令 | B
+    B --&gt;|目标状态 q*, q̇* | C
+    C --&gt;|关节力矩 τ | D
+    D --&gt;|当前状态 q, q̇ | C
+    D --&gt;|新状态 | A
+</pre>
+
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>层次</th><th>功能</th><th>典型方法</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>高层</strong></td><td>任务规划：决定做什么动作</td><td>有限状态机、行为树</td></tr>
+<tr><td><strong>中层</strong></td><td>轨迹生成：输出目标状态 \(q^<em>, \dot{q}^</em>\)</td><td>轨迹优化、DeepMimic、AMP</td></tr>
+<tr><td><strong>底层</strong></td><td>执行控制：计算关节力矩 \(\tau\)</td><td>PD 控制</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>PD 控制的输入输出</strong>：</p>
+<ul>
+<li><strong>输入</strong>：目标状态 \(q^<em>, \dot{q}^</em>\) + 当前状态 \(q, \dot{q}\)</li>
+<li><strong>输出</strong>：关节力矩 \(\tau\) → 送入仿真器</li>
+</ul>
+<hr>
+<h2 id="与仿真器的关系"><a class="header" href="#与仿真器的关系">与仿真器的关系</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>模块</th><th>输入</th><th>输出</th><th>核心问题</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>控制器</strong></td><td>目标状态/轨迹 + 当前状态</td><td>关节力矩 τ</td><td>如何生成力矩让角色达到目标？</td></tr>
+<tr><td><strong>仿真器</strong></td><td>关节力矩 τ + 外力</td><td>新状态</td><td>给定力矩，角色会如何运动？</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>分工说明</strong>：</p>
+<ul>
+<li>控制器是「逆向问题」：从目标反推力矩</li>
+<li>仿真器是「前向问题」：从力矩推算运动</li>
+</ul>
+<blockquote>
+<p>✅ 详细讲解见 <a href="../Simulation/Simulation.html">角色物理仿真基础</a></p>
+</blockquote>
+<hr>
+<h2 id="本章内容导航"><a class="header" href="#本章内容导航">本章内容导航</a></h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>文件</th><th>内容</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="JointTorques.html">关节力矩</a></td><td><strong>什么是关节力矩</strong><br />- 物理定义与数学推导<br />- 为什么需要关节力矩（vs. 外力）<br />- 在运动方程中的位置</td></tr>
+<tr><td><a href="../Proportional-DerivativeControl.html">Proportional-Derivative Control</a></td><td>PD 控制理论基础<br />- 简化例子：物体上下移动<br />- P 控制、PD 控制、PID 控制<br />- Stable PD（隐式欧拉）</td></tr>
+<tr><td><a href="../Controlling.html">Controlling Characters</a></td><td>PD 在角色上的应用<br />- 参数调优（\(k_p\)、\(k_d\)）<br />- 欠驱动问题与净外力<br />- 稳态误差问题</td></tr>
+<tr><td><a href="StaticBalance.html">Static Balance</a></td><td>静态平衡专题<br />- 支撑面与质心<br />- PD 控制策略<br />- Jacobian Transpose Control</td></tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h2 id="本章重点问题"><a class="header" href="#本章重点问题">本章重点问题</a></h2>
+<ol>
+<li>
+<p><strong>PD 参数如何调优？</strong></p>
+<ul>
+<li>\(k_p\) 太小：无法达到目标</li>
+<li>\(k_p\) 太大：角色僵硬</li>
+<li>\(k_d\) 太小：振荡</li>
+<li>\(k_d\) 太大：响应慢</li>
+</ul>
+</li>
+<li>
+<p><strong>欠驱动系统如何处理？</strong></p>
+<ul>
+<li>人形角色是欠驱动系统（无法直接控制质心位置）</li>
+<li>解决方案：净外力（root force/torque）</li>
+</ul>
+</li>
+<li>
+<p><strong>稳态误差如何解决？</strong></p>
+<ul>
+<li>PD 控制需要误差才能产生力</li>
+<li>解决方案：增大 \(k_p\) 或使用前馈补偿</li>
+</ul>
+</li>
+<li>
+<p><strong>如何保证数值稳定性？</strong></p>
+<ul>
+<li>高增益需要小时间步长</li>
+<li>解决方案：隐式欧拉（Stable PD）</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="补充概念"><a class="header" href="#补充概念">补充概念</a></h2>
+<h3 id="fully-actuated-vs-underactuated"><a class="header" href="#fully-actuated-vs-underactuated">Fully-Actuated vs. Underactuated</a></h3>
+<p>在上一节中，\(f\) 与 \(V\) 的自由度可能是不同的。\(f\) 是关节数\( × 3\)，\(V\) 是刚体数\( × 3\)。</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><img src="../assets/09-20.png" alt=""></td><td><img src="../assets/09-21.png" alt=""></td></tr>
+<tr><td>If #actuators ≥ #dofs, the system is <strong>fully-actuated</strong></td><td>If #actuators &lt; #dofs, the system is <strong>underactuated</strong></td></tr>
+<tr><td>For any \([x,v,\dot{v} ]\), there exists an \(f\) that produces the motion</td><td>For many \([x,v,\dot{v} ]\) , there is no such \(f\) that produces the motion</td></tr>
+<tr><td>✅ 可以精确控制机械臂到达目标状态。</td><td>✅ 不借助外力情况，人无法控制 Hips 的状态（位置）。</td></tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>✅ ＃actuators：\(f \) 和 \(\tau \) 的自由度。
+✅ #dofs：角色状态的自由度。
+✅ 避免让角色掉入无法控制的状态。</p>
+</blockquote>
+<blockquote>
+<p>✅ <strong>深入学习</strong>：<a href="UnderactuatedSystem.html">欠驱动系统问题</a> - 详细讲解人形角色为什么是欠驱动系统以及解决方案。</p>
+</blockquote>
+<hr>
+<h3 id="feedforward-vs-feedback"><a class="header" href="#feedforward-vs-feedback">Feedforward vs. Feedback</a></h3>
+<p><img src="../assets/09-22.png" alt=""></p>
+<p>驱动角色运动的控制器是通过优化目标函数产生的。</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Feedforward control</th><th>Feedback control</th></tr>
+</thead>
+<tbody>
+<tr><td>\(f,\tau =\pi (t)\)</td><td>\(f,\tau =\pi (s_t,t)\)</td></tr>
+<tr><td>Apply predefined control signals <strong>without considering the current state</strong> of the system</td><td>Adjust control signals based on the current state of the system</td></tr>
+<tr><td>Assuming unchanging system.</td><td>Certain perturbations are expected.</td></tr>
+<tr><td>Perturbations may lead to unpredicted results<br>✅ 如果角色受到挠动而偏离了原计划，无法修正回来。</td><td>The feedback signal will be used to improves the performance at the next state.</td></tr>
+</tbody>
+</table>
+</div>
+<hr>
+<p><strong>深入学习</strong>：<a href="https://caterpillarstudygroup.github.io/ReadPapers/201.html">DeepMimic</a> | <a href="https://caterpillarstudygroup.github.io/ReadPapers/198.html">AMP</a> | <a href="https://caterpillarstudygroup.github.io/ReadPapers/199.html">ASE</a></p>
+
+                    </main>
+
+                    <!-- Navigation buttons removed -->
+                </div>
+            </div>
+
+            <!-- Navigation buttons removed -->
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Disable sidebar resize functionality -->
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            var handle = document.getElementById('mdbook-sidebar-resize-handle');
+            if (handle) {
+                // Remove event listeners by cloning
+                var newHandle = handle.cloneNode(true);
+                handle.parentNode.replaceChild(newHandle, handle);
+            }
+        });
+        </script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../theme/pagetoc.js"></script>
+        <script type="text/javascript" src="../theme/mermaid.min.js"></script>
+        <script type="text/javascript" src="../theme/mermaid-init.js"></script>
+        <script type="text/javascript" src="../theme/sidebar-scroll.js"></script>
+
+
+    </body>
+</html>

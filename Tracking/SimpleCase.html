@@ -1,0 +1,409 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>简单例子 - 3D 角色骨骼动画技术</title>
+        <base href="../">
+
+
+        <!-- Custom HTML head -->
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/pagetoc.css">
+
+        <!-- Override CSS variables for sidebar resize indicator -->
+        <style>
+        :root {
+            --sidebar-resize-indicator-width: 0px !important;
+            --sidebar-resize-indicator-space: 0px !important;
+        }
+        </style>
+
+        <!-- MathJax with Latin Modern font for better appearance -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript">
+        MathJax.Hub.Config({
+            "TeX/Font": {
+                availableFonts: ["Latin-Modern"],
+                preferredFont: "Latin-Modern",
+                webFont: "Latin-Modern"
+            }
+        });
+        </script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><span class="chapter-link-wrapper"><span>GAMES105</span></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Locomotion_Survey.html"><strong aria-hidden="true">4.</strong> Locomotion 控制技术洞察</a></span></li><li class="chapter-item expanded "><li class="part-title">Keyframe-based/Kinematic Approaches</li></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Forward.html"><strong aria-hidden="true">5.</strong> Character Kinematics:Forward and Inverse Kinematics</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Keyframe.html"><strong aria-hidden="true">6.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Data-driven.html"><strong aria-hidden="true">7.</strong> Data-driven Character Animation</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Learning-based.html"><strong aria-hidden="true">8.</strong> Statistical Models of Human Motion</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="cont.html"><strong aria-hidden="true">9.</strong> Learning-based Character Animation</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Skinning.html"><strong aria-hidden="true">10.</strong> Skinning</a></span></li><li class="chapter-item expanded "><li class="part-title">Physics-based/Dynamic Approaches</li></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="DynamicsOverview.html"><strong aria-hidden="true">11.</strong> 动力学方法概览</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/Simulation.html"><strong aria-hidden="true">12.</strong> 角色物理仿真基础</a></span><ol class="section"><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/RigidBodyRepresentation.html"><strong aria-hidden="true">12.1.</strong> 角色的分段刚体表示</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/Constraints.html"><strong aria-hidden="true">12.2.</strong> Constraints</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/JointConstraint.html"><strong aria-hidden="true">12.3.</strong> 关节约束</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/JointTorques.html"><strong aria-hidden="true">12.4.</strong> 关节力矩</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/ForcesAndTorques.html"><strong aria-hidden="true">12.5.</strong> 运动方程中的力与力矩</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/Contacts.html"><strong aria-hidden="true">12.6.</strong> Contacts</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/SimulationPipeline.html"><strong aria-hidden="true">12.7.</strong> 总结</a></span></li></ol><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/PDControl.html"><strong aria-hidden="true">13.</strong> PD 控制</a></span><ol class="section"><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/Proportional-DerivativeControl.html"><strong aria-hidden="true">13.1.</strong> Proportional-Derivative Control</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/Controlling.html"><strong aria-hidden="true">13.2.</strong> Controlling Characters</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/UnderactuatedSystem.html"><strong aria-hidden="true">13.3.</strong> 欠驱动系统问题</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/SteadyStateError.html"><strong aria-hidden="true">13.4.</strong> 稳态误差问题</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/FeedforwardVsFeedback.html"><strong aria-hidden="true">13.5.</strong> 前馈与反馈控制</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/StaticBalance.html"><strong aria-hidden="true">13.6.</strong> Static Balance</a></span></li></ol><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/Tracking.html"><strong aria-hidden="true">14.</strong> 轨迹优化</a></span><ol class="section"><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/MathematicalFormulation.html"><strong aria-hidden="true">14.1.</strong> 数学形式化描述</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/LQR.html"><strong aria-hidden="true">14.2.</strong> Linear Quadratic Regulator (LQR)</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/Optimal.html"><strong aria-hidden="true">14.3.</strong> 最优控制与强化学习</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/Concepts.html"><strong aria-hidden="true">14.4.</strong> 概念澄清</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/SimpleCase.html"><strong aria-hidden="true">14.5.</strong> 简单例子</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Nonlinear_problems.html"><strong aria-hidden="true">14.6.</strong> Nonlinear problems</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Sampling_based.html"><strong aria-hidden="true">14.7.</strong> Sampling-based Policy Optimization</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Optimal_Control.html"><strong aria-hidden="true">14.8.</strong> Optimal Control-Reinforcement Learning</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Digital_Cerebellum.html"><strong aria-hidden="true">14.9.</strong> Digital Cerebellum</a></span></li></ol><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="CharacterControl/CharacterControl.html"><strong aria-hidden="true">15.</strong> 角色控制技术</a></span><ol class="section"><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Learning.html"><strong aria-hidden="true">15.1.</strong> Learning to Walk</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="ZMP.html"><strong aria-hidden="true">15.2.</strong> Zero-Moment Point (ZMP)</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="SIMBICON.html"><strong aria-hidden="true">15.3.</strong> SIMBICON</a></span></li></ol><li class="chapter-item expanded "><li class="part-title">混合方法</li></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Hybrid.html"><strong aria-hidden="true">16.</strong> 混合方法</a></span></li><li class="chapter-item expanded "><li class="part-title">Application</li></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Application/Locomotion.html"><strong aria-hidden="true">17.</strong> Locomotion</a></span></li></ol>
+            </div>
+            <!-- Hidden resize handle for mdbook 0.5.x compatibility -->
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle" style="display: none !important; visibility: hidden !important; pointer-events: none !important;"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">3D 角色骨骼动画技术</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <p>P33</p>
+<h1 id="简化问题分析"><a class="header" href="#简化问题分析">简化问题分析</a></h1>
+<blockquote>
+<p>✅ 仍以方块移动到目标高度为例。</p>
+</blockquote>
+<h2 id="问题描述"><a class="header" href="#问题描述">问题描述</a></h2>
+<p><img src="../assets/10-11.png" alt=""></p>
+<p>Compute a target trajectory \(\tilde{x} (t)\) such that the simulated trajectory \(x(t)\) is a sine curve.</p>
+<h2 id="目标函数"><a class="header" href="#目标函数">目标函数</a></h2>
+<p>$$
+\min_ {(x_n,v_n,\tilde {x} _n)} \sum _ {n=0}^{N} (\sin (t_n)-x_n)^2+\sum _ {n=0}^{N} \tilde {x}^2_n
+$$</p>
+<blockquote>
+<p>✅ 目标函数：目标项＋正则项</p>
+</blockquote>
+<h2 id="约束"><a class="header" href="#约束">约束</a></h2>
+<p>$$
+\begin{align*}
+s.t. \quad &amp; v _ {n+1}= v_ n+h (k _ p( \tilde {x} _n-x_n)-k _ dv_n) \\
+&amp; v _ {n+1} = x _ n + hv _ {n+1}
+\end{align*}
+$$</p>
+<blockquote>
+<p>✅ 约束：半隐式积分的运动方程</p>
+</blockquote>
+<p>P34</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td>Hard constraints:</td><td><img src="../assets/10-12.png" alt=""></td></tr>
+<tr><td>Soft constraints:</td><td><img src="../assets/10-013.png" alt=""></td></tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>✅ 以两种方式体现约束：<br>✅（1）Hard：必须满足，难解，不稳定。<br>✅（2）Soft：尽可能满足，易求解。</p>
+</blockquote>
+<p>P35</p>
+<h2 id="参数简化"><a class="header" href="#参数简化">参数简化</a></h2>
+<p>Collocation methods:</p>
+<p>Assume the optimization variables {\(x_n, v_n, \tilde{x}_n\)} are values of a set of parametric curves</p>
+<ul>
+<li>typically polynomials or splines</li>
+</ul>
+<p>Optimize the parameters of the curves \(\theta\) instead</p>
+<ul>
+<li>with smaller number of variables than the original problem</li>
+</ul>
+<blockquote>
+<p>✅ 要优化的参数量太大，难以优化。<br>✅ 解决方法：假设参数符合特定的曲线，只学习曲线的参数，再生成完整的参数。</p>
+</blockquote>
+<p>P37</p>
+<h2 id="优化方法"><a class="header" href="#优化方法">优化方法</a></h2>
+<p>How to solve this optimization problem?<br>Gradient-based approaches:</p>
+<ul>
+<li>Gradient descent</li>
+<li>Newton’s methods</li>
+<li>Quasi-Newton methods</li>
+<li>……</li>
+</ul>
+<p>P39</p>
+<h1 id="trajectory-optimization-for-tracking-control"><a class="header" href="#trajectory-optimization-for-tracking-control">Trajectory Optimization for Tracking Control</a></h1>
+<p><img src="../assets/10-14.png" alt=""></p>
+<p>find a target trajectory</p>
+<p><img src="../assets/10-15.png" alt=""></p>
+<blockquote>
+<p>✅ 把动捕结果当成初始解，然后以优化的方式找到合理轨迹。</p>
+</blockquote>
+<p>P40</p>
+<h2 id="problem-with-gradient-based-methods"><a class="header" href="#problem-with-gradient-based-methods">Problem with Gradient-Based Methods</a></h2>
+<ul>
+<li>The optimization problem is usually <strong>highly nonlinear</strong>, gradients are unreliable</li>
+<li>The system is a black box with unknow dynamics, gradients are not available</li>
+</ul>
+<p>解决方法： Derivative-Free Optimization</p>
+<ul>
+<li>
+<p>Iterative methods</p>
+<ul>
+<li>Goal: find the variables 𝒙 that optimize \(f(x)\)</li>
+<li>Determining an initial guess of \(x\)</li>
+<li>Repeat:
+<ul>
+<li>Propose a set of candidate variables {\(x_i\)} according to \(x\)</li>
+<li>Evaluate the objective function \(f_i=f(x_i)\)</li>
+<li>Update the estimation for \(x\)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Examples:</p>
+<ul>
+<li>Bayesian optimization, Evolution strategies (e.g. CMA-ES), Stochastic optimization, Sequential Monte Carlo methods, ……</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>✅ 启发式方法或随机采样方法，不需要梯度。<br>✅ 缺点：慢、不精确。</p>
+</blockquote>
+<p>P43</p>
+<h2 id="cma-es"><a class="header" href="#cma-es">CMA-ES</a></h2>
+<ul>
+<li>Covariance matrix adaptation evolution strategy (CMA-ES)
+<ul>
+<li>A widely adopted derivative-free method in character animation</li>
+</ul>
+</li>
+</ul>
+<p><img src="../assets/10-17.png" alt=""></p>
+<p>Goal: find the variables 𝒙 that optimize \(f(x)\)</p>
+<ul>
+<li>Initialize Gaussian distribution \(x\sim \mathcal{N} (\mu ,\Sigma )\)</li>
+<li>Repeat:
+<ul>
+<li>sample candidate variables {\(x_i\)} \( \sim \mathcal{N} (\mu ,\Sigma )\)</li>
+<li>Evaluate the objective function \(f_i=f(x_i)\)
+<ul>
+<li>Involve simulation and generate simulation trajectories</li>
+</ul>
+</li>
+<li>Sort {\(f_i\)} and keep the top \(N\) elite samples</li>
+<li>Update \(\mu ,\Sigma \) according to the elite samples</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>✅ 优点：稳定，无梯度，可用于黑盒系统。</p>
+</blockquote>
+<p>P44</p>
+<blockquote>
+<p>🔎 [Wampler and Popović 2009 - Optimal Gait and Form for Animal Locomotion]</p>
+</blockquote>
+<p>P45</p>
+<blockquote>
+<p>✅ [Al Borno et al. 2013 - Trajectory Optimization for Full-Body Movements with Complex Contacts]</p>
+</blockquote>
+<blockquote>
+<p>✅ 只优化目标轨迹，不优化仿真轨迹。因为仿真轨迹可以通仿真得到。</p>
+</blockquote>
+<p>P46</p>
+<h2 id="samcon"><a class="header" href="#samcon">SAMCON</a></h2>
+<blockquote>
+<p>✅ CMA-ES 的缺点：<br>（1）每次都从头到尾做仿真，计算量大。<br>（2）如果仿真轨迹长，则难收敛。<br>✅ 改进方法：每次采样，只考虑下面一帧。</p>
+</blockquote>
+<blockquote>
+<p>🔎 <strong>SA</strong>mpling-based <strong>M</strong>otion <strong>CON</strong>trol [Liu et al. 2010, 2015]<br>- Motion Clip → Open-loop control trajectory<br>- A sequential Monte-Carlo method</p>
+</blockquote>
+<p><img src="../assets/10-18.png" alt=""></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><img src="../assets/10-19.png" alt=""></td><td>✅ 把轨迹分割开，每次优化一小段。</td></tr>
+<tr><td><img src="../assets/10-20.png" alt=""></td><td>✅ 在目标轨迹上增加偏移，跟踪偏移之后的轨迹。<br> ✅ 偏移量未知，因此以高斯分布对偏移量采样。  <br> ✅ 高斯分布可由其它分布代替。</td></tr>
+<tr><td><img src="../assets/10-21.png" alt=""></td><td>✅ 对每个偏移量做一次仿真，生成新的状态，保留其中与当目标接近的 N 个。</td></tr>
+<tr><td><img src="../assets/10-22.png" alt=""></td><td>✅ 从上一步 N 个中随机选择出发点，以及随机的偏移量，再做仿真与筛选。</td></tr>
+<tr><td><img src="../assets/10-23.png" alt=""></td><td>✅ 最终找到一组最接近的。   <br> ✅ 原理：只选一个容易掉入局部最优，因此保留多个。 <br>  ✅ 蒙特卡罗＋动态规划</td></tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>✅ 优点：穿膜问题也能被修正掉，可还原动捕数据，可根据环境影响而自动调整。</p>
+</blockquote>
+<p>P54</p>
+<h1 id="feedforward--feedback-control"><a class="header" href="#feedforward--feedback-control">Feedforward &amp; Feedback Control</a></h1>
+<h2 id="feedforward-control"><a class="header" href="#feedforward-control">Feedforward Control</a></h2>
+<p><img src="../assets/10-24.png" alt=""></p>
+<blockquote>
+<p>✅ 前馈控制，要求每一步的起始状态都是在获取轨迹过程中能得到的状态。<br>✅ 如果对起始状态加一点挠动，状态会偏离很远。</p>
+</blockquote>
+<p>P56</p>
+<h2 id="feedback-control"><a class="header" href="#feedback-control">Feedback Control</a></h2>
+<blockquote>
+<p>✅ 解决方法：引入反馈策略。根据当前偏差，自动计算出更正，把更正叠加到控制轨迹上。</p>
+</blockquote>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th></tr>
+</thead>
+<tbody>
+<tr><td><img src="../assets/10-025.png" alt=""></td></tr>
+<tr><td><img src="../assets/10-026.png" alt=""></td></tr>
+<tr><td><img src="../assets/10-027.png" alt=""></td></tr>
+</tbody>
+</table>
+</div>
+
+                    </main>
+
+                    <!-- Navigation buttons removed -->
+                </div>
+            </div>
+
+            <!-- Navigation buttons removed -->
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Disable sidebar resize functionality -->
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            var handle = document.getElementById('mdbook-sidebar-resize-handle');
+            if (handle) {
+                // Remove event listeners by cloning
+                var newHandle = handle.cloneNode(true);
+                handle.parentNode.replaceChild(newHandle, handle);
+            }
+        });
+        </script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../theme/pagetoc.js"></script>
+        <script type="text/javascript" src="../theme/mermaid.min.js"></script>
+        <script type="text/javascript" src="../theme/mermaid-init.js"></script>
+        <script type="text/javascript" src="../theme/sidebar-scroll.js"></script>
+
+
+    </body>
+</html>

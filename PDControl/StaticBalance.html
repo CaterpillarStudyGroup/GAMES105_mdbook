@@ -1,0 +1,385 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Static Balance - 3D 角色骨骼动画技术</title>
+        <base href="../">
+
+
+        <!-- Custom HTML head -->
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/pagetoc.css">
+
+        <!-- Override CSS variables for sidebar resize indicator -->
+        <style>
+        :root {
+            --sidebar-resize-indicator-width: 0px !important;
+            --sidebar-resize-indicator-space: 0px !important;
+        }
+        </style>
+
+        <!-- MathJax with Latin Modern font for better appearance -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript">
+        MathJax.Hub.Config({
+            "TeX/Font": {
+                availableFonts: ["Latin-Modern"],
+                preferredFont: "Latin-Modern",
+                webFont: "Latin-Modern"
+            }
+        });
+        </script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><span class="chapter-link-wrapper"><span>GAMES105</span></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Locomotion_Survey.html"><strong aria-hidden="true">4.</strong> Locomotion 控制技术洞察</a></span></li><li class="chapter-item expanded "><li class="part-title">Keyframe-based/Kinematic Approaches</li></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Forward.html"><strong aria-hidden="true">5.</strong> Character Kinematics:Forward and Inverse Kinematics</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Keyframe.html"><strong aria-hidden="true">6.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Data-driven.html"><strong aria-hidden="true">7.</strong> Data-driven Character Animation</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Learning-based.html"><strong aria-hidden="true">8.</strong> Statistical Models of Human Motion</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="cont.html"><strong aria-hidden="true">9.</strong> Learning-based Character Animation</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Skinning.html"><strong aria-hidden="true">10.</strong> Skinning</a></span></li><li class="chapter-item expanded "><li class="part-title">Physics-based/Dynamic Approaches</li></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="DynamicsOverview.html"><strong aria-hidden="true">11.</strong> 动力学方法概览</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/Simulation.html"><strong aria-hidden="true">12.</strong> 角色物理仿真基础</a></span><ol class="section"><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/RigidBodyRepresentation.html"><strong aria-hidden="true">12.1.</strong> 角色的分段刚体表示</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/Constraints.html"><strong aria-hidden="true">12.2.</strong> Constraints</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/JointConstraint.html"><strong aria-hidden="true">12.3.</strong> 关节约束</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/JointTorques.html"><strong aria-hidden="true">12.4.</strong> 关节力矩</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/ForcesAndTorques.html"><strong aria-hidden="true">12.5.</strong> 运动方程中的力与力矩</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/Contacts.html"><strong aria-hidden="true">12.6.</strong> Contacts</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Simulation/SimulationPipeline.html"><strong aria-hidden="true">12.7.</strong> 总结</a></span></li></ol><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/PDControl.html"><strong aria-hidden="true">13.</strong> PD 控制</a></span><ol class="section"><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/Proportional-DerivativeControl.html"><strong aria-hidden="true">13.1.</strong> Proportional-Derivative Control</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/Controlling.html"><strong aria-hidden="true">13.2.</strong> Controlling Characters</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/UnderactuatedSystem.html"><strong aria-hidden="true">13.3.</strong> 欠驱动系统问题</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/SteadyStateError.html"><strong aria-hidden="true">13.4.</strong> 稳态误差问题</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/FeedforwardVsFeedback.html"><strong aria-hidden="true">13.5.</strong> 前馈与反馈控制</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="PDControl/StaticBalance.html"><strong aria-hidden="true">13.6.</strong> Static Balance</a></span></li></ol><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/Tracking.html"><strong aria-hidden="true">14.</strong> 轨迹优化</a></span><ol class="section"><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/MathematicalFormulation.html"><strong aria-hidden="true">14.1.</strong> 数学形式化描述</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/LQR.html"><strong aria-hidden="true">14.2.</strong> Linear Quadratic Regulator (LQR)</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/Optimal.html"><strong aria-hidden="true">14.3.</strong> 最优控制与强化学习</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/Concepts.html"><strong aria-hidden="true">14.4.</strong> 概念澄清</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Tracking/SimpleCase.html"><strong aria-hidden="true">14.5.</strong> 简单例子</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Nonlinear_problems.html"><strong aria-hidden="true">14.6.</strong> Nonlinear problems</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Sampling_based.html"><strong aria-hidden="true">14.7.</strong> Sampling-based Policy Optimization</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Optimal_Control.html"><strong aria-hidden="true">14.8.</strong> Optimal Control-Reinforcement Learning</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Digital_Cerebellum.html"><strong aria-hidden="true">14.9.</strong> Digital Cerebellum</a></span></li></ol><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="CharacterControl/CharacterControl.html"><strong aria-hidden="true">15.</strong> 角色控制技术</a></span><ol class="section"><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Learning.html"><strong aria-hidden="true">15.1.</strong> Learning to Walk</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="ZMP.html"><strong aria-hidden="true">15.2.</strong> Zero-Moment Point (ZMP)</a></span></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="SIMBICON.html"><strong aria-hidden="true">15.3.</strong> SIMBICON</a></span></li></ol><li class="chapter-item expanded "><li class="part-title">混合方法</li></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Hybrid.html"><strong aria-hidden="true">16.</strong> 混合方法</a></span></li><li class="chapter-item expanded "><li class="part-title">Application</li></li><li class="chapter-item expanded "><span class="chapter-link-wrapper"><a href="Application/Locomotion.html"><strong aria-hidden="true">17.</strong> Locomotion</a></span></li></ol>
+            </div>
+            <!-- Hidden resize handle for mdbook 0.5.x compatibility -->
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle" style="display: none !important; visibility: hidden !important; pointer-events: none !important;"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">3D 角色骨骼动画技术</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <p>P62</p>
+<h1 id="static-balance"><a class="header" href="#static-balance">Static Balance</a></h1>
+<h2 id="本章要解决的问题"><a class="header" href="#本章要解决的问题">本章要解决的问题</a></h2>
+<p><strong>核心问题</strong>：如何在<strong>静止站立</strong>的情况下，通过控制策略保证角色<strong>不摔倒</strong>？</p>
+<h3 id="问题分解"><a class="header" href="#问题分解">问题分解</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>子问题</th><th>说明</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>什么是平衡？</strong></td><td>质心在支撑面内</td></tr>
+<tr><td><strong>为什么难？</strong></td><td>人形角色是欠驱动系统</td></tr>
+<tr><td><strong>如何检测不平衡？</strong></td><td>检查质心投影是否偏离支撑面中心</td></tr>
+<tr><td><strong>如何纠正？</strong></td><td>在关节上施加额外的力矩</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="与欠驱动系统的关系"><a class="header" href="#与欠驱动系统的关系">与欠驱动系统的关系</a></h3>
+<pre><code>欠驱动系统 → 无法直接控制质心 → 需要间接控制
+                    ↓
+        通过关节力矩控制质心位置
+                    ↓
+      在脚踝或髋关节施加额外力矩
+</code></pre>
+<h3 id="两种控制策略"><a class="header" href="#两种控制策略">两种控制策略</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>策略</th><th>方法</th><th>特点</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>简单 PD 控制</strong></td><td>在脚踝/髋关节加额外力矩</td><td>简单直接，适用于静止站立</td></tr>
+<tr><td><strong>Jacobian Transpose</strong></td><td>虚拟力 → 关节力矩转换</td><td>更灵活，可实现多种动作</td></tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>✅ <strong>深入学习</strong>：<a href="UnderactuatedSystem.html">欠驱动系统问题</a> - 理解为什么质心无法直接控制</p>
+</blockquote>
+<hr>
+<h2 id="定义"><a class="header" href="#定义">定义</a></h2>
+<p>What is balance?</p>
+<blockquote>
+<p>✅ Static Balance：在不发生移动的情况下，通过简单的控制策略，保证角色不摔倒。
+✅ 平衡：质心在支撑面内。</p>
+</blockquote>
+<p>P64<br><img src="../assets/10-29.png" alt=""></p>
+<blockquote>
+<p>✅ 人的质心：每一段的质心的加权平均。<br>✅ 人的支撑面：两脚之内。</p>
+</blockquote>
+<p>P66</p>
+<h2 id="a-simple-strategy-pd-control"><a class="header" href="#a-simple-strategy-pd-control">A simple strategy： PD Control</a></h2>
+<p>A simple strategy to maintain balance:</p>
+<h3 id="根据条件计算力矩"><a class="header" href="#根据条件计算力矩">根据条件计算力矩</a></h3>
+<ul>
+<li>
+<p>Keep projected CoM close to the center of support polygon <strong>while tracking a standing pose</strong></p>
+</li>
+<li>
+<p>Use <strong>PD control</strong> to compute feedback torque</p>
+</li>
+</ul>
+<p><img src="../assets/10-30.png" alt=""></p>
+<blockquote>
+<p>✅ 力矩 1：让角色保持某个姿势。<br>✅ 力矩 2：让质心与目标质心位置接近。力矩额外加在脚裸关节或髋关节上。<br>✅ 在某些关节上增加一些额外的力矩。</p>
+</blockquote>
+<p>P68</p>
+<h3 id="施加力矩"><a class="header" href="#施加力矩">施加力矩</a></h3>
+<ul>
+<li>Apply the feedback torque at <strong>ankles</strong> (ankle strategy) or <strong>hips</strong> (hip strategy)</li>
+</ul>
+<p>P69</p>
+<h2 id="jacobian-transpose-control"><a class="header" href="#jacobian-transpose-control">Jacobian Transpose Control</a></h2>
+<blockquote>
+<p>✅ 实现 static balance，除了 PD 控制还有其它方法。</p>
+</blockquote>
+<h3 id="计算要施加的力"><a class="header" href="#计算要施加的力">计算要施加的力</a></h3>
+<p><img src="../assets/10-32.png" alt=""></p>
+<p>Can we use joint torques \(\tau _i\) to mimic the effect of a force \(f\) applied at \(x\)</p>
+<ul>
+<li>Note that the <strong>desired force</strong> \(f\) is not actually applied</li>
+<li>Also called <strong>“virtual force”</strong></li>
+</ul>
+<blockquote>
+<p>✅ 通过施加 \(\tau _1 ，\tau _2，\tau _3\) 来达到给 \(x\) 施加 \(f\) 的效果！</p>
+</blockquote>
+<p>P73</p>
+<h3 id="把力转化为力矩"><a class="header" href="#把力转化为力矩">把力转化为力矩</a></h3>
+<p>Make \(f\) and \(\tau _i\) done the same power</p>
+<p>$$
+P=f^T\dot{x}=\tau  ^T\dot{\theta }
+$$</p>
+<blockquote>
+<p>✅ 从做功的角度。力矩所做的功（功率）与虚力要做的功（功率）相同。功率 = \(fv\)</p>
+</blockquote>
+<p>Forward kinematics \(x=g(\dot{\theta } )\Rightarrow \dot{x}=J \dot{\theta } \)</p>
+<blockquote>
+<p>✅ \(g（* ）\) 是一个FK函数。其中：<br>$$
+J=\frac{\partial g}{\partial \theta }
+$$<br>✅ 把 \( \dot{x } \) 代入上面公式得</p>
+</blockquote>
+<p>$$
+f^T J\dot{\theta } = \tau  ^T\dot{\theta }
+$$</p>
+<p>$$
+\Downarrow
+$$</p>
+<p>P76</p>
+<p>$$
+\tau =J^Tf
+$$</p>
+<blockquote>
+<p>✅ 把 \( \tau\) 分解为每一个关节每一个旋转的 \( \tau\)．通过 Jacobian 矩阵的含义推出：</p>
+</blockquote>
+<p>$$
+\Downarrow
+$$</p>
+<p>$$
+\tau _i=(x-p_i)\times f
+$$</p>
+<p>P77</p>
+<h3 id="用于static-balance"><a class="header" href="#用于static-balance">用于Static Balance</a></h3>
+<p>A simple strategy to maintain balance:</p>
+<ul>
+<li>
+<p>Keep projected CoM close to the center of support polygon <strong>while tracking a standing pose</strong></p>
+</li>
+<li>
+<p>Use PD control to compute feedback <strong>virtual force</strong></p>
+</li>
+</ul>
+<blockquote>
+<p>✅ P66 中在 Hips 上加力矩的方式只能进行简单的控制。<br>✅ 可以通过虚力实现相似的效果。用 \(PD\) 控制计算出力，再通过关节力矩实现这个力。</p>
+</blockquote>
+<p>$$
+f=k_p(\bar{c} -c)-k_d\dot{c}
+$$</p>
+<blockquote>
+<p>✅ \(c\) 不一定是投影距离，还可以描述高度距离，实现站起蹲下的效果。</p>
+</blockquote>
+<p>P78</p>
+<ul>
+<li>Assuming \(f\) <strong>is applied to the CoM</strong>, compute necessary joint torques using Jacobian transpose control to achieve it</li>
+</ul>
+<blockquote>
+<p>✅ 但也不是真的加力，而是通过前面讲的 Jacobian transpose control 方法转为特定关节的力矩。</p>
+</blockquote>
+<ul>
+<li>Usually using the joints in the legs</li>
+</ul>
+<blockquote>
+<p>✅ 最后达到在Hips上加力的效果<br>✅ 但这种方式能施加的力非常弱，只能实现比较微弱的平衡</p>
+</blockquote>
+<p>P79</p>
+<h2 id="a-fancier-strategy"><a class="header" href="#a-fancier-strategy">A fancier strategy:</a></h2>
+<ul>
+<li>Mocap tracking as an objective function</li>
+<li>Controlling both the CoM position/<strong>momentum</strong> and the <strong>angular</strong> momentum</li>
+<li>Solve a <strong>one-step</strong> optimization problem to compute joint torques</li>
+</ul>
+<blockquote>
+<p>🔎 <img src="../assets/10-34.png" alt=""></p>
+</blockquote>
+<hr>
+<blockquote>
+<p>本文出自 CaterpillarStudyGroup，转载请注明出处。
+https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <!-- Navigation buttons removed -->
+                </div>
+            </div>
+
+            <!-- Navigation buttons removed -->
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Disable sidebar resize functionality -->
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            var handle = document.getElementById('mdbook-sidebar-resize-handle');
+            if (handle) {
+                // Remove event listeners by cloning
+                var newHandle = handle.cloneNode(true);
+                handle.parentNode.replaceChild(newHandle, handle);
+            }
+        });
+        </script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../theme/pagetoc.js"></script>
+        <script type="text/javascript" src="../theme/mermaid.min.js"></script>
+        <script type="text/javascript" src="../theme/mermaid-init.js"></script>
+        <script type="text/javascript" src="../theme/sidebar-scroll.js"></script>
+
+
+    </body>
+</html>
