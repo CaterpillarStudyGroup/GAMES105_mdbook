@@ -9,6 +9,7 @@ title = "3D 角色骨骼动画技术"
 command = "mdbook-mermaid"
 
 [output.html]
+hash-files = false
 mathjax-support = true
 git-repository-url = "https://github.com/CaterpillarStudyGroup/GAMES105_mdbook"
 git-repository-icon = "fa-github"
