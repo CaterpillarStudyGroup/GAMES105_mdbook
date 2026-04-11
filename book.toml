@@ -15,7 +15,7 @@ git-repository-url = "https://github.com/CaterpillarStudyGroup/GAMES105_mdbook"
 git-repository-icon = "fa-github"
 additional-css = ["theme/pagetoc.css"]
 additional-js  = ["theme/pagetoc.js", "theme/mermaid.min.js", "theme/mermaid-init.js", "theme/sidebar-scroll.js"]
-site-url = "/"
+site-url = "https://caterpillarstudygroup.github.io/GAMES105_mdbook/"
 
 
 [output.html.fold]
