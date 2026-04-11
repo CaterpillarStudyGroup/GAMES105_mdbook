@@ -49,6 +49,14 @@
         <link rel="stylesheet" href="{{ ../path_to_root }}{{ this }}">
         {{/each}}
 
+        <!-- Override CSS variables for sidebar resize indicator -->
+        <style>
+        :root {
+            --sidebar-resize-indicator-width: 0px !important;
+            --sidebar-resize-indicator-space: 0px !important;
+        }
+        </style>
+
         {{#if mathjax_support}}
         <!-- MathJax with Latin Modern font for better appearance -->
         <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
@@ -114,7 +122,8 @@
             <div class="sidebar-scrollbox">
                 {{#toc}}{{/toc}}
             </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+            <!-- Hidden resize handle for mdbook 0.5.x compatibility -->
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle" style="display: none !important; visibility: hidden !important; pointer-events: none !important;"></div>
         </nav>
 
         <div id="page-wrapper" class="page-wrapper">
@@ -193,38 +202,11 @@
                         {{{ content }}}
                     </main>
 
-                    <nav class="nav-wrapper" aria-label="Page navigation">
-                        <!-- Mobile navigation buttons -->
-                        {{#if previous}}
-                            <a rel="prev" href="{{ path_to_root }}{{previous.link}}" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
-                            </a>
-                        {{/if}}
-
-                        {{#if next}}
-                            <a rel="next" href="{{ path_to_root }}{{next.link}}" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        {{/if}}
-
-                        <div style="clear: both"></div>
-                    </nav>
+                    <!-- Navigation buttons removed -->
                 </div>
             </div>
 
-            <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                {{#if previous}}
-                    <a rel="prev" href="{{ path_to_root }}{{previous.link}}" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
-                {{/if}}
-
-                {{#if next}}
-                    <a rel="next" href="{{ path_to_root }}{{next.link}}" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
-                {{/if}}
-            </nav>
+            <!-- Navigation buttons removed -->
 
         </div>
 
@@ -295,6 +277,18 @@
         <script src="{{ path_to_root }}clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ path_to_root }}highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="{{ path_to_root }}book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Disable sidebar resize functionality -->
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            var handle = document.getElementById('mdbook-sidebar-resize-handle');
+            if (handle) {
+                // Remove event listeners by cloning
+                var newHandle = handle.cloneNode(true);
+                handle.parentNode.replaceChild(newHandle, handle);
+            }
+        });
+        </script>
 
         <!-- Custom JS scripts -->
         {{#each additional_js}}

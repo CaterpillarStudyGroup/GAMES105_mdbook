@@ -1437,7 +1437,7 @@ flowchart LR
 
 #### 运动学方法演进主线
 
-1. **相位表示线** (PFNN → Style Modelling → MOCHA → Phase Manifolds)
+1. **相位表示线** (PFNN → Style Modelling → Phase Manifolds)
    - 核心思想：用相位解耦不同动作状态
    - 演进：全局相位 → 局部相位 → 相位流形插值
 

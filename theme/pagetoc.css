@@ -1,3 +1,45 @@
+/* Disable sidebar resize handle - fix for mdbook 0.5.x */
+/* First, override CSS variables to 0 */
+:root {
+    --sidebar-resize-indicator-width: 0px !important;
+    --sidebar-resize-indicator-space: 0px !important;
+}
+
+#mdbook-sidebar-resize-handle,
+.sidebar-resize-handle,
+.sidebar-resize-handle .sidebar-resize-indicator,
+.sidebar-resize-handle .sidebar-resize-indicator::before,
+.sidebar-resize-handle .sidebar-resize-indicator::after {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    cursor: default !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+}
+
+/* Override .js .sidebar .sidebar-resize-handle from chrome.css */
+html.sidebar-visible.js .sidebar .sidebar-resize-handle,
+html.sidebar-hidden.js .sidebar .sidebar-resize-handle,
+html.js .sidebar .sidebar-resize-handle {
+    display: none !important;
+    width: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Remove any right border/shadow from sidebar */
+.sidebar {
+    border-right: none !important;
+    box-shadow: none !important;
+}
+.sidebar-scrollbox {
+    border-right: none !important;
+    box-shadow: none !important;
+}
+
 @media only screen and (max-width:1439px) {
     .sidetoc {
         display: none;
