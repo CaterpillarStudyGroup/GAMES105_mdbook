@@ -16,7 +16,7 @@
 ### 一般轨迹优化问题
 
 $$
-\min_{\mathbf{x}_{0:T}, \mathbf{u}_{0:T-1}} J(\mathbf{x}, \mathbf{u}) \quad \text{s.t.} \quad \mathbf{x}_{t+1} = f(\mathbf{x}_t, \mathbf{u}_t)
+\min _{\mathbf{x} _{0:T}, \mathbf{u} _{0:T-1}} J(\mathbf{x}, \mathbf{u}) \quad \text{s.t.} \quad \mathbf{x} _{t+1} = f(\mathbf{x} _t, \mathbf{u} _t)
 $$
 
 | 特点 | 说明 |
@@ -33,8 +33,8 @@ LQR 对一般问题做了两个关键假设：
 
 | 假设 | 数学形式 | 效果 |
 |------|---------|------|
-| **线性动力学** | \\(x_{t+1} = A_t x_t + B_t u_t\\) | 状态转移是线性的 |
-| **二次目标函数** | \\(J = x_T^T Q_T x_T + \sum (x_t^T Q_t x_t + u_t^T R_t u_t)\\) | 代价是状态和控制的二次函数 |
+| **线性动力学** | \\(x _{t+1} = A _t x _t + B _t u _t\\) | 状态转移是线性的 |
+| **二次目标函数** | \\(J = x _T^T Q _T x _T + \sum (x _t^T Q _t x _t + u _t^T R _t u _t)\\) | 代价是状态和控制的二次函数 |
 
 **好处**：问题有**闭式解**（解析解），无需数值迭代！
 
@@ -63,7 +63,7 @@ LQR 问题（有闭式解）
 在标称轨迹 \\((\bar{x}, \bar{u})\\) 附近做一阶泰勒展开：
 
 $$
-f(x,u) \approx f(\bar{x},\bar{u}) + \underbrace{\frac{\partial f}{\partial x}}_{A}(x-\bar{x}) + \underbrace{\frac{\partial f}{\partial u}}_{B}(u-\bar{u})
+f(x,u) \approx f(\bar{x},\bar{u}) + \underbrace{\frac{\partial f}{\partial x}}\ _{A}(x-\bar{x}) + \underbrace{\frac{\partial f}{\partial u}}\ _{B}(u-\bar{u})
 $$
 
 定义偏差变量：\\(\delta x = x - \bar{x}, \quad \delta u = u - \bar{u}\\)
@@ -71,10 +71,10 @@ $$
 得到线性化动力学：
 
 $$
-\delta x_{t+1} = A_t \delta x_t + B_t \delta u_t
+\delta x _{t+1} = A _t \delta x _t + B _t \delta u _t
 $$
 
-其中 \\(A_t = \frac{\partial f}{\partial x}|_{(\bar{x}_t,\bar{u}_t)}, \quad B_t = \frac{\partial f}{\partial u}|_{(\bar{x}_t,\bar{u}_t)}\\)
+其中 \\(A _t = \frac{\partial f}{\partial x}| _{(\bar{x} _t,\bar{u} _t)}, \quad B _t = \frac{\partial f}{\partial u}| _{(\bar{x} _t,\bar{u} _t)}\\)
 
 ---
 
@@ -83,10 +83,10 @@ $$
 对目标函数做二阶泰勒展开（忽略常数项和一阶项）：
 
 $$
-J \approx \frac{1}{2}\delta x^T Q \delta x + \frac{1}{2}\delta u^T R \delta u
+J \approx \frac{1}{2}\delta x ^T Q \delta x + \frac{1}{2}\delta u ^T R \delta u
 $$
 
-其中 \\(Q = \frac{\partial^2 J}{\partial x^2}, \quad R = \frac{\partial^2 J}{\partial u^2}\\)
+其中 \\(Q = \frac{\partial ^2 J}{\partial x ^2}, \quad R = \frac{\partial ^2 J}{\partial u ^2}\\)
 
 ---
 
@@ -95,13 +95,13 @@ $$
 得到标准 LQR 问题：
 
 $$
-\min_{\delta u} \frac{1}{2}\delta x^T Q \delta x + \frac{1}{2}\delta u^T R \delta u \quad \text{s.t.} \quad \delta x_{t+1} = A \delta x + B \delta u
+\min _{\delta u} \frac{1}{2}\delta x ^T Q \delta x + \frac{1}{2}\delta u ^T R \delta u \quad \text{s.t.} \quad \delta x _{t+1} = A \delta x + B \delta u
 $$
 
 **最优解**：
 
 $$
-\delta u^* = -K \delta x
+\delta u ^* = -K \delta x
 $$
 
 其中 \\(K\\) 通过 Riccati 方程求解。
@@ -115,7 +115,7 @@ $$
 | 1 | 猜测初始轨迹 \\((\bar{x}, \bar{u})\\) |
 | 2 | 线性化动力学：计算 \\(A, B\\) |
 | 3 | 二次化目标：计算 \\(Q, R\\) |
-| 4 | 求解 LQR：得到 \\(\delta u^* = -K \delta x\\) |
+| 4 | 求解 LQR：得到 \\(\delta u ^* = -K \delta x\\) |
 | 5 | 更新轨迹：\\(x \leftarrow \bar{x} + \delta x, u \leftarrow \bar{u} + \delta u\\) |
 | 6 | 重复 2-5 直到收敛 |
 
@@ -150,13 +150,13 @@ $$
 
 ![](../assets/12-19.png)
 
-> &#x2705; 目标函数是关于优化对象 \\(x_n\\) 的二次函数。
+> &#x2705; 目标函数是关于优化对象 \\(x _n\\) 的二次函数。
 
 $$
-\min _{(x_n,v_n,\tilde{x} _n)} \sum _{n=0}^{N} (\sin (t_n)-x_n)^2+\sum _{n=0}^{N}\tilde{x}^2_n
+\min _{(x _n,v _n,\tilde{x} _n)} \sum _{n=0}^{N} (\sin (t _n)-x _n)^2+\sum _{n=0}^{N}\tilde{x} ^2 _n
 $$
 
-> &#x2705; 运动学方程中的 \\(x_{n+1}\\)、\\(v_{n+1}\\) 与上一帧状态 \\(x_n\\)、\\(v_n\\) 是线性关系。
+> &#x2705; 运动学方程中的 \\(x _{n+1}\\)、\\(v _{n+1}\\) 与上一帧状态 \\(x _n\\)、\\(v _n\\) 是线性关系。
 
 $$
 \begin{aligned}
@@ -174,20 +174,20 @@ $$
 **目标函数**：
 
 $$
-\min s^T_T Q_T s_T+\sum_{t=0}^{T} s^T_t Q_t s_t + a^T_t R_t a_t
+\min s ^T _T Q _T s _T+\sum _{t=0}^{T} s ^T _t Q _t s _t + a ^T _t R _t a _t
 $$
 
 **约束条件**（动力学方程）：
 
 $$
-s_{t+1}=A_t s_t+B_t a_t \quad \text{for } 0\le t <T
+s _{t+1}=A _t s _t+B _t a _t \quad \text{for } 0\le t <T
 $$
 
 其中：
-- \\(s_t\\)：状态向量（state）
-- \\(a_t\\)：控制输入（action/control）
-- \\(A_t, B_t\\)：线性化后的系统矩阵
-- \\(Q_t, R_t\\)：代价权重矩阵
+- \\(s _t\\)：状态向量（state）
+- \\(a _t\\)：控制输入（action/control）
+- \\(A _t, B _t\\)：线性化后的系统矩阵
+- \\(Q _t, R _t\\)：代价权重矩阵
 
 ---
 
@@ -203,10 +203,10 @@ $$
 假设从时刻 \\(t\\) 到终点的最优代价（Value Function）具有二次形式：
 
 $$
-V_t(s) = s^T P_t s
+V _t(s) = s ^T P _t s
 $$
 
-其中 \\(P_t\\) 是对称矩阵。
+其中 \\(P _t\\) 是对称矩阵。
 
 ---
 
@@ -215,35 +215,35 @@ $$
 考虑最后一步（从 \\(T-1\\) 到 \\(T\\)）：
 
 $$
-V_{T-1}(s_{T-1}) = \min_{a_{T-1}} \left[ s_{T-1}^T Q_{T-1} s_{T-1} + a_{T-1}^T R_{T-1} a_{T-1} + V_T(s_T) \right]
+V _{T-1}(s _{T-1}) = \min _{a _{T-1}} \left[ s _{T-1}^T Q _{T-1} s _{T-1} + a _{T-1}^T R _{T-1} a _{T-1} + V _T(s _T) \right]
 $$
 
-代入 \\(s_T = A_{T-1} s_{T-1} + B_{T-1} a_{T-1}\\) 和 \\(V_T(s_T) = s_T^T P_T s_T\\)：
+代入 \\(s _T = A _{T-1} s _{T-1} + B _{T-1} a _{T-1}\\) 和 \\(V _T(s _T) = s _T^T P _T s _T\\)：
 
 $$
-V_{T-1}(s_{T-1}) = \min_{a_{T-1}} \left[ s_{T-1}^T Q_{T-1} s_{T-1} + a_{T-1}^T R_{T-1} a_{T-1} + (A_{T-1} s_{T-1} + B_{T-1} a_{T-1})^T P_T (A_{T-1} s_{T-1} + B_{T-1} a_{T-1}) \right]
+V _{T-1}(s _{T-1}) = \min _{a _{T-1}} \left[ s _{T-1}^T Q _{T-1} s _{T-1} + a _{T-1}^T R _{T-1} a _{T-1} + (A _{T-1} s _{T-1} + B _{T-1} a _{T-1})^T P _T (A _{T-1} s _{T-1} + B _{T-1} a _{T-1}) \right]
 $$
 
 ---
 
 ### 求解最优控制
 
-对 \\(a_{T-1}\\) 求导并令导数为零：
+对 \\(a _{T-1}\\) 求导并令导数为零：
 
 $$
-\frac{\partial V_{T-1}}{\partial a_{T-1}} = 2 R_{T-1} a_{T-1} + 2 B_{T-1}^T P_T (A_{T-1} s_{T-1} + B_{T-1} a_{T-1}) = 0
+\frac{\partial V _{T-1}}{\partial a _{T-1}} = 2 R _{T-1} a _{T-1} + 2 B _{T-1}^T P _T (A _{T-1} s _{T-1} + B _{T-1} a _{T-1}) = 0
 $$
 
 整理得：
 
 $$
-(R_{T-1} + B_{T-1}^T P_T B_{T-1}) a_{T-1} = -B_{T-1}^T P_T A_{T-1} s_{T-1}
+(R _{T-1} + B _{T-1}^T P _T B _{T-1}) a _{T-1} = -B _{T-1}^T P _T A _{T-1} s _{T-1}
 $$
 
 解得最优控制：
 
 $$
-a_{T-1}^* = -(R_{T-1} + B_{T-1}^T P_T B_{T-1})^{-1} B_{T-1}^T P_T A_{T-1} s_{T-1}
+a _{T-1}^* = -(R _{T-1} + B _{T-1}^T P _T B _{T-1})^{-1} B _{T-1}^T P _T A _{T-1} s _{T-1}
 $$
 
 ---
@@ -251,13 +251,13 @@ $$
 ### 最优控制律的一般形式
 
 $$
-a_t^* = -K_t s_t
+a _t^* = -K _t s _t
 $$
 
-其中反馈增益矩阵 \\(K_t\\) 为：
+其中反馈增益矩阵 \\(K _t\\) 为：
 
 $$
-K_t = (R_t + B_t^T P_{t+1} B_t)^{-1} B_t^T P_{t+1} A_t
+K _t = (R _t + B _t^T P _{t+1} B _t)^{-1} B _t^T P _{t+1} A _t
 $$
 
 > &#x2705; **结论**：最优策略是当前状态的线性函数，\\(K\\) 是线性反馈系数。
@@ -266,39 +266,39 @@ $$
 
 ### 求解 Value Function
 
-将最优控制 \\(a_t^* = -K_t s_t\\) 代回 Value Function：
+将最优控制 \\(a _t^* = -K _t s _t\\) 代回 Value Function：
 
 $$
-V_{t}(s_t) = s_t^T (Q_t + K_t^T R_t K_t + (A_t - B_t K_t)^T P_{t+1} (A_t - B_t K_t)) s_t
+V _{t}(s _t) = s _t^T (Q _t + K _t^T R _t K _t + (A _t - B _t K _t)^T P _{t+1} (A _t - B _t K _t)) s _t
 $$
 
 因此：
 
 $$
-P_t = Q_t + K_t^T R_t K_t + (A_t - B_t K_t)^T P_{t+1} (A_t - B_t K_t)
+P _t = Q _t + K _t^T R _t K _t + (A _t - B _t K _t)^T P _{t+1} (A _t - B _t K _t)
 $$
 
 或者展开为更常见的形式（离散代数 Riccati 方程）：
 
 $$
-P_t = Q_t + A_t^T P_{t+1} A_t - A_t^T P_{t+1} B_t (R_t + B_t^T P_{t+1} B_t)^{-1} B_t^T P_{t+1} A_t
+P _t = Q _t + A _t^T P _{t+1} A _t - A _t^T P _{t+1} B _t (R _t + B _t^T P _{t+1} B _t)^{-1} B _t^T P _{t+1} A _t
 $$
 
-> &#x2705; \\(V(s_{T-1})\\) 和 \\(V(s_T)\\) 的形式基本一致，只是 \\(P\\) 的表示不同。
+> &#x2705; \\(V(s _{T-1})\\) 和 \\(V(s _T)\\) 的形式基本一致，只是 \\(P\\) 的表示不同。
 
 ---
 
 ## 逆向递推算法
 
-从终点往起点递推计算 \\(P_t\\) 和 \\(K_t\\)：
+从终点往起点递推计算 \\(P _t\\) 和 \\(K _t\\)：
 
 | 步骤 | 计算 |
 |------|------|
-| **初始化** | \\(P_T = Q_T\\)（终端代价） |
+| **初始化** | \\(P _T = Q _T\\)（终端代价） |
 | **对 \\(t = T-1, T-2, \dots, 0\\)** | |
-| 1. 计算反馈增益 | \\(K_t = (R_t + B_t^T P_{t+1} B_t)^{-1} B_t^T P_{t+1} A_t\\) |
-| 2. 更新 P 矩阵 | \\(P_t = Q_t + K_t^T R_t K_t + (A_t - B_t K_t)^T P_{t+1} (A_t - B_t K_t)\\) |
-| 3. 存储 | \\(K_t, P_t\\) |
+| 1. 计算反馈增益 | \\(K _t = (R _t + B _t^T P _{t+1} B _t)^{-1} B _t^T P _{t+1} A _t\\) |
+| 2. 更新 P 矩阵 | \\(P _t = Q _t + K _t^T R _t K _t + (A _t - B _t K _t)^T P _{t+1} (A _t - B _t K _t)\\) |
+| 3. 存储 | \\(K _t, P _t\\) |
 
 ---
 
@@ -310,14 +310,14 @@ $$
  - Solution of LQR is a **linear feedback policy**
 
 $$
-a_t^* = -K_t s_t
+a _t^* = -K _t s _t
 $$
 
 ![](../assets/12-24.png)
 
-**离线计算**：从 \\(T\\) 到 \\(0\\) 逆向递推，计算所有 \\(K_t\\)
+**离线计算**：从 \\(T\\) 到 \\(0\\) 逆向递推，计算所有 \\(K _t\\)
 
-**在线执行**：对每个时间步，应用 \\(a_t = -K_t s_t\\)
+**在线执行**：对每个时间步，应用 \\(a _t = -K _t s _t\\)
 
 ---
 
