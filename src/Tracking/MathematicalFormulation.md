@@ -225,6 +225,18 @@ $$
 
 ---
 
+## 六、问题建模
+
+对这个问题用不同的方式建模，会得到不同的方法：
+
+||||
+|---|---|---|
+|动态规划问题|Find a path {\(s_t\)} that minimizes |\(J(s_0)=\sum _ {t=0}^{ } h(s_t,s_{t+1})\)|
+|轨迹问题|Find a sequence of action {\(a_t\)} that minimizes |  \(J(s_0)=\sum _ {t=0}^{ } h(s_t,a_t)\)<br> subject to <br> \( s_{t+1}=f(s_t,a_t)\)|
+|控制策略问题|Find a policy \( a_t=\pi (s_t,t)\)或 \( a_t=\pi (s_t)\)that minimizes|\(J(s_0)=\sum _ {t=0}^{ } h(s_t,a_t)\)<br>subject to  <br>\(s_{t+1}=f(s_t,a_t)\)
+
+--- 
+
 ## 六、优化方法分类
 
 轨迹优化方法可以从**四个维度**进行分类：
