@@ -17,10 +17,10 @@
 ### 状态轨迹（State Trajectory）
 
 $$
-\mathbf{x}_{0:T} = (\mathbf{x}_0, \mathbf{x}_1, \dots, \mathbf{x}_T)
+\mathbf{x} _{0:T} = (\mathbf{x} _0, \mathbf{x} _1, \dots, \mathbf{x} _T)
 $$
 
-其中每个状态 \\(\mathbf{x}_t\\) 包含：
+其中每个状态 \\(\mathbf{x} _t\\) 包含：
 
 | 变量 | 符号 | 维度 | 说明 |
 |------|------|------|------|
@@ -34,16 +34,16 @@ $$
 ### 控制轨迹（Control Trajectory）
 
 $$
-\mathbf{u}_{0:T-1} = (\mathbf{u}_0, \mathbf{u}_1, \dots, \mathbf{u}_{T-1})
+\mathbf{u} _{0:T-1} = (\mathbf{u} _0, \mathbf{u} _1, \dots, \mathbf{u} _{T-1})
 $$
 
-其中每个控制 \\(\mathbf{u}_t\\) 包含：
+其中每个控制 \\(\mathbf{u} _t\\) 包含：
 
 | 变量 | 符号 | 维度 | 说明 |
 |------|------|------|------|
-| 关节力矩 | \\(\boldsymbol{\tau}\\) | \\(n_{\text{joint}}\\) | 每个关节的力矩 |
-| 根节点力 | \\(\mathbf{f}_{\text{root}}\\) | 3 | 虚拟外力（可选） |
-| 根节点力矩 | \\(\boldsymbol{\tau}_{\text{root}}\\) | 3 | 虚拟外力矩（可选） |
+| 关节力矩 | \\(\boldsymbol{\tau}\\) | \\(n _{\text{joint}}\\) | 每个关节的力矩 |
+| 根节点力 | \\(\mathbf{f} _{\text{root}}\\) | 3 | 虚拟外力（可选） |
+| 根节点力矩 | \\(\boldsymbol{\tau} _{\text{root}}\\) | 3 | 虚拟外力矩（可选） |
 
 ---
 
@@ -52,13 +52,13 @@ $$
 ### 一般形式
 
 $$
-\min_{\mathbf{x}_{0:T}, \mathbf{u}_{0:T-1}} J(\mathbf{x}_{0:T}, \mathbf{u}_{0:T-1}) = J_T(\mathbf{x}_T) + \sum_{t=0}^{T-1} J_t(\mathbf{x}_t, \mathbf{u}_t)
+\min _{\mathbf{x} _{0:T}, \mathbf{u} _{0:T-1}} J(\mathbf{x} _{0:T}, \mathbf{u} _{0:T-1}) = J _T(\mathbf{x} _T) + \sum _{t=0} ^{T-1} J _t(\mathbf{x} _t, \mathbf{u} _t)
 $$
 
 | 项 | 名称 | 说明 |
 |---|------|------|
-| \\(J_T(\mathbf{x}_T)\\) | **终端代价**（Terminal Cost） | 关于终点状态的代价 |
-| \\(J_t(\mathbf{x}_t, \mathbf{u}_t)\\) | **运行代价**（Running Cost） | 关于每步状态和控制的代价 |
+| \\(J _T(\mathbf{x} _T)\\) | **终端代价**（Terminal Cost） | 关于终点状态的代价 |
+| \\(J _t(\mathbf{x} _t, \mathbf{u} _t)\\) | **运行代价**（Running Cost） | 关于每步状态和控制的代价 |
 
 ---
 
@@ -67,10 +67,10 @@ $$
 #### 1. 跟踪误差（Tracking Error）
 
 $$
-J_{\text{track}} = \sum_{t=0}^{T-1} \|\mathbf{q}_t - \mathbf{q}_t^{\text{ref}}\|^2
+J _{\text{track}} = \sum _{t=0} ^{T-1} \|\mathbf{q} _t - \mathbf{q} _t^{\text{ref}}\|^2
 $$
 
-- \\(\mathbf{q}_t^{\text{ref}}\\)：参考轨迹（来自动捕等）
+- \\(\mathbf{q} _t^{\text{ref}}\\)：参考轨迹（来自动捕等）
 - 作用：让优化结果贴近参考动作
 
 ---
@@ -78,7 +78,7 @@ $$
 #### 2. 控制 Effort
 
 $$
-J_{\text{control}} = \sum_{t=0}^{T-1} \|\boldsymbol{\tau}_t\|^2
+J _{\text{control}} = \sum _{t=0} ^{T-1} \|\boldsymbol{\tau} _t\|^2
 $$
 
 - 作用：最小化关节力矩，使动作更节能、更平滑
@@ -88,7 +88,7 @@ $$
 #### 3. 速度平滑项
 
 $$
-J_{\text{smooth}} = \sum_{t=0}^{T-1} \|\dot{\mathbf{q}}_{t+1} - \dot{\mathbf{q}}_t\|^2
+J _{\text{smooth}} = \sum _{t=0} ^{T-1} \|\dot{\mathbf{q}} _{t+1} - \dot{\mathbf{q}} _t\|^2
 $$
 
 - 作用：减少速度突变，使动作更流畅
@@ -98,7 +98,7 @@ $$
 #### 4. 质心高度项
 
 $$
-J_{\text{com}} = \sum_{t=0}^{T-1} (h_{\text{com},t} - h_{\text{com}}^{\text{ref}})^2
+J _{\text{com}} = \sum _{t=0} ^{T-1} (h _{\text{com},t} - h _{\text{com}}^{\text{ref}})^2
 $$
 
 - 作用：维持质心高度，防止摔倒
@@ -109,10 +109,10 @@ $$
 
 $$
 \begin{aligned}
-J_t(\mathbf{x}_t, \mathbf{u}_t) = \;&w_{\text{track}} \|\mathbf{q}_t - \mathbf{q}_t^{\text{ref}}\|^2 \\
-&+ w_{\text{control}} \|\boldsymbol{\tau}_t\|^2 \\
-&+ w_{\text{smooth}} \|\dot{\mathbf{q}}_{t+1} - \dot{\mathbf{q}}_t\|^2 \\
-&+ w_{\text{com}} (h_{\text{com},t} - h_{\text{com}}^{\text{ref}})^2
+J _t(\mathbf{x} _t, \mathbf{u} _t) = \;&w _{\text{track}} \|\mathbf{q} _t - \mathbf{q} _t^{\text{ref}}\|^2 \\\\
+&+ w _{\text{control}} \|\boldsymbol{\tau} _t\|^2 \\\\
+&+ w _{\text{smooth}} \|\dot{\mathbf{q}} _{t+1} - \dot{\mathbf{q}} _t\|^2 \\\\
+&+ w _{\text{com}} (h _{\text{com},t} - h _{\text{com}}^{\text{ref}})^2
 \end{aligned}
 $$
 
@@ -123,7 +123,7 @@ $$
 ### 常见的终端代价
 
 $$
-J_T(\mathbf{x}_T) = w_{\text{vel}} \|\dot{\mathbf{q}}_T\|^2 + w_{\text{com}} (h_{\text{com},T} - h_{\text{com}}^{\text{ref}})^2
+J _T(\mathbf{x} _T) = w _{\text{vel}} \|\dot{\mathbf{q}} _T\|^2 + w _{\text{com}} (h _{\text{com},T} - h _{\text{com}}^{\text{ref}})^2
 $$
 
 - \\(\|\dot{\mathbf{q}}_T\|^2\\)：终点速度为零（确保静止）
@@ -136,7 +136,7 @@ $$
 ### 1. 动力学约束（Dynamics Constraint）
 
 $$
-M(\mathbf{q}_t)\ddot{\mathbf{q}}_t + C(\mathbf{q}_t, \dot{\mathbf{q}}_t) = \boldsymbol{\tau}_t + \mathbf{J}(\mathbf{q}_t)^T \boldsymbol{\lambda}_t
+M(\mathbf{q} _t)\ddot{\mathbf{q}} _t + C(\mathbf{q} _t, \dot{\mathbf{q}} _t) = \boldsymbol{\tau} _t + \mathbf{J}(\mathbf{q} _t)^T \boldsymbol{\lambda} _t
 $$
 
 | 符号 | 说明 |
@@ -151,7 +151,7 @@ $$
 ### 2. 运动学约束（Kinematic Constraint）
 
 $$
-\mathbf{g}(\mathbf{q}_t) = 0
+\mathbf{g}(\mathbf{q} _t) = 0
 $$
 
 例如：
@@ -165,7 +165,7 @@ $$
 #### 不穿透约束
 
 $$
-\phi(\mathbf{q}_t) \geq 0
+\phi(\mathbf{q} _t) \geq 0
 $$
 
 - \\(\phi(\mathbf{q})\\)：接触点到地面的距离
@@ -177,7 +177,7 @@ $$
 #### 摩擦力约束（摩擦锥）
 
 $$
-\|\mathbf{f}_{\text{tangential}}\| \leq \mu \cdot f_{\text{normal}}
+\|\mathbf{f} _{\text{tangential}}\| \leq \mu \cdot f _{\text{normal}}
 $$
 
 - \\(\mu\\)：摩擦系数
@@ -188,7 +188,7 @@ $$
 ### 4. 控制约束（Control Constraint）
 
 $$
-\boldsymbol{\tau}_{\min} \leq \boldsymbol{\tau}_t \leq \boldsymbol{\tau}_{\max}
+\boldsymbol{\tau} _{\min} \leq \boldsymbol{\tau} _t \leq \boldsymbol{\tau} _{\max}
 $$
 
 - 关节力矩有物理上限
@@ -198,11 +198,11 @@ $$
 ### 5. 状态约束（State Constraint）
 
 $$
-\mathbf{q}_{\min} \leq \mathbf{q}_t \leq \mathbf{q}_{\max}
+\mathbf{q} _{\min} \leq \mathbf{q} _t \leq \mathbf{q} _{\max}
 $$
 
 $$
-\dot{\mathbf{q}}_{\min} \leq \dot{\mathbf{q}}_t \leq \dot{\mathbf{q}}_{\max}
+\dot{\mathbf{q}} _{\min} \leq \dot{\mathbf{q}} _t \leq \dot{\mathbf{q}} _{\max}
 $$
 
 - 关节角度限制（生理范围）
@@ -214,12 +214,12 @@ $$
 
 $$
 \begin{aligned}
-\min_{\mathbf{x}_{0:T}, \mathbf{u}_{0:T-1}} \quad & J_T(\mathbf{x}_T) + \sum_{t=0}^{T-1} J_t(\mathbf{x}_t, \mathbf{u}_t) \\
-\text{s.t.} \quad & M(\mathbf{q}_t)\ddot{\mathbf{q}}_t + C(\mathbf{q}_t, \dot{\mathbf{q}}_t) = \boldsymbol{\tau}_t + \mathbf{J}(\mathbf{q}_t)^T \boldsymbol{\lambda}_t & \text{(动力学)} \\
-& \phi(\mathbf{q}_t) \geq 0 & \text{(不穿透)} \\
-& \|\mathbf{f}_{\text{tangential}}\| \leq \mu \cdot f_{\text{normal}} & \text{(摩擦锥)} \\
-& \boldsymbol{\tau}_{\min} \leq \boldsymbol{\tau}_t \leq \boldsymbol{\tau}_{\max} & \text{(控制限制)} \\
-& \mathbf{q}_{\min} \leq \mathbf{q}_t \leq \mathbf{q}_{\max} & \text{(状态限制)}
+\min _{\mathbf{x} _{0:T}, \mathbf{u} _{0:T-1}} \quad & J _T(\mathbf{x} _T) + \sum _{t=0} ^{T-1} J _t(\mathbf{x} _t, \mathbf{u} _t) \\\\
+\text{s.t.} \quad & M(\mathbf{q} _t)\ddot{\mathbf{q}} _t + C(\mathbf{q} _t, \dot{\mathbf{q}} _t) = \boldsymbol{\tau} _t + \mathbf{J}(\mathbf{q} _t)^T \boldsymbol{\lambda} _t & \text{(动力学)} \\\\
+& \phi(\mathbf{q} _t) \geq 0 & \text{(不穿透)} \\\\
+& \|\mathbf{f} _{\text{tangential}}\| \leq \mu \cdot f _{\text{normal}} & \text{(摩擦锥)} \\\\
+& \boldsymbol{\tau} _{\min} \leq \boldsymbol{\tau} _t \leq \boldsymbol{\tau} _{\max} & \text{(控制限制)} \\\\
+& \mathbf{q} _{\min} \leq \mathbf{q} _t \leq \mathbf{q} _{\max} & \text{(状态限制)}
 \end{aligned}
 $$
 
@@ -231,9 +231,9 @@ $$
 
 ||||
 |---|---|---|
-|动态规划问题|Find a path {\(s_t\)} that minimizes |\(J(s_0)=\sum _ {t=0}^{ } h(s_t,s_{t+1})\)|
-|轨迹问题|Find a sequence of action {\(a_t\)} that minimizes |  \(J(s_0)=\sum _ {t=0}^{ } h(s_t,a_t)\)<br> subject to <br> \( s_{t+1}=f(s_t,a_t)\)|
-|控制策略问题|Find a policy \( a_t=\pi (s_t,t)\)或 \( a_t=\pi (s_t)\)that minimizes|\(J(s_0)=\sum _ {t=0}^{ } h(s_t,a_t)\)<br>subject to  <br>\(s_{t+1}=f(s_t,a_t)\)
+|动态规划问题|Find a path {\\(s _t\\)} that minimizes |\\(J(s _0)=\sum _ {t=0}^{ } h(s _t,s _{t+1})\\)|
+|轨迹问题|Find a sequence of action {\\(a _t\\)} that minimizes |  \\(J(s _0)=\sum _ {t=0}^{ } h(s _t,a _t)\\)<br> subject to <br> \\( s _{t+1}=f(s _t,a _t)\\)|
+|控制策略问题|Find a policy \\( a _t=\pi (s _t,t)\\)或 \\( a _t=\pi (s _t)\\)that minimizes|\\(J(s _0)=\sum _ {t=0}^{ } h(s _t,a _t)\\)<br>subject to  <br>\\(s _{t+1}=f(s _t,a _t)\\)
 
 --- 
 
@@ -383,7 +383,7 @@ $$
 
 | 维度 | 轨迹优化 | DeepMimic/AMP |
 |------|---------|---------------|
-| **输出** | 单一轨迹 \\(\mathbf{x}_{0:T}\\) | 策略 \\(\pi(\mathbf{a}|\mathbf{s})\\) |
+| **输出** | 单一轨迹 \\(\mathbf{x} _{0:T}\\) | 策略 \\(\pi(\mathbf{a}|\mathbf{s})\\) |
 | **计算时机** | 离线优化（每任务一次） | 训练一次，在线推理 |
 | **泛化能力** | 无（仅适用于该轨迹） | 有（可处理新情况） |
 | **计算成本** | 高（分钟级） | 低（毫秒级推理） |
@@ -397,11 +397,11 @@ $$
 
 ## 九、关键要点总结
 
-1. **优化变量**：状态轨迹 \\(\mathbf{x}_{0:T}\\) + 控制轨迹 \\(\mathbf{u}_{0:T-1}\\)
+1. **优化变量**：状态轨迹 \\(\mathbf{x} _{0:T}\\) + 控制轨迹 \\(\mathbf{u} _{0:T-1}\\)
 
 2. **目标函数**：
-   - 终端代价 \\(J_T(\mathbf{x}_T)\\)
-   - 运行代价 \\(\sum J_t(\mathbf{x}_t, \mathbf{u}_t)\\)
+   - 终端代价 \\(J _T(\mathbf{x} _T)\\)
+   - 运行代价 \\(\sum J _t(\mathbf{x} _t, \mathbf{u} _t)\\)
    - 常见项：跟踪误差、控制 effort、平滑项
 
 3. **约束条件**：
