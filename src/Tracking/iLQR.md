@@ -12,8 +12,8 @@ LQR 问题有**闭式解**，但仅适用于：
 
 | 假设 | 数学形式 | 限制 |
 |------|---------|------|
-| **线性动力学** | \(x_{t+1} = A_t x_t + B_t u_t\) | 只能处理线性系统 |
-| **二次目标函数** | \(J = x_T^T Q_T x_T + \sum (x_t^T Q_t x_t + u_t^T R_t u_t)\) | 代价必须是二次的 |
+| **线性动力学** | \\(x_{t+1} = A_t x_t + B_t u_t\\) | 只能处理线性系统 |
+| **二次目标函数** | \\(J = x_T^T Q_T x_T + \sum (x_t^T Q_t x_t + u_t^T R_t u_t)\\) | 代价必须是二次的 |
 
 **问题**：人形角色动画是**非线性系统**：
 - 关节旋转涉及三角函数
@@ -52,10 +52,10 @@ LQR 问题（有闭式解）
 
 ### 1. 动力学线性化
 
-在标称轨迹 \((\bar{x}, \bar{u})\) 附近做**一阶泰勒展开**：
+在标称轨迹 \\((\bar{x}, \bar{u})\\) 附近做**一阶泰勒展开**：
 
 $$
-f(x,u) \approx f(\bar{x},\bar{u}) + \underbrace{\frac{\partial f}{\partial x}}_{A}(x-\bar{x}) + \underbrace{\frac{\partial f}{\partial u}}_{B}(u-\bar{u})
+f(x,u) \approx f(\bar{x},\bar{u}) + \underbrace{\frac{\partial f}{\partial x}} _{A}(x-\bar{x}) + \underbrace{\frac{\partial f}{\partial u}} _{B}(u-\bar{u})
 $$
 
 定义偏差变量：
@@ -65,12 +65,12 @@ $$
 
 得到线性化动力学：
 $$
-\delta x_{t+1} = A_t \delta x_t + B_t \delta u_t
+\delta x _{t+1} = A_t \delta x_t + B_t \delta u_t
 $$
 
 其中：
 $$
-A_t = \frac{\partial f}{\partial x}\bigg|_{(\bar{x}_t,\bar{u}_t)}, \quad B_t = \frac{\partial f}{\partial u}\bigg|_{(\bar{x}_t,\bar{u}_t)}
+A_t = \frac{\partial f}{\partial x}\bigg| _{(\bar{x}_t,\bar{u}_t)}, \quad B_t = \frac{\partial f}{\partial u}\bigg| _{(\bar{x}_t,\bar{u}_t)}
 $$
 
 ---
@@ -94,7 +94,7 @@ $$
 
 得到标准 LQR 问题：
 $$
-\min_{\delta u} \frac{1}{2}\delta x^T Q \delta x + \frac{1}{2}\delta u^T R \delta u \quad \text{s.t.} \quad \delta x_{t+1} = A \delta x + B \delta u
+\min _{\delta u} \frac{1}{2}\delta x^T Q \delta x + \frac{1}{2}\delta u^T R \delta u \quad \text{s.t.} \quad \delta x _{t+1} = A \delta x + B \delta u
 $$
 
 **最优解**（闭式解）：
@@ -102,14 +102,14 @@ $$
 \delta u^* = -K \delta x
 $$
 
-其中反馈增益矩阵 \(K\) 通过 **Riccati 方程**求解：
+其中反馈增益矩阵 \\(K\\) 通过 **Riccati 方程**求解：
 
 $$
-K_t = (R_t + B_t^T P_{t+1} B_t)^{-1} B_t^T P_{t+1} A_t
+K_t = (R_t + B_t^T P _{t+1} B_t)^{-1} B_t^T P _{t+1} A_t
 $$
 
 $$
-P_t = Q_t + A_t^T P_{t+1} A_t - A_t^T P_{t+1} B_t (R_t + B_t^T P_{t+1} B_t)^{-1} B_t^T P_{t+1} A_t
+P_t = Q_t + A_t^T P _{t+1} A_t - A_t^T P _{t+1} B_t (R_t + B_t^T P _{t+1} B_t)^{-1} B_t^T P _{t+1} A_t
 $$
 
 ---
@@ -288,10 +288,10 @@ $$
 
 **3. 正则化**
 - 在 Hessian 矩阵上加正则项防止奇异
-- \(R \leftarrow R + \lambda I\)
+- \\(R \leftarrow R + \lambda I\\)
 
 **4. 终止条件**
-- 代价变化小于阈值：\(|J_{new} - J| < \epsilon\)
+- 代价变化小于阈值：\\(|J_{new} - J| < \epsilon\\)
 - 达到最大迭代次数
 
 ---
@@ -300,7 +300,7 @@ $$
 
 | 维度 | iLQR | DeepMimic/AMP |
 |------|------|---------------|
-| **输出** | 单一轨迹 \(\mathbf{x}_{0:T}\) | 策略 \(\pi(\mathbf{a}|\mathbf{s})\) |
+| **输出** | 单一轨迹 \\(\mathbf{x} _{0:T}\\) | 策略 \\(\pi(\mathbf{a}|\mathbf{s})\\) |
 | **计算时机** | 离线优化（每任务一次） | 训练一次，在线推理 |
 | **泛化能力** | 无（仅适用于该轨迹） | 有（可处理新情况） |
 | **计算成本** | 中（秒级） | 低（毫秒级推理） |
