@@ -105,7 +105,7 @@
 
 ---
 
-### 3. iLQR（Iterative Linear Quadratic Regulator）
+### 3. [iLQR（Iterative Linear Quadratic Regulator）](iLQR.md)
 
 **核心思想**：迭代线性化 + LQR 求解。
 
@@ -117,7 +117,7 @@
 
 ---
 
-### 4. DDP（Differential Dynamic Programming）
+### 4. [DDP（Differential Dynamic Programming）](iLQR.md#四ilqr-与-ddp-的对比)
 
 **核心思想**：基于二阶泰勒展开的动态规划。
 
@@ -351,42 +351,6 @@ Or use derivative-free approaches.
 ![](../assets/12-05.png)
 
 P34
-## Dynamic Programming
-
-![](../assets/12-15.png)
-
-希望找到一条最短路径到达另一个点，
-
-P39
-## Bellman's Principle of Optimality
-
-> &#x2705; 针对控制策略问题，什么样的策略是最优策略？
-
-![](../assets/12-16.png)
-
-An optimal policy has the property that whatever the initial
-state and initial decision are, the remaining decisions must
-constitute an optimal policy with regard to the state resulting
-from the first decision.
-
-\(^*\) The problem is said to have **optimal substructure**
-
-
-P40
-## Value Function
-
-Value of a state \(V(s)\) :
-
- - the minimal total cost for finishing the task starting from \(s\)
- - the total cost for finishing the task starting from \(s\) using the optimal policy
-
-
-
-> &#x2705; Value Funcron，计算从某个结点到 gool 的最小代价。
-> &#x2705; 后面动态规划原理跳过。
-
-
-
 P49
 ## The Bellman Equation
 
@@ -424,6 +388,22 @@ Learning \(V(s)\) and/or \(Q(s,a)\) is the core of optimal control / reinforceme
 
 
 
+## 动态规划推导（逆向归纳法）
+
+> &#x2705; 由于存在**最优子结构**（optimal substructure），可以从最后一步往前推导：
+> - 每一步只需要考虑从当前状态到终点的最优解
+> - 最后一个状态的 Value 计算与 \\(a\\) 无关
+> - 计算完最后一步，再计算倒数第二步，依次往前推
+
+### Value Function 的形式
+
+假设从时刻 \\(t\\) 到终点的最优代价（Value Function）具有二次形式：
+
+$$
+V _t(s) = s ^T P _t s
+$$
+
+其中 \\(P _t\\) 是对称矩阵。
 ---------------------------------------
 > 本文出自 CaterpillarStudyGroup，转载请注明出处。
 >

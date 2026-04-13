@@ -344,7 +344,7 @@ $$
 
 ---
 
-### 3. iLQR（Iterative Linear Quadratic Regulator）
+### 3. [iLQR（Iterative Linear Quadratic Regulator）](iLQR.md)
 
 **核心思想**：迭代线性化 + LQR 求解。
 
@@ -356,7 +356,7 @@ $$
 
 ---
 
-### 4. DDP（Differential Dynamic Programming）
+### 4. [DDP（Differential Dynamic Programming）](iLQR.md#四ilqr-与-ddp-的对比)
 
 **核心思想**：基于二阶泰勒展开的动态规划。
 
