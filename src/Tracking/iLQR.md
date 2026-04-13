@@ -307,7 +307,7 @@ $$
 - [轨迹优化的数学描述](MathematicalFormulation.md) - 问题形式化
 
 ### 相关方法
-- [DDP](iLQR.md#四ilqr-与-ddp-的对比) - 二阶方法
+- [DDP](DDP.md) - 二阶方法
 - [CMA-ES](Sampling_based.md) - 无梯度优化
 - [MPC](Optimal.md) - 在线优化
 
