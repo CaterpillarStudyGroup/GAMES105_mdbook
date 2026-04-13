@@ -48,69 +48,25 @@ LQR 问题（有闭式解）
 
 ---
 
-## 二、数学推导
+## 二、每轮迭代中做了什么
 
-### 1. 动力学线性化
+iLQR 的每一轮迭代，本质上就是在**当前轨迹处构造一个 LQR 子问题并求解**。构造过程涉及三个操作（详细推导见 [LQR](LQR.md)）：
 
-在标称轨迹 \\((\bar{x}, \bar{u})\\) 附近做**一阶泰勒展开**：
+| 操作 | 对 LQR 的意义 | 在 iLQR 中的含义 |
+|------|-------------|----------------|
+| **线性化动力学** | 直接给出 A、B | 在标称轨迹 \\((\bar{x}, \bar{u})\\) 处计算雅可比 \\(A_t = \partial f/\partial x\\)、\\(B_t = \partial f/\partial u\\) |
+| **二次化代价** | 直接给出 Q、R | 在标称轨迹处计算 Hessian \\(Q_t = \partial^2 J/\partial x^2\\)、\\(R_t = \partial^2 J/\partial u^2\\) |
+| **求解 Riccati 方程** | 得到最优反馈 \\(u^* = -Kx\\) | 得到最优**修正量** \\(\delta u^* = -K\delta x\\) |
 
-$$
-f(x,u) \approx f(\bar{x},\bar{u}) + \underbrace{\frac{\partial f}{\partial x}} _{A}(x-\bar{x}) + \underbrace{\frac{\partial f}{\partial u}} _{B}(u-\bar{u})
-$$
+**关键区别**：LQR 里 A、B、Q、R 是问题本身给定的，而 iLQR 里它们**每轮都在变**——因为线性化点 \\((\bar{x}, \bar{u})\\) 随着迭代在移动。
 
-定义偏差变量：
-$$
-\delta x = x - \bar{x}, \quad \delta u = u - \bar{u}
-$$
+### 修正量 vs 全量
 
-得到线性化动力学：
-$$
-\delta x _{t+1} = A_t \delta x_t + B_t \delta u_t
-$$
+LQR 直接输出最优控制 \\(u^* = -Kx\\)。iLQR 输出的是**修正量**：
 
-其中：
-$$
-A_t = \frac{\partial f}{\partial x}\bigg| _{(\bar{x}_t,\bar{u}_t)}, \quad B_t = \frac{\partial f}{\partial u}\bigg| _{(\bar{x}_t,\bar{u}_t)}
-$$
+$$u_{new} = \bar{u} + \alpha \cdot \delta u^* = \bar{u} + \alpha \cdot (-K\delta x)$$
 
----
-
-### 2. 目标函数二次化
-
-对目标函数做**二阶泰勒展开**（忽略常数项和一阶项）：
-
-$$
-J \approx \frac{1}{2}\delta x^T Q \delta x + \frac{1}{2}\delta u^T R \delta u
-$$
-
-其中：
-$$
-Q = \frac{\partial^2 J}{\partial x^2}, \quad R = \frac{\partial^2 J}{\partial u^2}
-$$
-
----
-
-### 3. 求解 LQR 子问题
-
-得到标准 LQR 问题：
-$$
-\min _{\delta u} \frac{1}{2}\delta x^T Q \delta x + \frac{1}{2}\delta u^T R \delta u \quad \text{s.t.} \quad \delta x _{t+1} = A \delta x + B \delta u
-$$
-
-**最优解**（闭式解）：
-$$
-\delta u^* = -K \delta x
-$$
-
-其中反馈增益矩阵 \\(K\\) 通过 **Riccati 方程**求解：
-
-$$
-K_t = (R_t + B_t^T P _{t+1} B_t)^{-1} B_t^T P _{t+1} A_t
-$$
-
-$$
-P_t = Q_t + A_t^T P _{t+1} A_t - A_t^T P _{t+1} B_t (R_t + B_t^T P _{t+1} B_t)^{-1} B_t^T P _{t+1} A_t
-$$
+其中 \\(\alpha\\) 是线搜索步长。直觉上：每次只敢走一小步，避免跳出局部近似的有效范围。
 
 ---
 
