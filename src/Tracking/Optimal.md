@@ -81,7 +81,7 @@
 
 ## 七、常用优化方法详解
 
-### 1. CMA-ES（Covariance Matrix Adaptation Evolution Strategy）
+### 1. [CMA-ES](CMA-ES.md)
 
 **核心思想**：进化策略，通过采样和选择迭代优化。
 
@@ -93,7 +93,7 @@
 
 ---
 
-### 2. SAMCON（Sampled Model Predictive Control）
+### 2. [SAMCON](SimpleCase.md)
 
 **核心思想**：采样模型预测控制，结合 CMA-ES 和 MPC。
 

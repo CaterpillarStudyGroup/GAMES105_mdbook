@@ -40,6 +40,7 @@
   - [Linear Quadratic Regulator (LQR)](Tracking/LQR.md)
   - [Iterative LQR (iLQR)](Tracking/iLQR.md)
   - [Differential Dynamic Programming (DDP)](Tracking/DDP.md)
+  - [CMA-ES](Tracking/CMA-ES.md)
   - [最优控制与强化学习](Tracking/Optimal.md)
   - [简单例子](Tracking/SimpleCase.md)
   - [非线性问题与 Model-based/Model-free 方法](Tracking/Nonlinear_problems.md)
