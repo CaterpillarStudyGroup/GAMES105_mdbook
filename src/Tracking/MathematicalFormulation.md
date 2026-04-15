@@ -332,7 +332,7 @@ $$
 
 ---
 
-### 2. [SAMCON](SimpleCase.md)
+### 2. [SAMCON](SAMCON.md)
 
 **核心思想**：采样模型预测控制，结合 CMA-ES 和 MPC。
 

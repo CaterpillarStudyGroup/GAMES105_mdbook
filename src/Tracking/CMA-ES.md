@@ -501,7 +501,7 @@ f = Parallel(n_jobs=-1)(delayed(f)(x[i]) for i in range(λ))
 - [基于梯度的方法](iLQR.md)
 
 ### 相关方法
-- [SAMCON](SimpleCase.md) - CMA-ES 的改进版本
+- [SAMCON](SAMCON.md) - CMA-ES 的改进版本
 - [iLQR](iLQR.md) - 基于梯度的替代方案
 - [DDP](iLQR.md#四ilqr-与-ddp-的对比) - 二阶方法
 
