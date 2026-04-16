@@ -169,7 +169,7 @@ LQR（线性系统，一次求解）
 
 ### 相关方法
 - [CMA-ES](../Sampling_based.md) - 无梯度优化，适用于不可微问题
-- [MPC](Optimal.md) - 在线优化框架
+- [MPC](MPC.md) - 在线优化框架
 
 ### 参考资料
 - Mayne, D. Q. (1966). *A Second-Order Solution of the Optimal Control Problem*. (DDP 的原始论文)

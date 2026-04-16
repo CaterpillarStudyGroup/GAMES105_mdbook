@@ -40,6 +40,7 @@
   - [Linear Quadratic Regulator (LQR)](Tracking/LQR.md)
   - [Iterative LQR (iLQR)](Tracking/iLQR.md)
   - [Differential Dynamic Programming (DDP)](Tracking/DDP.md)
+  - [Model Predictive Control (MPC)](Tracking/MPC.md)
   - [CMA-ES](Tracking/CMA-ES.md)
   - [SAMCON](Tracking/SAMCON.md)
   - [最优控制与强化学习](Tracking/Optimal.md)

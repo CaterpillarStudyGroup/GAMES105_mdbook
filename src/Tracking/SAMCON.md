@@ -415,7 +415,7 @@ new_states = Parallel(n_jobs=-1)(
 
 ### 相关方法
 - [CMA-ES](CMA-ES.md) - CMA-ES 是 SAMCON 的基础
-- [MPC](Optimal.md) - 模型预测控制，另一种在线方法
+- [MPC](MPC.md) - 模型预测控制，另一种在线方法
 - [iLQR](iLQR.md) - 基于梯度的替代方案
 
 ### 参考资料

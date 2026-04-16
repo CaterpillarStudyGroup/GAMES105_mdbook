@@ -309,7 +309,7 @@ $$
 ### 相关方法
 - [DDP](DDP.md) - 二阶方法
 - [CMA-ES](Sampling_based.md) - 无梯度优化
-- [MPC](Optimal.md) - 在线优化
+- [MPC](MPC.md) - 在线优化
 
 ### 参考资料
 - [Muico et al 2011 - Composite Control of Physically Simulated Characters](https://www.cc.gatech.edu/~jylee/publications/muico-popovic-2011.pdf)
