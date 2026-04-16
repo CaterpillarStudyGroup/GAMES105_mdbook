@@ -37,6 +37,7 @@
 - [轨迹优化](Tracking/Tracking.md)
   - [数学形式化描述](Tracking/MathematicalFormulation.md)
   - [概念澄清](Tracking/Concepts.md)
+  - [方法对比与分类](Tracking/MethodComparison.md)
   - [Linear Quadratic Regulator (LQR)](Tracking/LQR.md)
   - [Iterative LQR (iLQR)](Tracking/iLQR.md)
   - [Differential Dynamic Programming (DDP)](Tracking/DDP.md)
