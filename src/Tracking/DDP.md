@@ -168,7 +168,7 @@ LQR（线性系统，一次求解）
 - [轨迹优化的数学描述](MathematicalFormulation.md) - 问题形式化
 
 ### 相关方法
-- [CMA-ES](../Sampling_based.md) - 无梯度优化，适用于不可微问题
+- [CMA-ES](CMA-ES.md) - 无梯度优化，适用于不可微问题
 - [MPC](MPC.md) - 在线优化框架
 
 ### 参考资料

@@ -310,7 +310,7 @@ $$
 
 ### 相关方法
 - [DDP](DDP.md) - 二阶方法
-- [CMA-ES](Sampling_based.md) - 无梯度优化
+- [CMA-ES](CMA-ES.md) - 无梯度优化
 - [MPC](MPC.md) - 在线优化
 
 ### 参考资料
