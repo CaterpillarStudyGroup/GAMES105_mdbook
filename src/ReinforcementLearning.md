@@ -444,9 +444,18 @@ $$
 ---
 
 > 📚 **深入学习**：
+>
+> **轨迹优化对比**：
 > - [方法对比与分类](Tracking/MethodComparison.md) - 轨迹优化方法对比
-> - [DeepMimic](https://caterpillarstudygroup.github.io/ReadPapers/201.html) - RL 在角色动画中的经典应用
-> - [AMP](https://caterpillarstudygroup.github.io/ReadPapers/198.html) - 无参考动作的模仿学习
+>
+> **强化学习在角色动画中的应用**（ReadPapers 论文笔记）：
+> - [DeepMimic (2018)](https://caterpillarstudygroup.github.io/ReadPapers/201.html) - 示例引导的物理角色技能学习（开山之作）
+> - [AMP (2021)](https://caterpillarstudygroup.github.io/ReadPapers/198.html) - 对抗运动先验，无需逐帧参考
+> - [ASE (2022)](https://caterpillarstudygroup.github.io/ReadPapers/199.html) - 大规模可复用技能嵌入
+> - [ControlVAE (2023)](https://caterpillarstudygroup.github.io/ReadPapers/202.html) - 基于模型的学习框架
+> - [Universal Humanoid Motion (2023)](https://caterpillarstudygroup.github.io/ReadPapers/191.html) - 通用人形运动表示
+>
+> **经典教材**：
 > - [Sutton & Barto - Reinforcement Learning: An Introduction](https://www.cs.ubc.ca/~murphyk/Teaching/CS340-07/reading/sutton.pdf) - RL 经典教材
 
 ---
