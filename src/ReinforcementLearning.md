@@ -449,7 +449,8 @@ $$
 > - [方法对比与分类](Tracking/MethodComparison.md) - 轨迹优化方法对比
 >
 > **强化学习在角色动画中的应用**（ReadPapers 论文笔记）：
-> - [DeepMimic (2018)](https://caterpillarstudygroup.github.io/ReadPapers/201.html) - 示例引导的物理角色技能学习（开山之作）
+> - [DeepLoco (2017)](https://caterpillarstudygroup.github.io/ReadPapers/218.html) - 分层深度强化学习，locomotion 专用
+> - [DeepMimic (2018)](https://caterpillarstudygroup.github.io/ReadPapers/201.html) - 模仿学习 + RL，多样化全身动作
 > - [AMP (2021)](https://caterpillarstudygroup.github.io/ReadPapers/198.html) - 对抗运动先验，无需逐帧参考
 > - [ASE (2022)](https://caterpillarstudygroup.github.io/ReadPapers/199.html) - 大规模可复用技能嵌入
 > - [ControlVAE (2023)](https://caterpillarstudygroup.github.io/ReadPapers/202.html) - 基于模型的学习框架
