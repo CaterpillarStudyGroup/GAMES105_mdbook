@@ -67,10 +67,10 @@ $$
 **马尔可夫性质**：当前状态已知的情况下，下一时刻状态只与当前状态相关，而与历史无关。
 
 $$
-P(s_{t+1} \mid s_t, a_t, s_{t-1}, a_{t-1}, \dots) = P(s_{t+1} \mid s_t, a_t)
+P(s _{t+1} \mid s _t, a _t, s _{t-1}, a _{t-1}, \dots) = P(s _{t+1} \mid s _t, a _t)
 $$
 
-**直观理解**：当前状态 \\(s_t\\) 包含了做决策所需的**全部信息**。
+**直观理解**：当前状态 \\(s _t\\) 包含了做决策所需的**全部信息**。
 
 ---
 
@@ -79,13 +79,13 @@ $$
 **轨迹 (Trajectory)**：一次完整的状态 - 动作序列
 
 $$
-\tau = (s_0, a_0, s_1, a_1, s_2, a_2, \dots)
+\tau = (s _0, a _0, s _1, a _1, s _2, a _2, \dots)
 $$
 
 **回报 (Return)**：轨迹的累积折扣奖励
 
 $$
-G_t = \sum_{k=0}^{\infty} \gamma^k r_{t+k} = r_t + \gamma r_{t+1} + \gamma^2 r_{t+2} + \dots
+G_t = \sum _{k=0}^{\infty} \gamma ^k r _{t+k} = r_t + \gamma r _{t+1} + \gamma ^2 r _{t+2} + \dots
 $$
 
 **折扣因子的作用**：
@@ -110,16 +110,16 @@ $$
 
 ### 价值函数 (Value Function)
 
-**状态价值函数** \\(V^\pi(s)\\)：从状态 \\(s\\) 开始，遵循策略 \\(\pi\\) 的期望回报
+**状态价值函数** \\(V ^\pi(s)\\)：从状态 \\(s\\) 开始，遵循策略 \\(\pi\\) 的期望回报
 
 $$
-V^\pi(s) = \mathbb{E}_\pi\left[G_t \mid s_t = s\right] = \mathbb{E}_\pi\left[\sum_{k=0}^{\infty} \gamma^k r_{t+k} \mid s_t = s\right]
+V ^\pi(s) = \mathbb{E} _\pi\left[G_t \mid s_t = s\right] = \mathbb{E} _\pi\left[\sum _{k=0}^{\infty} \gamma ^k r _{t+k} \mid s_t = s\right]
 $$
 
-**动作价值函数 (Q 函数)** \\(Q^\pi(s, a)\\)：在状态 \\(s\\) 执行动作 \\(a\\) 后，遵循策略 \\(\pi\\) 的期望回报
+**动作价值函数 (Q 函数)** \\(Q ^\pi(s, a)\\)：在状态 \\(s\\) 执行动作 \\(a\\) 后，遵循策略 \\(\pi\\) 的期望回报
 
 $$
-Q^\pi(s, a) = \mathbb{E}_\pi\left[G_t \mid s_t = s, a_t = a\right]
+Q ^\pi(s, a) = \mathbb{E} _\pi\left[G_t \mid s_t = s, a_t = a\right]
 $$
 
 ---
@@ -131,13 +131,13 @@ $$
 **状态价值的贝尔曼方程**：
 
 $$
-V^\pi(s) = \sum_a \pi(a \mid s) \sum_{s'} P(s' \mid s, a) \left[R(s, a, s') + \gamma V^\pi(s')\right]
+V ^\pi(s) = \sum _a \pi(a \mid s) \sum _{s'} P(s' \mid s, a) \left[R(s, a, s') + \gamma V ^\pi(s')\right]
 $$
 
 **Q 函数的贝尔曼方程**：
 
 $$
-Q^\pi(s, a) = \sum_{s'} P(s' \mid s, a) \left[R(s, a, s') + \gamma \sum_{a'} \pi(a' \mid s') Q^\pi(s', a')\right]
+Q ^\pi(s, a) = \sum _{s'} P(s' \mid s, a) \left[R(s, a, s') + \gamma \sum _{a'} \pi(a' \mid s') Q ^\pi(s', a')\right]
 $$
 
 ---
@@ -147,23 +147,23 @@ $$
 **最优状态价值函数**：
 
 $$
-V^*(s) = \max_\pi V^\pi(s)
+V^*(s) = \max _\pi V ^\pi(s)
 $$
 
 **最优动作价值函数**：
 
 $$
-Q^*(s, a) = \max_\pi Q^\pi(s, a)
+Q^*(s, a) = \max _\pi Q ^\pi(s, a)
 $$
 
 **贝尔曼最优方程**：
 
 $$
-V^*(s) = \max_a \sum_{s'} P(s' \mid s, a) \left[R(s, a, s') + \gamma V^*(s')\right]
+V^*(s) = \max _a \sum _{s'} P(s' \mid s, a) \left[R(s, a, s') + \gamma V^*(s')\right]
 $$
 
 $$
-Q^*(s, a) = \sum_{s'} P(s' \mid s, a) \left[R(s, a, s') + \gamma \max_{a'} Q^*(s', a')\right]
+Q^*(s, a) = \sum _{s'} P(s' \mid s, a) \left[R(s, a, s') + \gamma \max _{a'} Q^*(s', a')\right]
 $$
 
 ---
@@ -221,13 +221,13 @@ $$
 **核心思想**：直接学习并优化策略函数 \\(\pi(a \mid s; \theta)\\)。
 
 $$
-\max_\theta J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta}\left[\sum_{t=0}^T \gamma^t r_t\right]
+\max _\theta J(\theta) = \mathbb{E} _{\tau \sim \pi _\theta}\left[\sum _{t=0}^T \gamma ^t r_t\right]
 $$
 
 **策略梯度定理**：
 
 $$
-\nabla_\theta J(\theta) = \mathbb{E}_{\tau \sim \pi_\theta}\left[\sum_{t=0}^T \nabla_\theta \log \pi_\theta(a_t \mid s_t) Q^\pi(s_t, a_t)\right]
+\nabla_\theta J(\theta) = \mathbb{E} _{\tau \sim \pi _\theta}\left[\sum _{t=0}^T \nabla_\theta \log \pi _\theta(a_t \mid s_t) Q ^\pi(s_t, a_t)\right]
 $$
 
 **代表算法**：
@@ -274,7 +274,7 @@ Critic (价值网络) ──→ 评估动作好坏
 **核心思想**：学习环境的动力学模型，然后基于模型进行规划。
 
 $$
-s_{t+1} = f(s_t, a_t; \theta_{model})
+s _{t+1} = f(s_t, a_t; \theta _{model})
 $$
 
 **方法分类**：
@@ -314,15 +314,15 @@ RL 训练（PPO/TRPO）
 **奖励函数设计**：
 
 $$
-r_t = w_{pose} \cdot r_{pose} + w_{vel} \cdot r_{vel} + w_{com} \cdot r_{com} + w_{end} \cdot r_{end}
+r_t = w _{pose} \cdot r _{pose} + w _{vel} \cdot r _{vel} + w _{com} \cdot r _{com} + w _{end} \cdot r _{end}
 $$
 
 | 奖励项 | 说明 |
 |--------|------|
-| \\(r_{pose}\\) | 姿势跟踪奖励（关节角度） |
-| \\(r_{vel}\\) | 速度跟踪奖励 |
-| \\(r_{com}\\) | 质心跟踪奖励 |
-| \\(r_{end}\\) | 终止奖励（摔倒惩罚） |
+| \\(r _{pose}\\) | 姿势跟踪奖励（关节角度） |
+| \\(r _{vel}\\) | 速度跟踪奖励 |
+| \\(r _{com}\\) | 质心跟踪奖励 |
+| \\(r _{end}\\) | 终止奖励（摔倒惩罚） |
 
 **代表工作**：
 - **DeepMimic (2018)**：开创性工作，模仿多样化动作
@@ -336,17 +336,17 @@ $$
 **典型的角色状态表示**：
 
 $$
-s_t = (q_{root}, \dot{q}_{root}, q_{local}, \dot{q}_{local}, q_{ref}, \dot{q}_{ref})
+s_t = (q _{root}, \dot{q} _{root}, q _{local}, \dot{q} _{local}, q _{ref}, \dot{q} _{ref})
 $$
 
 | 分量 | 说明 |
 |------|------|
-| \\(q_{root}\\) | 根节点位置和旋转 |
-| \\(\dot{q}_{root}\\) | 根节点速度 |
-| \\(q_{local}\\) | 局部关节角度 |
-| \\(\dot{q}_{local}\\) | 局部关节角速度 |
-| \\(q_{ref}\\) | 参考姿势 |
-| \\(\dot{q}_{ref}\\) | 参考速度 |
+| \\(q _{root}\\) | 根节点位置和旋转 |
+| \\(\dot{q} _{root}\\) | 根节点速度 |
+| \\(q _{local}\\) | 局部关节角度 |
+| \\(\dot{q} _{local}\\) | 局部关节角速度 |
+| \\(q _{ref}\\) | 参考姿势 |
+| \\(\dot{q} _{ref}\\) | 参考速度 |
 
 ---
 
@@ -420,7 +420,7 @@ $$
 ### MDP 基础
 - **状态**、**动作**、**转移概率**、**奖励**、**折扣因子**
 - **策略** \\(\pi\\)：状态到动作的映射
-- **价值函数** \\(V^\pi, Q^\pi\\)：评估状态/动作的好坏
+- **价值函数** \\(V ^\pi, Q ^\pi\\)：评估状态/动作的好坏
 
 ### 算法分类
 | 类别 | 代表算法 | 适用场景 |
