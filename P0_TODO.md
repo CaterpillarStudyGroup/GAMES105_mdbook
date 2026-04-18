@@ -322,8 +322,6 @@ $$\tau = k_p(q^*(\phi) - q) + k_d(\dot{q}^*(\phi) - \dot{q})$$
   - [简单例子](Tracking/SimpleCase.md)
   - [Optimal Control and Reinforcement Learning](Optimal.md)
   - [Linear Quadratic Regulator (LQR)](LQR.md)
-  - [Nonlinear problems](Nonlinear_problems.md)
-  - [Sampling-based Policy Optimization](Sampling_based.md)
   - [Optimal Control-Reinforcement Learning](Optimal_Control.md)
   - [Digital Cerebellum](Digital_Cerebellum.md)
 - [基于学习的控制]()  ← 新增

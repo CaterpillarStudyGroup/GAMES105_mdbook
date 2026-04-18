@@ -227,7 +227,7 @@ $$
 **策略梯度定理**：
 
 $$
-\nabla_\theta J(\theta) = \mathbb{E} _{\tau \sim \pi _\theta}\left[\sum _{t=0}^T \nabla_\theta \log \pi _\theta(a_t \mid s_t) Q ^\pi(s_t, a_t)\right]
+\nabla _\theta J(\theta) = \mathbb{E} _{\tau \sim \pi _\theta}\left[\sum _{t=0}^T \nabla_\theta \log \pi _\theta(a _t \mid s _t) Q ^\pi(s _t, a _t)\right]
 $$
 
 **代表算法**：
@@ -278,6 +278,7 @@ s _{t+1} = f(s_t, a_t; \theta _{model})
 $$
 
 **方法分类**：
+
 | 方法 | 说明 |
 |------|------|
 | **已知模型** | 使用已知的物理模型（如机器人动力学） |
