@@ -445,6 +445,9 @@ $$
 
 > 📚 **深入学习**：
 >
+> **通用强化学习算法**（深度学习视角）：
+> - [DeepLearningNotes - RL](https://windmissing.github.io/DeepLearningNotes/RL/Reinforce.html) - 包含 REINFORCE、Q-Learning、A3C、PPO 等算法的详细推导
+>
 > **轨迹优化对比**：
 > - [方法对比与分类](Tracking/MethodComparison.md) - 轨迹优化方法对比
 >
