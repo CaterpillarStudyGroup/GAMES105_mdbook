@@ -1,6 +1,15 @@
 # 强化学习基础
 
 > 📚 **深入学习 RL 算法**：[DeepLearningNotes - RL](https://windmissing.github.io/DeepLearningNotes/RL/Reinforce.html) - 包含 REINFORCE、Q-Learning、A3C、PPO 等算法的详细推导
+>
+> 📚 **轨迹优化对比**：[方法对比与分类](Tracking/MethodComparison.md)
+>
+> 📚 **强化学习在角色动画中的应用**（ReadPapers 论文笔记）：
+> - [DeepLoco (2017)](https://caterpillarstudygroup.github.io/ReadPapers/218.html)
+> - [DeepMimic (2018)](https://caterpillarstudygroup.github.io/ReadPapers/201.html)
+> - [AMP (2021)](https://caterpillarstudygroup.github.io/ReadPapers/198.html)
+> - [ASE (2022)](https://caterpillarstudygroup.github.io/ReadPapers/199.html)
+> - [Universal Humanoid Motion (2023)](https://caterpillarstudygroup.github.io/ReadPapers/191.html)
 
 ---
 
@@ -69,7 +78,7 @@ $$
 
 ---
 
-## 六、强化学习 vs. 轨迹优化
+## 强化学习 vs. 轨迹优化
 
 ### 核心对比
 
@@ -102,7 +111,7 @@ $$
 
 ---
 
-## 七、实践建议
+## 实践建议
 
 ### 训练技巧
 
@@ -124,20 +133,7 @@ $$
 
 ---
 
-## 八、关键要点总结
-
-### MDP 基础
-- **状态**、**动作**、**转移概率**、**奖励**、**折扣因子**
-- **策略** \\(\pi\\)：状态到动作的映射
-- **价值函数** \\(V ^\pi, Q ^\pi\\)：评估状态/动作的好坏
-
-### 算法分类
-| 类别 | 代表算法 | 适用场景 |
-|------|---------|---------|
-| 基于价值 | DQN | 离散控制 |
-| 基于策略 | PPO, TRPO | 连续控制 |
-| Actor-Critic | SAC, TD3 | 连续控制 + 高效率 |
-| 基于模型 | MBPO | 样本效率优先 |
+## 关键要点总结
 
 ### 角色动画应用
 - **DeepMimic 范式**：模仿学习 + 泛化
@@ -148,26 +144,6 @@ $$
 - **轨迹优化**：特定动作生成、高精度
 - **强化学习**：通用策略、泛化能力强
 - **混合方法**：轨迹优化 + RL 模仿
-
----
-
-> 📚 **深入学习**：
->
-> **通用强化学习算法**（深度学习视角）：
-> - [DeepLearningNotes - RL](https://windmissing.github.io/DeepLearningNotes/RL/Reinforce.html) - 包含 REINFORCE、Q-Learning、A3C、PPO 等算法的详细推导
->
-> **轨迹优化对比**：
-> - [方法对比与分类](Tracking/MethodComparison.md) - 轨迹优化方法对比
->
-> **强化学习在角色动画中的应用**（ReadPapers 论文笔记）：
-> - [DeepLoco (2017)](https://caterpillarstudygroup.github.io/ReadPapers/218.html) - 分层深度强化学习，locomotion 专用
-> - [DeepMimic (2018)](https://caterpillarstudygroup.github.io/ReadPapers/201.html) - 模仿学习 + RL，多样化全身动作
-> - [AMP (2021)](https://caterpillarstudygroup.github.io/ReadPapers/198.html) - 对抗运动先验，无需逐帧参考
-> - [ASE (2022)](https://caterpillarstudygroup.github.io/ReadPapers/199.html) - 大规模可复用技能嵌入
-> - [Universal Humanoid Motion (2023)](https://caterpillarstudygroup.github.io/ReadPapers/191.html) - 通用人形运动表示
->
-> **经典教材**：
-> - [Sutton & Barto - Reinforcement Learning: An Introduction](https://www.cs.ubc.ca/~murphyk/Teaching/CS340-07/reading/sutton.pdf) - RL 经典教材
 
 ---
 
