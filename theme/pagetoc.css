@@ -4,6 +4,20 @@
     }
 }
 
+/* 表格宽度自适应 */
+table {
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: auto !important;
+}
+
+table th,
+table td {
+    max-width: none !important;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
 @media only screen and (min-width:1440px) {
     main {
         position: relative;
