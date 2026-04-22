@@ -52,8 +52,8 @@
 
 | 方法 | 年份 | 状态空间 S | 动作空间 A | 奖励函数 R | 价值函数 V | 算法 |
 |------|------|-----------|-----------|-----------|-----------|------|
-| **DeepMimic** | 2018 | 关节 [p,v,q,ω] + 相位 φ | PD 目标 (q^target, ω^target) | r=ω_I·r^I+ω_G·r^G<br>r^I=0.65r^p+0.1r^v+0.15r^e+0.1r^c | PPO Critic<br>GAE(λ) | PPO |
-| **DReCon** | 2019 | 角色状态 + 辅助信息 + MM 参考<br>• 关节 [q,ω]<br>• 根节点状态<br>• 脚接触标志<br>• MM 生成的参考轨迹 | PD 目标 | r=r_track+r_stability | PPO Critic | PPO+MM |
+| **DeepMimic** | 2018 | 关节 [p,v,q,ω] + 相位 φ | PD 目标 (q^target, ω^target)<br>从参考动作第φ帧获取 | r=ω_I·r^I+ω_G·r^G<br>r^I=姿势 + 速度 + 末端 + 质心<br>r^G=任务目标 | PPO Critic<br>GAE(λ) | PPO |
+| **DReCon** | 2019 | 角色状态 + 辅助信息 + MM 参考<br>• 关节 [q,ω]<br>• 根节点状态<br>• 脚接触标志<br>• MM 生成的参考轨迹 | PD 目标 (q^target)<br>从 MM 动态生成 | r=r_track+r_stability<br>r_track=跟踪 MM 参考奖励<br>r_stability=稳定性奖励 | PPO Critic | PPO+MM |
 
 **关键设计对比**：
 
