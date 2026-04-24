@@ -46,17 +46,17 @@ mindmap
 
 | 方法 | 状态空间 S | 动作空间 A | 奖励函数 R | 核心贡献 |
 |------|-----------|-----------|-----------|---------|
-| **Feature-Based**2010 | 物理特征（角动量等） | 关节力矩 | 手工设计多目标 | 高层特征控制器 |
+| [**Feature-Based**2010](https://caterpillarstudygroup.github.io/ReadPapers/200.html) | 物理特征（角动量等） | 关节力矩 | 手工设计多目标 | 高层特征控制器 |
 | **Nerve Net**2015 | 关节 + 根节点状态 | 关节力矩 | 任务奖励 | 通用多角色控制器 |
-| **Predict-and-Simulate**2019 | 状态 + 目标 | PD 目标 | 任务奖励 | 从无组织数据学习 |
-| **Gait-Conditioned Reinforcement Learning with Multi-Phase Curriculum for Humanoid Locomotion**2025 | 关节 +IMU+ 命令 | PD 目标轨迹 | 步态条件奖励 (独热路由) | PPO+RNN | 课程学习 + 奖励路由 |
+| [**Predict-and-Simulate**2019](https://caterpillarstudygroup.github.io/ReadPapers/215.html) | 状态 + 目标 | PD 目标 | 任务奖励 | 从无组织数据学习 |
+| [**Gait-Conditioned Reinforcement Learning with Multi-Phase Curriculum for Humanoid Locomotion**2025](https://caterpillarstudygroup.github.io/ReadPapers/185.html) | 关节 +IMU+ 命令 | PD 目标轨迹 | 步态条件奖励 (独热路由) | PPO+RNN | 课程学习 + 奖励路由 |
 
 ### 离线RL
 
 | 方法 | 状态空间 S | 动作空间 A | 训练范式 | 蒸馏源 |
 |------|-----------|-----------|---------|--------|
-| **DiffuseLoco**2024 | 关节 + 根节点 + 技能标签 | 31D PD 目标 | 纯离线 | 多专家 RL |
-| **PDP**2024 | 物理状态 + 任务标签 | 多帧 PD 目标 | 离线 BC | 多任务 RL 专家 |
+| [**DiffuseLoco**2024](https://caterpillarstudygroup.github.io/ReadPapers/195.html) | 关节 + 根节点 + 技能标签 | 31D PD 目标 | 纯离线 | 多专家 RL |
+| [**PDP**2024](https://caterpillarstudygroup.github.io/ReadPapers/192.html) | 物理状态 + 任务标签 | 多帧 PD 目标 | 离线 BC | 多任务 RL 专家 |
 
 | 维度 | DiffuseLoco | PDP | 
 |------|------------|----------|
@@ -79,24 +79,24 @@ mindmap
 | 方法 | 上层方法及输出 | 状态空间 S | 动作空间 A | 奖励函数 R | 价值函数 V | 算法 |
 |------|------|---|-----------|-----------|-----------|-----------|
 |[**DeepMimic (2018)**](https://caterpillarstudygroup.github.io/ReadPapers/201.html)| 固定轨迹<br>（Mocap 时间序列） | 关节 [p,v,q,ω] + 相位 φ | PD 目标 | 模仿奖励 + 任务奖励<br>模仿奖励=姿势 + 速度 + 末端 + 质心 | PPO Critic<br>GAE(λ) | PPO |
-| **DReCon**2019 | MM动态生成轨迹 | 角色状态 + 辅助信息 +MM 参考 | PD 目标 | 跟踪奖励 + 稳定性奖励 | PPO Critic | PPO+MM |
+| [**DReCon**2019](https://caterpillarstudygroup.github.io/ReadPapers/190.html) | MM动态生成轨迹 | 角色状态 + 辅助信息 +MM 参考 | PD 目标 | 跟踪奖励 + 稳定性奖励 | PPO Critic | PPO+MM |
 |[AMP (2021)](https://caterpillarstudygroup.github.io/ReadPapers/198.html)|Mocap轨迹| ~120D 躯干 + 关节 + 末端 | ~31D 关节目标旋转 | 任务奖励 + 风格奖励<br>风格奖励由判别器给出 | PPO Critic | PPO+LS-GAN |
-| **ControlVAE**2023 | CVAE输出z | 120D 身体配置 | 31D PD 目标 | 任务奖励 + VAE 重建奖励 | PPO Critic | VAE+PPO |
-| **CLOSD**2025 | 扩散规划输出轨迹规划|PHC 跟踪器 | 文本 + 目标双条件 |
-| **DARTControl**2025 | Latent Diffusion输出z| PPO | Latent noise optimization |
+| [**ControlVAE**2023](https://caterpillarstudygroup.github.io/ReadPapers/202.html) | CVAE输出z | 120D 身体配置 | 31D PD 目标 | 任务奖励 + VAE 重建奖励 | PPO Critic | VAE+PPO |
+| [**CLOSD**2025](https://caterpillarstudygroup.github.io/ReadPapers/188.html) | 扩散规划输出轨迹 | 角色状态 + 辅助信息 | PD 控制器目标 | 文本 + 目标双条件 | PPO Critic | 扩散规划 + RL 跟踪 |
+| [**DARTControl**2025](https://caterpillarstudygroup.github.io/ReadPapers/205.html) | Latent Diffusion输出z | 动作历史 + 文本 + 空间目标 | Latent noise optimization | 空间目标达成度 + 动作质量 | PPO Critic | PPO |
+| [**A-MDM**2024](https://caterpillarstudygroup.github.io/ReadPapers/206.html) | 自回归扩散模型输出动作 | 关节 + 根节点 + 任务目标 | 残差扰动信号（各去噪步骤） | 任务奖励 + 扩散引导 | PPO Critic | 自回归扩散 + RL |
 
 ### 数据增强
 
 | 方法 | 上层方法及输出 | 状态空间 S | 动作空间 A | 奖励函数 R | 价值函数 V | 算法 |
 |------|------|---|-----------|-----------|-----------|-----------|
-| **PARC**2025 | 扩散模型输出轨迹 | RL 控制器 | 物理校正合成数据 |
+| [**PARC**2025](https://caterpillarstudygroup.github.io/ReadPapers/189.html) | 扩散模型输出轨迹 | 角色状态 + 地形信息 | PD 控制器目标 | 物理约束 + 模仿奖励 | PPO Critic | PPO |
 
 ## DL + 非DL
 
 | 方法 | 状态空间 S | 动作空间 A | 奖励函数 R | 价值函数 V | 算法 |中层控制方法|
 |------|-----------|-----------|-----------|-----------|------|---|
-| **UHMP** | 关节 + 根节点 + 任务目标 | z (隐变量)<br>可**Decoder**出 a (PD 目标) | 任务奖励 | PPO Critic | CVAE +<br>蒸馏 +PPO |从mocap学CVAE，再通过轨迹优化+蒸馏保证物理合理|
-| **A-MDM**2024 | 
+| [**UHMP**](https://caterpillarstudygroup.github.io/ReadPapers/191.html) | 关节 + 根节点 + 任务目标 | z (隐变量)<br>可**Decoder**出 a (PD 目标) | 任务奖励 | PPO Critic | CVAE +<br>蒸馏 +PPO |从mocap学CVAE，再通过轨迹优化+蒸馏保证物理合理|
 
 **核心设计**：
 - 阶段 1：CVAE 从 MoCap 学习动作先验
@@ -161,14 +161,16 @@ mindmap
     │   └── UniPhys (2024)
     │
     ├── 3.2 扩散规划 + RL 跟踪
-    │   ├── CLOSD (2025)
+    │   └── CLOSD (2025)
+    │
+    ├── 3.3 扩散模型 + 掩码补全
     │   └── MaskedMimic (2024)
     │
-    ├── 3.3 自回归生成 + RL
+    ├── 3.4 自回归生成 + RL
     │   ├── A-MDM (2024)
     │   └── DARTControl (2025)
     │
-    └── 3.4 数据扩增辅助
+    └── 3.5 数据扩增辅助
         └── PARC (2025)
 ```
 
