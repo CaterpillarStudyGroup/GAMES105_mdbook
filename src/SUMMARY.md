@@ -48,6 +48,7 @@
   - [简单例子](Tracking/SimpleCase.md)
   - [Digital Cerebellum](Digital_Cerebellum.md)
 - [强化学习](ReinforcementLearning.md)
+- [强化学习方法对比维度](RL_EvaluationDimensions.md)
 - [角色控制技术](CharacterControl/CharacterControl.md)
   - [Learning to Walk](Learning.md)
   - [Zero-Moment Point (ZMP)](ZMP.md)

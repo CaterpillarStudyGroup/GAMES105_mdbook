@@ -139,7 +139,8 @@ P40
     - ……   
 
  - Nonlinear Skinning   
-    - Dual-quaternion Skinning (DQS)   
+    - Dual-quaternion Skinning (DQS)
+    - Skelebones (PartMM) — [GaussiAnimate (ReadPapers/220)](https://caterpillarstudygroup.github.io/ReadPapers/220.html): 用 Part-aware Mixture Model 替代 LBS，直接学习部件级别运动分布，PSNR 比 LBS 高 17.3%。原本用于 3DGS 驱动，理论上也可用于 Mesh 驱动（用 soft assignment + 最近邻匹配替代 LBS 的固定骨骼权重），但 Mesh 场景下面临三个问题：(1) 最近邻搜索比 LBS 矩阵乘法慢很多，不利于实时渲染；(2) 最近邻匹配可能跨帧跳跃，时间一致性不如 LBS 稳定；(3) 现有引擎全基于 LBS/DQS 构建，替换绑定方案工程成本高。Mesh 本身有拓扑约束兜底，LBS/DQS/SSD 已足够；PartMM 对没有拓扑的 3DGS 价值更大。   
 
 ![](./assets/07-15.png)   
 

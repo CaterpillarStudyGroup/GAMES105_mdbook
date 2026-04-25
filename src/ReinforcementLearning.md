@@ -17,7 +17,7 @@
 2. 让动作更『人』
 3. 定义动作的风格
 
-参考动作发挥作用的方法主要有两种：
+参考动作发挥作用的方法主要有三种：
 1. GT，直接作为模型的模仿目标
 2. 鉴定，用于判断生成动作与参考动作是否相似
 3. 提取数据的关节特征，构造模型的目标函数
@@ -50,7 +50,7 @@ mindmap
 | [**Feature-Based**2010](https://caterpillarstudygroup.github.io/ReadPapers/200.html) | 物理特征（角动量等） | 关节力矩 | 手工设计多目标 | 高层特征控制器 |
 | **Nerve Net**2015 | 关节 + 根节点状态 | 关节力矩 | 任务奖励 | 通用多角色控制器 |
 | [**Predict-and-Simulate**2019](https://caterpillarstudygroup.github.io/ReadPapers/215.html) | 状态 + 目标 | PD 目标 | 任务奖励 | 从无组织数据学习 |
-| [**Gait-Conditioned Reinforcement Learning with Multi-Phase Curriculum for Humanoid Locomotion**2025](https://caterpillarstudygroup.github.io/ReadPapers/185.html) | 关节 +IMU+ 命令 | PD 目标轨迹 | 步态条件奖励 (独热路由) | PPO+RNN | 课程学习 + 奖励路由 |
+| [**Gait-Conditioned Reinforcement Learning with Multi-Phase Curriculum for Humanoid Locomotion**2025](https://caterpillarstudygroup.github.io/ReadPapers/185.html) | 关节 +IMU+ 命令 | PD 目标轨迹 | 步态条件奖励 (独热路由) | PPO+RNN |
 
 ### 离线RL
 
