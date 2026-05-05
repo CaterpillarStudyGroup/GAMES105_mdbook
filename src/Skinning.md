@@ -140,7 +140,7 @@ P40
 
  - Nonlinear Skinning   
     - Dual-quaternion Skinning (DQS)
-    - Skelebones (PartMM) — [GaussiAnimate (ReadPapers/220)](https://caterpillarstudygroup.github.io/ReadPapers/220.html): 用 Part-aware Mixture Model 替代 LBS，直接学习部件级别运动分布，PSNR 比 LBS 高 17.3%。原本用于 3DGS 驱动，理论上也可用于 Mesh 驱动（用 soft assignment + 最近邻匹配替代 LBS 的固定骨骼权重），但 Mesh 场景下面临三个问题：(1) 最近邻搜索比 LBS 矩阵乘法慢很多，不利于实时渲染；(2) 最近邻匹配可能跨帧跳跃，时间一致性不如 LBS 稳定；(3) 现有引擎全基于 LBS/DQS 构建，替换绑定方案工程成本高。Mesh 本身有拓扑约束兜底，LBS/DQS/SSD 已足够；PartMM 对没有拓扑的 3DGS 价值更大。   
+    - Skelebones (PartMM) — [GaussiAnimate (ReadPapers/220)](https://caterpillarstudygroup.github.io/ReadPapers/220.html): 用 Part-aware Mixture Model 替代 LBS。核心：(1) 用空间距离 softmax 计算 part affinity 概率替代人工皮肤权重；(2) 用 MLP 学习的非线性残差 \\(x + \\Delta T_j(x)\\) 替代刚体变换，突破 LBS 线性上限，PSNR 比 LBS 高 17.3%。原本用于 3DGS 驱动，理论上也可用于 Mesh 驱动，但 Mesh 场景下面临三个问题：(1) MLP 推理比 LBS 矩阵乘法慢，不利于实时渲染；(2) MLP 输出可能跨帧跳跃，时间一致性不如 LBS 稳定；(3) 现有引擎全基于 LBS/DQS 构建，替换绑定方案工程成本高。Mesh 本身有拓扑约束兜底，LBS/DQS/SSD 已足够；PartMM 对没有拓扑的 3DGS 价值更大。   
 
 ![](./assets/07-15.png)   
 
@@ -780,6 +780,38 @@ P110
 > &#x2705; 用一个视频人脸驱动 3D 人脸。    
 > &#x2705; 人脸 \\(\overset{①}{\rightarrow} \\) 特征点  \\(\overset{②}{\rightarrow} \\) 表情参数    
 > &#x2705; 1、提取    \\(\quad\\)   2、IK．
+
+---
+
+## ReadPapers 蒙皮绑定相关论文索引
+
+以下论文收录于 [ReadPapers](https://caterpillarstudygroup.github.io/ReadPapers/) 项目，按**核心程度**分组。
+
+### 核心蒙皮 / 绑定论文
+
+| 论文 ID | 论文标题 | 发表 | 蒙皮方法 | 一句话总结 |
+|---------|---------|------|---------|-----------|
+| [235](https://caterpillarstudygroup.github.io/ReadPapers/235.html) | Smooth Skinning Decomposition with Rigid Bones (SSDR) | SIGGRAPH Asia 2012 | LBS 逆问题 | 从示例姿态反推 LBS 权重和刚性骨骼变换，所有约束作为硬约束严格满足，块坐标下降 + 闭式 SVD 求解，比 LM 快 50-70× |
+| [236](https://caterpillarstudygroup.github.io/ReadPapers/236.html) | Robust and Accurate Skeletal Rigging from Mesh Sequences | SIGGRAPH 2014 | 全自动绑定 | 从网格序列自动生成骨骼系统：运动驱动聚类 → MST 拓扑重建 → 迭代绑定（权重/关节/变换交替优化）+ 骨骼剪枝 |
+
+### 基于 LBS 扩展的新表示方法
+
+| 论文 ID | 论文标题 | 发表 | 蒙皮方法 | 一句话总结 |
+|---------|---------|------|---------|-----------|
+| [220](https://caterpillarstudygroup.github.io/ReadPapers/220.html) | GaussiAnimate: Reconstruct and Rig Animatable Categories with Level of Dynamics | arXiv 2026 | Skelebones (骨架-骨骼脚手架) + PartMM | 从 235/236 取 LBG-VQ 聚类 + SSDR 生成外层 Bones，原创 MCS 骨架化 + 关节检测生成内层 Skeleton，PartMM 非参数化运动匹配解决骨架→骨骼绑定 |
+| [234](https://caterpillarstudygroup.github.io/ReadPapers/234.html) | SC-GS: Sparse-Controlled Gaussian Splatting for Editable Dynamic Scenes | CVPR 2024 | LBS + 稀疏控制点 | 用 ~512 个稀疏控制点的 6DoF 变换 + LBS 权重插值驱动 ~10 万高斯点，ARAP 正则化保证局部刚性 |
+| [225](https://caterpillarstudygroup.github.io/ReadPapers/225.html) | TaoAvatar: Real-Time Lifelike Full-Body Talking Avatars for AR via 3DGS | 2025 | SMPL-X++ LBS + 教师-学生蒸馏 | 构建穿衣参数化模板 SMPL-X++，StyleUnet 教师网络学习非刚性变形，蒸馏到轻量 MLP 实现实时 LBS 驱动 |
+| [36](https://caterpillarstudygroup.github.io/ReadPapers/36.html) | GaussianAvatar: Towards Realistic Human Avatar Modeling from a Single Video | 2023 | SMPL LBS + 3DGS | 以 SMPL 为 template，每个 Mesh 顶点对应一个高斯球，直接复用 SMPL 的 LBS 蒙皮权重驱动 3D 高斯 |
+
+### 动物/人脸绑定
+
+| 论文 ID | 论文标题 | 发表 | 蒙皮方法 | 一句话总结 |
+|---------|---------|------|---------|-----------|
+| [35](https://caterpillarstudygroup.github.io/ReadPapers/35.html) | MagicPony: Learning Articulated 3D Animals in the Wild | 2023 | LBS + DMTet 网格 | 单图重建铰接 3D 动物，隐式神经场转显式网格，用 LBS 驱动动物姿态 |
+| [32](https://caterpillarstudygroup.github.io/ReadPapers/32.html) | Artemis: Articulated Neural Pets with Appearance and Motion Synthesis | 2023 | 体素级 LBS + NGI | CGI 动物资产的体素绑定与蒙皮，复用 CGI 骨骼和蒙皮权重，LBS 驱动八叉树体素形变 + 神经渲染 |
+| [95](https://caterpillarstudygroup.github.io/ReadPapers/95.html) | SOAP: Style-Omniscient Animatable Portraits | 2024 | 自适应网格重构 + 骨骼插值 | 从单张肖像生成风格化虚拟形象，通过可微分渲染实现网格重拓扑和骨骼绑定，蒙皮权重由邻接边插值 |
+
+> **说明**：论文 ID 对应 ReadPapers 项目中的编号，点击可跳转至完整笔记。其中 **235 (SSDR)** 和 **236 (Rigging)** 是本节内容的直接延伸阅读；**220 (GaussiAnimate)** 展示了经典 LBS/DQS 思想在 3DGS 新表示中的延续。
 
 ---------------------------------------
 > 本文出自CaterpillarStudyGroup，转载请注明出处。
