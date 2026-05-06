@@ -1,23 +1,11 @@
 P2   
-# Outline   
-
- - Skinning   
-    - Linear Blend Skinning (LBS)   
-    - Dual Quaternion Skinning (DQS)   
-    - Blendshapes   
-
- - Examples:   
-    - The SMPL model  
-    - Facial Animation  
+# Outline 
 
 > &#x1F50E; SIGGRAPH 经典的蒙皮课程。  
 Many images are from: <https://skinning.org/>   
 *Alec Jacobson, Zhigang Deng, Ladislav Kavan, and J. P. Lewis. 2014*.   
 **Skinning: real-time shape deformation**.     
 *In ACM SIGGRAPH 2014 Courses (SIGGRAPH '14)*    
-
- 
-
 
 P7  
 # Skinning Deformation   
@@ -30,6 +18,14 @@ P7
 ![](./assets/07-01.png)   
 
 ![](./assets/07-02.png)   
+
+> 骨骼代理的角色驱动的局限性  
+1. **非刚性形变**:
+   - LBS（线性混合蒙皮）无法表达肌肉膨胀、软组织形变
+   - 解决方案：PartMM（Part-aware Mixture Model）替代LBS
+2. **高频细节丢失**:
+   - 骨骼代理只能捕获低频运动（关节旋转）
+   - 解决方案：法线修正、位移残差学习
 
 P12   
 ## Skinning Deformation    

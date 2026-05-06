@@ -6,6 +6,7 @@
 - [Introduction to 3D Character Animation](Introduction.md)
 - [Math Background](Math.md)
 - [Locomotion 控制技术洞察](Locomotion_Survey.md)
+- [Skinning](Skinning.md)
 
 # Keyframe-based/Kinematic Approaches
 
@@ -14,7 +15,6 @@
 - [Data-driven Character Animation](Data-driven.md)
 - [Statistical Models of Human Motion](Learning-based.md)
 - [Learning-based Character Animation](cont.md)
-- [Skinning](Skinning.md)
 
 # Physics-based/Dynamic Approaches
 
