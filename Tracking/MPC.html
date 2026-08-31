@@ -1,0 +1,709 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Model Predictive Control (MPC) - 3D 角色骨骼动画技术</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/pagetoc.css">
+        <!-- MathJax 3 with Latin Modern fonts -->
+        <script>
+        MathJax = {
+            loader: {load: ['input/tex', 'output/chtml']},
+            tex: {
+                packages: {'[+]': ['ams', 'noerrors', 'noundefined']},
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            chtml: {
+                displayAlign: 'center',
+                fontFamily: 'Latin-Modern',
+                fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2'
+            },
+            startup: {
+                typeset: true
+            }
+        };
+        </script>
+        <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="../Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="../Locomotion_Survey.html"><strong aria-hidden="true">4.</strong> Locomotion 控制技术洞察</a></li><li class="chapter-item expanded "><a href="../Skinning.html"><strong aria-hidden="true">5.</strong> Skinning</a></li><li class="chapter-item expanded affix "><li class="part-title">Keyframe-based/Kinematic Approaches</li><li class="chapter-item expanded "><a href="../Forward.html"><strong aria-hidden="true">6.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="../Keyframe.html"><strong aria-hidden="true">7.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="../Data-driven.html"><strong aria-hidden="true">8.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="../Learning-based.html"><strong aria-hidden="true">9.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="../cont.html"><strong aria-hidden="true">10.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded affix "><li class="part-title">Physics-based/Dynamic Approaches</li><li class="chapter-item expanded "><a href="../DynamicsOverview.html"><strong aria-hidden="true">11.</strong> 动力学方法概览</a></li><li class="chapter-item expanded "><a href="../Simulation/Simulation.html"><strong aria-hidden="true">12.</strong> 角色物理仿真基础</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Simulation/RigidBodyRepresentation.html"><strong aria-hidden="true">12.1.</strong> 角色的分段刚体表示</a></li><li class="chapter-item expanded "><a href="../Simulation/Constraints.html"><strong aria-hidden="true">12.2.</strong> Constraints</a></li><li class="chapter-item expanded "><a href="../Simulation/JointConstraint.html"><strong aria-hidden="true">12.3.</strong> 关节约束</a></li><li class="chapter-item expanded "><a href="../PDControl/JointTorques.html"><strong aria-hidden="true">12.4.</strong> 关节力矩</a></li><li class="chapter-item expanded "><a href="../Simulation/ForcesAndTorques.html"><strong aria-hidden="true">12.5.</strong> 运动方程中的力与力矩</a></li><li class="chapter-item expanded "><a href="../Simulation/Contacts.html"><strong aria-hidden="true">12.6.</strong> Contacts</a></li><li class="chapter-item expanded "><a href="../Simulation/SimulationPipeline.html"><strong aria-hidden="true">12.7.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../PDControl/PDControl.html"><strong aria-hidden="true">13.</strong> PD 控制</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Proportional-DerivativeControl.html"><strong aria-hidden="true">13.1.</strong> Proportional-Derivative Control</a></li><li class="chapter-item expanded "><a href="../Controlling.html"><strong aria-hidden="true">13.2.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="../PDControl/UnderactuatedSystem.html"><strong aria-hidden="true">13.3.</strong> 欠驱动系统问题</a></li><li class="chapter-item expanded "><a href="../PDControl/SteadyStateError.html"><strong aria-hidden="true">13.4.</strong> 稳态误差问题</a></li><li class="chapter-item expanded "><a href="../PDControl/FeedforwardVsFeedback.html"><strong aria-hidden="true">13.5.</strong> 前馈与反馈控制</a></li><li class="chapter-item expanded "><a href="../PDControl/StaticBalance.html"><strong aria-hidden="true">13.6.</strong> Static Balance</a></li></ol></li><li class="chapter-item expanded "><a href="../Tracking/Tracking.html"><strong aria-hidden="true">14.</strong> 轨迹优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Tracking/MathematicalFormulation.html"><strong aria-hidden="true">14.1.</strong> 数学形式化描述</a></li><li class="chapter-item expanded "><a href="../Tracking/Concepts.html"><strong aria-hidden="true">14.2.</strong> 概念澄清</a></li><li class="chapter-item expanded "><a href="../Tracking/MethodComparison.html"><strong aria-hidden="true">14.3.</strong> 方法对比与分类</a></li><li class="chapter-item expanded "><a href="../Tracking/LQR.html"><strong aria-hidden="true">14.4.</strong> Linear Quadratic Regulator (LQR)</a></li><li class="chapter-item expanded "><a href="../Tracking/iLQR.html"><strong aria-hidden="true">14.5.</strong> Iterative LQR (iLQR)</a></li><li class="chapter-item expanded "><a href="../Tracking/DDP.html"><strong aria-hidden="true">14.6.</strong> Differential Dynamic Programming (DDP)</a></li><li class="chapter-item expanded "><a href="../Tracking/MPC.html" class="active"><strong aria-hidden="true">14.7.</strong> Model Predictive Control (MPC)</a></li><li class="chapter-item expanded "><a href="../Tracking/CMA-ES.html"><strong aria-hidden="true">14.8.</strong> CMA-ES</a></li><li class="chapter-item expanded "><a href="../Tracking/SAMCON.html"><strong aria-hidden="true">14.9.</strong> SAMCON</a></li><li class="chapter-item expanded "><a href="../Tracking/Optimal.html"><strong aria-hidden="true">14.10.</strong> 最优控制与强化学习</a></li><li class="chapter-item expanded "><a href="../Tracking/SimpleCase.html"><strong aria-hidden="true">14.11.</strong> 简单例子</a></li><li class="chapter-item expanded "><a href="../Digital_Cerebellum.html"><strong aria-hidden="true">14.12.</strong> Digital Cerebellum</a></li></ol></li><li class="chapter-item expanded "><a href="../ReinforcementLearning.html"><strong aria-hidden="true">15.</strong> 强化学习</a></li><li class="chapter-item expanded "><a href="../RL_EvaluationDimensions.html"><strong aria-hidden="true">16.</strong> 强化学习方法对比维度</a></li><li class="chapter-item expanded "><a href="../CharacterControl/CharacterControl.html"><strong aria-hidden="true">17.</strong> 角色控制技术</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Learning.html"><strong aria-hidden="true">17.1.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="../ZMP.html"><strong aria-hidden="true">17.2.</strong> Zero-Moment Point (ZMP)</a></li><li class="chapter-item expanded "><a href="../SIMBICON.html"><strong aria-hidden="true">17.3.</strong> SIMBICON</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">混合方法</li><li class="chapter-item expanded "><a href="../Hybrid.html"><strong aria-hidden="true">18.</strong> 混合方法</a></li><li class="chapter-item expanded affix "><li class="part-title">Application</li><li class="chapter-item expanded "><a href="../Application/Locomotion.html"><strong aria-hidden="true">19.</strong> Locomotion</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">3D 角色骨骼动画技术</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <h1 id="model-predictive-control-mpc"><a class="header" href="#model-predictive-control-mpc">Model Predictive Control (MPC)</a></h1>
+<blockquote>
+<p>✅ <strong>本章定位</strong>：理解 MPC 如何通过<strong>滚动时域优化</strong>实现闭环最优控制，掌握其核心思想、算法流程和在角色动画中的应用。</p>
+</blockquote>
+<hr />
+<h2 id="-核心概念mpc-是一个控制框架"><a class="header" href="#-核心概念mpc-是一个控制框架">⭐ 核心概念：MPC 是一个控制框架</a></h2>
+<blockquote>
+<p><strong>MPC 本身不是一个具体的优化算法，而是一个控制框架。</strong></p>
+<p>它定义了**&quot;每帧优化、只执行第一步、然后重新优化&quot;<strong>的闭环控制思想，但</strong>不指定具体用什么方法求解**优化问题。</p>
+</blockquote>
+<h3 id="mpc-框架--不同求解器"><a class="header" href="#mpc-框架--不同求解器">MPC 框架 + 不同求解器</a></h3>
+<pre><code>MPC 框架（滚动时域优化）
+    │
+    ├─ 结合 iLQR 求解器  →  iLQR-MPC（适用于平滑问题）
+    │
+    ├─ 结合 DDP 求解器   →  DDP-MPC（适用于高精度需求）
+    │
+    ├─ 结合 CMA-ES      →  Sampling-MPC（适用于不可微问题）
+    │
+    ├─ 结合 SAMCON      →  粒子滤波 MPC（适用于角色控制）
+    │
+    └─ 结合凸优化       →  Convex-MPC（适用于凸问题）
+</code></pre>
+<table><thead><tr><th>组件</th><th>作用</th><th>类比</th></tr></thead><tbody>
+<tr><td><strong>MPC 框架</strong></td><td>定义&quot;何时优化、如何执行&quot;</td><td>汽车的&quot;自动驾驶系统&quot;</td></tr>
+<tr><td><strong>求解器</strong></td><td>实际计算最优控制</td><td>汽车的&quot;发动机&quot;（可以是汽油、柴油、电动）</td></tr>
+</tbody></table>
+<p><strong>重要理解</strong>：</p>
+<ul>
+<li>MPC 的核心是<strong>滚动时域</strong>思想，不是某个特定算法</li>
+<li>同一个 MPC 框架，换不同求解器，适用于不同问题</li>
+<li>选择求解器时要考虑：可微性、计算成本、精度需求</li>
+</ul>
+<hr />
+<h2 id="一从开环到闭环为什么需要-mpc"><a class="header" href="#一从开环到闭环为什么需要-mpc">一、从开环到闭环：为什么需要 MPC</a></h2>
+<h3 id="开环控制的局限性"><a class="header" href="#开环控制的局限性">开环控制的局限性</a></h3>
+<p>前面介绍的轨迹优化方法（如 iLQR、DDP、CMA-ES）主要是<strong>开环控制</strong>：</p>
+<pre><code>离线优化一次 → 得到最优轨迹 (x*, u*) → 执行
+</code></pre>
+<table><thead><tr><th>优点</th><th>缺点</th></tr></thead><tbody>
+<tr><td>可预先计算、推理快</td><td>无法应对扰动</td></tr>
+<tr><td>适用于动作生成</td><td>误差会累积</td></tr>
+<tr><td>计算成本一次性投入</td><td>实际轨迹可能偏离规划</td></tr>
+</tbody></table>
+<p><strong>问题</strong>：角色动画中经常遇到扰动：</p>
+<ul>
+<li>外力推挤</li>
+<li>地面不平</li>
+<li>模型参数误差</li>
+<li>数值仿真误差累积</li>
+</ul>
+<hr />
+<h3 id="闭环控制的思想"><a class="header" href="#闭环控制的思想">闭环控制的思想</a></h3>
+<p><strong>反馈控制</strong>：每帧根据当前状态重新计算控制</p>
+<pre><code>测量当前状态 s → 查表 u = -K·s → 执行 → 下一帧
+</code></pre>
+<p>PD 控制就是典型的闭环控制，但它是<strong>局部</strong>的：</p>
+<ul>
+<li>只考虑当前状态与目标状态的偏差</li>
+<li>不考虑未来、不预测后果</li>
+<li>无法处理复杂约束</li>
+</ul>
+<hr />
+<h3 id="mpc-的核心洞察"><a class="header" href="#mpc-的核心洞察">MPC 的核心洞察</a></h3>
+<p><strong>MPC = 开环优化 + 闭环执行</strong></p>
+<pre><code>每帧都做一次开环轨迹优化，但只执行第一步，然后重新优化
+</code></pre>
+<pre><code>t=0: 测量 s₀ → 优化得到 (u₀*, u₁*, ..., uₙ*) → 执行 u₀*
+t=1: 测量 s₁ → 优化得到 (u₀*, u₁*, ..., uₙ*) → 执行 u₀*
+t=2: 测量 s₂ → 优化得到 (u₀*, u₁*, ..., uₙ*) → 执行 u₀*
+...
+</code></pre>
+<p><strong>关键</strong>：</p>
+<ul>
+<li>每帧都基于<strong>最新测量状态</strong>重新规划</li>
+<li>只执行规划序列的<strong>第一步</strong></li>
+<li>下一帧重复优化，形成反馈</li>
+</ul>
+<hr />
+<h2 id="二mpc-的数学描述"><a class="header" href="#二mpc-的数学描述">二、MPC 的数学描述</a></h2>
+<h3 id="标准-mpc-问题"><a class="header" href="#标准-mpc-问题">标准 MPC 问题</a></h3>
+<p>在每一时刻 t，求解如下优化问题：</p>
+<p>$$
+\begin{aligned}
+\min_{\mathbf{u}_{0:N-1}} \quad &amp; \phi(\mathbf{x}<em>N) + \sum</em>{k=0}^{N-1} \ell(\mathbf{x}_k, \mathbf{u}<em>k) \
+\text{s.t.} \quad &amp; \mathbf{x}</em>{k+1} = f(\mathbf{x}_k, \mathbf{u}_k) \quad \text{(动力学)} \
+&amp; \mathbf{x}<em>0 = \mathbf{x}</em>{\text{current}} \quad \text{(当前状态)} \
+&amp; \mathbf{x}_k \in \mathcal{X}, \mathbf{u}_k \in \mathcal{U} \quad \text{(约束)}
+\end{aligned}
+$$</p>
+<p>其中：</p>
+<ul>
+<li>\(N\)：<strong>预测时域</strong>（Prediction Horizon），通常 10-50 步</li>
+<li>\(\phi(\mathbf{x}_N)\)：终端代价</li>
+<li>\(\ell(\mathbf{x}_k, \mathbf{u}_k)\)：阶段代价</li>
+<li>\(\mathcal{X}, \mathcal{U}\)：状态和控制约束集</li>
+</ul>
+<hr />
+<h3 id="mpc-算法流程"><a class="header" href="#mpc-算法流程">MPC 算法流程</a></h3>
+<pre><code>算法：MPC 闭环控制
+
+输入:
+    - 当前状态 x_current
+    - 参考轨迹 x_ref
+    - 预测时域 N
+
+输出:
+    - 控制输入 u*
+
+每帧执行:
+1. 测量当前状态 x_current
+
+2. 求解优化问题:
+   min J = φ(x_N) + Σₖ₌₀ᴺ⁻¹ ℓ(x_k, u_k)
+   s.t. x_{k+1} = f(x_k, u_k)
+        x_0 = x_current
+        x_k ∈ X, u_k ∈ U
+
+3. 得到最优控制序列 (u₀*, u₁*, ..., uₙ*₋₁)
+
+4. 执行第一步控制 u* = u₀*
+
+5. 等待下一帧，回到步骤 1
+</code></pre>
+<hr />
+<h3 id="与开环优化的对比"><a class="header" href="#与开环优化的对比">与开环优化的对比</a></h3>
+<table><thead><tr><th>维度</th><th>开环优化 (iLQR, DDP)</th><th>MPC</th></tr></thead><tbody>
+<tr><td><strong>优化频率</strong></td><td>一次（离线）</td><td>每帧（在线）</td></tr>
+<tr><td><strong>输入状态</strong></td><td>固定初始状态 x₀</td><td>实时测量 x_current</td></tr>
+<tr><td><strong>执行方式</strong></td><td>执行完整轨迹</td><td>只执行第一步</td></tr>
+<tr><td><strong>应对扰动</strong></td><td>❌ 无法应对</td><td>✅ 自动校正</td></tr>
+<tr><td><strong>计算成本</strong></td><td>一次性高</td><td>持续高</td></tr>
+<tr><td><strong>适用场景</strong></td><td>动作生成/离线规划</td><td>实时控制/跟踪</td></tr>
+</tbody></table>
+<hr />
+<h2 id="三mpc-的关键设计要素"><a class="header" href="#三mpc-的关键设计要素">三、MPC 的关键设计要素</a></h2>
+<h3 id="1-预测时域-prediction-horizon"><a class="header" href="#1-预测时域-prediction-horizon">1. 预测时域 (Prediction Horizon)</a></h3>
+<p>预测时域 \(N\) 的选择是 MPC 设计的核心：</p>
+<table><thead><tr><th>时域长度</th><th>优点</th><th>缺点</th><th>适用场景</th></tr></thead><tbody>
+<tr><td><strong>短</strong> (N=5-10)</td><td>计算快</td><td>短视、可能不稳定</td><td>快速反应任务</td></tr>
+<tr><td><strong>中</strong> (N=10-30)</td><td>平衡</td><td>中等计算量</td><td>locomotion、跟踪</td></tr>
+<tr><td><strong>长</strong> (N=30-100)</td><td>远视、稳定</td><td>计算慢</td><td>复杂规划任务</td></tr>
+</tbody></table>
+<p><strong>经验法则</strong>：</p>
+<ul>
+<li>时域应覆盖任务的<strong>关键动态</strong></li>
+<li>例如：走路步态周期约 1 秒，若 dt=0.01s，则 N≈100</li>
+</ul>
+<hr />
+<h3 id="2-代价函数设计"><a class="header" href="#2-代价函数设计">2. 代价函数设计</a></h3>
+<p>MPC 的代价函数通常包含：</p>
+<p>$$
+J = J_{\text{track}} + J_{\text{control}} + J_{\text{smooth}} + J_{\text{terminal}}
+$$</p>
+<table><thead><tr><th>项</th><th>数学形式</th><th>作用</th></tr></thead><tbody>
+<tr><td><strong>跟踪误差</strong></td><td>\(\sum (\mathbf{x}_k - \mathbf{x}_k^{\text{ref}})^T Q (\mathbf{x}_k - \mathbf{x}_k^{\text{ref}})\)</td><td>跟踪参考轨迹</td></tr>
+<tr><td><strong>控制 effort</strong></td><td>\(\sum \mathbf{u}_k^T R \mathbf{u}_k\)</td><td>避免过大控制</td></tr>
+<tr><td><strong>平滑项</strong></td><td>\(\sum (\mathbf{u}<em>k - \mathbf{u}</em>{k-1})^T S (\mathbf{u}<em>k - \mathbf{u}</em>{k-1})\)</td><td>控制变化平滑</td></tr>
+<tr><td><strong>终端代价</strong></td><td>\(\mathbf{x}_N^T P \mathbf{x}_N\)</td><td>保证稳定性</td></tr>
+</tbody></table>
+<hr />
+<h3 id="3-约束处理"><a class="header" href="#3-约束处理">3. 约束处理</a></h3>
+<p>MPC 的核心优势之一是能<strong>显式处理约束</strong>：</p>
+<table><thead><tr><th>约束类型</th><th>数学形式</th><th>示例</th></tr></thead><tbody>
+<tr><td><strong>状态约束</strong></td><td>\(\mathbf{x} \in \mathcal{X}\)</td><td>关节角度限制、速度限制</td></tr>
+<tr><td><strong>控制约束</strong></td><td>\(\mathbf{u} \in \mathcal{U}\)</td><td>关节力矩上限</td></tr>
+<tr><td><strong>接触约束</strong></td><td>\(g(\mathbf{x}) \geq 0\)</td><td>足部不穿透地面、摩擦锥</td></tr>
+<tr><td><strong>任务约束</strong></td><td>\(h(\mathbf{x}) = 0\)</td><td>手部保持抓握、视线跟踪</td></tr>
+</tbody></table>
+<hr />
+<h3 id="4-终端设计"><a class="header" href="#4-终端设计">4. 终端设计</a></h3>
+<p>为保证 MPC 稳定性，通常需要设计<strong>终端约束</strong>或<strong>终端代价</strong>：</p>
+<table><thead><tr><th>方法</th><th>说明</th><th>优缺点</th></tr></thead><tbody>
+<tr><td><strong>终端代价</strong></td><td>\(\phi(\mathbf{x}_N) = \mathbf{x}_N^T P \mathbf{x}_N\)</td><td>软约束，计算简单</td></tr>
+<tr><td><strong>终端约束</strong></td><td>\(\mathbf{x}<em>N = \mathbf{x}</em>{\text{goal}}\)</td><td>硬约束，可能无解</td></tr>
+<tr><td><strong>终端集合</strong></td><td>\(\mathbf{x}_N \in \mathcal{X}_f\)</td><td>灵活但设计复杂</td></tr>
+<tr><td><strong>无终端</strong></td><td>不设终端</td><td>简单但可能不稳定</td></tr>
+</tbody></table>
+<hr />
+<h2 id="四mpc-的求解方法"><a class="header" href="#四mpc-的求解方法">四、MPC 的求解方法</a></h2>
+<blockquote>
+<p><strong>核心理解</strong>：MPC 是一个<strong>框架</strong>，它需要调用具体的<strong>求解器</strong>来解优化问题。</p>
+</blockquote>
+<h3 id="求解器对比"><a class="header" href="#求解器对比">求解器对比</a></h3>
+<table><thead><tr><th>求解器类型</th><th>代表方法</th><th>特点</th><th>适用场景</th></tr></thead><tbody>
+<tr><td><strong>基于梯度</strong></td><td>iLQR, DDP, SQP</td><td>收敛快，需要可微模型</td><td>平滑问题、精确跟踪</td></tr>
+<tr><td><strong>无梯度</strong></td><td>CMA-ES</td><td>不需要梯度，收敛慢</td><td>非凸问题、接触频繁</td></tr>
+<tr><td><strong>采样方法</strong></td><td>SAMCON, MPPI</td><td>平衡效率和适用性</td><td>角色控制、复杂约束</td></tr>
+<tr><td><strong>凸优化</strong></td><td>Convex-MPC</td><td>全局最优、高效</td><td>可公式化为凸问题</td></tr>
+</tbody></table>
+<hr />
+<h3 id="1-ilqr-mpc最常用"><a class="header" href="#1-ilqr-mpc最常用">1. iLQR-MPC（最常用）</a></h3>
+<p>在角色动画中最常用的是 <strong>iLQR 作为 MPC 的内部求解器</strong>：</p>
+<pre><code>每帧:
+    1. 测量当前状态 x_current
+    2. 以 x_current 为初值，运行 iLQR 优化
+    3. 得到最优控制序列 (u₀*, u₁*, ..., uₙ*₋₁)
+    4. 执行 u₀*
+</code></pre>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>收敛快（适合实时）</li>
+<li>适用于平滑非线性问题</li>
+<li>可处理高维系统（如全身角色）</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>需要可微模型</li>
+<li>接触处理困难（需要光滑近似）</li>
+</ul>
+<hr />
+<h3 id="2-sampling-based-mpc"><a class="header" href="#2-sampling-based-mpc">2. Sampling-based MPC</a></h3>
+<p>对于不可微问题（如接触），可使用采样方法：</p>
+<p><strong>SAMCON</strong> (Sampling-based Model Predictive Control)：</p>
+<ul>
+<li>在控制空间采样多条轨迹</li>
+<li>评估每条轨迹的代价</li>
+<li>选择最优轨迹的第一步执行</li>
+<li>用 CMA-ES 迭代优化采样分布</li>
+</ul>
+<p><strong>MPPI</strong> (Model Predictive Path Integral)：</p>
+<ul>
+<li>基于重要性采样的随机 MPC</li>
+<li>适用于连续控制和随机系统</li>
+</ul>
+<hr />
+<h3 id="3-其他求解器"><a class="header" href="#3-其他求解器">3. 其他求解器</a></h3>
+<table><thead><tr><th>求解器</th><th>说明</th><th>适用场景</th></tr></thead><tbody>
+<tr><td><strong>DDP-MPC</strong></td><td>使用 DDP 作为求解器，二阶收敛</td><td>高精度需求、可计算二阶导数</td></tr>
+<tr><td><strong>Convex-MPC</strong></td><td>将问题公式化为凸优化</td><td>足式机器人、简化模型</td></tr>
+<tr><td><strong>NMPC</strong> (Nonlinear MPC)</td><td>直接求解非线性优化问题</td><td>一般非线性系统</td></tr>
+</tbody></table>
+<hr />
+<h3 id="求解器选择建议"><a class="header" href="#求解器选择建议">求解器选择建议</a></h3>
+<pre><code>问题特征 → 推荐求解器
+─────────────────────────
+平滑、可微模型 → iLQR-MPC ⭐
+需要二阶精度 → DDP-MPC
+接触频繁、不可微 → Sampling-MPC (SAMCON/CMA-ES)
+简化模型、凸问题 → Convex-MPC
+</code></pre>
+<hr />
+<h3 id="3-显式-mpc-vs-隐式-mpc"><a class="header" href="#3-显式-mpc-vs-隐式-mpc">3. 显式 MPC vs 隐式 MPC</a></h3>
+<table><thead><tr><th>类型</th><th>方法</th><th>特点</th></tr></thead><tbody>
+<tr><td><strong>隐式 MPC</strong></td><td>在线求解优化问题</td><td>灵活、计算量大</td></tr>
+<tr><td><strong>显式 MPC</strong></td><td>离线计算策略表，在线查表</td><td>快、但存储大、维度低</td></tr>
+</tbody></table>
+<p>角色动画中主要使用<strong>隐式 MPC</strong>。</p>
+<hr />
+<h2 id="五mpc-在角色动画中的应用"><a class="header" href="#五mpc-在角色动画中的应用">五、MPC 在角色动画中的应用</a></h2>
+<h3 id="1-轨迹跟踪-reference-tracking"><a class="header" href="#1-轨迹跟踪-reference-tracking">1. 轨迹跟踪 (Reference Tracking)</a></h3>
+<p><strong>问题</strong>：给定参考轨迹（动捕数据），让仿真角色跟踪</p>
+<p><strong>MPC 方案</strong>：</p>
+<ul>
+<li>状态：关节位置 + 速度</li>
+<li>控制：关节力矩</li>
+<li>代价：跟踪误差 + 控制 effort</li>
+<li>约束：关节限制、力矩限制</li>
+</ul>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>自动应对扰动（被推后恢复平衡）</li>
+<li>可处理模型误差</li>
+<li>实时性能</li>
+</ul>
+<hr />
+<h3 id="2-平衡控制-balance-control"><a class="header" href="#2-平衡控制-balance-control">2. 平衡控制 (Balance Control)</a></h3>
+<p><strong>问题</strong>：让角色在不平坦地面上保持平衡</p>
+<p><strong>MPC 方案</strong>：</p>
+<ul>
+<li>状态：质心位置 + 速度 + 关节状态</li>
+<li>控制：关节力矩 + 接触力</li>
+<li>代价：质心高度 + 基座姿态 + 控制 effort</li>
+<li>约束：接触力（摩擦锥）、ZMP 约束</li>
+</ul>
+<hr />
+<h3 id="3-步态生成-locomotion"><a class="header" href="#3-步态生成-locomotion">3. 步态生成 (Locomotion)</a></h3>
+<p><strong>问题</strong>：让角色按期望速度行走/跑步</p>
+<p><strong>MPC 方案</strong>：</p>
+<ul>
+<li>状态：全身关节状态 + 基座状态</li>
+<li>控制：关节力矩 + 下一步落脚点</li>
+<li>代价：速度跟踪 + 能量 + 步态稳定性</li>
+<li>约束：接触时序、落脚点可行区域</li>
+</ul>
+<p><strong>代表性工作</strong>：</p>
+<ul>
+<li><strong>Winkler et al. 2020</strong> - 全身 MPC 用于双足行走</li>
+<li><strong>Kim et al. 2019</strong> - MPC 用于复杂地形 locomotion</li>
+</ul>
+<hr />
+<h3 id="4-全身控制-whole-body-control"><a class="header" href="#4-全身控制-whole-body-control">4. 全身控制 (Whole-Body Control)</a></h3>
+<p><strong>问题</strong>：同时控制手、脚、基座完成多任务</p>
+<p><strong>MPC 方案</strong>：</p>
+<ul>
+<li>状态：全身 50+DoF</li>
+<li>控制：全身关节力矩</li>
+<li>代价：多任务加权（手跟踪 + 脚跟踪 + 平衡）</li>
+<li>约束：全身动力学 + 接触约束</li>
+</ul>
+<p><strong>挑战</strong>：</p>
+<ul>
+<li>高维（计算量大）</li>
+<li>接触切换（混合系统）</li>
+<li>实时性要求高</li>
+</ul>
+<hr />
+<h2 id="六mpc-与其他方法的对比"><a class="header" href="#六mpc-与其他方法的对比">六、MPC 与其他方法的对比</a></h2>
+<h3 id="mpc-vs-pidpd-控制"><a class="header" href="#mpc-vs-pidpd-控制">MPC vs PID/PD 控制</a></h3>
+<table><thead><tr><th>维度</th><th>PD 控制</th><th>MPC</th></tr></thead><tbody>
+<tr><td><strong>优化范围</strong></td><td>局部（当前误差）</td><td>全局（预测时域内）</td></tr>
+<tr><td><strong>约束处理</strong></td><td>无法显式处理</td><td>显式处理</td></tr>
+<tr><td><strong>多任务协调</strong></td><td>难（需要调权重）</td><td>易（统一优化）</td></tr>
+<tr><td><strong>计算成本</strong></td><td>极低</td><td>高</td></tr>
+<tr><td><strong>适用场景</strong></td><td>简单跟踪</td><td>复杂任务</td></tr>
+</tbody></table>
+<hr />
+<h3 id="mpc-vs-轨迹优化"><a class="header" href="#mpc-vs-轨迹优化">MPC vs 轨迹优化</a></h3>
+<table><thead><tr><th>维度</th><th>轨迹优化 (iLQR, DDP)</th><th>MPC</th></tr></thead><tbody>
+<tr><td><strong>优化频率</strong></td><td>一次（离线）</td><td>每帧（在线）</td></tr>
+<tr><td><strong>初值敏感性</strong></td><td>高（可能局部最优）</td><td>低（热启动）</td></tr>
+<tr><td><strong>实时性</strong></td><td>否</td><td>是</td></tr>
+<tr><td><strong>应对扰动</strong></td><td>否</td><td>是</td></tr>
+<tr><td><strong>关系</strong></td><td>MPC 可以用轨迹优化作为求解器</td><td></td></tr>
+</tbody></table>
+<hr />
+<h3 id="mpc-vs-强化学习"><a class="header" href="#mpc-vs-强化学习">MPC vs 强化学习</a></h3>
+<table><thead><tr><th>维度</th><th>MPC</th><th>强化学习</th></tr></thead><tbody>
+<tr><td><strong>训练需求</strong></td><td>无需训练</td><td>需要大量训练</td></tr>
+<tr><td><strong>泛化能力</strong></td><td>有限</td><td>强</td></tr>
+<tr><td><strong>推理速度</strong></td><td>慢（ms 级）</td><td>快（μs 级）</td></tr>
+<tr><td><strong>可解释性</strong></td><td>高</td><td>低</td></tr>
+<tr><td><strong>约束处理</strong></td><td>显式</td><td>隐式（需特殊设计）</td></tr>
+<tr><td><strong>适用场景</strong></td><td>已知模型、高精度</td><td>未知模型、泛化需求</td></tr>
+</tbody></table>
+<hr />
+<h3 id="方法选择建议"><a class="header" href="#方法选择建议">方法选择建议</a></h3>
+<pre><code>场景 → 推荐方法
+─────────────────────────
+已知模型 + 实时控制 → MPC
+已知模型 + 离线动作 → iLQR/DDP/CMA-ES
+未知模型 + 泛化需求 → 强化学习
+简单跟踪 → PD 控制
+</code></pre>
+<hr />
+<h2 id="七mpc-的优缺点"><a class="header" href="#七mpc-的优缺点">七、MPC 的优缺点</a></h2>
+<h3 id="优点"><a class="header" href="#优点">优点</a></h3>
+<table><thead><tr><th>优点</th><th>说明</th></tr></thead><tbody>
+<tr><td><strong>闭环最优</strong></td><td>每帧重新优化，自动应对扰动</td></tr>
+<tr><td><strong>约束处理</strong></td><td>显式处理状态/控制/接触约束</td></tr>
+<tr><td><strong>多任务协调</strong></td><td>统一框架下优化多目标</td></tr>
+<tr><td><strong>模型利用</strong></td><td>充分利用已知模型信息</td></tr>
+<tr><td><strong>灵活性</strong></td><td>代价函数和约束可在线修改</td></tr>
+</tbody></table>
+<hr />
+<h3 id="缺点"><a class="header" href="#缺点">缺点</a></h3>
+<table><thead><tr><th>缺点</th><th>说明</th></tr></thead><tbody>
+<tr><td><strong>计算成本高</strong></td><td>每帧需解优化问题</td></tr>
+<tr><td><strong>模型依赖</strong></td><td>模型不准会导致性能下降</td></tr>
+<tr><td><strong>调参复杂</strong></td><td>时域、权重、约束需要调节</td></tr>
+<tr><td><strong>接触处理</strong></td><td>离散接触需要特殊处理</td></tr>
+<tr><td><strong>稳定性分析</strong></td><td>理论保证需要终端设计</td></tr>
+</tbody></table>
+<hr />
+<h2 id="八工程实践"><a class="header" href="#八工程实践">八、工程实践</a></h2>
+<h3 id="1-计算优化"><a class="header" href="#1-计算优化">1. 计算优化</a></h3>
+<p><strong>热启动 (Warm Start)</strong>：</p>
+<ul>
+<li>用上一帧的解作为当前帧优化的初值</li>
+<li>显著减少迭代次数</li>
+</ul>
+<p><strong>并行化</strong>：</p>
+<ul>
+<li>采样方法可并行评估多条轨迹</li>
+<li>GPU 加速动力学计算</li>
+</ul>
+<p><strong>简化模型</strong>：</p>
+<ul>
+<li>使用简化的动力学模型（如线性倒立摆）</li>
+<li>在简化的控制空间优化</li>
+</ul>
+<hr />
+<h3 id="2-稳定性设计"><a class="header" href="#2-稳定性设计">2. 稳定性设计</a></h3>
+<p><strong>终端代价</strong>：</p>
+<ul>
+<li>用 LQR 的 Value Function 作为终端代价</li>
+<li>保证闭环稳定性</li>
+</ul>
+<p><strong>足够长的时域</strong>：</p>
+<ul>
+<li>时域应覆盖系统的主要动态</li>
+<li>经验：至少覆盖一个步态周期</li>
+</ul>
+<p><strong>约束松弛</strong>：</p>
+<ul>
+<li>硬约束可能导致无解</li>
+<li>用软约束（加惩罚）代替</li>
+</ul>
+<hr />
+<h3 id="3-接触处理"><a class="header" href="#3-接触处理">3. 接触处理</a></h3>
+<p><strong>光滑近似</strong>：</p>
+<ul>
+<li>用 sigmod 近似接触力的开启/关闭</li>
+<li>使问题可微</li>
+</ul>
+<p><strong>混合 MPC</strong>：</p>
+<ul>
+<li>显式枚举接触模式</li>
+<li>每种模式下分别优化</li>
+</ul>
+<p><strong>分层 MPC</strong>：</p>
+<ul>
+<li>高层规划接触时序</li>
+<li>低层优化连续轨迹</li>
+</ul>
+<hr />
+<h2 id="九mpc-在-games105-中的定位"><a class="header" href="#九mpc-在-games105-中的定位">九、MPC 在 GAMES105 中的定位</a></h2>
+<h3 id="与其他方法的关系"><a class="header" href="#与其他方法的关系">与其他方法的关系</a></h3>
+<pre><code>轨迹优化方法图谱
+
+按优化时机:
+├── 离线优化
+│   ├── CMA-ES (无梯度)
+│   ├── iLQR (一阶梯度)
+│   └── DDP (二阶梯度)
+│
+└── 在线优化
+    ├── MPC (滚动时域)
+    │   ├── iLQR-MPC
+    │   ├── Sampling-MPC (如 SAMCON)
+    │   └── Convex-MPC
+    │
+    └── 即时反馈
+        └── PD 控制
+</code></pre>
+<h3 id="在课程体系中的位置"><a class="header" href="#在课程体系中的位置">在课程体系中的位置</a></h3>
+<table><thead><tr><th>先修内容</th><th>后续内容</th></tr></thead><tbody>
+<tr><td><a href="MathematicalFormulation.html">轨迹优化的数学描述</a></td><td><a href="SAMCON.html">SAMCON</a> - 采样-based MPC</td></tr>
+<tr><td><a href="LQR.html">LQR</a> - 线性最优控制</td><td><a href="../SIMBICON.html">SIMBICON</a> - 简化模型预测</td></tr>
+<tr><td><a href="iLQR.html">iLQR</a> - 非线性轨迹优化</td><td><a href="../CharacterControl/CharacterControl.html">Character Control</a></td></tr>
+</tbody></table>
+<hr />
+<h2 id="十关键要点总结"><a class="header" href="#十关键要点总结">十、关键要点总结</a></h2>
+<h3 id="核心思想"><a class="header" href="#核心思想">核心思想</a></h3>
+<ol>
+<li><strong>滚动时域优化</strong>：每帧基于当前状态重新优化未来 N 步</li>
+<li><strong>只执行第一步</strong>：形成闭环反馈</li>
+<li><strong>显式约束处理</strong>：统一框架处理状态/控制/接触约束</li>
+</ol>
+<h3 id="mpc-设计要素"><a class="header" href="#mpc-设计要素">MPC 设计要素</a></h3>
+<table><thead><tr><th>要素</th><th>设计考虑</th></tr></thead><tbody>
+<tr><td>预测时域</td><td>平衡计算成本和远视性</td></tr>
+<tr><td>代价函数</td><td>跟踪 + 控制 + 平滑 + 终端</td></tr>
+<tr><td>约束</td><td>状态限制 + 控制限制 + 接触</td></tr>
+<tr><td>求解器</td><td>iLQR/SQP/CMA-ES/采样方法</td></tr>
+</tbody></table>
+<h3 id="优缺点"><a class="header" href="#优缺点">优缺点</a></h3>
+<table><thead><tr><th>优点</th><th>缺点</th></tr></thead><tbody>
+<tr><td>闭环最优、应对扰动</td><td>计算成本高</td></tr>
+<tr><td>显式约束处理</td><td>模型依赖</td></tr>
+<tr><td>多任务协调</td><td>调参复杂</td></tr>
+</tbody></table>
+<h3 id="适用场景"><a class="header" href="#适用场景">适用场景</a></h3>
+<ul>
+<li>✅ 实时控制 + 已知模型</li>
+<li>✅ 需要应对扰动的场景</li>
+<li>✅ 复杂约束处理</li>
+<li>❌ 无模型场景（用 RL）</li>
+<li>❌ 超高频率控制（用 PD）</li>
+</ul>
+<hr />
+<h2 id="十一深入学习"><a class="header" href="#十一深入学习">十一、深入学习</a></h2>
+<h3 id="前置知识"><a class="header" href="#前置知识">前置知识</a></h3>
+<ul>
+<li><a href="MathematicalFormulation.html">轨迹优化的数学形式化描述</a></li>
+<li><a href="LQR.html">LQR</a> - 线性二次调节器</li>
+<li><a href="iLQR.html">iLQR</a> - 迭代 LQR</li>
+</ul>
+<h3 id="相关方法"><a class="header" href="#相关方法">相关方法</a></h3>
+<ul>
+<li><a href="SAMCON.html">SAMCON</a> - 采样-based MPC</li>
+<li><a href="DDP.html">DDP</a> - 二阶方法</li>
+<li><a href="../SIMBICON.html">SIMBICON</a> - 简化模型预测控制</li>
+</ul>
+<h3 id="参考资料"><a class="header" href="#参考资料">参考资料</a></h3>
+<p><strong>教程</strong>：</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=2pM2w5Y5gKs">Matthew Peter's RL Course - MPC Lecture</a></li>
+<li><a href="https://www.youtube.com/watch?v=8Z6kf9LXN2s">Byron Boots - Trajectory Optimization &amp; MPC</a></li>
+</ul>
+<p><strong>论文</strong>：</p>
+<ul>
+<li><strong>Rawlings &amp; Mayne 2009</strong> - Model Predictive Control: Theory and Design (教材)</li>
+<li><strong>Winkler et al. 2020</strong> - Convex Model Predictive Control for Bipedal Walking</li>
+<li><strong>Kim et al. 2019</strong> - Reinforcement Learning for Robust Parameterized Locomotion Control</li>
+</ul>
+<p><strong>代码</strong>：</p>
+<ul>
+<li><a href="https://github.com/acados/acados">Acados</a> - 高效 MPC 求解器</li>
+<li><a href="https://github.com/aleksejuk/croco">CroCOPy</a> - 角色控制 MPC 框架</li>
+</ul>
+<hr />
+<blockquote>
+<p>本文出自 CaterpillarStudyGroup，转载请注明出处。
+https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../Tracking/DDP.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../Tracking/CMA-ES.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../Tracking/DDP.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../Tracking/CMA-ES.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../theme/pagetoc.js"></script>
+        <script type="text/javascript" src="../theme/mermaid.min.js"></script>
+        <script type="text/javascript" src="../theme/mermaid-init.js"></script>
+    </body>
+</html>

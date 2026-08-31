@@ -1,0 +1,689 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>CMA-ES - 3D 角色骨骼动画技术</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/pagetoc.css">
+        <!-- MathJax 3 with Latin Modern fonts -->
+        <script>
+        MathJax = {
+            loader: {load: ['input/tex', 'output/chtml']},
+            tex: {
+                packages: {'[+]': ['ams', 'noerrors', 'noundefined']},
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            chtml: {
+                displayAlign: 'center',
+                fontFamily: 'Latin-Modern',
+                fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2'
+            },
+            startup: {
+                typeset: true
+            }
+        };
+        </script>
+        <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="../Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="../Locomotion_Survey.html"><strong aria-hidden="true">4.</strong> Locomotion 控制技术洞察</a></li><li class="chapter-item expanded "><a href="../Skinning.html"><strong aria-hidden="true">5.</strong> Skinning</a></li><li class="chapter-item expanded affix "><li class="part-title">Keyframe-based/Kinematic Approaches</li><li class="chapter-item expanded "><a href="../Forward.html"><strong aria-hidden="true">6.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="../Keyframe.html"><strong aria-hidden="true">7.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="../Data-driven.html"><strong aria-hidden="true">8.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="../Learning-based.html"><strong aria-hidden="true">9.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="../cont.html"><strong aria-hidden="true">10.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded affix "><li class="part-title">Physics-based/Dynamic Approaches</li><li class="chapter-item expanded "><a href="../DynamicsOverview.html"><strong aria-hidden="true">11.</strong> 动力学方法概览</a></li><li class="chapter-item expanded "><a href="../Simulation/Simulation.html"><strong aria-hidden="true">12.</strong> 角色物理仿真基础</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Simulation/RigidBodyRepresentation.html"><strong aria-hidden="true">12.1.</strong> 角色的分段刚体表示</a></li><li class="chapter-item expanded "><a href="../Simulation/Constraints.html"><strong aria-hidden="true">12.2.</strong> Constraints</a></li><li class="chapter-item expanded "><a href="../Simulation/JointConstraint.html"><strong aria-hidden="true">12.3.</strong> 关节约束</a></li><li class="chapter-item expanded "><a href="../PDControl/JointTorques.html"><strong aria-hidden="true">12.4.</strong> 关节力矩</a></li><li class="chapter-item expanded "><a href="../Simulation/ForcesAndTorques.html"><strong aria-hidden="true">12.5.</strong> 运动方程中的力与力矩</a></li><li class="chapter-item expanded "><a href="../Simulation/Contacts.html"><strong aria-hidden="true">12.6.</strong> Contacts</a></li><li class="chapter-item expanded "><a href="../Simulation/SimulationPipeline.html"><strong aria-hidden="true">12.7.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../PDControl/PDControl.html"><strong aria-hidden="true">13.</strong> PD 控制</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Proportional-DerivativeControl.html"><strong aria-hidden="true">13.1.</strong> Proportional-Derivative Control</a></li><li class="chapter-item expanded "><a href="../Controlling.html"><strong aria-hidden="true">13.2.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="../PDControl/UnderactuatedSystem.html"><strong aria-hidden="true">13.3.</strong> 欠驱动系统问题</a></li><li class="chapter-item expanded "><a href="../PDControl/SteadyStateError.html"><strong aria-hidden="true">13.4.</strong> 稳态误差问题</a></li><li class="chapter-item expanded "><a href="../PDControl/FeedforwardVsFeedback.html"><strong aria-hidden="true">13.5.</strong> 前馈与反馈控制</a></li><li class="chapter-item expanded "><a href="../PDControl/StaticBalance.html"><strong aria-hidden="true">13.6.</strong> Static Balance</a></li></ol></li><li class="chapter-item expanded "><a href="../Tracking/Tracking.html"><strong aria-hidden="true">14.</strong> 轨迹优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Tracking/MathematicalFormulation.html"><strong aria-hidden="true">14.1.</strong> 数学形式化描述</a></li><li class="chapter-item expanded "><a href="../Tracking/Concepts.html"><strong aria-hidden="true">14.2.</strong> 概念澄清</a></li><li class="chapter-item expanded "><a href="../Tracking/MethodComparison.html"><strong aria-hidden="true">14.3.</strong> 方法对比与分类</a></li><li class="chapter-item expanded "><a href="../Tracking/LQR.html"><strong aria-hidden="true">14.4.</strong> Linear Quadratic Regulator (LQR)</a></li><li class="chapter-item expanded "><a href="../Tracking/iLQR.html"><strong aria-hidden="true">14.5.</strong> Iterative LQR (iLQR)</a></li><li class="chapter-item expanded "><a href="../Tracking/DDP.html"><strong aria-hidden="true">14.6.</strong> Differential Dynamic Programming (DDP)</a></li><li class="chapter-item expanded "><a href="../Tracking/MPC.html"><strong aria-hidden="true">14.7.</strong> Model Predictive Control (MPC)</a></li><li class="chapter-item expanded "><a href="../Tracking/CMA-ES.html" class="active"><strong aria-hidden="true">14.8.</strong> CMA-ES</a></li><li class="chapter-item expanded "><a href="../Tracking/SAMCON.html"><strong aria-hidden="true">14.9.</strong> SAMCON</a></li><li class="chapter-item expanded "><a href="../Tracking/Optimal.html"><strong aria-hidden="true">14.10.</strong> 最优控制与强化学习</a></li><li class="chapter-item expanded "><a href="../Tracking/SimpleCase.html"><strong aria-hidden="true">14.11.</strong> 简单例子</a></li><li class="chapter-item expanded "><a href="../Digital_Cerebellum.html"><strong aria-hidden="true">14.12.</strong> Digital Cerebellum</a></li></ol></li><li class="chapter-item expanded "><a href="../ReinforcementLearning.html"><strong aria-hidden="true">15.</strong> 强化学习</a></li><li class="chapter-item expanded "><a href="../RL_EvaluationDimensions.html"><strong aria-hidden="true">16.</strong> 强化学习方法对比维度</a></li><li class="chapter-item expanded "><a href="../CharacterControl/CharacterControl.html"><strong aria-hidden="true">17.</strong> 角色控制技术</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Learning.html"><strong aria-hidden="true">17.1.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="../ZMP.html"><strong aria-hidden="true">17.2.</strong> Zero-Moment Point (ZMP)</a></li><li class="chapter-item expanded "><a href="../SIMBICON.html"><strong aria-hidden="true">17.3.</strong> SIMBICON</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">混合方法</li><li class="chapter-item expanded "><a href="../Hybrid.html"><strong aria-hidden="true">18.</strong> 混合方法</a></li><li class="chapter-item expanded affix "><li class="part-title">Application</li><li class="chapter-item expanded "><a href="../Application/Locomotion.html"><strong aria-hidden="true">19.</strong> Locomotion</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">3D 角色骨骼动画技术</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <h1 id="cma-es协方差矩阵自适应进化策略"><a class="header" href="#cma-es协方差矩阵自适应进化策略">CMA-ES（协方差矩阵自适应进化策略）</a></h1>
+<blockquote>
+<p>✅ <strong>本章定位</strong>：理解 <strong>无梯度优化方法</strong> 在轨迹优化中的应用，掌握 CMA-ES 的核心思想、算法流程和在角色动画中的实际应用。</p>
+</blockquote>
+<hr />
+<h2 id="一为什么需要无梯度优化"><a class="header" href="#一为什么需要无梯度优化">一、为什么需要无梯度优化？</a></h2>
+<h3 id="基于梯度方法的局限"><a class="header" href="#基于梯度方法的局限">基于梯度方法的局限</a></h3>
+<p>在轨迹优化中，基于梯度的方法（如 iLQR、DDP）需要：</p>
+<table><thead><tr><th>要求</th><th>问题</th></tr></thead><tbody>
+<tr><td>可微的动力学模型</td><td>接触、碰撞等不连续事件不可微</td></tr>
+<tr><td>可微的目标函数</td><td>某些任务指标不可微</td></tr>
+<tr><td>良好的梯度信息</td><td>非凸问题容易陷入局部最优</td></tr>
+</tbody></table>
+<p><strong>现实问题</strong>：</p>
+<ul>
+<li>人形角色动画涉及<strong>接触约束</strong>（脚与地面接触/离开）</li>
+<li>目标函数可能<strong>高度非凸</strong>（多峰、不连续）</li>
+<li>仿真器通常是<strong>黑盒系统</strong>，无法提供解析梯度</li>
+</ul>
+<hr />
+<h3 id="无梯度方法的优势"><a class="header" href="#无梯度方法的优势">无梯度方法的优势</a></h3>
+<table><thead><tr><th>优势</th><th>说明</th></tr></thead><tbody>
+<tr><td><strong>无需梯度</strong></td><td>适用于不可微、不连续问题</td></tr>
+<tr><td><strong>黑盒优化</strong></td><td>只需输入输出，不关心内部机制</td></tr>
+<tr><td><strong>全局搜索</strong></td><td>更有可能跳出局部最优</td></tr>
+<tr><td><strong>稳定可靠</strong></td><td>对噪声和不确定性鲁棒</td></tr>
+</tbody></table>
+<p><strong>代表方法</strong>：</p>
+<ul>
+<li>CMA-ES（协方差矩阵自适应进化策略）</li>
+<li>贝叶斯优化</li>
+<li>序列蒙特卡洛方法</li>
+</ul>
+<hr />
+<h2 id="二cma-es-核心思想"><a class="header" href="#二cma-es-核心思想">二、CMA-ES 核心思想</a></h2>
+<h3 id="基本概念"><a class="header" href="#基本概念">基本概念</a></h3>
+<p><strong>CMA-ES</strong> (Covariance Matrix Adaptation Evolution Strategy) 是一种<strong>进化策略</strong>，属于进化计算的分支。</p>
+<p><strong>核心思想</strong>：</p>
+<blockquote>
+<p>将优化变量建模为<strong>高斯分布</strong>，通过迭代采样和选择，自适应地更新分布的<strong>均值</strong>和<strong>协方差矩阵</strong>，使分布逐渐收敛到最优解。</p>
+</blockquote>
+<hr />
+<h3 id="算法框架"><a class="header" href="#算法框架">算法框架</a></h3>
+<pre><code>目标：找到变量 x 使目标函数 f(x) 最小
+
+1. 初始化高斯分布：x ~ N(μ, Σ)
+   - μ: 均值（当前最优估计）
+   - Σ: 协方差矩阵（搜索方向和步长）
+
+2. Repeat until convergence:
+   (a) 采样：生成候选解 {x₁, x₂, ..., x_λ} ~ N(μ, Σ)
+   (b) 评估：计算每个候选解的目标值 {f(x₁), f(x₂), ..., f(x_λ)}
+   (c) 选择：保留前 N 个最优样本（精英样本）
+   (d) 更新：根据精英样本更新 μ 和 Σ
+
+3. 输出：最优均值 μ*
+</code></pre>
+<hr />
+<h3 id="可视化理解"><a class="header" href="#可视化理解">可视化理解</a></h3>
+<pre><code>迭代 1: 初始分布（大方差，探索阶段）
+        o
+      o o o
+    o  *  o      * = 均值 μ
+      o o o        o = 采样点
+        o
+
+        ↓ 评估 + 选择 + 更新
+
+迭代 2: 分布向最优方向移动（协方差开始适应）
+            o
+          o o
+        o  * →
+          o o
+            o
+
+        ↓ 继续迭代
+
+迭代 N: 收敛到最优解（小方差，开发阶段）
+          ***
+         *****
+        *******   * = 密集的最优解区域
+</code></pre>
+<hr />
+<h2 id="三cma-es-算法详解"><a class="header" href="#三cma-es-算法详解">三、CMA-ES 算法详解</a></h2>
+<h3 id="31-初始化"><a class="header" href="#31-初始化">3.1 初始化</a></h3>
+<p><strong>均值向量</strong> \(\mu _0\)：</p>
+<ul>
+<li>可以随机初始化</li>
+<li>或使用启发式方法（如参考轨迹）</li>
+</ul>
+<p><strong>协方差矩阵</strong> \(\Sigma _0\)：</p>
+<ul>
+<li>通常初始化为单位矩阵：\(\Sigma _0 = I\)</li>
+<li>或根据问题先验知识设置</li>
+</ul>
+<p><strong>超参数</strong>：</p>
+<ul>
+<li>\(\lambda\)：每代采样数量（通常 \(\lambda = 4 + \lfloor 3 \ln n \rfloor\)）</li>
+<li>\(\mu\)：精英样本数量（通常 \(\mu = \lfloor \lambda/2 \rfloor\)）</li>
+<li>\(w _i\)：样本权重（通常对数权重）</li>
+</ul>
+<hr />
+<h3 id="32-采样过程"><a class="header" href="#32-采样过程">3.2 采样过程</a></h3>
+<p>从多元高斯分布中采样：</p>
+<p>$$
+x_i ^{(g+1)} \sim \mathcal{N}(\mu ^{(g)}, \Sigma ^{(g)}), \quad i = 1, \dots, \lambda
+$$</p>
+<p><strong>高效实现</strong>：
+$$
+x_i ^{(g+1)} = \mu ^{(g)} + \sigma ^{(g)} \cdot B ^{(g)} \cdot z_i
+$$</p>
+<p>其中：</p>
+<ul>
+<li>\(\sigma\)：全局步长（控制采样范围）</li>
+<li>\(B\)：协方差矩阵的平方根（\(B \cdot B ^T = \Sigma\)）</li>
+<li>\(z_i \sim \mathcal{N}(0, I)\)：标准正态采样</li>
+</ul>
+<hr />
+<h3 id="33-评估与选择"><a class="header" href="#33-评估与选择">3.3 评估与选择</a></h3>
+<p><strong>评估</strong>：
+$$
+f_i = f(x_i ^{(g+1)}), \quad i = 1, \dots, \lambda
+$$</p>
+<p><strong>选择</strong>：</p>
+<ul>
+<li>对 \({f_1, \dots, f_\lambda}\) 排序</li>
+<li>选择前 \(\mu\) 个最优样本（精英样本）</li>
+</ul>
+<p><strong>权重分配</strong>：
+$$
+w_i = \ln(\mu + 1) - \ln(i), \quad i = 1, \dots, \mu
+$$</p>
+<p>$$
+\sum _{i=1}^{\mu} w_i = 1
+$$</p>
+<hr />
+<h3 id="34-更新规则"><a class="header" href="#34-更新规则">3.4 更新规则</a></h3>
+<h4 id="均值更新"><a class="header" href="#均值更新">均值更新</a></h4>
+<p>$$
+\mu ^{(g+1)} = \sum _{i=1}^{\mu} w_i \cdot x _{i:\lambda}^{(g+1)}
+$$</p>
+<p>其中 \(x _{i:\lambda}\) 表示第 \(i\) 好的样本。</p>
+<p><strong>解释</strong>：新均值是精英样本的加权平均。</p>
+<hr />
+<h4 id="协方差矩阵更新核心"><a class="header" href="#协方差矩阵更新核心">协方差矩阵更新（核心）</a></h4>
+<p>CMA-ES 的关键创新：<strong>协方差矩阵自适应</strong></p>
+<p>$$
+\Sigma ^{(g+1)} = (1-c_1-c_\mu)\Sigma ^{(g)} + c_1 \cdot p_c p_c ^T + c_\mu \sum _{i=1}^{\mu} w_i \cdot \frac{(x _{i:\lambda} - \mu)}{\sigma} \frac{(x _{i:\lambda} - \mu)^T}{\sigma}
+$$</p>
+<p>其中：</p>
+<ul>
+<li>\(c_1\)：累积学习率（通常 \(c_1 \approx 2/n^2\)）</li>
+<li>\(c_\mu\)：精英学习率（通常 \(c_\mu \approx \mu/n^2\)）</li>
+<li>\(p_c\)：进化路径（累积历史信息）</li>
+</ul>
+<hr />
+<h4 id="进化路径evolution-path"><a class="header" href="#进化路径evolution-path">进化路径（Evolution Path）</a></h4>
+<p><strong>共轭进化路径</strong> \(p_\sigma\)：
+$$
+p_\sigma ^{(g+1)} = (1-c_\sigma)p_\sigma^{(g)} + \sqrt{c_\sigma(2-c_\sigma)}\sqrt{\sum w_i^2} \cdot B^{-1} \frac{\mu ^{(g+1)} - \mu ^{(g)}}{\sigma}
+$$</p>
+<p><strong>协方差进化路径</strong> \(p_c\)：
+$$
+p_c ^{(g+1)} = (1-c_c)p_c^{(g)} + \sqrt{c_c(2-c_c)} \sum _{i=1}^{\mu} w_i \cdot \frac{x _{i:\lambda} - \mu}{\sigma}
+$$</p>
+<p><strong>作用</strong>：累积历史更新方向，加速收敛。</p>
+<hr />
+<h4 id="步长更新"><a class="header" href="#步长更新">步长更新</a></h4>
+<p>$$
+\sigma ^{(g+1)} = \sigma ^{(g)} \cdot \exp\left(\frac{c_\sigma}{d_\sigma}\left(\frac{|p_\sigma^{(g+1)}|}{E[|N(0,I)|]} - 1\right)\right)
+$$</p>
+<p><strong>解释</strong>：</p>
+<ul>
+<li>如果 \(|p_\sigma|\) 太大 → 步长增加（探索）</li>
+<li>如果 \(|p_\sigma|\) 太小 → 步长减小（开发）</li>
+</ul>
+<hr />
+<h3 id="35-完整算法伪代码"><a class="header" href="#35-完整算法伪代码">3.5 完整算法伪代码</a></h3>
+<pre><code>算法：CMA-ES
+
+输入：
+    - 目标函数 f(x)
+    - 初始均值 μ₀ ∈ ℝⁿ
+    - 初始步长 σ₀ &gt; 0
+    - 种群大小 λ
+    - 精英数量 μ
+
+输出：
+    - 最优解 x*
+
+1. 初始化：
+   μ ← μ₀, σ ← σ₀, Σ ← I, p_c ← 0, p_σ ← 0
+   计算权重 w₁, ..., w_μ
+
+2. Repeat until convergence or max iterations:
+   
+   (a) 采样阶段
+       对 i = 1 到 λ:
+           z_i ~ N(0, I)
+           x_i = μ + σ · B · z_i
+   
+   (b) 评估阶段
+       对 i = 1 到 λ:
+           f_i = f(x_i)
+   
+   (c) 选择阶段
+       按 f_i 排序，选择前 μ 个精英样本
+       记录精英样本索引 {1:λ, ..., μ:λ}
+   
+   (d) 更新均值
+       μ ← Σᵢ₌₁^μ w_i · x_{i:λ}
+   
+   (e) 更新进化路径
+       p_σ ← (1-c_σ)p_σ + √(c_σ(2-c_σ))√(Σwᵢ²) · B⁻¹(μ_new - μ)/σ
+       
+       如果 ∥p_σ∥ 较小：
+           p_c ← (1-c_c)p_c + √(c_c(2-c_c)) · Σᵢ₌₁^μ w_i · (x_{i:λ} - μ)/σ
+           
+           更新协方差：
+           Σ ← (1-c₁-c_μ)Σ + c₁·p_c·p_cᵀ + c_μ·Σᵢ₌₁^μ w_i·y_i·y_iᵀ
+           其中 y_i = (x_{i:λ} - μ)/σ
+   
+   (f) 更新步长
+       σ ← σ · exp((c_σ/d_σ)(∥p_σ∥/E[∥N(0,I)∥] - 1))
+
+3. 返回 μ（最优均值）
+</code></pre>
+<hr />
+<h2 id="四cma-es-在角色动画中的应用"><a class="header" href="#四cma-es-在角色动画中的应用">四、CMA-ES 在角色动画中的应用</a></h2>
+<h3 id="41-轨迹优化问题"><a class="header" href="#41-轨迹优化问题">4.1 轨迹优化问题</a></h3>
+<p><strong>优化变量</strong>：</p>
+<ul>
+<li>目标轨迹 \(\tilde{x}(t)\)</li>
+<li>或控制轨迹 \(u(t)\)</li>
+</ul>
+<p><strong>目标函数</strong>：
+$$
+\min <em>{\theta} J(\theta) = w</em>{\text{track}} \cdot E_{\text{track}} + w_{\text{control}} \cdot E_{\text{control}} + w_{\text{stable}} \cdot E_{\text{stable}}
+$$</p>
+<table><thead><tr><th>项</th><th>说明</th></tr></thead><tbody>
+<tr><td>\(E_{\text{track}}\)</td><td>跟踪误差（与参考轨迹的距离）</td></tr>
+<tr><td>\(E_{\text{control}}\)</td><td>控制代价（力矩大小）</td></tr>
+<tr><td>\(E_{\text{stable}}\)</td><td>稳定性（质心高度、不摔倒）</td></tr>
+</tbody></table>
+<hr />
+<h3 id="42-参数化表示"><a class="header" href="#42-参数化表示">4.2 参数化表示</a></h3>
+<p><strong>直接参数化</strong>：</p>
+<ul>
+<li>优化每一帧的状态/控制</li>
+<li>参数数量大（高维）</li>
+</ul>
+<p><strong>曲线参数化</strong>（推荐）：
+$$
+x(t) = \text{Spline}(\theta_1, \dots, \theta_k)
+$$</p>
+<ul>
+<li>优化样条曲线的控制点</li>
+<li>参数数量少（低维）</li>
+<li>自动平滑</li>
+</ul>
+<hr />
+<h3 id="43-应用实例"><a class="header" href="#43-应用实例">4.3 应用实例</a></h3>
+<h4 id="实例-1动物步态优化-wampler-and-popović-2009"><a class="header" href="#实例-1动物步态优化-wampler-and-popović-2009">实例 1：动物步态优化 [Wampler and Popović 2009]</a></h4>
+<p><img src="../assets/10-17.png" alt="" /></p>
+<p><strong>问题</strong>：</p>
+<ul>
+<li>优化虚拟动物的步态</li>
+<li>目标：行走速度最快</li>
+</ul>
+<p><strong>方法</strong>：</p>
+<ul>
+<li>使用 CMA-ES 优化步态参数</li>
+<li>参数：脚部落点、摆动轨迹、关节角度</li>
+</ul>
+<p><strong>结果</strong>：</p>
+<ul>
+<li>自动发现高效的行走模式</li>
+<li>与真实动物步态相似</li>
+</ul>
+<hr />
+<h4 id="实例-2角色全身轨迹优化-al-borno-et-al-2013"><a class="header" href="#实例-2角色全身轨迹优化-al-borno-et-al-2013">实例 2：角色全身轨迹优化 [Al Borno et al. 2013]</a></h4>
+<p><strong>问题</strong>：</p>
+<ul>
+<li>优化角色在复杂接触下的轨迹</li>
+<li>接触序列未知</li>
+</ul>
+<p><strong>方法</strong>：</p>
+<ul>
+<li>CMA-ES 优化目标轨迹</li>
+<li>物理仿真评估可行性</li>
+</ul>
+<p><strong>优势</strong>：</p>
+<ul>
+<li>无需梯度，处理接触不连续性</li>
+<li>自动发现合适的接触序列</li>
+</ul>
+<hr />
+<h3 id="44-与-samcon-的关系"><a class="header" href="#44-与-samcon-的关系">4.4 与 SAMCON 的关系</a></h3>
+<p><strong>CMA-ES 的缺点</strong>：</p>
+<ol>
+<li>每次都从头到尾做仿真，计算量大</li>
+<li>如果仿真轨迹长，则难收敛</li>
+</ol>
+<p><strong>SAMCON 改进</strong>：</p>
+<ul>
+<li>将轨迹分段</li>
+<li>每段用序列蒙特卡洛方法优化</li>
+<li>保留多个假设（粒子），避免局部最优</li>
+</ul>
+<pre><code>CMA-ES: 整条轨迹 → 一次仿真 → 评估
+            ↓
+SAMCON: 分段轨迹 → 逐帧仿真 → 粒子滤波
+</code></pre>
+<hr />
+<h2 id="五cma-es-与其他方法对比"><a class="header" href="#五cma-es-与其他方法对比">五、CMA-ES 与其他方法对比</a></h2>
+<h3 id="51-与基于梯度方法对比"><a class="header" href="#51-与基于梯度方法对比">5.1 与基于梯度方法对比</a></h3>
+<table><thead><tr><th>维度</th><th>CMA-ES</th><th>iLQR/DDP</th></tr></thead><tbody>
+<tr><td><strong>梯度需求</strong></td><td>无需</td><td>需要（一阶/二阶）</td></tr>
+<tr><td><strong>适用问题</strong></td><td>不可微、非凸</td><td>平滑、可微</td></tr>
+<tr><td><strong>收敛速度</strong></td><td>慢（线性）</td><td>快（iLQR 线性，DDP 二阶）</td></tr>
+<tr><td><strong>样本效率</strong></td><td>低（需要大量采样）</td><td>高</td></tr>
+<tr><td><strong>全局性</strong></td><td>较好（不易陷入局部最优）</td><td>较差（依赖初始猜测）</td></tr>
+<tr><td><strong>并行性</strong></td><td>好（采样可并行）</td><td>较差</td></tr>
+<tr><td><strong>计算成本</strong></td><td>高（仿真次数多）</td><td>中（需要计算梯度）</td></tr>
+</tbody></table>
+<hr />
+<h3 id="52-与其他无梯度方法对比"><a class="header" href="#52-与其他无梯度方法对比">5.2 与其他无梯度方法对比</a></h3>
+<table><thead><tr><th>方法</th><th>适用维度</th><th>样本效率</th><th>全局搜索</th></tr></thead><tbody>
+<tr><td><strong>CMA-ES</strong></td><td>低~中维 (&lt;100)</td><td>中</td><td>好</td></tr>
+<tr><td><strong>贝叶斯优化</strong></td><td>低维 (&lt;20)</td><td>高</td><td>好</td></tr>
+<tr><td><strong>随机搜索</strong></td><td>任意</td><td>低</td><td>差</td></tr>
+<tr><td><strong>粒子群优化</strong></td><td>任意</td><td>中</td><td>中</td></tr>
+</tbody></table>
+<hr />
+<h3 id="53-方法选择建议"><a class="header" href="#53-方法选择建议">5.3 方法选择建议</a></h3>
+<p>更多方法对比请参见：<a href="MethodComparison.html">方法对比与分类</a>。</p>
+<pre><code>问题特点 → 推荐方法
+─────────────────────────
+线性、可微 → LQR
+平滑非线性 → iLQR/DDP
+接触频繁、不可微 → CMA-ES
+样本昂贵 → 贝叶斯优化
+高维 (&gt;100) → 考虑基于梯度方法
+实时控制 → MPC/SAMCON
+需要泛化 → 强化学习 (DeepMimic)
+</code></pre>
+<hr />
+<h3 id="54-应用用-cma-es-学习线性反馈策略"><a class="header" href="#54-应用用-cma-es-学习线性反馈策略">5.4 应用：用 CMA-ES 学习线性反馈策略</a></h3>
+<p>除了优化轨迹，CMA-ES 还可以用于<strong>学习参数化的策略函数</strong>。</p>
+<p><strong>问题设定</strong>：</p>
+<ul>
+<li>目标：学习一个反馈策略 \(\pi(s)\)，将状态映射到动作</li>
+<li>参数化：线性策略 \(\delta a = M \cdot \delta s + \hat{a}\)</li>
+<li>优化变量：反馈矩阵 \(M\) 和前馈项 \(\hat{a}\)</li>
+</ul>
+<p><strong>优化流程</strong>：</p>
+<pre><code>1. 用 SAMCON 优化开环轨迹，得到参考控制 â
+2. 参数化线性反馈策略：a = M·δs + â
+3. 用 CMA-ES 优化参数 (M, â)
+   - 采样候选参数 {θᵢ}
+   - 仿真评估每个候选策略
+   - 更新高斯分布的均值和方差
+4. 输出最优策略参数 θ*
+</code></pre>
+<p><strong>工程实践（Liu et al. 2012 - Terrain Runner）</strong>：</p>
+<table><thead><tr><th>技巧</th><th>说明</th><th>效果</th></tr></thead><tbody>
+<tr><td><strong>手动选择状态</strong></td><td>仅选择关键状态（根结点旋转、质心位置/速度、支撑脚位置）</td><td>12 维 → 减少无关信息</td></tr>
+<tr><td><strong>手动选择控制</strong></td><td>仅对少数关键关节加反馈</td><td>9 维 → 减少优化变量</td></tr>
+<tr><td><strong>矩阵分解</strong></td><td>\(M_{12×9} = M_{12×3} · M_{3×9}\)</td><td>108 参数 → 63 参数</td></tr>
+</tbody></table>
+<p><strong>优化成本</strong>：</p>
+<ul>
+<li>优化变量：63 维</li>
+<li>计算时间：12 分钟（24 核并行）</li>
+</ul>
+<p><strong>与轨迹优化的对比</strong>：</p>
+<table><thead><tr><th></th><th><strong>轨迹优化</strong></th><th><strong>策略优化</strong></th></tr></thead><tbody>
+<tr><td><strong>输出</strong></td><td>一条轨迹 \((x,u)\)</td><td>一个策略函数 \(\pi(s)\)</td></tr>
+<tr><td><strong>优化对象</strong></td><td>有限维向量</td><td>函数参数 \(\theta\)</td></tr>
+<tr><td><strong>泛化能力</strong></td><td>❌ 仅适用于该轨迹</td><td>✅ 可处理新状态</td></tr>
+<tr><td><strong>计算成本</strong></td><td>中（秒级）</td><td>高（分钟级）</td></tr>
+</tbody></table>
+<blockquote>
+<p>✅ <strong>注意</strong>：这里的策略优化仍然是<strong>离线优化</strong>，不同于强化学习的在线学习。</p>
+</blockquote>
+<hr />
+<h2 id="六工程实践"><a class="header" href="#六工程实践">六、工程实践</a></h2>
+<h3 id="61-调参建议"><a class="header" href="#61-调参建议">6.1 调参建议</a></h3>
+<table><thead><tr><th>参数</th><th>推荐值</th><th>说明</th></tr></thead><tbody>
+<tr><td>\(\lambda\)</td><td>\(4 + \lfloor 3 \ln n \rfloor\)</td><td>种群大小</td></tr>
+<tr><td>\(\mu\)</td><td>\(\lfloor \lambda/2 \rfloor\)</td><td>精英数量</td></tr>
+<tr><td>\(\sigma_0\)</td><td>根据问题尺度设置</td><td>初始步长</td></tr>
+<tr><td>\(c_1\)</td><td>\(2/n^2\)</td><td>累积学习率</td></tr>
+<tr><td>\(c_\mu\)</td><td>\(\mu/n^2\)</td><td>精英学习率</td></tr>
+</tbody></table>
+<hr />
+<h3 id="62-实用技巧"><a class="header" href="#62-实用技巧">6.2 实用技巧</a></h3>
+<p><strong>1. 参数缩放</strong></p>
+<ul>
+<li>将参数归一化到 [0, 1] 范围</li>
+<li>避免某些参数主导搜索</li>
+</ul>
+<p><strong>2. 约束处理</strong></p>
+<ul>
+<li>使用罚函数：\(J' = J + \lambda \cdot \text{constraint}\)</li>
+<li>或在采样时截断</li>
+</ul>
+<p><strong>3. 早停策略</strong></p>
+<ul>
+<li>如果连续 N 代没有改进，则停止</li>
+<li>节省计算资源</li>
+</ul>
+<p><strong>4. 多起点</strong></p>
+<ul>
+<li>从多个初始点运行 CMA-ES</li>
+<li>选择最优结果</li>
+</ul>
+<hr />
+<h3 id="63-并行化"><a class="header" href="#63-并行化">6.3 并行化</a></h3>
+<p>CMA-ES 的主要计算成本在<strong>评估阶段</strong>，可以并行：</p>
+<pre><code class="language-python"># 串行（慢）
+for i in range(λ):
+    f[i] = f(x[i])
+
+# 并行（快）
+from joblib import Parallel, delayed
+f = Parallel(n_jobs=-1)(delayed(f)(x[i]) for i in range(λ))
+</code></pre>
+<hr />
+<h2 id="七关键要点总结"><a class="header" href="#七关键要点总结">七、关键要点总结</a></h2>
+<h3 id="核心思想"><a class="header" href="#核心思想">核心思想</a></h3>
+<ol>
+<li><strong>高斯分布建模</strong>：将优化变量视为随机变量，用高斯分布表示</li>
+<li><strong>自适应协方差</strong>：根据精英样本更新协方差矩阵，学习搜索方向</li>
+<li><strong>进化路径</strong>：累积历史信息，加速收敛</li>
+</ol>
+<h3 id="算法流程"><a class="header" href="#算法流程">算法流程</a></h3>
+<pre><code>初始化 → 采样 → 评估 → 选择 → 更新 → 检查收敛
+   ↑                                        ↓
+   └────────────────────────────────────────┘
+</code></pre>
+<h3 id="优缺点"><a class="header" href="#优缺点">优缺点</a></h3>
+<table><thead><tr><th>优点</th><th>缺点</th></tr></thead><tbody>
+<tr><td>无需梯度，适用于黑盒问题</td><td>样本效率低，收敛慢</td></tr>
+<tr><td>能处理不可微、非凸问题</td><td>高维问题效果差</td></tr>
+<tr><td>全局搜索能力强</td><td>计算成本高</td></tr>
+<tr><td>采样可并行</td><td>需要调参</td></tr>
+</tbody></table>
+<h3 id="适用场景"><a class="header" href="#适用场景">适用场景</a></h3>
+<ul>
+<li>✅ 接触频繁的轨迹优化</li>
+<li>✅ 不可微目标函数</li>
+<li>✅ 黑盒仿真系统</li>
+<li>✅ 低~中维优化问题 (&lt;100 维)</li>
+<li>❌ 实时控制（计算太慢）</li>
+<li>❌ 高维问题（收敛太慢）</li>
+</ul>
+<hr />
+<h2 id="八深入学习"><a class="header" href="#八深入学习">八、深入学习</a></h2>
+<h3 id="前置知识"><a class="header" href="#前置知识">前置知识</a></h3>
+<ul>
+<li><a href="MathematicalFormulation.html">轨迹优化的数学描述</a></li>
+<li><a href="iLQR.html">基于梯度的方法</a></li>
+</ul>
+<h3 id="相关方法"><a class="header" href="#相关方法">相关方法</a></h3>
+<ul>
+<li><a href="SAMCON.html">SAMCON</a> - CMA-ES 的改进版本</li>
+<li><a href="iLQR.html">iLQR</a> - 基于梯度的替代方案</li>
+<li><a href="iLQR.html#%E5%9B%9Bilqr-%E4%B8%8E-ddp-%E7%9A%84%E5%AF%B9%E6%AF%94">DDP</a> - 二阶方法</li>
+</ul>
+<h3 id="参考资料"><a class="header" href="#参考资料">参考资料</a></h3>
+<ul>
+<li><a href="https://www.bionics.seas.ucla.edu/education/MAE_263D/CMA-ES_original_paper.pdf">Hansen 2006 - The CMA Evolution Strategy: A Comparing Review</a></li>
+<li><a href="https://www.cc.gatech.edu/%7Ejylee/publications/wampler-popovic-2009.pdf">Wampler and Popović 2009 - Optimal Gait and Form for Animal Locomotion</a></li>
+<li><a href="https://www.cs.ubc.ca/%7Evan/papers/2013-CGMN-1/trajopt.pdf">Al Borno et al. 2013 - Trajectory Optimization for Full-Body Movements with Complex Contacts</a></li>
+</ul>
+<h3 id="代码资源"><a class="header" href="#代码资源">代码资源</a></h3>
+<ul>
+<li><a href="https://github.com/CMA-ES/pycma">pycma - Python CMA-ES 实现</a></li>
+<li><a href="https://pypi.org/project/cma/">cma - 另一个 Python 实现</a></li>
+</ul>
+<hr />
+<blockquote>
+<p>本文出自 CaterpillarStudyGroup，转载请注明出处。
+https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../Tracking/MPC.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../Tracking/SAMCON.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../Tracking/MPC.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../Tracking/SAMCON.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../theme/pagetoc.js"></script>
+        <script type="text/javascript" src="../theme/mermaid.min.js"></script>
+        <script type="text/javascript" src="../theme/mermaid-init.js"></script>
+    </body>
+</html>

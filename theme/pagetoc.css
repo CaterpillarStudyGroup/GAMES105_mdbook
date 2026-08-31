@@ -1,0 +1,56 @@
+@media only screen and (max-width:1439px) {
+    .sidetoc {
+        display: none;
+    }
+}
+
+/* 表格宽度自适应 */
+table {
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: auto !important;
+}
+
+table th,
+table td {
+    max-width: none !important;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+@media only screen and (min-width:1440px) {
+    main {
+        position: relative;
+    }
+    .sidetoc {
+        margin-left: auto;
+        margin-right: auto;
+        left: calc(100% + (var(--content-max-width))/4 - 140px);
+        position: absolute;
+    }
+    .pagetoc {
+        position: fixed;
+        width: 200px;
+        height: calc(100vh - var(--menu-bar-height) - 0.67em * 4);
+        overflow: auto;
+    }
+    .pagetoc a {
+        border-left: 1px solid var(--sidebar-bg);
+        color: var(--fg) !important;
+        display: block;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        padding-left: 10px;
+        text-align: left;
+        text-decoration: none;
+    }
+    .pagetoc a:hover,
+    .pagetoc a.active {
+        background: var(--sidebar-bg);
+        color: var(--sidebar-fg) !important;
+    }
+    .pagetoc .active {
+        background: var(--sidebar-bg);
+        color: var(--sidebar-fg);
+    }
+}

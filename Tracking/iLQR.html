@@ -1,0 +1,467 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Iterative LQR (iLQR) - 3D 角色骨骼动画技术</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/pagetoc.css">
+        <!-- MathJax 3 with Latin Modern fonts -->
+        <script>
+        MathJax = {
+            loader: {load: ['input/tex', 'output/chtml']},
+            tex: {
+                packages: {'[+]': ['ams', 'noerrors', 'noundefined']},
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            chtml: {
+                displayAlign: 'center',
+                fontFamily: 'Latin-Modern',
+                fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2'
+            },
+            startup: {
+                typeset: true
+            }
+        };
+        </script>
+        <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="../index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="../Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="../Locomotion_Survey.html"><strong aria-hidden="true">4.</strong> Locomotion 控制技术洞察</a></li><li class="chapter-item expanded "><a href="../Skinning.html"><strong aria-hidden="true">5.</strong> Skinning</a></li><li class="chapter-item expanded affix "><li class="part-title">Keyframe-based/Kinematic Approaches</li><li class="chapter-item expanded "><a href="../Forward.html"><strong aria-hidden="true">6.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="../Keyframe.html"><strong aria-hidden="true">7.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="../Data-driven.html"><strong aria-hidden="true">8.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="../Learning-based.html"><strong aria-hidden="true">9.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="../cont.html"><strong aria-hidden="true">10.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded affix "><li class="part-title">Physics-based/Dynamic Approaches</li><li class="chapter-item expanded "><a href="../DynamicsOverview.html"><strong aria-hidden="true">11.</strong> 动力学方法概览</a></li><li class="chapter-item expanded "><a href="../Simulation/Simulation.html"><strong aria-hidden="true">12.</strong> 角色物理仿真基础</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Simulation/RigidBodyRepresentation.html"><strong aria-hidden="true">12.1.</strong> 角色的分段刚体表示</a></li><li class="chapter-item expanded "><a href="../Simulation/Constraints.html"><strong aria-hidden="true">12.2.</strong> Constraints</a></li><li class="chapter-item expanded "><a href="../Simulation/JointConstraint.html"><strong aria-hidden="true">12.3.</strong> 关节约束</a></li><li class="chapter-item expanded "><a href="../PDControl/JointTorques.html"><strong aria-hidden="true">12.4.</strong> 关节力矩</a></li><li class="chapter-item expanded "><a href="../Simulation/ForcesAndTorques.html"><strong aria-hidden="true">12.5.</strong> 运动方程中的力与力矩</a></li><li class="chapter-item expanded "><a href="../Simulation/Contacts.html"><strong aria-hidden="true">12.6.</strong> Contacts</a></li><li class="chapter-item expanded "><a href="../Simulation/SimulationPipeline.html"><strong aria-hidden="true">12.7.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="../PDControl/PDControl.html"><strong aria-hidden="true">13.</strong> PD 控制</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Proportional-DerivativeControl.html"><strong aria-hidden="true">13.1.</strong> Proportional-Derivative Control</a></li><li class="chapter-item expanded "><a href="../Controlling.html"><strong aria-hidden="true">13.2.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="../PDControl/UnderactuatedSystem.html"><strong aria-hidden="true">13.3.</strong> 欠驱动系统问题</a></li><li class="chapter-item expanded "><a href="../PDControl/SteadyStateError.html"><strong aria-hidden="true">13.4.</strong> 稳态误差问题</a></li><li class="chapter-item expanded "><a href="../PDControl/FeedforwardVsFeedback.html"><strong aria-hidden="true">13.5.</strong> 前馈与反馈控制</a></li><li class="chapter-item expanded "><a href="../PDControl/StaticBalance.html"><strong aria-hidden="true">13.6.</strong> Static Balance</a></li></ol></li><li class="chapter-item expanded "><a href="../Tracking/Tracking.html"><strong aria-hidden="true">14.</strong> 轨迹优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Tracking/MathematicalFormulation.html"><strong aria-hidden="true">14.1.</strong> 数学形式化描述</a></li><li class="chapter-item expanded "><a href="../Tracking/Concepts.html"><strong aria-hidden="true">14.2.</strong> 概念澄清</a></li><li class="chapter-item expanded "><a href="../Tracking/MethodComparison.html"><strong aria-hidden="true">14.3.</strong> 方法对比与分类</a></li><li class="chapter-item expanded "><a href="../Tracking/LQR.html"><strong aria-hidden="true">14.4.</strong> Linear Quadratic Regulator (LQR)</a></li><li class="chapter-item expanded "><a href="../Tracking/iLQR.html" class="active"><strong aria-hidden="true">14.5.</strong> Iterative LQR (iLQR)</a></li><li class="chapter-item expanded "><a href="../Tracking/DDP.html"><strong aria-hidden="true">14.6.</strong> Differential Dynamic Programming (DDP)</a></li><li class="chapter-item expanded "><a href="../Tracking/MPC.html"><strong aria-hidden="true">14.7.</strong> Model Predictive Control (MPC)</a></li><li class="chapter-item expanded "><a href="../Tracking/CMA-ES.html"><strong aria-hidden="true">14.8.</strong> CMA-ES</a></li><li class="chapter-item expanded "><a href="../Tracking/SAMCON.html"><strong aria-hidden="true">14.9.</strong> SAMCON</a></li><li class="chapter-item expanded "><a href="../Tracking/Optimal.html"><strong aria-hidden="true">14.10.</strong> 最优控制与强化学习</a></li><li class="chapter-item expanded "><a href="../Tracking/SimpleCase.html"><strong aria-hidden="true">14.11.</strong> 简单例子</a></li><li class="chapter-item expanded "><a href="../Digital_Cerebellum.html"><strong aria-hidden="true">14.12.</strong> Digital Cerebellum</a></li></ol></li><li class="chapter-item expanded "><a href="../ReinforcementLearning.html"><strong aria-hidden="true">15.</strong> 强化学习</a></li><li class="chapter-item expanded "><a href="../RL_EvaluationDimensions.html"><strong aria-hidden="true">16.</strong> 强化学习方法对比维度</a></li><li class="chapter-item expanded "><a href="../CharacterControl/CharacterControl.html"><strong aria-hidden="true">17.</strong> 角色控制技术</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Learning.html"><strong aria-hidden="true">17.1.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="../ZMP.html"><strong aria-hidden="true">17.2.</strong> Zero-Moment Point (ZMP)</a></li><li class="chapter-item expanded "><a href="../SIMBICON.html"><strong aria-hidden="true">17.3.</strong> SIMBICON</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">混合方法</li><li class="chapter-item expanded "><a href="../Hybrid.html"><strong aria-hidden="true">18.</strong> 混合方法</a></li><li class="chapter-item expanded affix "><li class="part-title">Application</li><li class="chapter-item expanded "><a href="../Application/Locomotion.html"><strong aria-hidden="true">19.</strong> Locomotion</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">3D 角色骨骼动画技术</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <h1 id="iterative-lqr-ilqr"><a class="header" href="#iterative-lqr-ilqr">Iterative LQR (iLQR)</a></h1>
+<blockquote>
+<p>✅ <strong>本章定位</strong>：理解 iLQR 如何求解<strong>非线性轨迹优化问题</strong>，掌握其核心思想、算法流程和应用场景。</p>
+</blockquote>
+<hr />
+<h2 id="一从-lqr-到-ilqr"><a class="header" href="#一从-lqr-到-ilqr">一、从 LQR 到 iLQR</a></h2>
+<h3 id="lqr-的局限性"><a class="header" href="#lqr-的局限性">LQR 的局限性</a></h3>
+<p>LQR 问题有<strong>闭式解</strong>，但仅适用于：</p>
+<table><thead><tr><th>假设</th><th>数学形式</th><th>限制</th></tr></thead><tbody>
+<tr><td><strong>线性动力学</strong></td><td>\(x_{t+1} = A_t x_t + B_t u_t\)</td><td>只能处理线性系统</td></tr>
+<tr><td><strong>二次目标函数</strong></td><td>\(J = x_T^T Q_T x_T + \sum (x_t^T Q_t x_t + u_t^T R_t u_t)\)</td><td>代价必须是二次的</td></tr>
+</tbody></table>
+<p><strong>问题</strong>：人形角色动画是<strong>非线性系统</strong>：</p>
+<ul>
+<li>关节旋转涉及三角函数</li>
+<li>动力学方程包含科里奥利力、离心力等非线性项</li>
+<li>接触约束是非线性的</li>
+</ul>
+<hr />
+<h3 id="ilqr-的核心思想"><a class="header" href="#ilqr-的核心思想">iLQR 的核心思想</a></h3>
+<p><strong>关键洞察</strong>：虽然 LQR 只能处理线性系统，但可以在<strong>当前轨迹附近局部线性化</strong>，然后用 LQR 求解。</p>
+<pre><code>非线性轨迹优化问题
+    ↓
+在当前轨迹 (x̄, ū) 附近线性化
+    ↓
+δx_{t+1} = A·δx_t + B·δu_t  （线性化动力学）
+    ↓
+J ≈ δx^T Q δx + δu^T R δu  （二次近似）
+    ↓
+LQR 问题（有闭式解）
+    ↓
+求解得到最优控制 δu* = -K·δx
+    ↓
+更新轨迹：x ← x̄ + δx, u ← ū + δu
+    ↓
+重复线性化→求解→更新，直到收敛
+</code></pre>
+<p><strong>这就是 iLQR（Iterative LQR）的核心思想！</strong></p>
+<hr />
+<h2 id="二每轮迭代中做了什么"><a class="header" href="#二每轮迭代中做了什么">二、每轮迭代中做了什么</a></h2>
+<p>iLQR 的每一轮迭代，本质上就是在<strong>当前轨迹处构造一个 LQR 子问题并求解</strong>。构造过程涉及三个操作（详细推导见 <a href="LQR.html">LQR</a>）：</p>
+<table><thead><tr><th>操作</th><th>对 LQR 的意义</th><th>在 iLQR 中的含义</th></tr></thead><tbody>
+<tr><td><strong>线性化动力学</strong></td><td>直接给出 A、B</td><td>在标称轨迹 \((\bar{x}, \bar{u})\) 处计算雅可比 \(A_t = \partial f/\partial x\)、\(B_t = \partial f/\partial u\)</td></tr>
+<tr><td><strong>二次化代价</strong></td><td>直接给出 Q、R</td><td>在标称轨迹处计算 Hessian \(Q_t = \partial^2 J/\partial x^2\)、\(R_t = \partial^2 J/\partial u^2\)</td></tr>
+<tr><td><strong>求解 Riccati 方程</strong></td><td>得到最优反馈 \(u^* = -Kx\)</td><td>得到最优<strong>修正量</strong> \(\delta u^* = -K\delta x\)</td></tr>
+</tbody></table>
+<p><strong>关键区别</strong>：LQR 里 A、B、Q、R 是问题本身给定的，而 iLQR 里它们<strong>每轮都在变</strong>——因为线性化点 \((\bar{x}, \bar{u})\) 随着迭代在移动。</p>
+<h3 id="修正量-vs-全量"><a class="header" href="#修正量-vs-全量">修正量 vs 全量</a></h3>
+<p>LQR 直接输出最优控制 \(u^* = -Kx\)。iLQR 输出的是<strong>修正量</strong>：</p>
+<p>$$u_{new} = \bar{u} + \alpha \cdot \delta u^* = \bar{u} + \alpha \cdot (-K\delta x)$$</p>
+<p>其中 \(\alpha\) 是线搜索步长。直觉上：每次只敢走一小步，避免跳出局部近似的有效范围。</p>
+<hr />
+<h2 id="三ilqr-算法"><a class="header" href="#三ilqr-算法">三、iLQR 算法</a></h2>
+<h3 id="完整算法流程"><a class="header" href="#完整算法流程">完整算法流程</a></h3>
+<pre><code>算法：iLQR 轨迹优化
+
+输入：
+    - 非线性动力学 f(x, u)
+    - 目标函数 J(x, u)
+    - 初始状态 x₀
+    - 初始控制猜测 ū₀:T
+
+输出：
+    - 最优状态轨迹 x*₀:T
+    - 最优控制轨迹 u*₀:T
+
+步骤：
+1. 初始化：设定初始轨迹 (x̄, ū)
+2. Repeat until convergence:
+   
+   (a) 前向传递（Forward Pass）
+       - 用当前控制 ū 仿真得到状态轨迹 x̄
+       - 计算当前总代价 J
+   
+   (b) 线性化/二次化
+       - 计算雅可比矩阵：Aₜ = ∂f/∂x, Bₜ = ∂f/∂u
+       - 计算 Hessian 矩阵：Qₜ = ∂²J/∂x², Rₜ = ∂²J/∂u²
+   
+   (c) 逆向传递（Backward Pass）
+       - 初始化：P_T = Q_T
+       - 对 t = T-1, ..., 0:
+         · 计算 Kₜ = (Rₜ + BₜᵀPₜ₊₁Bₜ)⁻¹ BₜᵀPₜ₊₁Aₜ
+         · 计算 Pₜ = Qₜ + KₜᵀRₜKₜ + (Aₜ - BₜKₜ)ᵀPₜ₊₁(Aₜ - BₜKₜ)
+         · （可选）计算 feedforward 项 kₜ
+   
+   (d) 更新控制
+       - 计算新控制：u_new = ū + α·δu* （α 为线搜索步长）
+       - δu* = -K·δx + k （LQR 解）
+   
+   (e) 收敛检查
+       - 如果 |J_new - J| &lt; ε，则收敛
+
+</code></pre>
+<hr />
+<h3 id="前向传递-vs-逆向传递"><a class="header" href="#前向传递-vs-逆向传递">前向传递 vs 逆向传递</a></h3>
+<table><thead><tr><th>步骤</th><th>目的</th><th>输入</th><th>输出</th></tr></thead><tbody>
+<tr><td><strong>前向传递</strong></td><td>仿真轨迹、计算代价</td><td>控制轨迹 ū</td><td>状态轨迹 x̄、代价 J</td></tr>
+<tr><td><strong>线性化</strong></td><td>局部近似为 LQR 问题</td><td>轨迹 (x̄, ū)</td><td>矩阵 A, B, Q, R</td></tr>
+<tr><td><strong>逆向传递</strong></td><td>求解 LQR、计算最优策略</td><td>矩阵 A, B, Q, R</td><td>反馈增益 K、Value 矩阵 P</td></tr>
+<tr><td><strong>更新</strong></td><td>改进轨迹</td><td>K, 当前轨迹</td><td>新控制轨迹</td></tr>
+</tbody></table>
+<hr />
+<h3 id="算法可视化"><a class="header" href="#算法可视化">算法可视化</a></h3>
+<pre><code>迭代 1: 初始轨迹（可能不满足动力学）
+    ↓
+┌─────────────────────────────┐
+│  前向传递：仿真得到 x̄        │
+│  线性化：计算 A, B           │
+│  逆向传递：计算 K            │
+│  更新：u_new = u + δu*      │
+└─────────────────────────────┘
+    ↓
+迭代 2: 改进的轨迹
+    ↓
+┌─────────────────────────────┐
+│  重复...                    │
+└─────────────────────────────┘
+    ↓
+迭代 N: 收敛到最优轨迹
+</code></pre>
+<hr />
+<h2 id="四ilqr-与-ddp-的对比"><a class="header" href="#四ilqr-与-ddp-的对比">四、iLQR 与 DDP 的对比</a></h2>
+<h3 id="一阶-vs-二阶方法"><a class="header" href="#一阶-vs-二阶方法">一阶 vs 二阶方法</a></h3>
+<table><thead><tr><th>方法</th><th>动力学近似</th><th>目标函数近似</th><th>梯度需求</th><th>收敛速度</th></tr></thead><tbody>
+<tr><td><strong>iLQR</strong></td><td>一阶泰勒展开</td><td>二阶泰勒展开</td><td>一阶导数</td><td>线性收敛</td></tr>
+<tr><td><strong>DDP</strong></td><td>二阶泰勒展开</td><td>二阶泰勒展开</td><td>二阶导数</td><td>二阶收敛</td></tr>
+</tbody></table>
+<h3 id="数学差异"><a class="header" href="#数学差异">数学差异</a></h3>
+<p><strong>iLQR</strong>（一阶动力学）：
+$$
+f(x,u) \approx f(\bar{x},\bar{u}) + \nabla f(\bar{x},\bar{u}) \begin{bmatrix} x-\bar{x} \ u-\bar{u} \end{bmatrix}
+$$</p>
+<p><strong>DDP</strong>（二阶动力学）：
+$$
+f(x,u) \approx f(\bar{x},\bar{u}) + \nabla f(\bar{x},\bar{u}) \begin{bmatrix} x-\bar{x} \ u-\bar{u} \end{bmatrix} + \frac{1}{2} \begin{bmatrix} x-\bar{x} \ u-\bar{u} \end{bmatrix}^T \nabla^2 f(\bar{x},\bar{u}) \begin{bmatrix} x-\bar{x} \ u-\bar{u} \end{bmatrix}
+$$</p>
+<h3 id="方法选择"><a class="header" href="#方法选择">方法选择</a></h3>
+<table><thead><tr><th>场景</th><th>推荐方法</th><th>原因</th></tr></thead><tbody>
+<tr><td>平滑非线性问题</td><td><strong>iLQR</strong></td><td>一阶导数易计算，收敛快</td></tr>
+<tr><td>高精度需求</td><td><strong>DDP</strong></td><td>二阶收敛，迭代次数少</td></tr>
+<tr><td>动力学复杂</td><td><strong>iLQR</strong></td><td>避免计算二阶导数</td></tr>
+<tr><td>接触频繁</td><td><strong>其他方法</strong></td><td>iLQR/DDP 都需可微模型</td></tr>
+</tbody></table>
+<hr />
+<h2 id="五ilqr-在轨迹优化中的定位"><a class="header" href="#五ilqr-在轨迹优化中的定位">五、iLQR 在轨迹优化中的定位</a></h2>
+<h3 id="按分类维度"><a class="header" href="#按分类维度">按分类维度</a></h3>
+<table><thead><tr><th>维度</th><th>iLQR 的定位</th></tr></thead><tbody>
+<tr><td><strong>优化时机</strong></td><td>离线/在线均可</td></tr>
+<tr><td><strong>求解方法</strong></td><td>数值法（迭代）</td></tr>
+<tr><td><strong>梯度需求</strong></td><td>基于梯度（一阶）</td></tr>
+<tr><td><strong>适用系统</strong></td><td>非线性（通过线性化）</td></tr>
+<tr><td><strong>适用场景</strong></td><td>平滑非线性问题</td></tr>
+</tbody></table>
+<h3 id="与其他方法对比"><a class="header" href="#与其他方法对比">与其他方法对比</a></h3>
+<table><thead><tr><th>方法</th><th>时机</th><th>梯度</th><th>闭式解</th><th>适用场景</th></tr></thead><tbody>
+<tr><td><strong>LQR</strong></td><td>离线/在线</td><td>N/A</td><td>✅</td><td>线性系统</td></tr>
+<tr><td><strong>iLQR</strong></td><td>离线/在线</td><td>一阶</td><td>⚠️ 每轮闭式</td><td>平滑非线性</td></tr>
+<tr><td><strong>DDP</strong></td><td>离线/在线</td><td>二阶</td><td>⚠️ 每轮闭式</td><td>高精度需求</td></tr>
+<tr><td><strong>CMA-ES</strong></td><td>离线</td><td>零阶</td><td>❌</td><td>非凸/不可微</td></tr>
+<tr><td><strong>SAMCON</strong></td><td>在线</td><td>零阶</td><td>❌</td><td>角色实时控制</td></tr>
+</tbody></table>
+<hr />
+<h3 id="方法选择建议"><a class="header" href="#方法选择建议">方法选择建议</a></h3>
+<p>更多方法对比请参见：<a href="MethodComparison.html">方法对比与分类</a>。</p>
+<pre><code>问题类型 → 推荐方法
+─────────────────────────
+线性系统 → LQR
+平滑非线性 → iLQR/DDP
+接触频繁/不可微 → CMA-ES
+实时控制 → MPC/SAMCON
+需要泛化 → DeepMimic/AMP
+离线制作动作 → iLQR/DDP/CMA-ES
+</code></pre>
+<hr />
+<h2 id="六工程实践"><a class="header" href="#六工程实践">六、工程实践</a></h2>
+<h3 id="应用实例"><a class="header" href="#应用实例">应用实例</a></h3>
+<table><thead><tr><th>应用</th><th>说明</th></tr></thead><tbody>
+<tr><td><strong>轨迹跟踪</strong></td><td>用动捕数据作为参考，优化出物理可行的轨迹</td></tr>
+<tr><td><strong>局部修正</strong></td><td>在现有轨迹附近优化，应对扰动</td></tr>
+<tr><td><strong>动作生成</strong></td><td>结合前馈 + 反馈控制，生成平滑动作</td></tr>
+</tbody></table>
+<h3 id="实际考虑"><a class="header" href="#实际考虑">实际考虑</a></h3>
+<p><strong>1. 初始猜测的重要性</strong></p>
+<ul>
+<li>iLQR 是局部优化方法，可能陷入局部最优</li>
+<li>好的初始猜测（如动捕数据）能显著提高结果质量</li>
+</ul>
+<p><strong>2. 线搜索（Line Search）</strong></p>
+<ul>
+<li>更新轨迹时需要控制步长 α</li>
+<li>常用：Armijo 条件、回溯线搜索</li>
+</ul>
+<p><strong>3. 正则化</strong></p>
+<ul>
+<li>在 Hessian 矩阵上加正则项防止奇异</li>
+<li>\(R \leftarrow R + \lambda I\)</li>
+</ul>
+<p><strong>4. 终止条件</strong></p>
+<ul>
+<li>代价变化小于阈值：\(|J_{new} - J| &lt; \epsilon\)</li>
+<li>达到最大迭代次数</li>
+</ul>
+<hr />
+<h2 id="七与-deepmimicamp-的关系"><a class="header" href="#七与-deepmimicamp-的关系">七、与 DeepMimic/AMP 的关系</a></h2>
+<table><thead><tr><th>维度</th><th>iLQR</th><th>DeepMimic/AMP</th></tr></thead><tbody>
+<tr><td><strong>输出</strong></td><td>单一轨迹 \(\mathbf{x} _{0:T}\)</td><td>策略 \(\pi(\mathbf{a}</td></tr>
+<tr><td><strong>计算时机</strong></td><td>离线优化（每任务一次）</td><td>训练一次，在线推理</td></tr>
+<tr><td><strong>泛化能力</strong></td><td>无（仅适用于该轨迹）</td><td>有（可处理新情况）</td></tr>
+<tr><td><strong>计算成本</strong></td><td>中（秒级）</td><td>低（毫秒级推理）</td></tr>
+<tr><td><strong>适用场景</strong></td><td>特定动作生成</td><td>通用角色控制</td></tr>
+</tbody></table>
+<p><strong>关系</strong>：</p>
+<ul>
+<li>iLQR 轨迹优化结果可作为 RL 的参考轨迹</li>
+<li>RL 可学习模仿 iLQR 生成的行为</li>
+</ul>
+<hr />
+<h2 id="八关键要点总结"><a class="header" href="#八关键要点总结">八、关键要点总结</a></h2>
+<h3 id="核心思想"><a class="header" href="#核心思想">核心思想</a></h3>
+<ol>
+<li><strong>迭代线性化</strong>：在当前位置附近将非线性问题近似为 LQR 问题</li>
+<li><strong>前后向传递</strong>：前向仿真轨迹，逆向求解最优策略</li>
+<li><strong>闭式解</strong>：每轮迭代都有 LQR 闭式解，但需要多次迭代收敛</li>
+</ol>
+<h3 id="算法流程"><a class="header" href="#算法流程">算法流程</a></h3>
+<pre><code>初始化轨迹 → 前向传递 → 线性化 → 逆向传递 → 更新轨迹 → 检查收敛
+</code></pre>
+<h3 id="优缺点"><a class="header" href="#优缺点">优缺点</a></h3>
+<table><thead><tr><th>优点</th><th>缺点</th></tr></thead><tbody>
+<tr><td>收敛快（相比无梯度方法）</td><td>需要可微模型</td></tr>
+<tr><td>适用于高维问题</td><td>可能陷入局部最优</td></tr>
+<tr><td>每轮迭代有闭式解</td><td>计算雅可比矩阵成本高</td></tr>
+</tbody></table>
+<h3 id="适用场景"><a class="header" href="#适用场景">适用场景</a></h3>
+<ul>
+<li>✅ 平滑的非线性轨迹优化问题</li>
+<li>✅ 有参考轨迹的跟踪问题</li>
+<li>✅ 需要精确控制的场景</li>
+<li>❌ 接触频繁、不可微的问题（用 CMA-ES）</li>
+<li>❌ 实时控制（用 MPC/SAMCON）</li>
+</ul>
+<hr />
+<h2 id="九深入学习"><a class="header" href="#九深入学习">九、深入学习</a></h2>
+<h3 id="前置知识"><a class="header" href="#前置知识">前置知识</a></h3>
+<ul>
+<li><a href="LQR.html">LQR</a> - 线性二次调节器</li>
+<li><a href="MathematicalFormulation.html">轨迹优化的数学描述</a> - 问题形式化</li>
+</ul>
+<h3 id="相关方法"><a class="header" href="#相关方法">相关方法</a></h3>
+<ul>
+<li><a href="DDP.html">DDP</a> - 二阶方法</li>
+<li><a href="CMA-ES.html">CMA-ES</a> - 无梯度优化</li>
+<li><a href="MPC.html">MPC</a> - 在线优化</li>
+</ul>
+<h3 id="参考资料"><a class="header" href="#参考资料">参考资料</a></h3>
+<ul>
+<li><a href="https://www.cc.gatech.edu/%7Ejylee/publications/muico-popovic-2011.pdf">Muico et al 2011 - Composite Control of Physically Simulated Characters</a></li>
+<li><a href="https://www.cs.ubc.ca/%7Evan/papers/2013-CGMN-1/trajopt.pdf">Al Borno et al. 2013 - Trajectory Optimization for Full-Body Movements with Complex Contacts</a></li>
+</ul>
+<hr />
+<blockquote>
+<p>本文出自 CaterpillarStudyGroup，转载请注明出处。
+https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../Tracking/LQR.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="../Tracking/DDP.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../Tracking/LQR.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="../Tracking/DDP.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../theme/pagetoc.js"></script>
+        <script type="text/javascript" src="../theme/mermaid.min.js"></script>
+        <script type="text/javascript" src="../theme/mermaid-init.js"></script>
+    </body>
+</html>

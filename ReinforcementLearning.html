@@ -1,0 +1,419 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>强化学习 - 3D 角色骨骼动画技术</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The note of GAMES105">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/pagetoc.css">
+        <!-- MathJax 3 with Latin Modern fonts -->
+        <script>
+        MathJax = {
+            loader: {load: ['input/tex', 'output/chtml']},
+            tex: {
+                packages: {'[+]': ['ams', 'noerrors', 'noundefined']},
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            chtml: {
+                displayAlign: 'center',
+                fontFamily: 'Latin-Modern',
+                fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2'
+            },
+            startup: {
+                typeset: true
+            }
+        };
+        </script>
+        <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><div>GAMES105</div></li><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="Introduction.html"><strong aria-hidden="true">2.</strong> Introduction to 3D Character Animation</a></li><li class="chapter-item expanded "><a href="Math.html"><strong aria-hidden="true">3.</strong> Math Background</a></li><li class="chapter-item expanded "><a href="Locomotion_Survey.html"><strong aria-hidden="true">4.</strong> Locomotion 控制技术洞察</a></li><li class="chapter-item expanded "><a href="Skinning.html"><strong aria-hidden="true">5.</strong> Skinning</a></li><li class="chapter-item expanded affix "><li class="part-title">Keyframe-based/Kinematic Approaches</li><li class="chapter-item expanded "><a href="Forward.html"><strong aria-hidden="true">6.</strong> Character Kinematics:Forward and Inverse Kinematics</a></li><li class="chapter-item expanded "><a href="Keyframe.html"><strong aria-hidden="true">7.</strong> Character Kinematics (cont.) &amp; Keyframe Animation</a></li><li class="chapter-item expanded "><a href="Data-driven.html"><strong aria-hidden="true">8.</strong> Data-driven Character Animation</a></li><li class="chapter-item expanded "><a href="Learning-based.html"><strong aria-hidden="true">9.</strong> Statistical Models of Human Motion</a></li><li class="chapter-item expanded "><a href="cont.html"><strong aria-hidden="true">10.</strong> Learning-based Character Animation</a></li><li class="chapter-item expanded affix "><li class="part-title">Physics-based/Dynamic Approaches</li><li class="chapter-item expanded "><a href="DynamicsOverview.html"><strong aria-hidden="true">11.</strong> 动力学方法概览</a></li><li class="chapter-item expanded "><a href="Simulation/Simulation.html"><strong aria-hidden="true">12.</strong> 角色物理仿真基础</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Simulation/RigidBodyRepresentation.html"><strong aria-hidden="true">12.1.</strong> 角色的分段刚体表示</a></li><li class="chapter-item expanded "><a href="Simulation/Constraints.html"><strong aria-hidden="true">12.2.</strong> Constraints</a></li><li class="chapter-item expanded "><a href="Simulation/JointConstraint.html"><strong aria-hidden="true">12.3.</strong> 关节约束</a></li><li class="chapter-item expanded "><a href="PDControl/JointTorques.html"><strong aria-hidden="true">12.4.</strong> 关节力矩</a></li><li class="chapter-item expanded "><a href="Simulation/ForcesAndTorques.html"><strong aria-hidden="true">12.5.</strong> 运动方程中的力与力矩</a></li><li class="chapter-item expanded "><a href="Simulation/Contacts.html"><strong aria-hidden="true">12.6.</strong> Contacts</a></li><li class="chapter-item expanded "><a href="Simulation/SimulationPipeline.html"><strong aria-hidden="true">12.7.</strong> 总结</a></li></ol></li><li class="chapter-item expanded "><a href="PDControl/PDControl.html"><strong aria-hidden="true">13.</strong> PD 控制</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Proportional-DerivativeControl.html"><strong aria-hidden="true">13.1.</strong> Proportional-Derivative Control</a></li><li class="chapter-item expanded "><a href="Controlling.html"><strong aria-hidden="true">13.2.</strong> Controlling Characters</a></li><li class="chapter-item expanded "><a href="PDControl/UnderactuatedSystem.html"><strong aria-hidden="true">13.3.</strong> 欠驱动系统问题</a></li><li class="chapter-item expanded "><a href="PDControl/SteadyStateError.html"><strong aria-hidden="true">13.4.</strong> 稳态误差问题</a></li><li class="chapter-item expanded "><a href="PDControl/FeedforwardVsFeedback.html"><strong aria-hidden="true">13.5.</strong> 前馈与反馈控制</a></li><li class="chapter-item expanded "><a href="PDControl/StaticBalance.html"><strong aria-hidden="true">13.6.</strong> Static Balance</a></li></ol></li><li class="chapter-item expanded "><a href="Tracking/Tracking.html"><strong aria-hidden="true">14.</strong> 轨迹优化</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Tracking/MathematicalFormulation.html"><strong aria-hidden="true">14.1.</strong> 数学形式化描述</a></li><li class="chapter-item expanded "><a href="Tracking/Concepts.html"><strong aria-hidden="true">14.2.</strong> 概念澄清</a></li><li class="chapter-item expanded "><a href="Tracking/MethodComparison.html"><strong aria-hidden="true">14.3.</strong> 方法对比与分类</a></li><li class="chapter-item expanded "><a href="Tracking/LQR.html"><strong aria-hidden="true">14.4.</strong> Linear Quadratic Regulator (LQR)</a></li><li class="chapter-item expanded "><a href="Tracking/iLQR.html"><strong aria-hidden="true">14.5.</strong> Iterative LQR (iLQR)</a></li><li class="chapter-item expanded "><a href="Tracking/DDP.html"><strong aria-hidden="true">14.6.</strong> Differential Dynamic Programming (DDP)</a></li><li class="chapter-item expanded "><a href="Tracking/MPC.html"><strong aria-hidden="true">14.7.</strong> Model Predictive Control (MPC)</a></li><li class="chapter-item expanded "><a href="Tracking/CMA-ES.html"><strong aria-hidden="true">14.8.</strong> CMA-ES</a></li><li class="chapter-item expanded "><a href="Tracking/SAMCON.html"><strong aria-hidden="true">14.9.</strong> SAMCON</a></li><li class="chapter-item expanded "><a href="Tracking/Optimal.html"><strong aria-hidden="true">14.10.</strong> 最优控制与强化学习</a></li><li class="chapter-item expanded "><a href="Tracking/SimpleCase.html"><strong aria-hidden="true">14.11.</strong> 简单例子</a></li><li class="chapter-item expanded "><a href="Digital_Cerebellum.html"><strong aria-hidden="true">14.12.</strong> Digital Cerebellum</a></li></ol></li><li class="chapter-item expanded "><a href="ReinforcementLearning.html" class="active"><strong aria-hidden="true">15.</strong> 强化学习</a></li><li class="chapter-item expanded "><a href="RL_EvaluationDimensions.html"><strong aria-hidden="true">16.</strong> 强化学习方法对比维度</a></li><li class="chapter-item expanded "><a href="CharacterControl/CharacterControl.html"><strong aria-hidden="true">17.</strong> 角色控制技术</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Learning.html"><strong aria-hidden="true">17.1.</strong> Learning to Walk</a></li><li class="chapter-item expanded "><a href="ZMP.html"><strong aria-hidden="true">17.2.</strong> Zero-Moment Point (ZMP)</a></li><li class="chapter-item expanded "><a href="SIMBICON.html"><strong aria-hidden="true">17.3.</strong> SIMBICON</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">混合方法</li><li class="chapter-item expanded "><a href="Hybrid.html"><strong aria-hidden="true">18.</strong> 混合方法</a></li><li class="chapter-item expanded affix "><li class="part-title">Application</li><li class="chapter-item expanded "><a href="Application/Locomotion.html"><strong aria-hidden="true">19.</strong> Locomotion</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">3D 角色骨骼动画技术</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/CaterpillarStudyGroup/GAMES105_mdbook" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main><div class="sidetoc"><nav class="pagetoc"></nav></div>
+                        <h1 id="强化学习在角色动画中的应用"><a class="header" href="#强化学习在角色动画中的应用">强化学习在角色动画中的应用</a></h1>
+<p>强化学习适用于在给定极少且不确定的未来信息的情况做出当前的最优决策。<br />
+在角色动画领域中，强化学习有两种使用场景：</p>
+<ol>
+<li>高层控制：根据任务目标规划任务的执行方案。执行方案可能是明确的动画轨迹，也可能是latent code，或者是其它控制信号。</li>
+<li>中层控制：根据角色当前的状态，规划自己的动作，保证能完成高层给的执行方案且保证较好的动作质量。在动力学方法中，『较好的动作质量』即不摔倒，走得稳。在运动学方法中，『较好的动作质量』指动作转移合理。</li>
+</ol>
+<p>高层控制和中层控制都适合用强化学习解决，但也可以通过其它方法解决。通过梳理相关工作，分为以下几类：</p>
+<ol>
+<li>把高层控制和中层控制看作是一个端到端的任务，用一个强化学习同时解决『执行方案』和『执行细节』两个问题。</li>
+<li>分别解决高层控制和中层控制，各自使用一个强化学习。</li>
+<li>高层控制使用强化学习来解决，中层控制使用其它方法。例如运动学方法使用运动转移先验模型。动力学方法可以使用轨迹优化（如果高层输出的是轨迹）方法或者直接使用前向推理方向。</li>
+<li>中层使用强化学习来解决『走得好』的问题，高层则通过其它方法生成执行方案。例如生成类的方法、Motion Matching或者直接使用动捕数据。</li>
+<li>也可以完成不用强化学习。直接端到端地生成动作，或者分别用不同的方法解决两个level的控制问题。这一类方法不在本页的讨论范围中。</li>
+</ol>
+<p>关于参考动作，有没有参考动作对结果影响非常大。参考动作主要有三个作用：</p>
+<ol>
+<li>加速训练收敛</li>
+<li>让动作更『人』</li>
+<li>定义动作的风格</li>
+</ol>
+<p>参考动作发挥作用的方法主要有三种：</p>
+<ol>
+<li>GT，直接作为模型的模仿目标</li>
+<li>鉴定，用于判断生成动作与参考动作是否相似</li>
+<li>提取数据的关节特征，构造模型的目标函数</li>
+</ol>
+<p>除了参考动作，还有其它构造数据的方式：</p>
+<ol>
+<li>对参考动作做增强</li>
+<li>用传统算法构造数据</li>
+<li>从生成的动作中挑一些好的</li>
+</ol>
+<pre class="mermaid">mindmap
+强化学习在角色动画中的应用
+    端到端方案
+        端到端 RL
+            在线 RL
+            离线 RL
+    分层控制方案
+        DL + DL
+        DL + 非 DL
+        非 DL + DL
+        非 DL + 非 DL
+</pre>
+<h2 id="端到端的强化学习方案"><a class="header" href="#端到端的强化学习方案">端到端的强化学习方案</a></h2>
+<h3 id="在线rl"><a class="header" href="#在线rl">在线RL</a></h3>
+<table><thead><tr><th>方法</th><th>状态空间 S</th><th>动作空间 A</th><th>奖励函数 R</th><th>核心贡献</th></tr></thead><tbody>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/200.html"><strong>Feature-Based</strong>2010</a></td><td>物理特征（角动量等）</td><td>关节力矩</td><td>手工设计多目标</td><td>高层特征控制器</td></tr>
+<tr><td><strong>Nerve Net</strong>2015</td><td>关节 + 根节点状态</td><td>关节力矩</td><td>任务奖励</td><td>通用多角色控制器</td></tr>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/215.html"><strong>Predict-and-Simulate</strong>2019</a></td><td>状态 + 目标</td><td>PD 目标</td><td>任务奖励</td><td>从无组织数据学习</td></tr>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/185.html"><strong>Gait-Conditioned Reinforcement Learning with Multi-Phase Curriculum for Humanoid Locomotion</strong>2025</a></td><td>关节 +IMU+ 命令</td><td>PD 目标轨迹</td><td>步态条件奖励 (独热路由)</td><td>PPO+RNN</td></tr>
+</tbody></table>
+<h3 id="离线rl"><a class="header" href="#离线rl">离线RL</a></h3>
+<p>由于RL模型只能针对特定任务训练，所以有些方法会离线训练多个RL模型，再用非RL蒸馏出一个同样功能的非RL模型供在线使用。</p>
+<table><thead><tr><th>方法</th><th>状态空间 S</th><th>动作空间 A</th><th>训练范式</th><th>蒸馏源</th></tr></thead><tbody>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/195.html"><strong>DiffuseLoco</strong>2024</a></td><td>关节 + 根节点 + 技能标签</td><td>31D PD 目标</td><td>纯离线</td><td>多专家 RL</td></tr>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/192.html"><strong>PDP</strong>2024</a></td><td>物理状态 + 任务标签</td><td>多帧 PD 目标</td><td>离线 BC</td><td>多任务 RL 专家</td></tr>
+</tbody></table>
+<table><thead><tr><th>维度</th><th>DiffuseLoco</th><th>PDP</th></tr></thead><tbody>
+<tr><td><strong>数据源</strong></td><td>闭环离线 RL 数据</td><td>RL 专家轨迹</td></tr>
+<tr><td><strong>模型类型</strong></td><td>扩散</td><td>扩散</td></tr>
+<tr><td><strong>输出</strong></td><td>单帧 PD 目标</td><td>多帧序列</td></tr>
+<tr><td><strong>物理稳定</strong></td><td>✅ RL 专家保证</td><td>✅ RL 专家保证</td></tr>
+</tbody></table>
+<h2 id="dl--dl"><a class="header" href="#dl--dl">DL + DL</a></h2>
+<table><thead><tr><th>方法</th><th>状态空间 S</th><th>动作空间 A</th><th>奖励函数 R</th><th>价值函数 V</th><th>算法</th></tr></thead><tbody>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/218.html"><strong>DeepLoco (2017)</strong></a></td><td><strong>LLC</strong>: 110D (关节 + 根节点 + 相位)</td><td><strong>LLC</strong>: 22D 关节 PD 目标</td><td><strong>LLC</strong>: 姿势风格 + 末端位置 + 速度 + 平衡</td><td>CACLA Critic</td><td>Actor-Critic+CACLA</td></tr>
+<tr><td></td><td><strong>HLC</strong>: 1129D (+32×32 地形图)</td><td><strong>HLC</strong>: 5D 步法计划</td><td><strong>HLC</strong>: 朝目标方向移动</td><td>CACLA Critic</td><td>Actor-Critic+CACLA</td></tr>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/199.html"><strong>ASE (2022)</strong></a></td><td>120D 身体配置<br>+ 技能 z</td><td><strong>低级</strong>: 31D PD 目标</td><td>对抗奖励 + 技能多样性奖励</td><td>PPO Critic</td><td>PPO +<br>互信息最大化</td></tr>
+<tr><td></td><td>120D 身体配置<br>+ 任务目标</td><td><strong>高级</strong>: z̄→z (球面)</td><td>任务奖励 + 风格奖励</td><td>PPO Critic</td><td>PPO +<br>互信息最大化</td></tr>
+</tbody></table>
+<h2 id="非dl--dl"><a class="header" href="#非dl--dl">非DL + DL</a></h2>
+<table><thead><tr><th>方法</th><th>上层方法及输出</th><th>状态空间 S</th><th>动作空间 A</th><th>奖励函数 R</th><th>价值函数 V</th><th>算法</th></tr></thead><tbody>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/201.html"><strong>DeepMimic (2018)</strong></a></td><td>固定轨迹<br>（Mocap 时间序列）</td><td>关节 [p,v,q,ω] + 相位 φ</td><td>PD 目标</td><td>模仿奖励 + 任务奖励<br>模仿奖励=姿势 + 速度 + 末端 + 质心</td><td>PPO Critic<br>GAE(λ)</td><td>PPO</td></tr>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/190.html"><strong>DReCon</strong>2019</a></td><td>MM动态生成轨迹</td><td>角色状态 + 辅助信息 +MM 参考</td><td>PD 目标</td><td>跟踪奖励 + 稳定性奖励</td><td>PPO Critic</td><td>PPO+MM</td></tr>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/198.html">AMP (2021)</a></td><td>Mocap轨迹</td><td>~120D 躯干 + 关节 + 末端</td><td>~31D 关节目标旋转</td><td>任务奖励 + 风格奖励<br>风格奖励由判别器给出</td><td>PPO Critic</td><td>PPO+LS-GAN</td></tr>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/202.html"><strong>ControlVAE</strong>2023</a></td><td>CVAE输出z</td><td>120D 身体配置</td><td>31D PD 目标</td><td>任务奖励 + VAE 重建奖励</td><td>PPO Critic</td><td>VAE+PPO</td></tr>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/188.html"><strong>CLOSD</strong>2025</a></td><td>扩散规划输出轨迹</td><td>角色状态 + 辅助信息</td><td>PD 控制器目标</td><td>文本 + 目标双条件</td><td>PPO Critic</td><td>扩散规划 + RL 跟踪</td></tr>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/205.html"><strong>DARTControl</strong>2025</a></td><td>Latent Diffusion输出z</td><td>动作历史 + 文本 + 空间目标</td><td>Latent noise optimization</td><td>空间目标达成度 + 动作质量</td><td>PPO Critic</td><td>PPO</td></tr>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/206.html"><strong>A-MDM</strong>2024</a></td><td>自回归扩散模型输出动作</td><td>关节 + 根节点 + 任务目标</td><td>残差扰动信号（各去噪步骤）</td><td>任务奖励 + 扩散引导</td><td>PPO Critic</td><td>自回归扩散 + RL</td></tr>
+</tbody></table>
+<h3 id="数据增强"><a class="header" href="#数据增强">数据增强</a></h3>
+<table><thead><tr><th>方法</th><th>上层方法及输出</th><th>状态空间 S</th><th>动作空间 A</th><th>奖励函数 R</th><th>价值函数 V</th><th>算法</th></tr></thead><tbody>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/189.html"><strong>PARC</strong>2025</a></td><td>扩散模型输出轨迹</td><td>角色状态 + 地形信息</td><td>PD 控制器目标</td><td>物理约束 + 模仿奖励</td><td>PPO Critic</td><td>PPO</td></tr>
+</tbody></table>
+<h2 id="dl--非dl"><a class="header" href="#dl--非dl">DL + 非DL</a></h2>
+<table><thead><tr><th>方法</th><th>状态空间 S</th><th>动作空间 A</th><th>奖励函数 R</th><th>价值函数 V</th><th>算法</th><th>中层控制方法</th></tr></thead><tbody>
+<tr><td><a href="https://caterpillarstudygroup.github.io/ReadPapers/191.html"><strong>UHMP</strong></a></td><td>关节 + 根节点 + 任务目标</td><td>z (隐变量)<br>可<strong>Decoder</strong>出 a (PD 目标)</td><td>任务奖励</td><td>PPO Critic</td><td>CVAE +<br>蒸馏 +PPO</td><td>从mocap学CVAE，再通过轨迹优化+蒸馏保证物理合理</td></tr>
+</tbody></table>
+<p><strong>核心设计</strong>：</p>
+<ul>
+<li>阶段 1：CVAE 从 MoCap 学习动作先验</li>
+<li>阶段 2：轨迹优化器蒸馏，保证物理稳定</li>
+<li>阶段 3：高层 RL 学习选择隐变量 z</li>
+</ul>
+<blockquote>
+<p>📚 <strong>深入学习 RL 算法</strong>：<a href="https://windmissing.github.io/DeepLearningNotes/RL/Reinforce.html">DeepLearningNotes - RL</a> - 包含 REINFORCE、Q-Learning、A3C、PPO 等算法的详细推导</p>
+<p>📚 <strong>轨迹优化对比</strong>：<a href="Tracking/MethodComparison.html">方法对比与分类</a></p>
+</blockquote>
+<hr />
+<h2 id="方法分类总览"><a class="header" href="#方法分类总览">方法分类总览</a></h2>
+<pre><code>强化学习在角色动画中的应用
+│
+├── 端到端 RL 方案
+│   ├── 在线 RL
+│   │   ├── Feature-Based (2010) — 关节力矩控制
+│   │   ├── Nerve Net (2015) — 多角色控制器
+│   │   ├── Predict-and-Simulate (2019) — 无组织数据学习
+│   │   └── Gait-Conditioned RL (2025) — 步态条件 + 课程学习
+│   │
+│   └── 离线 RL
+│       ├── DiffuseLoco (2024) — 扩散模型离线蒸馏多专家 RL
+│       └── PDP (2024) — 扩散模型离线 BC 多任务 RL
+│
+├── 分层控制：DL + DL
+│   ├── DeepLoco (2017) — 分层 Actor-Critic
+│   └── ASE (2022) — 技能多样性 + 互信息最大化
+│
+├── 分层控制：非 DL + DL
+│   ├── DeepMimic (2018) — 固定 MoCap 轨迹 + RL
+│   ├── DReCon (2019) — Motion Matching 动态生成轨迹 + RL
+│   ├── AMP (2021) — MoCap 轨迹 + 对抗判别
+│   ├── ControlVAE (2023) — CVAE 隐变量 + RL
+│   ├── CLOSD (2025) — 扩散规划 + RL 跟踪
+│   ├── DARTControl (2025) — Latent Diffusion + RL
+│   ├── A-MDM (2024) — 自回归扩散 + RL
+│   └── PARC (2025) — 扩散数据增强 + RL
+│
+└── 分层控制：DL + 非 DL
+    └── UHMP — CVAE 高层 + 轨迹优化/蒸馏保证物理合理
+</code></pre>
+<p>从目前的统计来看，随机方法的成熟与硬件能力的提供，RL学习方法趋势从端到端-&gt;分层-&gt;端到端。<br />
+分层控制的方法中，大家更倾向于把RL用在中层控制而不是高层控制。这一点我是可以理解的。因为中层控制比高层控制更需要临场应变能力，也更缺数据（不同的机器人做同一件事，可以使用相似的规划，但对应不同的具体执行，或者说高层控制更有通用性，更容易实现数据复用）。</p>
+<hr />
+<h2 id="核心设计详解"><a class="header" href="#核心设计详解">核心设计详解</a></h2>
+<h3 id="各方法状态空间设计对比"><a class="header" href="#各方法状态空间设计对比">各方法状态空间设计对比</a></h3>
+<p><strong>典型的角色状态表示</strong>：</p>
+<p>$$
+s_t = (q _{root}, \dot{q} _{root}, q _{local}, \dot{q} _{local}, q _{ref}, \dot{q} _{ref})
+$$</p>
+<table><thead><tr><th>分量</th><th>说明</th></tr></thead><tbody>
+<tr><td>\(q _{root}\)</td><td>根节点位置和旋转</td></tr>
+<tr><td>\(\dot{q} _{root}\)</td><td>根节点速度</td></tr>
+<tr><td>\(q _{local}\)</td><td>局部关节角度</td></tr>
+<tr><td>\(\dot{q} _{local}\)</td><td>局部关节角速度</td></tr>
+<tr><td>\(q _{ref}\)</td><td>参考姿势</td></tr>
+<tr><td>\(\dot{q} _{ref}\)</td><td>参考速度</td></tr>
+</tbody></table>
+<p><strong>各方法的状态设计特点</strong>：</p>
+<table><thead><tr><th>方法</th><th>状态设计特点</th></tr></thead><tbody>
+<tr><td><strong>AMP</strong></td><td>~120D 完整状态，判别器只看状态转换 (s_t, s_{t+1})</td></tr>
+<tr><td><strong>ControlVAE</strong></td><td>120D 身体配置 + 技能 z，世界模型预测未来状态</td></tr>
+<tr><td><strong>ASE</strong></td><td>120D 身体配置 + 潜在技能 z，球形空间均匀采样</td></tr>
+<tr><td><strong>UHMP</strong></td><td>关节 + 根节点 s^p + 隐变量 z，Prior 设计 R(z|s^p)=N(z|μ^p_t,σ^p_t)</td></tr>
+<tr><td><strong>纯 RL</strong></td><td>关节状态 +IMU+ 命令，RNN 记忆周期步态</td></tr>
+</tbody></table>
+<h3 id="各方法动作空间设计对比"><a class="header" href="#各方法动作空间设计对比">各方法动作空间设计对比</a></h3>
+<table><thead><tr><th>类型</th><th>说明</th><th>适用场景</th><th>代表方法</th></tr></thead><tbody>
+<tr><td><strong>关节位置目标</strong></td><td>输出目标关节角度，用 PD 控制跟踪</td><td>最常用，平滑稳定</td><td>DeepLoco, DeepMimic, AMP, ASE</td></tr>
+<tr><td><strong>关节力矩</strong></td><td>直接输出关节力矩</td><td>精确控制，但难训练</td><td>-</td></tr>
+<tr><td><strong>肌肉激活</strong></td><td>输出肌肉激活信号</td><td>生物力学仿真</td><td>-</td></tr>
+<tr><td><strong>潜在变量 z</strong></td><td>输出隐变量，由 Decoder 转动作</td><td>统一表示、技能复用</td><td>ASE, UHMP</td></tr>
+</tbody></table>
+<p><strong>各方法的动作设计特点</strong>：</p>
+<table><thead><tr><th>方法</th><th>动作设计特点</th></tr></thead><tbody>
+<tr><td><strong>DeepLoco</strong></td><td>分层设计：LLC 输出 22D 关节 PD 目标，HLC 输出 5D 步法计划</td></tr>
+<tr><td><strong>DeepMimic</strong></td><td>PD 目标 (q^target, ω^target)，直接跟踪参考动作</td></tr>
+<tr><td><strong>DReCon</strong></td><td>PD 目标，从 MM 动态生成</td></tr>
+<tr><td><strong>AMP</strong></td><td>~31D 关节目标旋转，通过 PD 控制器执行</td></tr>
+<tr><td><strong>ControlVAE</strong></td><td>31D PD 目标，VAE 解码器输出</td></tr>
+<tr><td><strong>ASE</strong></td><td>低级策略输出 31D PD 目标，高级策略输出球面潜在变量 z̄</td></tr>
+<tr><td><strong>UHMP</strong></td><td>高层策略输出隐变量 z，Decoder 解码为 PD 目标</td></tr>
+<tr><td><strong>纯 RL</strong></td><td>直接输出 PD 目标轨迹，RNN 编码时序信息</td></tr>
+</tbody></table>
+<hr />
+<h2 id="强化学习-vs-轨迹优化"><a class="header" href="#强化学习-vs-轨迹优化">强化学习 vs. 轨迹优化</a></h2>
+<h3 id="核心对比"><a class="header" href="#核心对比">核心对比</a></h3>
+<table><thead><tr><th>维度</th><th>轨迹优化</th><th>强化学习</th></tr></thead><tbody>
+<tr><td><strong>输出</strong></td><td>一条轨迹 \((\mathbf{x}, \mathbf{u})\)</td><td>一个策略 \(\pi(\mathbf{s})\)</td></tr>
+<tr><td><strong>泛化能力</strong></td><td>❌ 仅适用于该轨迹</td><td>✅ 可处理新状态</td></tr>
+<tr><td><strong>训练时间</strong></td><td>秒级 ~ 分钟级</td><td>小时级 ~ 天级</td></tr>
+<tr><td><strong>推理速度</strong></td><td>N/A</td><td>毫秒级</td></tr>
+<tr><td><strong>模型需求</strong></td><td>✅ 需要精确模型</td><td>⚠️ 可有可无</td></tr>
+<tr><td><strong>样本效率</strong></td><td>✅ 高</td><td>❌ 低</td></tr>
+</tbody></table>
+<hr />
+<h2 id="实践建议"><a class="header" href="#实践建议">实践建议</a></h2>
+<h3 id="训练技巧"><a class="header" href="#训练技巧">训练技巧</a></h3>
+<table><thead><tr><th>技巧</th><th>说明</th></tr></thead><tbody>
+<tr><td><strong>课程学习</strong></td><td>从简单任务开始，逐步增加难度</td></tr>
+<tr><td><strong>奖励塑形</strong></td><td>设计稠密奖励，加速学习</td></tr>
+<tr><td><strong>域随机化</strong></td><td>随机化物理参数，提高泛化性</td></tr>
+<tr><td><strong>并行采样</strong></td><td>多环境并行采样，提高样本效率</td></tr>
+</tbody></table>
+<h3 id="常见陷阱"><a class="header" href="#常见陷阱">常见陷阱</a></h3>
+<table><thead><tr><th>陷阱</th><th>症状</th><th>解决方案</th></tr></thead><tbody>
+<tr><td><strong>奖励黑客</strong></td><td>智能体找到奖励漏洞</td><td>仔细设计奖励函数</td></tr>
+<tr><td><strong>欠训练</strong></td><td>策略不稳定、易摔倒</td><td>增加训练步数</td></tr>
+<tr><td><strong>过拟合</strong></td><td>只在特定场景有效</td><td>域随机化、增加多样性</td></tr>
+<tr><td><strong>稀疏奖励</strong></td><td>学习缓慢或不收敛</td><td>奖励塑形、课程学习</td></tr>
+</tbody></table>
+<hr />
+<h2 id="关键要点总结"><a class="header" href="#关键要点总结">关键要点总结</a></h2>
+<h3 id="核心设计趋势"><a class="header" href="#核心设计趋势">核心设计趋势</a></h3>
+<ul>
+<li><strong>状态表示</strong>：从手工设计 → 学习隐变量表示</li>
+<li><strong>动作表示</strong>：从直接关节控制 → 潜在空间控制</li>
+<li><strong>训练范式</strong>：从零训练 → 预训练 + 微调</li>
+<li><strong>技能复用</strong>：从每任务重新训练 → 低级策略固定</li>
+</ul>
+<hr />
+<blockquote>
+<p>本文出自 CaterpillarStudyGroup，转载请注明出处。
+https://caterpillarstudygroup.github.io/GAMES105_mdbook/</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="Digital_Cerebellum.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="RL_EvaluationDimensions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="Digital_Cerebellum.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="RL_EvaluationDimensions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="theme/pagetoc.js"></script>
+        <script type="text/javascript" src="theme/mermaid.min.js"></script>
+        <script type="text/javascript" src="theme/mermaid-init.js"></script>
+    </body>
+</html>
